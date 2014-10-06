@@ -126,5 +126,47 @@ namespace TII_NewDatabase
         {
             MessageBox.Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
+
+        /// <summary>
+        /// Based on the attributes of the button which called the method, move items from one list box to another.
+        /// </summary>
+        /// <param name="sender">The Button who called the method.</param>
+        /// <param name="e">Any event args.</param>
+        private void MoveListboxItem(object sender, EventArgs e)
+        {
+            Button btn_sender = (Button)sender;
+
+            // The button is located on the Company tab page
+            if (btn_sender.Parent == this.tab_Company)
+            {
+                if (btn_sender.Text == ">>" && this.lbx_CompanyList.SelectedItem != null)
+                {
+                    this.lbx_AssociatedCompanies.Items.Add(this.lbx_CompanyList.SelectedItem);
+                    this.lbx_CompanyList.Items.Remove(this.lbx_CompanyList.SelectedItem);
+                }
+
+                if (btn_sender.Text == "<<" && this.lbx_AssociatedCompanies.SelectedItem != null)
+                {
+                    this.lbx_CompanyList.Items.Add(this.lbx_AssociatedCompanies.SelectedItem);
+                    this.lbx_AssociatedCompanies.Items.Remove(this.lbx_AssociatedCompanies.SelectedItem);
+                }
+            }
+
+            // The button is located on the Building tab page
+            if (btn_sender.Parent == this.tab_Building)
+            {
+                if (btn_sender.Text == ">>" && this.lbx_BuildingList.SelectedItem != null)
+                {
+                    this.lbx_AssociatedBuildings.Items.Add(this.lbx_BuildingList.SelectedItem);
+                    this.lbx_BuildingList.Items.Remove(this.lbx_BuildingList.SelectedItem);
+                }
+
+                if (btn_sender.Text == "<<" && this.lbx_AssociatedBuildings.SelectedItem != null)
+                {
+                    this.lbx_BuildingList.Items.Add(this.lbx_AssociatedBuildings.SelectedItem);
+                    this.lbx_AssociatedBuildings.Items.Remove(this.lbx_AssociatedBuildings.SelectedItem);
+                }
+            }
+        }
     }
 }

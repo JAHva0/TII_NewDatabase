@@ -243,6 +243,7 @@ namespace TII_NewDatabase
             this.btn_RemoveCompany.TabIndex = 18;
             this.btn_RemoveCompany.Text = "<<";
             this.btn_RemoveCompany.UseVisualStyleBackColor = true;
+            this.btn_RemoveCompany.Click += new System.EventHandler(this.MoveListboxItem);
             // 
             // btn_AddCompany
             // 
@@ -252,6 +253,7 @@ namespace TII_NewDatabase
             this.btn_AddCompany.TabIndex = 17;
             this.btn_AddCompany.Text = ">>";
             this.btn_AddCompany.UseVisualStyleBackColor = true;
+            this.btn_AddCompany.Click += new System.EventHandler(this.MoveListboxItem);
             // 
             // lbx_AssociatedCompanies
             // 
@@ -259,6 +261,7 @@ namespace TII_NewDatabase
             this.lbx_AssociatedCompanies.Location = new System.Drawing.Point(167, 34);
             this.lbx_AssociatedCompanies.Name = "lbx_AssociatedCompanies";
             this.lbx_AssociatedCompanies.Size = new System.Drawing.Size(120, 147);
+            this.lbx_AssociatedCompanies.Sorted = true;
             this.lbx_AssociatedCompanies.TabIndex = 15;
             // 
             // txt_CompanyFilter
@@ -301,6 +304,7 @@ namespace TII_NewDatabase
             this.btn_RemoveBuilding.TabIndex = 23;
             this.btn_RemoveBuilding.Text = "<<";
             this.btn_RemoveBuilding.UseVisualStyleBackColor = true;
+            this.btn_RemoveBuilding.Click += new System.EventHandler(this.MoveListboxItem);
             // 
             // btn_AddBuilding
             // 
@@ -310,6 +314,7 @@ namespace TII_NewDatabase
             this.btn_AddBuilding.TabIndex = 22;
             this.btn_AddBuilding.Text = ">>";
             this.btn_AddBuilding.UseVisualStyleBackColor = true;
+            this.btn_AddBuilding.Click += new System.EventHandler(this.MoveListboxItem);
             // 
             // lbx_AssociatedBuildings
             // 
@@ -317,6 +322,7 @@ namespace TII_NewDatabase
             this.lbx_AssociatedBuildings.Location = new System.Drawing.Point(167, 34);
             this.lbx_AssociatedBuildings.Name = "lbx_AssociatedBuildings";
             this.lbx_AssociatedBuildings.Size = new System.Drawing.Size(120, 147);
+            this.lbx_AssociatedBuildings.Sorted = true;
             this.lbx_AssociatedBuildings.TabIndex = 19;
             // 
             // txt_BuildingFilter

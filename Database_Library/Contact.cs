@@ -165,6 +165,40 @@ namespace Database
         }
 
         /// <summary>
+        /// Submits the data enclosed in the class to the SQL server as either an Insert or and Update statement dependant on the presence of an ID in the base Class.
+        /// </summary>
+        /// <returns>True, if all operations completed successfully.</returns>
+        public override bool CommitToDatabase()
+        {
+            bool success = false;
+
+            SQLColumn[] classData = new SQLColumn[]
+                                                    {
+                                                        new SQLColumn("Name", this.name),
+                                                        new SQLColumn("OfficePhone", this.officephone.Number),
+                                                        new SQLColumn("OfficeExt", this.officephone.Ext),
+                                                        new SQLColumn("CellPhone", this.cellphone.Number),
+                                                        new SQLColumn("Fax", this.fax.Number),
+                                                        new SQLColumn("Email", this.email)
+                                                    };
+
+            if (this.ID == null)
+            {
+                // If ID is null, then this is a new entry to the database and we should insert it.
+                success = SQL.Query.Insert("Contact", classData);
+            }
+            else
+            {
+                // If ID is not null, then we are updating an existing record which has this ID number
+                success = SQL.Query.Update("Contact", classData, string.Format("Contact_ID = {0}", this.ID));
+            }
+
+            // Return the value of the success of this operation, as well as the base operation of the same name.
+            // The base operation will run an Insert Query on any database edits it was alerted of.
+            return success && base.CommitToDatabase();
+        }
+
+        /// <summary>
         /// Removes the Database relation between the current contact and a company.
         /// </summary>
         /// <param name="company_id">The database assigned company ID.</param>

@@ -382,21 +382,20 @@ namespace Database
             this.extension = null;
             
             // If the string passed was empty, we're not going to bother with any of this. The struct will remain empty.
-            if (phonenumber != string.Empty)
+            if (tele_number != string.Empty)
             {
                 // Make sure we've got something we can turn into a phone number.
-                if (tele_number.Length != 10)
-                {
-                    throw new ArgumentException(string.Format("'phonenumber' must be a valid 10-digit phone number. {0} only has {1} digits.", phonenumber, tele_number.Length));
-                }
-
-                // Parse out each section of the telephone number. If any piece fails, throw an exception.
                 if (
+                    (tele_number.Length != 10)
+                    ||
+                    (
                     !int.TryParse(tele_number.Substring(0, 3), out this.number[0]) ||
                     !int.TryParse(tele_number.Substring(3, 3), out this.number[1]) ||
-                    !int.TryParse(tele_number.Substring(6), out this.number[2]))
+                    !int.TryParse(tele_number.Substring(6), out this.number[2])
+                    )
+                   )
                 {
-                    throw new ArgumentException(string.Format("'phonenumber' must contain 10 numerical digits. {0} is not a valid argument", phonenumber));
+                    throw new ArgumentException(string.Format("'phonenumber' must be a valid 10-digit phone number."));
                 }
 
                 string ext = Regex.Replace(extension, "[^0-9]", string.Empty);
@@ -421,6 +420,17 @@ namespace Database
         {
             get
             {
+                if (this.number == null)
+                {
+                    return string.Empty;
+                }
+
+                // When we initialize the number struct, they are filled to read {0, 0, 0} - we need to return null if this is the case at this point.
+                if (this.number[0] == 0 && this.number[1] == 0 && this.number[2] == 0)
+                {
+                    return string.Empty;
+                }
+
                 return this.number[0].ToString() + this.number[1].ToString() + this.number[2].ToString();
             }
         }

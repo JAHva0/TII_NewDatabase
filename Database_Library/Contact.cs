@@ -57,12 +57,12 @@ namespace Database
             this.email = contact_info["Email"].ToString();
 
             // The SQL query to get company relations for this contact.
-            string query = "SELECT Company.Company_ID, Name FROM Company " + 
-                           "JOIN Company_Contact_Relations ON Company_Contact_Relations.Company_ID = Company.Company_ID " +
-                           "WHERE Contact_ID = " + this.ID.ToString();
+            string query_format = "SELECT {0}.{0}_ID, {1} FROM {0} " +
+                                  "JOIN {0}_Contact_Relations ON {0}_Contact_Relations.{0}_ID = {0}.{0}_ID " +
+                                  "WHERE Contact_ID = " + this.ID.ToString();
 
             // Fill the company dictionary with a list of companies this contact has a relation with.
-            foreach (DataRow c in SQL.Query.Select(query).Rows)
+            foreach (DataRow c in SQL.Query.Select(string.Format(query_format, "Company", "Name")).Rows)
             {
                 this.companies.Add(Convert.ToInt32(c["Company_ID"].ToString()), c["Name"].ToString());
             }

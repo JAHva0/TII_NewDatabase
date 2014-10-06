@@ -102,7 +102,7 @@ namespace Database
             }
         }
 
-        /// <summary> Gets the Cell Phone Number associated with this contact. </summary>
+        /// <summary> Gets or sets the Cell Phone Number associated with this contact. </summary>
         /// <value> A string value of the contact's cell phone.</value>
         public TelephoneNumber CellPhone
         {
@@ -110,9 +110,18 @@ namespace Database
             {
                 return this.cellphone;
             }
+
+            set
+            {
+                if (value != this.cellphone && value != null)
+                {
+                    this.BaseObject_Edited(this, "CellPhone", this.cellphone.Number.ToString(), value.Number.ToString());
+                    this.cellphone = value;
+                }
+            }
         }
 
-        /// <summary> Gets the Fax Number associated with this contact. </summary>
+        /// <summary> Gets or sets the Fax Number associated with this contact. </summary>
         /// <value> A string value of the contact's fax number.</value>
         public TelephoneNumber Fax
         {
@@ -120,15 +129,38 @@ namespace Database
             {
                 return this.fax;
             }
+
+            set
+            {
+                if (value != this.fax && value != null)
+                {
+                    this.BaseObject_Edited(this, "Fax", this.fax.Number.ToString(), value.Number.ToString());
+                    this.fax = value;
+                }
+            }        
         }
 
-        /// <summary> Gets the e-mail associated with this contact. </summary>
+        /// <summary> Gets or sets the e-mail associated with this contact. </summary>
         /// <value> A string value of the contact's e-mail.</value>
         public string Email
         {
             get
             {
                 return this.email;
+            }
+
+            set
+            {
+                if (!value.Contains("@") && !value.Contains("."))
+                {
+                    throw new ArgumentException("Invalid E-mail format");
+                }
+                
+                if (value != this.email && value != string.Empty)
+                {
+                    this.BaseObject_Edited(this, "Email", this.email, value);
+                    this.email = value;
+                }
             }
         }
 

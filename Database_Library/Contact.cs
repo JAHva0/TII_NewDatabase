@@ -3,7 +3,9 @@
 namespace Database
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
     
     /// <summary>
     /// Class that is used to hold, parse, update and insert data from the Contact table.
@@ -24,6 +26,9 @@ namespace Database
 
         /// <summary> The e-mail address of the contact. </summary>
         private string email;
+
+        /// <summary> A list of companies that this contact is related to. </summary>
+        private Dictionary<int, string> companies = new Dictionary<int, string>();
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Contact"/> class. Class will be blank, and may be inserted into the database as a new entry.
@@ -50,6 +55,17 @@ namespace Database
             this.cellphone = new TelephoneNumber(contact_info["CellPhone"].ToString());
             this.fax = new TelephoneNumber(contact_info["Fax"].ToString());
             this.email = contact_info["Email"].ToString();
+
+            // The SQL query to get company relations for this contact.
+            string query = "SELECT Company.Company_ID, Name FROM Company " + 
+                           "JOIN Company_Contact_Relations ON Company_Contact_Relations.Company_ID = Company.Company_ID " +
+                           "WHERE Contact_ID = " + this.ID.ToString();
+
+            // Fill the company dictionary with a list of companies this contact has a relation with.
+            foreach (DataRow c in SQL.Query.Select(query).Rows)
+            {
+                this.companies.Add(Convert.ToInt32(c["Company_ID"].ToString()), c["Name"].ToString());
+            }
         }
 
         /// <summary> Gets or sets the Name associated with this contact. </summary>
@@ -161,6 +177,16 @@ namespace Database
                     this.BaseObject_Edited(this, "Email", this.email, value);
                     this.email = value;
                 }
+            }
+        }
+
+        /// <summary> Gets a list of companies this contact is related to via the Company Contact Relations table. </summary>
+        /// <value>A string array of Company names.</value>
+        public string[] CompanyList
+        {
+            get
+            {
+                return this.companies.Values.ToArray();
             }
         }
 

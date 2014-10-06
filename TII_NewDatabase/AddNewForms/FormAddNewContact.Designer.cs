@@ -46,7 +46,23 @@ namespace TII_NewDatabase
             this.txt_CellPhone = new System.Windows.Forms.MaskedTextBox();
             this.txt_Fax = new System.Windows.Forms.MaskedTextBox();
             this.txt_OfficePhone = new System.Windows.Forms.MaskedTextBox();
+            this.tabctrl_Associate = new System.Windows.Forms.TabControl();
+            this.tab_Company = new System.Windows.Forms.TabPage();
+            this.btn_RemoveCompany = new System.Windows.Forms.Button();
+            this.btn_AddCompany = new System.Windows.Forms.Button();
+            this.lbx_AssociatedCompanies = new System.Windows.Forms.ListBox();
+            this.txt_CompanyFilter = new System.Windows.Forms.TextBox();
+            this.lbx_CompanyList = new System.Windows.Forms.ListBox();
+            this.tab_Building = new System.Windows.Forms.TabPage();
+            this.btn_RemoveBuilding = new System.Windows.Forms.Button();
+            this.btn_AddBuilding = new System.Windows.Forms.Button();
+            this.lbx_AssociatedBuildings = new System.Windows.Forms.ListBox();
+            this.txt_BuildingFilter = new System.Windows.Forms.TextBox();
+            this.lbx_BuildingList = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
+            this.tabctrl_Associate.SuspendLayout();
+            this.tab_Company.SuspendLayout();
+            this.tab_Building.SuspendLayout();
             this.SuspendLayout();
             // 
             // txt_Email
@@ -193,11 +209,134 @@ namespace TII_NewDatabase
             this.txt_OfficePhone.Size = new System.Drawing.Size(100, 20);
             this.txt_OfficePhone.TabIndex = 2;
             // 
+            // tabctrl_Associate
+            // 
+            this.tabctrl_Associate.Controls.Add(this.tab_Company);
+            this.tabctrl_Associate.Controls.Add(this.tab_Building);
+            this.tabctrl_Associate.Location = new System.Drawing.Point(278, 12);
+            this.tabctrl_Associate.Name = "tabctrl_Associate";
+            this.tabctrl_Associate.SelectedIndex = 0;
+            this.tabctrl_Associate.Size = new System.Drawing.Size(304, 211);
+            this.tabctrl_Associate.TabIndex = 14;
+            // 
+            // tab_Company
+            // 
+            this.tab_Company.Controls.Add(this.btn_RemoveCompany);
+            this.tab_Company.Controls.Add(this.btn_AddCompany);
+            this.tab_Company.Controls.Add(this.lbx_AssociatedCompanies);
+            this.tab_Company.Controls.Add(this.txt_CompanyFilter);
+            this.tab_Company.Controls.Add(this.lbx_CompanyList);
+            this.tab_Company.Location = new System.Drawing.Point(4, 22);
+            this.tab_Company.Name = "tab_Company";
+            this.tab_Company.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Company.Size = new System.Drawing.Size(296, 185);
+            this.tab_Company.TabIndex = 0;
+            this.tab_Company.Text = "Company";
+            this.tab_Company.UseVisualStyleBackColor = true;
+            // 
+            // btn_RemoveCompany
+            // 
+            this.btn_RemoveCompany.Location = new System.Drawing.Point(132, 89);
+            this.btn_RemoveCompany.Name = "btn_RemoveCompany";
+            this.btn_RemoveCompany.Size = new System.Drawing.Size(29, 23);
+            this.btn_RemoveCompany.TabIndex = 18;
+            this.btn_RemoveCompany.Text = "<<";
+            this.btn_RemoveCompany.UseVisualStyleBackColor = true;
+            // 
+            // btn_AddCompany
+            // 
+            this.btn_AddCompany.Location = new System.Drawing.Point(132, 60);
+            this.btn_AddCompany.Name = "btn_AddCompany";
+            this.btn_AddCompany.Size = new System.Drawing.Size(29, 23);
+            this.btn_AddCompany.TabIndex = 17;
+            this.btn_AddCompany.Text = ">>";
+            this.btn_AddCompany.UseVisualStyleBackColor = true;
+            // 
+            // lbx_AssociatedCompanies
+            // 
+            this.lbx_AssociatedCompanies.FormattingEnabled = true;
+            this.lbx_AssociatedCompanies.Location = new System.Drawing.Point(167, 34);
+            this.lbx_AssociatedCompanies.Name = "lbx_AssociatedCompanies";
+            this.lbx_AssociatedCompanies.Size = new System.Drawing.Size(120, 147);
+            this.lbx_AssociatedCompanies.TabIndex = 15;
+            // 
+            // txt_CompanyFilter
+            // 
+            this.txt_CompanyFilter.Location = new System.Drawing.Point(6, 6);
+            this.txt_CompanyFilter.Name = "txt_CompanyFilter";
+            this.txt_CompanyFilter.Size = new System.Drawing.Size(120, 20);
+            this.txt_CompanyFilter.TabIndex = 16;
+            // 
+            // lbx_CompanyList
+            // 
+            this.lbx_CompanyList.FormattingEnabled = true;
+            this.lbx_CompanyList.Location = new System.Drawing.Point(6, 35);
+            this.lbx_CompanyList.Name = "lbx_CompanyList";
+            this.lbx_CompanyList.Size = new System.Drawing.Size(120, 147);
+            this.lbx_CompanyList.TabIndex = 15;
+            // 
+            // tab_Building
+            // 
+            this.tab_Building.Controls.Add(this.btn_RemoveBuilding);
+            this.tab_Building.Controls.Add(this.btn_AddBuilding);
+            this.tab_Building.Controls.Add(this.lbx_AssociatedBuildings);
+            this.tab_Building.Controls.Add(this.txt_BuildingFilter);
+            this.tab_Building.Controls.Add(this.lbx_BuildingList);
+            this.tab_Building.Location = new System.Drawing.Point(4, 22);
+            this.tab_Building.Name = "tab_Building";
+            this.tab_Building.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Building.Size = new System.Drawing.Size(296, 185);
+            this.tab_Building.TabIndex = 1;
+            this.tab_Building.Text = "Building";
+            this.tab_Building.UseVisualStyleBackColor = true;
+            // 
+            // btn_RemoveBuilding
+            // 
+            this.btn_RemoveBuilding.Location = new System.Drawing.Point(132, 89);
+            this.btn_RemoveBuilding.Name = "btn_RemoveBuilding";
+            this.btn_RemoveBuilding.Size = new System.Drawing.Size(29, 23);
+            this.btn_RemoveBuilding.TabIndex = 23;
+            this.btn_RemoveBuilding.Text = "<<";
+            this.btn_RemoveBuilding.UseVisualStyleBackColor = true;
+            // 
+            // btn_AddBuilding
+            // 
+            this.btn_AddBuilding.Location = new System.Drawing.Point(132, 60);
+            this.btn_AddBuilding.Name = "btn_AddBuilding";
+            this.btn_AddBuilding.Size = new System.Drawing.Size(29, 23);
+            this.btn_AddBuilding.TabIndex = 22;
+            this.btn_AddBuilding.Text = ">>";
+            this.btn_AddBuilding.UseVisualStyleBackColor = true;
+            // 
+            // lbx_AssociatedBuildings
+            // 
+            this.lbx_AssociatedBuildings.FormattingEnabled = true;
+            this.lbx_AssociatedBuildings.Location = new System.Drawing.Point(167, 34);
+            this.lbx_AssociatedBuildings.Name = "lbx_AssociatedBuildings";
+            this.lbx_AssociatedBuildings.Size = new System.Drawing.Size(120, 147);
+            this.lbx_AssociatedBuildings.TabIndex = 19;
+            // 
+            // txt_BuildingFilter
+            // 
+            this.txt_BuildingFilter.Location = new System.Drawing.Point(6, 6);
+            this.txt_BuildingFilter.Name = "txt_BuildingFilter";
+            this.txt_BuildingFilter.Size = new System.Drawing.Size(120, 20);
+            this.txt_BuildingFilter.TabIndex = 21;
+            // 
+            // lbx_BuildingList
+            // 
+            this.lbx_BuildingList.FormattingEnabled = true;
+            this.lbx_BuildingList.Location = new System.Drawing.Point(6, 35);
+            this.lbx_BuildingList.Name = "lbx_BuildingList";
+            this.lbx_BuildingList.Size = new System.Drawing.Size(120, 147);
+            this.lbx_BuildingList.TabIndex = 20;
+            // 
             // FormAddNewContact
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 235);
+            this.ClientSize = new System.Drawing.Size(596, 235);
+            this.Controls.Add(this.tabctrl_Associate);
             this.Controls.Add(this.txt_OfficePhone);
             this.Controls.Add(this.txt_Fax);
             this.Controls.Add(this.txt_CellPhone);
@@ -212,9 +351,16 @@ namespace TII_NewDatabase
             this.Controls.Add(this.lbl_ContactOfficePhone);
             this.Controls.Add(this.lbl_ContactName);
             this.Controls.Add(this.txt_Name);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormAddNewContact";
             this.Text = "Add New Contact";
             this.groupBox1.ResumeLayout(false);
+            this.tabctrl_Associate.ResumeLayout(false);
+            this.tab_Company.ResumeLayout(false);
+            this.tab_Company.PerformLayout();
+            this.tab_Building.ResumeLayout(false);
+            this.tab_Building.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,5 +384,18 @@ namespace TII_NewDatabase
         private System.Windows.Forms.MaskedTextBox txt_CellPhone;
         private System.Windows.Forms.MaskedTextBox txt_Fax;
         private System.Windows.Forms.MaskedTextBox txt_OfficePhone;
+        private System.Windows.Forms.TabControl tabctrl_Associate;
+        private System.Windows.Forms.TabPage tab_Company;
+        private System.Windows.Forms.TabPage tab_Building;
+        private System.Windows.Forms.Button btn_RemoveCompany;
+        private System.Windows.Forms.Button btn_AddCompany;
+        private System.Windows.Forms.ListBox lbx_AssociatedCompanies;
+        private System.Windows.Forms.TextBox txt_CompanyFilter;
+        private System.Windows.Forms.ListBox lbx_CompanyList;
+        private System.Windows.Forms.Button btn_RemoveBuilding;
+        private System.Windows.Forms.Button btn_AddBuilding;
+        private System.Windows.Forms.ListBox lbx_AssociatedBuildings;
+        private System.Windows.Forms.TextBox txt_BuildingFilter;
+        private System.Windows.Forms.ListBox lbx_BuildingList;
     }
 }

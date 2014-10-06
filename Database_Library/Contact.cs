@@ -153,7 +153,7 @@ namespace Database
             {         
                 if (value != this.email && value != string.Empty)
                 {
-                    if (!value.Contains("@") && !value.Contains("."))
+                    if (!value.Contains("@") || !value.Contains("."))
                     {
                         throw new ArgumentException("Invalid E-mail format");
                     }

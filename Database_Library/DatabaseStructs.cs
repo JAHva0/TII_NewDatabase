@@ -415,6 +415,26 @@ namespace Database
             }
         }
 
+        /// <summary> Gets the string representation of the number portion of the Telephone Number. </summary>
+        /// <value> The number stored in this struct. </value>
+        public string Number
+        {
+            get
+            {
+                return this.number[0].ToString() + this.number[1].ToString() + this.number[2].ToString();
+            }
+        }
+
+        /// <summary> Gets the string representation of the extension portion of the Telephone Number. </summary>
+        /// <value> The extension stored in this struct. </value>
+        public string Ext
+        {
+            get
+            {
+                return this.extension.ToString();
+            }
+        }
+
         /// <summary>
         /// Override method to determine if two Telephone Numbers are identical.
         /// </summary>

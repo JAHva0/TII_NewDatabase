@@ -82,7 +82,7 @@ namespace Database
 
             set
             {
-                if (value != this.officephone && value != null)
+                if (value != this.officephone && value.Number != string.Empty)
                 {
                     // Office numbers are stored in two seperate columns in the database - "OfficePhone" and "OfficeExt".
                     // Since we've already decided that the new value is different from the old, check and see if one or both
@@ -113,7 +113,7 @@ namespace Database
 
             set
             {
-                if (value != this.cellphone && value != null)
+                if (value != this.cellphone && value.Number != string.Empty)
                 {
                     this.BaseObject_Edited(this, "CellPhone", this.cellphone.Number.ToString(), value.Number.ToString());
                     this.cellphone = value;
@@ -132,7 +132,7 @@ namespace Database
 
             set
             {
-                if (value != this.fax && value != null)
+                if (value != this.fax && value.Number != string.Empty)
                 {
                     this.BaseObject_Edited(this, "Fax", this.fax.Number.ToString(), value.Number.ToString());
                     this.fax = value;
@@ -150,14 +150,14 @@ namespace Database
             }
 
             set
-            {
-                if (!value.Contains("@") && !value.Contains("."))
-                {
-                    throw new ArgumentException("Invalid E-mail format");
-                }
-                
+            {         
                 if (value != this.email && value != string.Empty)
                 {
+                    if (!value.Contains("@") && !value.Contains("."))
+                    {
+                        throw new ArgumentException("Invalid E-mail format");
+                    }
+                    
                     this.BaseObject_Edited(this, "Email", this.email, value);
                     this.email = value;
                 }

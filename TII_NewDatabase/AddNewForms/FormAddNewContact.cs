@@ -3,6 +3,9 @@
 namespace TII_NewDatabase
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
     using System.Windows.Forms;
     using Database;
     
@@ -13,13 +16,59 @@ namespace TII_NewDatabase
         /// Contact class to hold the form's information. Will also parse and error check prior to committing.
         /// </summary>
         private Contact newContact = new Contact();
-        
+
+        /// <summary> Stores a temporary list of every company name in the database. </summary>
+        private List<string> companyList = new List<string>();
+
+        /// <summary> Stores a temporary list of every building address in the database. </summary>
+        private List<string> buildingList = new List<string>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAddNewContact"/> class.
         /// </summary>
         public FormAddNewContact()
         {
             this.InitializeComponent();
+            this.FillRelationLists();
+            this.FilterChanged(new object(), EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Queries the database for a list of every company and building.
+        /// </summary>
+        private void FillRelationLists()
+        {
+            foreach (DataRow c in SQL.Query.Select("Name", "Company", "1=1").Rows)
+            {
+                this.companyList.Add(c["Name"].ToString());
+            }
+
+            foreach (DataRow b in SQL.Query.Select("Address", "Building", "1=1").Rows)
+            {
+                this.buildingList.Add(b["Address"].ToString());
+            }     
+        }
+
+        /// <summary>
+        /// Called any time the form needs to refresh the list of buildings or companies displayed in the list boxes.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">Any Event Args.</param>
+        private void FilterChanged(object sender, EventArgs e)
+        {
+            if (this.tabctrl_Associate.SelectedTab == this.tab_Company)
+            {
+                IEnumerable<string> filtered = this.companyList.Where(s => s.Contains(this.txt_CompanyFilter.Text) && !this.lbx_AssociatedCompanies.Items.Contains(s));
+                this.lbx_CompanyList.Items.Clear();
+                this.lbx_CompanyList.Items.AddRange(filtered.ToArray());
+            }
+
+            if (this.tabctrl_Associate.SelectedTab == this.tab_Building)
+            {
+                IEnumerable<string> filtered = this.buildingList.Where(s => s.Contains(this.txt_BuildingFilter.Text) && !this.lbx_AssociatedBuildings.Items.Contains(s));
+                this.lbx_BuildingList.Items.Clear();
+                this.lbx_BuildingList.Items.AddRange(filtered.ToArray());
+            }
         }
 
         /// <summary>

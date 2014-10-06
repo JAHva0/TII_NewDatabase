@@ -218,6 +218,7 @@ namespace TII_NewDatabase
             this.tabctrl_Associate.SelectedIndex = 0;
             this.tabctrl_Associate.Size = new System.Drawing.Size(304, 211);
             this.tabctrl_Associate.TabIndex = 14;
+            this.tabctrl_Associate.SelectedIndexChanged += new System.EventHandler(this.FilterChanged);
             // 
             // tab_Company
             // 
@@ -266,6 +267,7 @@ namespace TII_NewDatabase
             this.txt_CompanyFilter.Name = "txt_CompanyFilter";
             this.txt_CompanyFilter.Size = new System.Drawing.Size(120, 20);
             this.txt_CompanyFilter.TabIndex = 16;
+            this.txt_CompanyFilter.TextChanged += new System.EventHandler(this.FilterChanged);
             // 
             // lbx_CompanyList
             // 
@@ -273,6 +275,7 @@ namespace TII_NewDatabase
             this.lbx_CompanyList.Location = new System.Drawing.Point(6, 35);
             this.lbx_CompanyList.Name = "lbx_CompanyList";
             this.lbx_CompanyList.Size = new System.Drawing.Size(120, 147);
+            this.lbx_CompanyList.Sorted = true;
             this.lbx_CompanyList.TabIndex = 15;
             // 
             // tab_Building
@@ -322,6 +325,7 @@ namespace TII_NewDatabase
             this.txt_BuildingFilter.Name = "txt_BuildingFilter";
             this.txt_BuildingFilter.Size = new System.Drawing.Size(120, 20);
             this.txt_BuildingFilter.TabIndex = 21;
+            this.txt_BuildingFilter.TextChanged += new System.EventHandler(this.FilterChanged);
             // 
             // lbx_BuildingList
             // 
@@ -329,6 +333,7 @@ namespace TII_NewDatabase
             this.lbx_BuildingList.Location = new System.Drawing.Point(6, 35);
             this.lbx_BuildingList.Name = "lbx_BuildingList";
             this.lbx_BuildingList.Size = new System.Drawing.Size(120, 147);
+            this.lbx_BuildingList.Sorted = true;
             this.lbx_BuildingList.TabIndex = 20;
             // 
             // FormAddNewContact

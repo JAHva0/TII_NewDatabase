@@ -29,6 +29,9 @@ namespace Database
 
         /// <summary> A list of companies that this contact is related to. </summary>
         private Dictionary<int, string> companies = new Dictionary<int, string>();
+
+        /// <summary> A list of buildings that this contact is related to. </summary>
+        private Dictionary<int, string> building = new Dictionary<int, string>();
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Contact"/> class. Class will be blank, and may be inserted into the database as a new entry.
@@ -65,6 +68,12 @@ namespace Database
             foreach (DataRow c in SQL.Query.Select(string.Format(query_format, "Company", "Name")).Rows)
             {
                 this.companies.Add(Convert.ToInt32(c["Company_ID"].ToString()), c["Name"].ToString());
+            }
+
+            // Fill the building dictionary with a list of buildings this contact has a relation with.
+            foreach (DataRow b in SQL.Query.Select(string.Format(query_format, "Building", "Address")).Rows)
+            {
+                this.building.Add(Convert.ToInt32(b["Building_ID"].ToString()), b["Address"].ToString());
             }
         }
 
@@ -187,6 +196,16 @@ namespace Database
             get
             {
                 return this.companies.Values.ToArray();
+            }
+        }
+
+        /// <summary> Gets a list of buildings this contact is related to via the Building Contact Relations table. </summary>
+        /// <value>A string array of Building addresses.</value>
+        public string[] BuildingList
+        {
+            get
+            {
+                return this.building.Values.ToArray();
             }
         }
 

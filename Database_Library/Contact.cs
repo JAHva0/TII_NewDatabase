@@ -71,8 +71,8 @@ namespace Database
             }
         }
 
-        /// <summary> Gets the Office Phone Number associated with this contact. </summary>
-        /// <value> A string value of the contact's office phone.</value>
+        /// <summary> Gets or sets the Office Phone Number associated with this contact. </summary>
+        /// <value> A Telephone Number struct containing the contact's office phone.</value>
         public TelephoneNumber OfficePhone
         {
             get
@@ -82,10 +82,23 @@ namespace Database
 
             set
             {
-                //if (value != this.officephone)
-                //{
-                //    // this.BaseObject_Edited(this, "OfficePhone", this.officephone.ToString()
-                //}
+                if (value != this.officephone && value != null)
+                {
+                    // Office numbers are stored in two seperate columns in the database - "OfficePhone" and "OfficeExt".
+                    // Since we've already decided that the new value is different from the old, check and see if one or both
+                    // parts of the number have changed. No reason to make an extra database commit if only the extension changed.
+                    if (value.Number != this.officephone.Number)
+                    {
+                        this.BaseObject_Edited(this, "OfficePhone", this.officephone.Number, value.Number);
+                    }
+
+                    if (value.Ext != this.officephone.Ext)
+                    {
+                        this.BaseObject_Edited(this, "OfficeExt", this.officephone.Ext, value.Ext);
+                    }
+
+                    this.officephone = value;
+                }
             }
         }
 

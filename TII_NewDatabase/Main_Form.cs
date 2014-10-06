@@ -576,9 +576,9 @@ namespace TII_NewDatabase
                                              select c).FirstOrDefault();
 
             this.txt_ContactName.Text = this.currentltSelectedContact.Name;
-            this.txt_OfficePhone.Text = this.currentltSelectedContact.OfficePhone;
-            this.txt_CellPhone.Text = this.currentltSelectedContact.CellPhone;
-            this.txt_Fax.Text = this.currentltSelectedContact.Fax;
+            this.txt_OfficePhone.Text = this.currentltSelectedContact.OfficePhone.ToString();
+            this.txt_CellPhone.Text = this.currentltSelectedContact.CellPhone.ToString();
+            this.txt_Fax.Text = this.currentltSelectedContact.Fax.ToString();
             this.txt_Email.Text = this.currentltSelectedContact.Email;
         }
 
@@ -787,9 +787,15 @@ namespace TII_NewDatabase
             }
         }
 
+        /// <summary>
+        /// Spawns an "Add New Contact" form.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">Any Event Args.</param>
         private void AddContact(object sender, EventArgs e)
         {
-
+            FormAddNewContact addContact = new FormAddNewContact();
+            addContact.ShowDialog();
         }
 
         /// <summary>

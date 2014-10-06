@@ -193,6 +193,7 @@ namespace SQL
                 {
                     nonquery_command.ExecuteNonQuery();
                 }
+
                 Connection.GetConnection.Close();
 
                 // Check if the Database Modifier has been assigned

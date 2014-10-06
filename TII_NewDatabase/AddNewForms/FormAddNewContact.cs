@@ -52,6 +52,7 @@ namespace TII_NewDatabase
                             this.ShowInfoBox("Invalid Phone Number", "Check Phone Number");
                             return;
                         }
+
                     case "Invalid E-mail format":
                         {
                             this.ShowInfoBox("Check that the e-mail provided is complete", "Incomplete Email");

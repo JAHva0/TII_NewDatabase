@@ -385,15 +385,11 @@ namespace Database
             if (tele_number != string.Empty)
             {
                 // Make sure we've got something we can turn into a phone number.
-                if (
-                    (tele_number.Length != 10)
+                if ((tele_number.Length != 10)
                     ||
-                    (
-                    !int.TryParse(tele_number.Substring(0, 3), out this.number[0]) ||
+                    (!int.TryParse(tele_number.Substring(0, 3), out this.number[0]) ||
                     !int.TryParse(tele_number.Substring(3, 3), out this.number[1]) ||
-                    !int.TryParse(tele_number.Substring(6), out this.number[2])
-                    )
-                   )
+                    !int.TryParse(tele_number.Substring(6), out this.number[2])))
                 {
                     throw new ArgumentException(string.Format("'phonenumber' must be a valid 10-digit phone number."));
                 }

@@ -34,6 +34,23 @@ namespace TII_NewDatabase
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="FormAddNewContact"/> class.
+        /// </summary>
+        /// <param name="assigned_company"> A company this contact should start assigned to.</param>
+        /// <param name="assigned_building"> A Building this contact should start assigned to.</param>
+        public FormAddNewContact(Company assigned_company, Building assigned_building)
+            : this()
+        {
+            // Remove the building from the left list and add it to the list on the right.
+            this.lbx_BuildingList.Items.Remove(assigned_building.Street);
+            this.lbx_AssociatedBuildings.Items.Add(assigned_building.Street);
+
+            // Remove the company from the left list and add it to the list on the right.
+            this.lbx_CompanyList.Items.Remove(assigned_company.Name);
+            this.lbx_AssociatedCompanies.Items.Add(assigned_company.Name);
+        }
+
+        /// <summary>
         /// Queries the database for a list of every company and building.
         /// </summary>
         private void FillRelationLists()

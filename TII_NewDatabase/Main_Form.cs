@@ -794,7 +794,7 @@ namespace TII_NewDatabase
         /// <param name="e">Any Event Args.</param>
         private void AddContact(object sender, EventArgs e)
         {
-            FormAddNewContact addContact = new FormAddNewContact();
+            FormAddNewContact addContact = new FormAddNewContact(this.currentlySelectedCompany, this.currentlySelectedBuilding);
             addContact.ShowDialog();
         }
 

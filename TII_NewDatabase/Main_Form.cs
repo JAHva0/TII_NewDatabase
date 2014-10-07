@@ -797,7 +797,26 @@ namespace TII_NewDatabase
         /// <param name="e">Any Event Args.</param>
         private void AddContact(object sender, EventArgs e)
         {
-            FormAddNewContact addContact = new FormAddNewContact(this.currentlySelectedCompany, this.currentlySelectedBuilding);
+            FormAddNewContact addContact = new FormAddNewContact();
+            
+            switch (((MenuItem)sender).Text)
+            {
+                case "Add New Contact":
+                    {
+                        addContact = new FormAddNewContact(this.currentlySelectedCompany, this.currentlySelectedBuilding);
+                        break;
+                    }
+                case "Add Existing Contact":
+                    {
+                        throw new NotImplementedException("Add Existing Contact Not Supported");
+                    }
+                case "Modify Contact":
+                    {
+                        addContact = new FormAddNewContact(this.currentltSelectedContact); 
+                        break;
+                    }
+            }
+                        
             addContact.ShowDialog();
         }
 

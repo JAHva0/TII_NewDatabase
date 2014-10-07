@@ -51,6 +51,35 @@ namespace TII_NewDatabase
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="FormAddNewContact"/> class.
+        /// </summary>
+        /// <param name="contactToEdit"> Contact with which to pre-populate the form. </param>
+        public FormAddNewContact(Contact contactToEdit)
+            : this()
+        {
+            this.txt_Name.Text = contactToEdit.Name;
+            this.txt_OfficePhone.Text = contactToEdit.OfficePhone.Number;
+            this.txt_Extension.Text = contactToEdit.OfficePhone.Ext;
+            this.txt_CellPhone.Text = contactToEdit.CellPhone.Number;
+            this.txt_Fax.Text = contactToEdit.Fax.Number;
+            this.txt_Email.Text = contactToEdit.Email;
+
+            foreach (string cpny in contactToEdit.CompanyList)
+            {
+                this.lbx_CompanyList.Items.Remove(cpny);
+                this.lbx_AssociatedCompanies.Items.Add(cpny);
+            }
+
+            foreach (string bldg in contactToEdit.BuildingList)
+            {
+                this.lbx_BuildingList.Items.Remove(bldg);
+                this.lbx_AssociatedBuildings.Items.Add(bldg);
+            }
+
+            this.newContact = contactToEdit;
+        }
+
+        /// <summary>
         /// Queries the database for a list of every company and building.
         /// </summary>
         private void FillRelationLists()

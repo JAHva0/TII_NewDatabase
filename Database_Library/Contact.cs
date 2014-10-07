@@ -244,6 +244,26 @@ namespace Database
         }
 
         /// <summary>
+        /// Method to add a company with which to associate this contact.
+        /// </summary>
+        /// <param name="company_name">The exact company name to add.</param>
+        public void AddCompany(string company_name)
+        {
+            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("Company_ID", "Company", string.Format("Name = '{0}'", company_name)));
+            this.companies.Add(Convert.ToInt32(row["Company_ID"].ToString()), company_name);
+        }
+
+        /// <summary>
+        /// Method to add a building with which to associate this contact.
+        /// </summary>
+        /// <param name="building_address">The exact building address to add.</param>
+        public void AddBuilding(string building_address)
+        {
+            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("Building_ID", "Building", string.Format("Address = '{0}'", building_address)));
+            this.building.Add(Convert.ToInt32(row["Building_ID"].ToString()), building_address);
+        }
+
+        /// <summary>
         /// Removes the Database relation between the current contact and a company.
         /// </summary>
         /// <param name="company_id">The database assigned company ID.</param>

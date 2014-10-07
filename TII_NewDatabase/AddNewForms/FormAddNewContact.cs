@@ -132,7 +132,7 @@ namespace TII_NewDatabase
 
             try
             {
-                this.newContact.Name = this.cbo_Honorific.Text + " " + this.txt_Name.Text;
+                this.newContact.Name = this.txt_Name.Text;
                 this.newContact.OfficePhone = new TelephoneNumber(this.txt_OfficePhone.Text, this.txt_Extension.Text);
                 this.newContact.CellPhone = new TelephoneNumber(this.txt_CellPhone.Text);
                 this.newContact.Fax = new TelephoneNumber(this.txt_Fax.Text);

@@ -42,7 +42,6 @@ namespace TII_NewDatabase
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_SaveEntry = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
-            this.cbo_Honorific = new System.Windows.Forms.ComboBox();
             this.txt_CellPhone = new System.Windows.Forms.MaskedTextBox();
             this.txt_Fax = new System.Windows.Forms.MaskedTextBox();
             this.txt_OfficePhone = new System.Windows.Forms.MaskedTextBox();
@@ -119,9 +118,9 @@ namespace TII_NewDatabase
             // 
             // txt_Name
             // 
-            this.txt_Name.Location = new System.Drawing.Point(135, 13);
+            this.txt_Name.Location = new System.Drawing.Point(90, 13);
             this.txt_Name.Name = "txt_Name";
-            this.txt_Name.Size = new System.Drawing.Size(115, 20);
+            this.txt_Name.Size = new System.Drawing.Size(160, 20);
             this.txt_Name.TabIndex = 1;
             // 
             // lbl_Extension
@@ -169,21 +168,6 @@ namespace TII_NewDatabase
             this.btn_Cancel.TabIndex = 1;
             this.btn_Cancel.Text = "Cancel";
             this.btn_Cancel.UseVisualStyleBackColor = true;
-            // 
-            // cbo_Honorific
-            // 
-            this.cbo_Honorific.FormattingEnabled = true;
-            this.cbo_Honorific.Items.AddRange(new object[] {
-            "Mr.",
-            "Ms.",
-            "Mrs.",
-            "Dr.",
-            "Rev.",
-            "Sr."});
-            this.cbo_Honorific.Location = new System.Drawing.Point(90, 12);
-            this.cbo_Honorific.Name = "cbo_Honorific";
-            this.cbo_Honorific.Size = new System.Drawing.Size(39, 21);
-            this.cbo_Honorific.TabIndex = 0;
             // 
             // txt_CellPhone
             // 
@@ -351,7 +335,6 @@ namespace TII_NewDatabase
             this.Controls.Add(this.txt_OfficePhone);
             this.Controls.Add(this.txt_Fax);
             this.Controls.Add(this.txt_CellPhone);
-            this.Controls.Add(this.cbo_Honorific);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txt_Extension);
             this.Controls.Add(this.lbl_Extension);
@@ -391,7 +374,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_SaveEntry;
         private System.Windows.Forms.Button btn_Cancel;
-        private System.Windows.Forms.ComboBox cbo_Honorific;
         private System.Windows.Forms.MaskedTextBox txt_CellPhone;
         private System.Windows.Forms.MaskedTextBox txt_Fax;
         private System.Windows.Forms.MaskedTextBox txt_OfficePhone;

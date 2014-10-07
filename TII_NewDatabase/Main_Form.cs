@@ -774,13 +774,16 @@ namespace TII_NewDatabase
                 editContact.MenuItems[0].Click += this.AddContact;
                 editContact.MenuItems.Add("Add Existing Contact");
                 editContact.MenuItems[1].Click += this.AddContact;
+                editContact.MenuItems.Add("Modify Contact");
+                editContact.MenuItems[2].Click += this.AddContact;
                 editContact.MenuItems.Add("Remove Contact");
-                editContact.MenuItems[2].Click += this.RemoveContact;
+                editContact.MenuItems[3].Click += this.RemoveContact;
 
-                // If the sender doesn't actually have anything selected, we can't remove it, so gray that option out.
+                // If the sender doesn't actually have anything selected, we can't remove/edit it, so gray that option out.
                 if (((ListBox)sender).SelectedItem == null)
                 {
                     editContact.MenuItems[2].Enabled = false;
+                    editContact.MenuItems[3].Enabled = false;
                 }
 
                 ((ListBox)sender).ContextMenu = editContact;

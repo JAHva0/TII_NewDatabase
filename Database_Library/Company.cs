@@ -20,7 +20,7 @@ namespace Database
         private Address address;
 
         /// <summary> A list of the contacts associated with this company. </summary>
-        private List<Contact> contact_list;
+        private List<Contact> contact_list = new List<Contact>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Company"/> class for use in adding new companies to the database.

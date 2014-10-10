@@ -51,7 +51,7 @@ namespace Database
         private GeographicCoordinates coordinates;
 
         /// <summary> A collection of contacts associated with this building. </summary>
-        private List<Contact> contact_list;
+        private List<Contact> contact_list = new List<Contact>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Building"/> class for use in adding new entries to the database.
@@ -89,6 +89,10 @@ namespace Database
         /// </summary>
         public enum CountyName
         {
+            /// <summary> Default enum value. </summary>
+            [Description("")]
+            NONE,
+            
             /// <summary>Allegany County.</summary>
             [Description("Allegany")] 
             ALLEGANY, 
@@ -195,6 +199,10 @@ namespace Database
         /// </summary>
         public enum Month
         {
+            /// <summary> Default enum value. </summary>
+            [Description("")]
+            NONE,
+            
             /// <summary>Month of January.</summary>
             [Description("January")]
             JAN,
@@ -242,10 +250,6 @@ namespace Database
             /// <summary>Month of December.</summary>
             [Description("December")]
             DEC,
-
-            /// <summary>No Month Selected.</summary>
-            [Description("None")]
-            NONE
         }
 
         /// <summary>
@@ -258,7 +262,7 @@ namespace Database
             {
                 if (this.company_id == 0)
                 {
-                    throw new Exception("Company ID is currently empty and should not be called");
+                    return new Company();
                 }
                 else
                 {
@@ -589,6 +593,12 @@ namespace Database
         {
             get
             {
+                // If there is no ID present, then we can't possible have elevators
+                if (this.ID == null)
+                {
+                    return new List<string>();
+                }
+                
                 List<string> elevators = new List<string>();
                 foreach (DataRow row in SQL.Query.Select("ElevatorNumber", "Elevator", string.Format("Building_ID = {0}", this.ID)).Rows)
                 {
@@ -605,6 +615,12 @@ namespace Database
         {
             get
             {
+                // If there is no ID present, then we can't possible have an inspection history.
+                if (this.ID == null)
+                {
+                    return new List<InspectionHistory>();
+                }
+                
                 List<InspectionHistory> history = new List<InspectionHistory>();
                 foreach (DataRow row in SQL.Query.Select(string.Format(
                                                                        "SELECT DISTINCT Date, InspectionType, Status, Inspector, Report " +

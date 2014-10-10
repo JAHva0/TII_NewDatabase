@@ -468,12 +468,14 @@ namespace TII_NewDatabase
 
             // Populate the Company fields, now that we know the building and, by extension, it's owner
             // Assuming that the selected company isn't already the correct one.
-            if (selected_building.Owner.Name != this.txt_CompanyName.Text)
+            if (selected_building.Owner.Name != this.txt_CompanyName.Text && selected_building.Street != null)
             {
                 this.PopulateFields(selected_building.Owner);
             }
-
-            this.lbx_OtherCompanyBuildings.SelectedItem = selected_building.Street;
+            if (selected_building.Street != null)
+            {
+                this.lbx_OtherCompanyBuildings.SelectedItem = selected_building.Street;
+            }
         }
 
         /// <summary>

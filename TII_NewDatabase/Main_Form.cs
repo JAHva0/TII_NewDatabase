@@ -143,7 +143,7 @@ namespace TII_NewDatabase
                                                                 "ELSE 'False' " +
                                                             "END as Active " +
                                                         "FROM Company " +
-                                                        "JOIN Building ON Building.Company_ID = Company.Company_ID").Rows)
+                                                        "LEFT JOIN Building ON Building.Company_ID = Company.Company_ID").Rows)
             {
                 this.companyList.Add(
                                      Convert.ToInt32(companyRow["Company_ID"]), 
@@ -397,7 +397,14 @@ namespace TII_NewDatabase
                 this.lbx_CompanyContacts.Items.Add(c.Name);
             }
 
-            this.lbx_OtherCompanyBuildings.SelectedIndex = 0;
+            if (this.lbx_OtherCompanyBuildings.Items.Count > 0)
+            {
+                this.lbx_OtherCompanyBuildings.SelectedIndex = 0;
+            }
+            else
+            {
+                this.PopulateFields(new Building());
+            }
         }
 
         /// <summary>
@@ -806,10 +813,12 @@ namespace TII_NewDatabase
                         addContact = new FormAddNewContact(this.currentlySelectedCompany, this.currentlySelectedBuilding);
                         break;
                     }
+
                 case "Add Existing Contact":
                     {
                         throw new NotImplementedException("Add Existing Contact Not Supported");
                     }
+
                 case "Modify Contact":
                     {
                         addContact = new FormAddNewContact(this.currentltSelectedContact); 

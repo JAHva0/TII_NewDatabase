@@ -60,7 +60,7 @@ namespace Database
             this.email = contact_info["Email"].ToString();
 
             // The SQL query to get company relations for this contact.
-            string query_format = "SELECT {0}.{0}_ID, {1} FROM {0} " +
+            string query_format = "SELECT DISTINCT {0}.{0}_ID, {1} FROM {0} " +
                                   "JOIN {0}_Contact_Relations ON {0}_Contact_Relations.{0}_ID = {0}.{0}_ID " +
                                   "WHERE Contact_ID = " + this.ID.ToString();
 

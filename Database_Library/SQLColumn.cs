@@ -22,8 +22,11 @@ namespace Database
             {
                 value = "NULL";
             }
-
-            this.Value = value.Replace("'", "''");
+            else
+            {
+                this.Value = value.Replace("'", "''");
+                this.Value = "'" + this.Value + "'";
+            }
         }
 
         /// <summary>
@@ -34,16 +37,16 @@ namespace Database
         public SQLColumn(string column, bool value)
             : this(column)
         {
-            this.Value = value.ToString();
+            this.Value = "'" + value.ToString() + "'";
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SQLColumn"/> struct for use in inserting/updating in the SQL Database.
         /// </summary>
         /// <param name="column">A valid column name.</param>
-        /// <param name="value">A nullable Integer to insert/update.</param>
+        /// <param name="value">A null-able Integer to insert/update.</param>
         public SQLColumn(string column, int value)
-            :this(column)
+            : this(column)
         {
             if (value == 0)
             {
@@ -59,7 +62,7 @@ namespace Database
         /// Initializes a new instance of the <see cref="SQLColumn"/> struct for use in inserting/updating in the SQL Database.
         /// </summary>
         /// <param name="column">A valid column name.</param>
-        /// <param name="value">A nullable Integer to insert/update.</param>
+        /// <param name="value">A null-able Integer to insert/update.</param>
         public SQLColumn(string column, int? value)
             : this(column)
         {
@@ -88,7 +91,7 @@ namespace Database
             }
             else
             {
-                this.Value = value.Value.ToString();
+                this.Value = "'" + value.Value.ToString() + "'";
             }
         }
 

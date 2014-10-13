@@ -89,7 +89,7 @@ namespace Database
         /// </summary>
         public enum CountyName
         {
-            /// <summary> Default enum value. </summary>
+            /// <summary> Default enumerator value. </summary>
             [Description("")]
             NONE,
             
@@ -199,7 +199,7 @@ namespace Database
         /// </summary>
         public enum Month
         {
-            /// <summary> Default enum value. </summary>
+            /// <summary> Default enumerator value. </summary>
             [Description("")]
             NONE,
             
@@ -648,6 +648,52 @@ namespace Database
             {
                 return this.contact_list;
             }
+        }
+
+        /// <summary>
+        /// Method to Insert or update the information in the class into the database.
+        /// </summary>
+        /// <returns>True if all operations were performed successfully.</returns>
+        public override bool CommitToDatabase()
+        {
+            // Boolean for determining if the operation was successful.
+            bool success; 
+
+            // Group the data from the class into a single variable
+            SQLColumn[] classData = new SQLColumn[]
+                                                    {
+                                                        new SQLColumn("Company_ID", this.company_id),
+                                                        new SQLColumn("ProposalNumber", this.proposal_number),
+                                                        new SQLColumn("ProposalFile", this.proposal_file),
+                                                        new SQLColumn("Name", this.name),
+                                                        new SQLColumn("Address", this.address.Street),
+                                                        new SQLColumn("City", this.address.City),
+                                                        new SQLColumn("State", this.address.State),
+                                                        new SQLColumn("Zip", this.address.Zip),
+                                                        new SQLColumn("County", BaseObject.GetEnumDescription(this.county)),
+                                                        new SQLColumn("FirmFee", this.firm_fee.Value),
+                                                        new SQLColumn("HourlyFee", this.hourly_fee.Value),
+                                                        new SQLColumn("Anniversary", BaseObject.GetEnumDescription(this.anniversary)),
+                                                        new SQLColumn("Contractor", this.contractor),
+                                                        new SQLColumn("Active", this.active),
+                                                        new SQLColumn("Latitude", this.coordinates.Latitude),
+                                                        new SQLColumn("Longitude", this.coordinates.Longitude)
+                                                    };
+
+            if (this.ID == null)
+            {
+                // If ID is null, then this is a new entry to the database and we should use an insert statement.
+                success = SQL.Query.Insert("Building", classData);
+            }
+            else
+            {
+                // If the ID is not null, then we are just updating the record which has the Building_ID we pulled to start with.
+                success = SQL.Query.Update("Building", classData, string.Format("Building_ID = {0}", this.ID));
+            }
+
+            // Return the value of the success of this operation, as well as the base operation of the same name. 
+            // The base will also run an insert to update the database on any edits or updates it was alerted of.
+            return success && base.CommitToDatabase();
         }
 
         /// <summary>

@@ -87,7 +87,7 @@ namespace SQL
             query += ") VALUES (";
             foreach (SQLColumn value in value_pairs)
             {
-                query += "'" + value.Value + "', ";
+                query += value.Value + ", ";
             }
 
             query = query.TrimFromEnd(2);

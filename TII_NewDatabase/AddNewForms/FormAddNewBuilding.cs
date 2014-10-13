@@ -95,9 +95,15 @@ namespace TII_NewDatabase
                 this.newBuilding.HourlyFee = new Money(txt_HourlyFee.Text);
                 this.newBuilding.Anniversary = cbo_BuildingAnniversary.Text;
                 this.newBuilding.Contractor = cbo_Contractor.Text;
+
+                if (this.newBuilding.SaveConfirmation())
+                {
+                    this.newBuilding.CommitToDatabase();
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                throw ex;
             }
         }
 

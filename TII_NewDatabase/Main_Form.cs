@@ -472,6 +472,7 @@ namespace TII_NewDatabase
             {
                 this.PopulateFields(selected_building.Owner);
             }
+
             if (selected_building.Street != null)
             {
                 this.lbx_OtherCompanyBuildings.SelectedItem = selected_building.Street;

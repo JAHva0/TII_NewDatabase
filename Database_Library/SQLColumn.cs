@@ -30,7 +30,25 @@ namespace Database
         /// Initializes a new instance of the <see cref="SQLColumn"/> struct for use in inserting/updating in the SQL Database.
         /// </summary>
         /// <param name="column">A valid column name.</param>
-        /// <param name="value">An Integer to insert/update.</param>
+        /// <param name="value">A nullable Integer to insert/update.</param>
+        public SQLColumn(string column, int value)
+            :this(column)
+        {
+            if (value == 0)
+            {
+                this.Value = "NULL";
+            }
+            else
+            {
+                this.Value = value.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SQLColumn"/> struct for use in inserting/updating in the SQL Database.
+        /// </summary>
+        /// <param name="column">A valid column name.</param>
+        /// <param name="value">A nullable Integer to insert/update.</param>
         public SQLColumn(string column, int? value)
             : this(column)
         {

@@ -30,29 +30,22 @@ namespace TII_NewDatabase.AddNewForms
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txt_BuildingFilter = new System.Windows.Forms.TextBox();
+            this.gbx_Building = new System.Windows.Forms.GroupBox();
             this.lbx_BuildingList = new System.Windows.Forms.ListBox();
-            this.groupBox1.SuspendLayout();
+            this.txt_BuildingFilter = new System.Windows.Forms.TextBox();
+            this.gbx_Building.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // gbx_Building
             // 
-            this.groupBox1.Controls.Add(this.lbx_BuildingList);
-            this.groupBox1.Controls.Add(this.txt_BuildingFilter);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(147, 320);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Building";
-            // 
-            // txt_BuildingFilter
-            // 
-            this.txt_BuildingFilter.Location = new System.Drawing.Point(6, 19);
-            this.txt_BuildingFilter.Name = "txt_BuildingFilter";
-            this.txt_BuildingFilter.Size = new System.Drawing.Size(135, 20);
-            this.txt_BuildingFilter.TabIndex = 0;
+            this.gbx_Building.Controls.Add(this.lbx_BuildingList);
+            this.gbx_Building.Controls.Add(this.txt_BuildingFilter);
+            this.gbx_Building.Location = new System.Drawing.Point(12, 12);
+            this.gbx_Building.Name = "gbx_Building";
+            this.gbx_Building.Size = new System.Drawing.Size(147, 320);
+            this.gbx_Building.TabIndex = 0;
+            this.gbx_Building.TabStop = false;
+            this.gbx_Building.Text = "Building";
             // 
             // lbx_BuildingList
             // 
@@ -62,23 +55,30 @@ namespace TII_NewDatabase.AddNewForms
             this.lbx_BuildingList.Size = new System.Drawing.Size(135, 264);
             this.lbx_BuildingList.TabIndex = 1;
             // 
+            // txt_BuildingFilter
+            // 
+            this.txt_BuildingFilter.Location = new System.Drawing.Point(6, 19);
+            this.txt_BuildingFilter.Name = "txt_BuildingFilter";
+            this.txt_BuildingFilter.Size = new System.Drawing.Size(135, 20);
+            this.txt_BuildingFilter.TabIndex = 0;
+            // 
             // FormAddInspection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(498, 344);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbx_Building);
             this.Name = "FormAddInspection";
             this.Text = "Add Inspection";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbx_Building.ResumeLayout(false);
+            this.gbx_Building.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbx_Building;
         private System.Windows.Forms.ListBox lbx_BuildingList;
         private System.Windows.Forms.TextBox txt_BuildingFilter;
     }

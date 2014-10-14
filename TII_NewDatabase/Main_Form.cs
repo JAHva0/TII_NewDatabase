@@ -183,8 +183,8 @@ namespace TII_NewDatabase
             this.form_loaded = true;
 
             // TEMPORARY ************************************************************************
-            AddNewForms.FormAddInspection NewInspection = new AddNewForms.FormAddInspection();
-            NewInspection.ShowDialog();
+            AddNewForms.FormAddInspection newInspection = new AddNewForms.FormAddInspection();
+            newInspection.ShowDialog();
         }
 
         /// <summary>

@@ -26,7 +26,6 @@ namespace TII_NewDatabase.AddNewForms
         /// <param name="e">Any Event Args.</param>
         private void OnLoad(object sender, EventArgs e)
         {
-            
         }
     }
 }

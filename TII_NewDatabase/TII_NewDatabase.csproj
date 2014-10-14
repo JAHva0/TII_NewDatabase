@@ -74,6 +74,7 @@
     <Compile Include="FormConnectionSettings.Designer.cs">
       <DependentUpon>FormConnectionSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListStructs.cs" />
     <Compile Include="Main_Form.cs">
       <SubType>Form</SubType>
     </Compile>

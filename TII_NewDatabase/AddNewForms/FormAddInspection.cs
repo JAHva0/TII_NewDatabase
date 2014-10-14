@@ -18,5 +18,15 @@ namespace TII_NewDatabase.AddNewForms
         {
             this.InitializeComponent();
         }
+
+        /// <summary>
+        /// Method that occurs once as the form loads as it is being displayed to the user.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">Any Event Args.</param>
+        private void OnLoad(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

@@ -181,6 +181,10 @@ namespace TII_NewDatabase
 
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;
+
+            // TEMPORARY ************************************************************************
+            AddNewForms.FormAddInspection NewInspection = new AddNewForms.FormAddInspection();
+            NewInspection.ShowDialog();
         }
 
         /// <summary>

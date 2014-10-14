@@ -70,6 +70,7 @@ namespace TII_NewDatabase.AddNewForms
             this.Controls.Add(this.gbx_Building);
             this.Name = "FormAddInspection";
             this.Text = "Add Inspection";
+            this.Load += new System.EventHandler(this.OnLoad);
             this.gbx_Building.ResumeLayout(false);
             this.gbx_Building.PerformLayout();
             this.ResumeLayout(false);

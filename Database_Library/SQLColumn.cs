@@ -3,13 +3,59 @@
 namespace Database
 {
     using System;
-    using System.Diagnostics;
+    using System.Linq;
     
     /// <summary>
     /// Provides a method of sanitizing string inputs before they are sent off to the Database. 
     /// </summary>
     public struct SQLColumn
     {
+        /// <summary> An array of column names used to ensure that only valid column names are passed in. </summary>
+        public static string[] ValidColumnNames = new string[] 
+        {
+                                                                "Building_ID", // Building Columns
+                                                                "Company_ID", 
+                                                                "ProposalNumber", 
+                                                                "ProposalFile", 
+                                                                "Name", 
+                                                                "Address", 
+                                                                "City", 
+                                                                "State", 
+                                                                "Zip", 
+                                                                "County", 
+                                                                "FirmFee", 
+                                                                "HourlyFee", 
+                                                                "Anniversary", 
+                                                                "Contractor", 
+                                                                "Active", 
+                                                                "Latitude", 
+                                                                "Longitude",
+                                                                "Contact_ID", // Contact Columns
+                                                                "OfficePhone", 
+                                                                "OfficeExt",
+                                                                "CellPhone",
+                                                                "Fax", 
+                                                                "Email",
+                                                                "Edit_ID", // DBEdits Columns
+                                                                "TableName",
+                                                                "Item_ID",
+                                                                "ColumnName",
+                                                                "Action",
+                                                                "TimeStamp",
+                                                                "OldValue",
+                                                                "NewValue",
+                                                                "UserName",
+                                                                "Elevator_ID", // Elevator Columns
+                                                                "ElevatorNumber",
+                                                                "Type",
+                                                                "Inspection_ID", // Inspection Columns
+                                                                "Date",
+                                                                "InspectionType",
+                                                                "Status",
+                                                                "Inspector",
+                                                                "Report"
+        };
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SQLColumn"/> struct for use in inserting/updating in the SQL Database.
         /// </summary>
@@ -139,7 +185,16 @@ namespace Database
         private SQLColumn(string column)
             : this()
         {
-            Debug.Assert(column != null, "The column name passed to the SQLColumn struct must not be null");
+            if (column == null)
+            {
+                throw new ArgumentNullException("SQLColumn", "Column name cannot be null");
+            }
+
+            if (!ValidColumnNames.Contains(column))
+            {
+                throw new ArgumentException("SQLColumn", "Column name must appear in ValidColumnNames array");
+            }
+
             this.Column = column;
         }
 

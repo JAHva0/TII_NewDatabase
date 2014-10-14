@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddNewForms\FormAddInspection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddNewForms\FormAddInspection.Designer.cs">
+      <DependentUpon>FormAddInspection.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddNewForms\FormAddNewBuilding.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddNewForms\FormAddInspection.resx">
+      <DependentUpon>FormAddInspection.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddNewForms\FormAddNewBuilding.resx">
       <DependentUpon>FormAddNewBuilding.cs</DependentUpon>
     </EmbeddedResource>

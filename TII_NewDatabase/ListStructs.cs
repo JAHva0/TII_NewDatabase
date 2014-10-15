@@ -142,6 +142,20 @@ namespace TII_NewDatabase
         }
 
         /// <summary>
+        /// Returns a string array of items pulled from the list collection, filtered per the arguments passed.
+        /// </summary>
+        /// <param name="state">Currently, only supports options "DC", "MD", or "BOTH".</param>
+        /// <param name="name">Selects only those items which match part of this argument.</param>
+        /// <param name="exceptions">A list of strings which should be excluded from the array.</param>
+        /// <param name="active">Select only items listed as active, or if false, select all items.</param>
+        /// <returns>An array of strings filtered based on the parameters passed in.</returns>
+        public string[] GetFilteredList(string state, string name, string[] exceptions, bool active = false)
+        {
+            IEnumerable<string> filteredList = this.GetFilteredList(state, name, active);
+            return filteredList.Where(i => !exceptions.Contains(i)).ToArray();
+        }
+
+        /// <summary>
         /// Gets the ID of an item with the exact title provided.
         /// </summary>
         /// <param name="name">The exact title of an element in the list collection.</param>

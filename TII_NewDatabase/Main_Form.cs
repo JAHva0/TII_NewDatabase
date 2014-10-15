@@ -23,12 +23,12 @@ namespace TII_NewDatabase
         /// <summary>
         /// List that contains Company Name, Location (DC, MD or BOTH), and Active Status for Sorting/Reference.
         /// </summary>
-        private DatabaseList companyList;
+        private static DatabaseList companyList;
 
         /// <summary>
         /// List that contains Building Address, Location (DC or MD), and Active status for Sorting/Reference.
         /// </summary>
-        private DatabaseList buildingList;
+        private static DatabaseList buildingList;
 
         /// <summary> Boolean that is false until the form is done loading, to prevent unwanted tripping of events before the user sees the form.</summary>
         private bool form_loaded = false;
@@ -143,10 +143,10 @@ namespace TII_NewDatabase
                                   "END as Active " +
                                   "FROM Company " +
                                   "LEFT JOIN Building ON Building.Company_ID = Company.Company_ID";
-            this.companyList = new DatabaseList(companyQuery);
+            companyList = new DatabaseList(companyQuery);
             
             string buildingQuery = "SELECT Building_ID, Address, state, Active FROM Building";
-            this.buildingList = new DatabaseList(buildingQuery);
+            buildingList = new DatabaseList(buildingQuery);
 
             this.PopulateListboxes();
 
@@ -249,18 +249,18 @@ namespace TII_NewDatabase
             if (this.tab_BuildingCompanySelector.SelectedTab == this.tab_ByCompany)
             {
                 this.lbx_CompanyList.Items.Clear();
-                this.lbx_CompanyList.Items.AddRange(this.companyList.GetFilteredList(
-                                                                                     dc_md_both, 
-                                                                                     this.txt_FilterCompany.Text, 
-                                                                                     !this.cbx_ShowInactive.Checked));
+                this.lbx_CompanyList.Items.AddRange(companyList.GetFilteredList(
+                                                                                dc_md_both, 
+                                                                                this.txt_FilterCompany.Text, 
+                                                                                !this.cbx_ShowInactive.Checked));
             }
             else
             {
                 this.lbx_BuildingList.Items.Clear();
-                this.lbx_BuildingList.Items.AddRange(this.buildingList.GetFilteredList(
-                                                                                       dc_md_both,
-                                                                                       this.txt_FilterAddress.Text,
-                                                                                       !this.cbx_ShowInactive.Checked));
+                this.lbx_BuildingList.Items.AddRange(buildingList.GetFilteredList(
+                                                                                  dc_md_both,
+                                                                                  this.txt_FilterAddress.Text,
+                                                                                  !this.cbx_ShowInactive.Checked));
             }
         }
 
@@ -288,14 +288,14 @@ namespace TII_NewDatabase
             // Check which listbox was selected
             if (currentLbx.Name == "lbx_CompanyList")
             {
-                selected_id = this.companyList.GetItemID(currentLbx.SelectedItem.ToString());
+                selected_id = companyList.GetItemID(currentLbx.SelectedItem.ToString());
                 this.currentlySelectedCompany = new Company(selected_id);
                 this.PopulateFields(this.currentlySelectedCompany);
             }
 
             if (currentLbx.Name == "lbx_BuildingList" || currentLbx.Name == "lbx_OtherCompanyBuildings")
             {
-                selected_id = this.buildingList.GetItemID(currentLbx.SelectedItem.ToString());
+                selected_id = buildingList.GetItemID(currentLbx.SelectedItem.ToString());
                 this.currentlySelectedBuilding = new Building(selected_id);
                 this.PopulateFields(this.currentlySelectedBuilding);
             }

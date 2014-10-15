@@ -21,14 +21,14 @@ namespace TII_NewDatabase
     public partial class Main_Form : Form
     {
         /// <summary>
-        /// Dictionary that contains Company Name, Location (DC, MD or BOTH), and Active Status for Sorting/Reference. Indexed by Company_ID.
+        /// List that contains Company Name, Location (DC, MD or BOTH), and Active Status for Sorting/Reference.
         /// </summary>
-        private Dictionary<int, CompanyListItem> companyList = new Dictionary<int, CompanyListItem>();
+        private DatabaseList companyList;
 
         /// <summary>
-        /// Dictionary that contains Building Address, Location (DC or MD), and Active status for Sorting/Reference. Indexed by Building_ID.
+        /// List that contains Building Address, Location (DC or MD), and Active status for Sorting/Reference.
         /// </summary>
-        private Dictionary<int, BuildingListItem> buildingList = new Dictionary<int, BuildingListItem>();
+        private DatabaseList buildingList;
 
         /// <summary> Boolean that is false until the form is done loading, to prevent unwanted tripping of events before the user sees the form.</summary>
         private bool form_loaded = false;
@@ -46,16 +46,6 @@ namespace TII_NewDatabase
         public Main_Form()
         {
             this.InitializeComponent();
-        }
-
-        /// <summary> Gets the building list generated at run-time so that child forms will not have to generate their own. </summary>
-        /// <value> A list of every building in the database, along with their state and active status.</value>
-        public Dictionary<int, BuildingListItem> BuildingList
-        {
-            get
-            {
-                return this.buildingList;
-            }
         }
 
         /// <summary>
@@ -118,61 +108,45 @@ namespace TII_NewDatabase
             this.cbx_ShowDC.Checked = Properties.Settings.Default.DCFilterOn;
             this.cbx_ShowInactive.Checked = Properties.Settings.Default.InactveFilterOn;
 
-            // Populate the Dictionaries with the Company and Building Information
-            this.companyList = new Dictionary<int, CompanyListItem>();
-            foreach (DataRow companyRow in Query.Select("SELECT DISTINCT " +
-                                                            "Company.Company_ID, " +
-                                                            "Company.Name, " +
-                                                            "CASE " + // If the Company_ID appears in both the DC and MD lists, mark it 'DCMD'.
-                                                                "WHEN Company.Company_ID IN " +
-                                                                "( " +
-                                                                    "SELECT Company_ID  " +
-                                                                    "FROM Company " +
-                                                                    "WHERE Company_ID IN  " +
-                                                                        "( " +
-                                                                        "SELECT Company_ID  " +
-                                                                        "FROM Building " +
-                                                                        "WHERE State = 'MD' " +
-                                                                        ") " +
-                                                                    "AND Company_ID IN " +
-                                                                        "( " +
-                                                                        "SELECT Company_ID " +
-                                                                        "FROM Building " +
-                                                                        "WHERE State = 'DC' " +
-                                                                        ") " +
-                                                                ") THEN 'DCMD' " +
-                                                                "ELSE Building.State " +
-                                                            "END as Location, " +
-                                                            "CASE " + // If the Company has any buildings in the Active List, mark it 'True'.
-                                                                "WHEN Company.Company_ID IN " +
-                                                                "( " +
-                                                                    "SELECT Company_ID " +
-                                                                    "FROM Building " +
-                                                                    "WHERE Active = 'True' " +
-                                                                ") THEN 'True' " +
-                                                                "ELSE 'False' " +
-                                                            "END as Active " +
-                                                        "FROM Company " +
-                                                        "LEFT JOIN Building ON Building.Company_ID = Company.Company_ID").Rows)
-            {
-                this.companyList.Add(
-                                     Convert.ToInt32(companyRow["Company_ID"]), 
-                                     new CompanyListItem(
-                                                         companyRow["Name"].ToString(), 
-                                                         companyRow["Location"].ToString(), 
-                                                         Convert.ToBoolean(companyRow["Active"])));
-            }
-
-            this.buildingList = new Dictionary<int, BuildingListItem>();
-            foreach (DataRow buildingRow in Query.Select("SELECT Building_ID, Address, state, Active FROM Building").Rows)
-            {
-                this.buildingList.Add(
-                                      Convert.ToInt32(buildingRow["Building_ID"]),
-                                      new BuildingListItem(
-                                                           buildingRow["Address"].ToString(),
-                                                           buildingRow["state"].ToString(),
-                                                           Convert.ToBoolean(buildingRow["Active"])));
-            }
+            // Populate the Lists with the Company and Building Information
+            string companyQuery = "SELECT DISTINCT " +
+                                  "Company.Company_ID, " +
+                                  "Company.Name, " +
+                                  "CASE " + // If the Company_ID appears in both the DC and MD lists, mark it 'DCMD'.
+                                  "WHEN Company.Company_ID IN " +
+                                       "( " +
+                                       "SELECT Company_ID  " +
+                                       "FROM Company " +
+                                       "WHERE Company_ID IN  " +
+                                            "( " +
+                                            "SELECT Company_ID  " +
+                                            "FROM Building " +
+                                            "WHERE State = 'MD' " +
+                                            ") " +
+                                       "AND Company_ID IN " +
+                                            "( " +
+                                            "SELECT Company_ID " +
+                                            "FROM Building " +
+                                            "WHERE State = 'DC' " +
+                                            ") " +
+                                       ") THEN 'DCMD' " +
+                                       "ELSE Building.State " +
+                                  "END as Location, " +
+                                  "CASE " + // If the Company has any buildings in the Active List, mark it 'True'.
+                                  "WHEN Company.Company_ID IN " +
+                                       "( " +
+                                       "SELECT Company_ID " +
+                                       "FROM Building " +
+                                       "WHERE Active = 'True' " +
+                                       ") THEN 'True' " +
+                                       "ELSE 'False' " +
+                                  "END as Active " +
+                                  "FROM Company " +
+                                  "LEFT JOIN Building ON Building.Company_ID = Company.Company_ID";
+            this.companyList = new DatabaseList(companyQuery);
+            
+            string buildingQuery = "SELECT Building_ID, Address, state, Active FROM Building";
+            this.buildingList = new DatabaseList(buildingQuery);
 
             this.PopulateListboxes();
 
@@ -181,10 +155,6 @@ namespace TII_NewDatabase
 
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;
-
-            // TEMPORARY ************************************************************************
-            AddNewForms.FormAddInspection newInspection = new AddNewForms.FormAddInspection();
-            newInspection.ShowDialog();
         }
 
         /// <summary>
@@ -275,62 +245,22 @@ namespace TII_NewDatabase
                 dc_md_both = string.Empty; // Show All Companies
             }
 
-            IEnumerable<CompanyListItem> filtered_companies;
-            IEnumerable<BuildingListItem> filtered_buildings;
-
             // Check to see which tab is active, so we don't waste time refreshing data that isn't visible
             if (this.tab_BuildingCompanySelector.SelectedTab == this.tab_ByCompany)
             {
-                // if Show Inactive is not checked, don't add companies if they don't have any active buildings
-                if (!this.cbx_ShowInactive.Checked)
-                {
-                    filtered_companies =
-                        from c in this.companyList.Values
-                        where c.IsActive
-                                && c.DCorMD.Contains(dc_md_both)
-                                && c.Name.ToLower().Contains(this.txt_FilterCompany.Text.ToLower())
-                        select c;
-                }
-                else
-                {
-                    filtered_companies =
-                        from c in this.companyList.Values
-                        where c.DCorMD.Contains(dc_md_both)
-                                && c.Name.ToLower().Contains(this.txt_FilterCompany.Text.ToLower())
-                        select c;
-                }
-
-                this.lbx_CompanyList.Items.Clear(); // Clear the Company List
-                foreach (CompanyListItem i in filtered_companies)
-                {
-                    this.lbx_CompanyList.Items.Add(i.Name); // Add in Each Company name that wasn't filtered.
-                }
+                this.lbx_CompanyList.Items.Clear();
+                this.lbx_CompanyList.Items.AddRange(this.companyList.GetFilteredList(
+                                                                                     dc_md_both, 
+                                                                                     this.txt_FilterCompany.Text, 
+                                                                                     !this.cbx_ShowInactive.Checked));
             }
             else
             {
-                if (!this.cbx_ShowInactive.Checked)
-                {
-                    filtered_buildings =
-                        from b in this.buildingList.Values
-                        where b.IsActive
-                                && b.DCorMD.Contains(dc_md_both)
-                                && b.Address.ToLower().Contains(this.txt_FilterAddress.Text.ToLower())
-                        select b;
-                }
-                else
-                {
-                    filtered_buildings =
-                        from b in this.buildingList.Values
-                        where b.DCorMD.Contains(dc_md_both)
-                                && b.Address.ToLower().Contains(this.txt_FilterAddress.Text.ToLower())
-                        select b;
-                }
-
                 this.lbx_BuildingList.Items.Clear();
-                foreach (BuildingListItem i in filtered_buildings)
-                {
-                    this.lbx_BuildingList.Items.Add(i.Address);
-                }
+                this.lbx_BuildingList.Items.AddRange(this.buildingList.GetFilteredList(
+                                                                                       dc_md_both,
+                                                                                       this.txt_FilterAddress.Text,
+                                                                                       !this.cbx_ShowInactive.Checked));
             }
         }
 
@@ -358,18 +288,14 @@ namespace TII_NewDatabase
             // Check which listbox was selected
             if (currentLbx.Name == "lbx_CompanyList")
             {
-                selected_id = (from c in this.companyList
-                               where c.Value.Name == currentLbx.SelectedItem.ToString()
-                               select c.Key).Single();
+                selected_id = this.companyList.GetItemID(currentLbx.SelectedItem.ToString());
                 this.currentlySelectedCompany = new Company(selected_id);
                 this.PopulateFields(this.currentlySelectedCompany);
             }
 
             if (currentLbx.Name == "lbx_BuildingList" || currentLbx.Name == "lbx_OtherCompanyBuildings")
             {
-                selected_id = (from b in this.buildingList
-                               where b.Value.Address == currentLbx.SelectedItem.ToString()
-                               select b.Key).Single();
+                selected_id = this.buildingList.GetItemID(currentLbx.SelectedItem.ToString());
                 this.currentlySelectedBuilding = new Building(selected_id);
                 this.PopulateFields(this.currentlySelectedBuilding);
             }

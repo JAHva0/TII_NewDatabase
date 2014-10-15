@@ -5,6 +5,7 @@ namespace TII_NewDatabase
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
     
     /// <summary>
     /// Struct for holding Company Info used to sort/filter Companies in the ListBox.
@@ -104,6 +105,59 @@ namespace TII_NewDatabase
                                                               row[2].ToString(),
                                                               Convert.ToBoolean(row[3].ToString())));
             }
+        }
+
+        /// <summary>
+        /// Returns a string array of items pulled from the list collection, filtered per the arguments passed.
+        /// </summary>
+        /// <param name="state">Currently, only supports options "DC", "MD", or "BOTH".</param>
+        /// <param name="name">Selects only those items which match part of this argument.</param>
+        /// <param name="active">Select only items listed as active, or if false, select all items.</param>
+        /// <returns>An array of strings filtered based on the parameters passed in.</returns>
+        public string[] GetFilteredList(string state, string name, bool active = false)
+        {
+            // Roll through the list and pull out those items which are active and match state and contain any part of name.
+            IEnumerable<string> filtered_list;
+            if (active)
+            {
+                // We only want items listed as active.
+                filtered_list =
+                    from i in this.list_collection.Values
+                    where i.IsActive
+                       && i.DCorMD.Contains(state)
+                       && i.Title.ToLower().Contains(name.ToLower())
+                    select i.Title;
+            }
+            else
+            {
+                // We want all items, active or not.
+                filtered_list =
+                    from i in this.list_collection.Values
+                    where i.DCorMD.Contains(state)
+                       && i.Title.ToLower().Contains(name.ToLower())
+                    select i.Title;
+            }
+
+            return filtered_list.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the ID of an item with the exact title provided.
+        /// </summary>
+        /// <param name="name">The exact title of an element in the list collection.</param>
+        /// <returns>An integer corresponding to the ID of the requested element.</returns>
+        public int GetItemID(string name)
+        {
+            var id = (from i in this.list_collection
+                      where i.Value.Title == name
+                      select i.Key).SingleOrDefault();
+
+            if (id == 0)
+            {
+                throw new ArgumentNullException(string.Format("GetItemID for '{0}' returned no results", name));
+            }
+
+            return (int)id;
         }
 
         /// <summary>

@@ -48,6 +48,26 @@ namespace TII_NewDatabase
             this.InitializeComponent();
         }
 
+        /// <summary> Gets a reference to the stored company list. </summary>
+        /// <value>The stored company list.</value>
+        public static DatabaseList CompanyList
+        {
+            get
+            {
+                return companyList;
+            }
+        }
+
+        /// <summary> Gets a reference to the stored building list. </summary>
+        /// <value>The stored building list.</value>
+        public static DatabaseList BuildingList
+        {
+            get
+            {
+                return buildingList;
+            }
+        }
+
         /// <summary>
         /// Occurs just before the form is displayed. 
         /// Check to make sure the credentials are valid, otherwise this whole database bit is pointless.

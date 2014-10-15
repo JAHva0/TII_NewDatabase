@@ -29,7 +29,6 @@ namespace TII_NewDatabase
         public FormAddNewContact()
         {
             this.InitializeComponent();
-            this.FillRelationLists();
             this.FilterChanged(new object(), EventArgs.Empty);
         }
 
@@ -80,22 +79,6 @@ namespace TII_NewDatabase
         }
 
         /// <summary>
-        /// Queries the database for a list of every company and building.
-        /// </summary>
-        private void FillRelationLists()
-        {
-            foreach (DataRow c in SQL.Query.Select("Name", "Company", "1=1").Rows)
-            {
-                this.companyList.Add(c["Name"].ToString());
-            }
-
-            foreach (DataRow b in SQL.Query.Select("Address", "Building", "1=1").Rows)
-            {
-                this.buildingList.Add(b["Address"].ToString());
-            }     
-        }
-
-        /// <summary>
         /// Called any time the form needs to refresh the list of buildings or companies displayed in the list boxes.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -104,16 +87,20 @@ namespace TII_NewDatabase
         {
             if (this.tabctrl_Associate.SelectedTab == this.tab_Company)
             {
-                IEnumerable<string> filtered = this.companyList.Where(s => s.Contains(this.txt_CompanyFilter.Text) && !this.lbx_AssociatedCompanies.Items.Contains(s));
                 this.lbx_CompanyList.Items.Clear();
-                this.lbx_CompanyList.Items.AddRange(filtered.ToArray());
+                this.lbx_CompanyList.Items.AddRange(Main_Form.CompanyList.GetFilteredList(
+                                                                                          string.Empty,
+                                                                                          this.txt_CompanyFilter.Text, 
+                                                                                          this.lbx_AssociatedCompanies.Items.Cast<string>().ToArray()));
             }
 
             if (this.tabctrl_Associate.SelectedTab == this.tab_Building)
             {
-                IEnumerable<string> filtered = this.buildingList.Where(s => s.Contains(this.txt_BuildingFilter.Text) && !this.lbx_AssociatedBuildings.Items.Contains(s));
                 this.lbx_BuildingList.Items.Clear();
-                this.lbx_BuildingList.Items.AddRange(filtered.ToArray());
+                this.lbx_BuildingList.Items.AddRange(Main_Form.BuildingList.GetFilteredList(
+                                                                                            string.Empty,
+                                                                                            this.txt_BuildingFilter.Text,
+                                                                                            this.lbx_AssociatedBuildings.Items.Cast<string>().ToArray()));
             }
         }
 

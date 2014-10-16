@@ -395,9 +395,9 @@ namespace TII_NewDatabase
 
             // Populate the elevator list box.
             this.lbx_ElevatorList.Items.Clear();
-            foreach (string elev in selected_building.ElevatorList)
+            foreach (Elevator elev in selected_building.ElevatorList)
             {
-                this.lbx_ElevatorList.Items.Add(elev);
+                this.lbx_ElevatorList.Items.Add(elev.ElevatorNumber);
             }
 
             // Populate the Inspection History list view

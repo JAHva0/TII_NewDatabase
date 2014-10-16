@@ -589,20 +589,20 @@ namespace Database
 
         /// <summary> Gets a list of the Elevator Numbers associated with this unit. </summary>
         /// <value> A collection of strings as pulled from the database. Can be empty.</value>
-        public List<string> ElevatorList
+        public List<Elevator> ElevatorList
         {
             get
             {
                 // If there is no ID present, then we can't possible have elevators
                 if (this.ID == null)
                 {
-                    return new List<string>();
+                    return new List<Elevator>();
                 }
                 
-                List<string> elevators = new List<string>();
-                foreach (DataRow row in SQL.Query.Select("ElevatorNumber", "Elevator", string.Format("Building_ID = {0}", this.ID)).Rows)
+                List<Elevator> elevators = new List<Elevator>();
+                foreach (DataRow row in SQL.Query.Select("*", "Elevator", string.Format("Building_ID = {0}", this.ID)).Rows)
                 {
-                    elevators.Add(row["ElevatorNumber"].ToString());
+                    elevators.Add(new Elevator(row));
                 }
 
                 return elevators;

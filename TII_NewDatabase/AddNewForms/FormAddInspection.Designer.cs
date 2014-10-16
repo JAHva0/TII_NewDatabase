@@ -53,6 +53,7 @@ namespace TII_NewDatabase.AddNewForms
             this.lbx_BuildingList.Location = new System.Drawing.Point(6, 45);
             this.lbx_BuildingList.Name = "lbx_BuildingList";
             this.lbx_BuildingList.Size = new System.Drawing.Size(135, 264);
+            this.lbx_BuildingList.Sorted = true;
             this.lbx_BuildingList.TabIndex = 1;
             // 
             // txt_BuildingFilter
@@ -61,6 +62,7 @@ namespace TII_NewDatabase.AddNewForms
             this.txt_BuildingFilter.Name = "txt_BuildingFilter";
             this.txt_BuildingFilter.Size = new System.Drawing.Size(135, 20);
             this.txt_BuildingFilter.TabIndex = 0;
+            this.txt_BuildingFilter.TextChanged += new System.EventHandler(this.Filter_Changed);
             // 
             // FormAddInspection
             // 

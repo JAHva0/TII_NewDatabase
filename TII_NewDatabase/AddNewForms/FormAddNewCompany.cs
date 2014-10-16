@@ -1,6 +1,6 @@
 ﻿// <summary>Form for adding a new company entry to the database. Handles error checking prior to committing the entry.</summary>
 
-namespace TII_NewDatabase
+namespace TII_NewDatabase.AddNewForms
 {
     using System;
     using System.Windows.Forms;

@@ -18,6 +18,12 @@ namespace SQL
         /// <summary> Keeps track of the number of SQL Queries that are made. </summary>
         private static int call_count = 0;
 
+        /// <summary> Maintains a collection of the server statistics from the last action. </summary>
+        private static ConnectionStatistics lastConnection;
+
+        /// <summary> Maintains a collection of the server statistics since the connection was started. </summary>
+        private static ConnectionStatistics allConnections = new ConnectionStatistics();
+
         /// <summary>
         /// Event intended to fire any time there is an update or insert Query, which results in a modification of the database.
         /// Should be used to determine any time a specific table is updated in some way - e.g. A new company has been added, 
@@ -45,6 +51,31 @@ namespace SQL
         public static int Call_Counter 
         { 
             get { return call_count; } 
+        }
+
+        /// <summary> Gets the server statistics from the last action. </summary>
+        /// <value>The Server statistics from the last action.</value>
+        public static ConnectionStatistics LastConnectionStats
+        {
+            get
+            {
+                return LastConnectionStats;
+            }
+        }
+
+        /// <summary> Gets or sets the server statistics since the connection was started. </summary>
+        /// <value>The server statistics since the connection was started.</value>
+        public static ConnectionStatistics AllConnectionStats
+        {
+            get
+            {
+                return allConnections;
+            }
+
+            set
+            {
+                allConnections = value;
+            }
         }
 
         /// <summary>
@@ -155,6 +186,11 @@ namespace SQL
                 SqlDataAdapter data_adapter = new SqlDataAdapter(select_command); // Holds the Command and Connection used to fill a dataset
                 Connection.GetConnection.Open();
                 data_adapter.Fill(tbl); // Fills the table with the query results
+
+                // Get the stats from the last connection and store them in this class.
+                lastConnection = new ConnectionStatistics(Connection.GetConnection.RetrieveStatistics());
+                allConnections.ConcatStatistics(lastConnection);
+                Connection.GetConnection.ResetStatistics();
                 Connection.GetConnection.Close();
                 return tbl;
             }

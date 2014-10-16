@@ -78,6 +78,7 @@ namespace SQL
             server_connection.ConnectionString = string.Format("server={0};database={1};connection timeout=1", server_address, database_name);
             server_connection.Credential = CreateCredentials(user_name, password);
             server_connection.StatisticsEnabled = true;
+            Query.AllConnectionStats = new ConnectionStatistics(server_connection.RetrieveStatistics());
         }
 
         /// <summary>

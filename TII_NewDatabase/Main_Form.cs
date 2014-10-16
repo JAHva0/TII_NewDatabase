@@ -709,28 +709,6 @@ namespace TII_NewDatabase
         }
 
         /// <summary>
-        /// Opens the Add New Company form.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">Any Event Args.</param>
-        private void AddNewCompany(object sender, EventArgs e)
-        {
-            FormAddNewCompany newCompany = new FormAddNewCompany();
-            newCompany.ShowDialog();
-        }
-
-        /// <summary>
-        /// Opens the Add New Building Form.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">Any Event Args.</param>
-        private void AddNewBuilding(object sender, EventArgs e)
-        {
-            FormAddNewBuilding newBuilding = new FormAddNewBuilding(this.txt_CompanyName.Text);
-            newBuilding.ShowDialog();
-        }
-
-        /// <summary>
         /// Spawns a Context Menu from right clicking on either of the contact list boxes.
         /// </summary>
         /// <param name="sender">The sender. Either Company Contacts or Building Contacts.</param>
@@ -813,6 +791,38 @@ namespace TII_NewDatabase
                 {
                     this.currentltSelectedContact.RemoveFromBuilding(this.txt_BuildingAddress.Text);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Opens a child form based on which button was pressed.
+        /// </summary>
+        /// <param name="sender"> The button which was clicked.</param>
+        /// <param name="e">Any Event Args.</param>
+        private void OpenChildForm(object sender, EventArgs e)
+        {
+            switch (((Button)sender).Name)
+            {
+                case "btn_EnterNewInspection":
+                    {
+                        FormAddInspection newInspection = new FormAddInspection();
+                        newInspection.ShowDialog();
+                        break;
+                    }
+
+                case "btn_AddNewCompany":
+                    {
+                        FormAddNewCompany newCompany = new FormAddNewCompany();
+                        newCompany.ShowDialog();
+                        break;
+                    }
+
+                case "btn_NewBuilding":
+                    {
+                        FormAddNewBuilding newBuilding = new FormAddNewBuilding(this.txt_CompanyName.Text);
+                        newBuilding.ShowDialog();
+                        break;
+                    }
             }
         }
     }

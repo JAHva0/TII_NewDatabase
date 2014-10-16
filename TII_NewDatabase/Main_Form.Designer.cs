@@ -283,13 +283,13 @@ namespace TII_NewDatabase
             // 
             // btn_EnterNewInspection
             // 
-            this.btn_EnterNewInspection.Enabled = false;
             this.btn_EnterNewInspection.Location = new System.Drawing.Point(485, 24);
             this.btn_EnterNewInspection.Name = "btn_EnterNewInspection";
             this.btn_EnterNewInspection.Size = new System.Drawing.Size(75, 129);
             this.btn_EnterNewInspection.TabIndex = 16;
             this.btn_EnterNewInspection.Text = "Enter New Inspection";
             this.btn_EnterNewInspection.UseVisualStyleBackColor = true;
+            this.btn_EnterNewInspection.Click += new System.EventHandler(this.OpenChildForm);
             // 
             // lvw_InspectionList
             // 
@@ -906,7 +906,7 @@ namespace TII_NewDatabase
             this.btn_NewBuilding.TabIndex = 10;
             this.btn_NewBuilding.Text = "New Building";
             this.btn_NewBuilding.UseVisualStyleBackColor = true;
-            this.btn_NewBuilding.Click += new System.EventHandler(this.AddNewBuilding);
+            this.btn_NewBuilding.Click += new System.EventHandler(this.OpenChildForm);
             // 
             // btn_AddNewCompany
             // 
@@ -916,7 +916,7 @@ namespace TII_NewDatabase
             this.btn_AddNewCompany.TabIndex = 9;
             this.btn_AddNewCompany.Text = "New Company";
             this.btn_AddNewCompany.UseVisualStyleBackColor = true;
-            this.btn_AddNewCompany.Click += new System.EventHandler(this.AddNewCompany);
+            this.btn_AddNewCompany.Click += new System.EventHandler(this.OpenChildForm);
             // 
             // gbx_Contacts
             // 

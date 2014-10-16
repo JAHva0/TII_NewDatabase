@@ -33,7 +33,26 @@ namespace TII_NewDatabase.AddNewForms
             this.gbx_Building = new System.Windows.Forms.GroupBox();
             this.lbx_BuildingList = new System.Windows.Forms.ListBox();
             this.txt_BuildingFilter = new System.Windows.Forms.TextBox();
+            this.gbx_InspectionInfo = new System.Windows.Forms.GroupBox();
+            this.lvw_ElevatorList = new System.Windows.Forms.ListView();
+            this.col_ElevNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_Nick = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lbl_Date = new System.Windows.Forms.Label();
+            this.dtp_InspectionDate = new System.Windows.Forms.DateTimePicker();
+            this.lbl_Type = new System.Windows.Forms.Label();
+            this.cbo_InspectionType = new System.Windows.Forms.ComboBox();
+            this.lbl_Inspector = new System.Windows.Forms.Label();
+            this.cbo_Inspector = new System.Windows.Forms.ComboBox();
+            this.lbl_ReportFile = new System.Windows.Forms.Label();
+            this.txt_ReportFile = new System.Windows.Forms.TextBox();
+            this.btn_FindReport = new System.Windows.Forms.Button();
+            this.lbl_SetAllInspections = new System.Windows.Forms.Label();
+            this.cbo_SetAllInspections = new System.Windows.Forms.ComboBox();
+            this.btn_SubmitInspection = new System.Windows.Forms.Button();
+            this.btn_Cancel = new System.Windows.Forms.Button();
             this.gbx_Building.SuspendLayout();
+            this.gbx_InspectionInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbx_Building
@@ -64,17 +83,188 @@ namespace TII_NewDatabase.AddNewForms
             this.txt_BuildingFilter.TabIndex = 0;
             this.txt_BuildingFilter.TextChanged += new System.EventHandler(this.Filter_Changed);
             // 
+            // gbx_InspectionInfo
+            // 
+            this.gbx_InspectionInfo.Controls.Add(this.btn_Cancel);
+            this.gbx_InspectionInfo.Controls.Add(this.btn_SubmitInspection);
+            this.gbx_InspectionInfo.Controls.Add(this.cbo_SetAllInspections);
+            this.gbx_InspectionInfo.Controls.Add(this.lbl_SetAllInspections);
+            this.gbx_InspectionInfo.Controls.Add(this.btn_FindReport);
+            this.gbx_InspectionInfo.Controls.Add(this.txt_ReportFile);
+            this.gbx_InspectionInfo.Controls.Add(this.lbl_ReportFile);
+            this.gbx_InspectionInfo.Controls.Add(this.cbo_Inspector);
+            this.gbx_InspectionInfo.Controls.Add(this.lbl_Inspector);
+            this.gbx_InspectionInfo.Controls.Add(this.cbo_InspectionType);
+            this.gbx_InspectionInfo.Controls.Add(this.lbl_Type);
+            this.gbx_InspectionInfo.Controls.Add(this.dtp_InspectionDate);
+            this.gbx_InspectionInfo.Controls.Add(this.lbl_Date);
+            this.gbx_InspectionInfo.Controls.Add(this.lvw_ElevatorList);
+            this.gbx_InspectionInfo.Location = new System.Drawing.Point(165, 12);
+            this.gbx_InspectionInfo.Name = "gbx_InspectionInfo";
+            this.gbx_InspectionInfo.Size = new System.Drawing.Size(497, 320);
+            this.gbx_InspectionInfo.TabIndex = 1;
+            this.gbx_InspectionInfo.TabStop = false;
+            this.gbx_InspectionInfo.Text = "Inspection Information";
+            // 
+            // lvw_ElevatorList
+            // 
+            this.lvw_ElevatorList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.col_ElevNum,
+            this.col_Nick,
+            this.col_Status});
+            this.lvw_ElevatorList.Location = new System.Drawing.Point(6, 19);
+            this.lvw_ElevatorList.Name = "lvw_ElevatorList";
+            this.lvw_ElevatorList.Size = new System.Drawing.Size(250, 268);
+            this.lvw_ElevatorList.TabIndex = 0;
+            this.lvw_ElevatorList.UseCompatibleStateImageBehavior = false;
+            this.lvw_ElevatorList.View = System.Windows.Forms.View.Details;
+            // 
+            // col_ElevNum
+            // 
+            this.col_ElevNum.Text = "Elevator Number";
+            this.col_ElevNum.Width = 100;
+            // 
+            // col_Nick
+            // 
+            this.col_Nick.Text = "Nickname";
+            this.col_Nick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // col_Status
+            // 
+            this.col_Status.Text = "Status";
+            this.col_Status.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.col_Status.Width = 80;
+            // 
+            // lbl_Date
+            // 
+            this.lbl_Date.AutoSize = true;
+            this.lbl_Date.Location = new System.Drawing.Point(282, 25);
+            this.lbl_Date.Name = "lbl_Date";
+            this.lbl_Date.Size = new System.Drawing.Size(33, 13);
+            this.lbl_Date.TabIndex = 1;
+            this.lbl_Date.Text = "Date:";
+            // 
+            // dtp_InspectionDate
+            // 
+            this.dtp_InspectionDate.Checked = false;
+            this.dtp_InspectionDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtp_InspectionDate.Location = new System.Drawing.Point(316, 19);
+            this.dtp_InspectionDate.Name = "dtp_InspectionDate";
+            this.dtp_InspectionDate.ShowCheckBox = true;
+            this.dtp_InspectionDate.Size = new System.Drawing.Size(116, 20);
+            this.dtp_InspectionDate.TabIndex = 2;
+            // 
+            // lbl_Type
+            // 
+            this.lbl_Type.AutoSize = true;
+            this.lbl_Type.Location = new System.Drawing.Point(282, 48);
+            this.lbl_Type.Name = "lbl_Type";
+            this.lbl_Type.Size = new System.Drawing.Size(34, 13);
+            this.lbl_Type.TabIndex = 3;
+            this.lbl_Type.Text = "Type:";
+            // 
+            // cbo_InspectionType
+            // 
+            this.cbo_InspectionType.FormattingEnabled = true;
+            this.cbo_InspectionType.Location = new System.Drawing.Point(316, 45);
+            this.cbo_InspectionType.Name = "cbo_InspectionType";
+            this.cbo_InspectionType.Size = new System.Drawing.Size(116, 21);
+            this.cbo_InspectionType.TabIndex = 4;
+            // 
+            // lbl_Inspector
+            // 
+            this.lbl_Inspector.AutoSize = true;
+            this.lbl_Inspector.Location = new System.Drawing.Point(261, 75);
+            this.lbl_Inspector.Name = "lbl_Inspector";
+            this.lbl_Inspector.Size = new System.Drawing.Size(54, 13);
+            this.lbl_Inspector.TabIndex = 5;
+            this.lbl_Inspector.Text = "Inspector:";
+            // 
+            // cbo_Inspector
+            // 
+            this.cbo_Inspector.FormattingEnabled = true;
+            this.cbo_Inspector.Location = new System.Drawing.Point(316, 72);
+            this.cbo_Inspector.Name = "cbo_Inspector";
+            this.cbo_Inspector.Size = new System.Drawing.Size(116, 21);
+            this.cbo_Inspector.TabIndex = 6;
+            // 
+            // lbl_ReportFile
+            // 
+            this.lbl_ReportFile.AutoSize = true;
+            this.lbl_ReportFile.Location = new System.Drawing.Point(273, 102);
+            this.lbl_ReportFile.Name = "lbl_ReportFile";
+            this.lbl_ReportFile.Size = new System.Drawing.Size(42, 13);
+            this.lbl_ReportFile.TabIndex = 7;
+            this.lbl_ReportFile.Text = "Report:";
+            // 
+            // txt_ReportFile
+            // 
+            this.txt_ReportFile.Location = new System.Drawing.Point(316, 99);
+            this.txt_ReportFile.Name = "txt_ReportFile";
+            this.txt_ReportFile.Size = new System.Drawing.Size(175, 20);
+            this.txt_ReportFile.TabIndex = 8;
+            // 
+            // btn_FindReport
+            // 
+            this.btn_FindReport.Location = new System.Drawing.Point(399, 125);
+            this.btn_FindReport.Name = "btn_FindReport";
+            this.btn_FindReport.Size = new System.Drawing.Size(92, 20);
+            this.btn_FindReport.TabIndex = 2;
+            this.btn_FindReport.Text = "Find Report...";
+            this.btn_FindReport.UseVisualStyleBackColor = true;
+            // 
+            // lbl_SetAllInspections
+            // 
+            this.lbl_SetAllInspections.AutoSize = true;
+            this.lbl_SetAllInspections.Location = new System.Drawing.Point(6, 296);
+            this.lbl_SetAllInspections.Name = "lbl_SetAllInspections";
+            this.lbl_SetAllInspections.Size = new System.Drawing.Size(97, 13);
+            this.lbl_SetAllInspections.TabIndex = 9;
+            this.lbl_SetAllInspections.Text = "Set All Inspections:";
+            // 
+            // cbo_SetAllInspections
+            // 
+            this.cbo_SetAllInspections.FormattingEnabled = true;
+            this.cbo_SetAllInspections.Location = new System.Drawing.Point(109, 293);
+            this.cbo_SetAllInspections.Name = "cbo_SetAllInspections";
+            this.cbo_SetAllInspections.Size = new System.Drawing.Size(147, 21);
+            this.cbo_SetAllInspections.TabIndex = 10;
+            // 
+            // btn_SubmitInspection
+            // 
+            this.btn_SubmitInspection.Location = new System.Drawing.Point(264, 263);
+            this.btn_SubmitInspection.Name = "btn_SubmitInspection";
+            this.btn_SubmitInspection.Size = new System.Drawing.Size(227, 23);
+            this.btn_SubmitInspection.TabIndex = 11;
+            this.btn_SubmitInspection.Text = "Submit Inspection";
+            this.btn_SubmitInspection.UseVisualStyleBackColor = true;
+            // 
+            // btn_Cancel
+            // 
+            this.btn_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btn_Cancel.Location = new System.Drawing.Point(264, 291);
+            this.btn_Cancel.Name = "btn_Cancel";
+            this.btn_Cancel.Size = new System.Drawing.Size(227, 23);
+            this.btn_Cancel.TabIndex = 12;
+            this.btn_Cancel.Text = "Cancel";
+            this.btn_Cancel.UseVisualStyleBackColor = true;
+            // 
             // FormAddInspection
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(498, 344);
+            this.CancelButton = this.btn_Cancel;
+            this.ClientSize = new System.Drawing.Size(674, 344);
+            this.Controls.Add(this.gbx_InspectionInfo);
             this.Controls.Add(this.gbx_Building);
             this.Name = "FormAddInspection";
             this.Text = "Add Inspection";
             this.Load += new System.EventHandler(this.OnLoad);
             this.gbx_Building.ResumeLayout(false);
             this.gbx_Building.PerformLayout();
+            this.gbx_InspectionInfo.ResumeLayout(false);
+            this.gbx_InspectionInfo.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -84,5 +274,23 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.GroupBox gbx_Building;
         private System.Windows.Forms.ListBox lbx_BuildingList;
         private System.Windows.Forms.TextBox txt_BuildingFilter;
+        private System.Windows.Forms.GroupBox gbx_InspectionInfo;
+        private System.Windows.Forms.DateTimePicker dtp_InspectionDate;
+        private System.Windows.Forms.Label lbl_Date;
+        private System.Windows.Forms.ListView lvw_ElevatorList;
+        private System.Windows.Forms.ColumnHeader col_ElevNum;
+        private System.Windows.Forms.ColumnHeader col_Nick;
+        private System.Windows.Forms.ColumnHeader col_Status;
+        private System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.Button btn_SubmitInspection;
+        private System.Windows.Forms.ComboBox cbo_SetAllInspections;
+        private System.Windows.Forms.Label lbl_SetAllInspections;
+        private System.Windows.Forms.Button btn_FindReport;
+        private System.Windows.Forms.TextBox txt_ReportFile;
+        private System.Windows.Forms.Label lbl_ReportFile;
+        private System.Windows.Forms.ComboBox cbo_Inspector;
+        private System.Windows.Forms.Label lbl_Inspector;
+        private System.Windows.Forms.ComboBox cbo_InspectionType;
+        private System.Windows.Forms.Label lbl_Type;
     }
 }

@@ -59,41 +59,41 @@ namespace Database
         /// </summary>
         public enum Type
         {
-            /// <summary>Month of January.</summary>
+            /// <summary>A Hydraulic Elevator.</summary>
             [Description("Hydraulic")]
             HYDRAULIC,
 
-            /// <summary>Month of February.</summary>
+            /// <summary>A Traction Elevator.</summary>
             [Description("Traction")]
             TRACTION,
 
-            /// <summary>Month of March.</summary>
+            /// <summary>An Escalator.</summary>
             [Description("Escalator")]
             ESCALATOR,
 
-            /// <summary>Month of April.</summary>
+            /// <summary>A Wheelchair Lift.</summary>
             [Description("Wheelchair Lift")]
             WHEELCHAIR_LIFT,
 
-            /// <summary>Month of May.</summary>
+            /// <summary>A Dumbwaiter</summary>
             [Description("Dumbwaiter")]
             DUMBWAITER,
 
-            /// <summary>Month of June.</summary>
+            /// <summary>An Inclined Lift.</summary>
             [Description("Inclined Lift")]
             INCLINED_LIFT,
 
-            /// <summary>Month of July.</summary>
+            /// <summary>A LULA Lift.</summary>
             [Description("LULA Lift")]
             LULA_LIFT,
 
-            /// <summary>Month of August.</summary>
+            /// <summary>A Handicapped Lift.</summary>
             [Description("Handicapped Lift")]
             HANDICAPPED_LIFT,
 
-            /// <summary>No Type Selected.</summary>
-            [Description("None")]
-            NONE
+            /// <summary>A Vertical Lift.</summary>
+            [Description("Vertical Lift")]
+            VERTICAL_LIFT
         }
 
         /// <summary> Gets or sets the Elevator Number for this unit. </summary>
@@ -204,6 +204,7 @@ namespace Database
                 case "Inclined Lift": return Type.INCLINED_LIFT;
                 case "LULA Lift": return Type.LULA_LIFT;
                 case "Handicapped Lift": return Type.HANDICAPPED_LIFT;
+                case "Vertical Lift": return Type.VERTICAL_LIFT;
                 default: throw new ArgumentException("Invalid Elevator Type: " + type);
             }
         }

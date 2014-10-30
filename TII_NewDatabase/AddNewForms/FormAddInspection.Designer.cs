@@ -136,6 +136,8 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // cbo_SetAllInspections
             // 
+            this.cbo_SetAllInspections.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbo_SetAllInspections.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbo_SetAllInspections.FormattingEnabled = true;
             this.cbo_SetAllInspections.Items.AddRange(new object[] {
             "Clean",
@@ -146,6 +148,7 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_SetAllInspections.Name = "cbo_SetAllInspections";
             this.cbo_SetAllInspections.Size = new System.Drawing.Size(147, 21);
             this.cbo_SetAllInspections.TabIndex = 10;
+            this.cbo_SetAllInspections.TextChanged += new System.EventHandler(this.SetAllInspections);
             // 
             // lbl_SetAllInspections
             // 

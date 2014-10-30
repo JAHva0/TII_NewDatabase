@@ -107,7 +107,7 @@ namespace TII_NewDatabase.AddNewForms
             // Add a status dropdown column
             DataGridViewComboBoxColumn col_ElevStatus = new DataGridViewComboBoxColumn();
             col_ElevStatus.Name = "Status";
-            col_ElevStatus.Items.AddRange("Clean", "Outstanding Items", "Paperwork Only", "Not Inspected");
+            col_ElevStatus.Items.AddRange("Clean", "Outstanding Violations", "Paperwork Needed", "Not Inspected");
             this.dgv_ElevatorList.Columns.Add(col_ElevStatus);
 
             // Populate the elevator list with the number and nickname of each unit
@@ -115,6 +115,19 @@ namespace TII_NewDatabase.AddNewForms
             {
                 this.dgv_ElevatorList.Rows.Add(elev.ElevatorNumber, elev.Nickname, elev.ElevatorType, string.Empty);
             }      
+        }
+
+        /// <summary>
+        /// Upon selecting an item in the Set All Inspections combo box, the selected text will be populated in the status column for every elevator.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">Any Event Args.</param>
+        private void SetAllInspections(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in this.dgv_ElevatorList.Rows)
+            {
+                row.Cells["Status"].Value = this.cbo_SetAllInspections.SelectedItem.ToString();
+            }
         }
     }
 }

@@ -72,6 +72,25 @@ namespace Database
             }
         }
 
+        /// <summary> Gets or Sets the Elevator_ID associted with this inspection. </summary>
+        /// <value> The database assigned Elevator ID of the unit that was inspected. </value>
+        public int ElevatorID
+        {
+            get
+            {
+                return this.elevator_ID;
+            }
+
+            set
+            {
+                if (value != this.elevator_ID && value != 0)
+                {
+                    this.BaseObject_Edited(this, "Elevator_ID", this.elevator_ID.ToString(), value.ToString());
+                    this.elevator_ID = value;
+                }
+            }
+        }
+
         /// <summary> Gets or sets the Type of inspection which was performed. </summary>
         /// <value> The type of inspection performed. </value>
         public string Type
@@ -149,6 +168,38 @@ namespace Database
         }
 
         /// <summary>
+        /// Submits the data enclosed in the class to the SQL Server as either an Insert or an Update dependant on the presence of an ID in the base class.
+        /// </summary>
+        /// <returns>True, if the operation completed successfully.</returns>
+        public override bool CommitToDatabase()
+        {
+            // Boolean for determining if the operation was sucessful.
+            bool success;
+
+            // Group the data from the class together into a single variable.
+            SQLColumn[] classData = new SQLColumn[] 
+            {
+                new SQLColumn("Elevator_ID", this.elevator_ID),
+                new SQLColumn("Date", this.date),
+                new SQLColumn("Type", this.type),
+                new SQLColumn("Status", this.status),
+                new SQLColumn("Inspector", this.inspector),
+                new SQLColumn("Report", this.report)
+            };
+
+            if (this.ID == null)
+            {
+                success = SQL.Query.Insert("Inspection", classData);
+            }
+            else
+            {
+                success = SQL.Query.Update("Inspection", classData, string.Format("Inspection_ID = {0}", this.ID));
+            }
+
+            return success && base.CommitToDatabase();
+        }
+
+        /// <summary>
         /// Loads information from the database into the class structure.
         /// </summary>
         /// <param name="row"> The applicable row out of the inspection table. </param>
@@ -187,38 +238,6 @@ namespace Database
                 // Implement exceptions as they arise.
                 throw new Exception("Error Loading Inspection from Database");
             }
-        }
-
-        /// <summary>
-        /// Submits the data enclosed in the class to the SQL Server as either an Insert or an Update dependant on the presence of an ID in the base class.
-        /// </summary>
-        /// <returns>True, if the operation completed sucessfully.</returns>
-        public override bool CommitToDatabase()
-        {
-            // Boolean for determining if the operation was sucessful.
-            bool success;
-
-            // Group the data from the class together into a single variable.
-            SQLColumn[] classData = new SQLColumn[] 
-            {
-                new SQLColumn("Elevator_ID", this.elevator_ID),
-                new SQLColumn("Date", this.date),
-                new SQLColumn("Type", this.type),
-                new SQLColumn("Status", this.status),
-                new SQLColumn("Inspector", this.inspector),
-                new SQLColumn("Report", this.report)
-            };
-
-            if (this.ID == null)
-            {
-                success = SQL.Query.Insert("Inspection", classData);
-            }
-            else
-            {
-                success = SQL.Query.Update("Inspection", classData, string.Format("Inspection_ID = {0}", this.ID));
-            }
-
-            return success && base.CommitToDatabase();
         }
     }
 }

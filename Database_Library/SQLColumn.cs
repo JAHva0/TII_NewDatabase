@@ -66,7 +66,7 @@ namespace Database
         {
             if (value == null)
             {
-                value = "NULL";
+                this.Value = "NULL";
             }
             else
             {

@@ -170,7 +170,7 @@ namespace Database
 
             // Test the ID because it seems like a nice thing to do.
             int id;
-            if (int.TryParse(row["Building_ID"].ToString(), out id))
+            if (int.TryParse(row["Elevator_ID"].ToString(), out id))
             {
                 this.ID = id;
             }

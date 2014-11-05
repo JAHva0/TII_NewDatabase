@@ -140,11 +140,11 @@ namespace TII_NewDatabase.AddNewForms
         /// <param name="e">Any Event Args.</param>
         private void ValidateInformation(object sender, EventArgs e)
         {
-            /* Things we need to know are complete before we enable the Submit button
-             * 1 - Every elevator in the list has a status assigned
-             * 2 - The date has been changed and is valid for the inspection
-             * 3 - There is a valid Inspection Type assigned
-             * 4 - There is a valid Inspector assigned
+            /* Things we need to know are complete before we enable the Submit button:
+             * 1 - Every elevator in the list has a status assigned.
+             * 2 - The date has been changed and is valid for the inspection.
+             * 3 - There is a valid Inspection Type assigned.
+             * 4 - There is a valid Inspector assigned.
             */
                         
             switch (((Control)sender).Name)

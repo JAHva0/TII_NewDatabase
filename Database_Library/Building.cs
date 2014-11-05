@@ -623,7 +623,7 @@ namespace Database
                 
                 List<InspectionHistory> history = new List<InspectionHistory>();
                 foreach (DataRow row in SQL.Query.Select(string.Format(
-                                                                       "SELECT DISTINCT Date, InspectionType, Status, Inspector, Report " +
+                                                                       "SELECT DISTINCT Date, Type, Status, Inspector, Report " +
                                                                        "FROM Inspection WHERE Elevator_ID IN " +
                                                                        "(" +
                                                                            "SELECT Elevator_ID " +
@@ -868,7 +868,7 @@ namespace Database
             public InspectionHistory(DataRow row)
             {
                 DateTime.TryParse(row["Date"].ToString(), out this.Date);
-                this.Type = row["InspectionType"].ToString();
+                this.Type = row["Type"].ToString();
                 this.Status = row["Status"].ToString();
                 this.Inspector = row["Inspector"].ToString();
 

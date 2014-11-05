@@ -204,12 +204,19 @@ namespace SQL
             catch (SqlException ex)
             {
                 // A connection-level error occoured while opening the connection. If Number contains 18487 or 18488, the password expired or needs to be reset.
-                throw ex;
+                throw new Exception("An error occured in the following SQL Statement: \n" + query + "\nDetails: " + ex.Message, ex);
             }
             catch (System.Configuration.ConfigurationException ex)
             {
                 // There are two entries with the same name in the <localdbinstances> section.
                 throw ex;
+            }
+            finally
+            {
+                if (Connection.GetConnection.State != ConnectionState.Closed)
+                {
+                    Connection.GetConnection.Close();
+                }
             }
         }
 

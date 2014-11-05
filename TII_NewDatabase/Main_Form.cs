@@ -172,7 +172,10 @@ namespace TII_NewDatabase
             this.PopulateListboxes();
 
             // Select the first item in the Company List to trigger the fields to fill with data.
-            this.lbx_CompanyList.SelectedIndex = 0;
+            if (this.lbx_CompanyList.Items.Count > 0)
+            {
+                this.lbx_CompanyList.SelectedIndex = 0;
+            }
 
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;

@@ -61,7 +61,7 @@ namespace TII_NewDatabase.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool MDFilterOn {
             get {
                 return ((bool)(this["MDFilterOn"]));

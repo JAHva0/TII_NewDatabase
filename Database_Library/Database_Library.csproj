@@ -48,6 +48,7 @@
     <Compile Include="DatabaseObject.cs" />
     <Compile Include="DatabaseStructs.cs" />
     <Compile Include="Elevator.cs" />
+    <Compile Include="Inspection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="SQLColumn.cs" />

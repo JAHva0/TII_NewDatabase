@@ -75,7 +75,7 @@ namespace Database
             [Description("Wheelchair Lift")]
             WHEELCHAIR_LIFT,
 
-            /// <summary>A Dumbwaiter</summary>
+            /// <summary>A Dumbwaiter.</summary>
             [Description("Dumbwaiter")]
             DUMBWAITER,
 

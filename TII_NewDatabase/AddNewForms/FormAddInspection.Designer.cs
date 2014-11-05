@@ -30,6 +30,7 @@ namespace TII_NewDatabase.AddNewForms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbx_Building = new System.Windows.Forms.GroupBox();
             this.lbx_BuildingList = new System.Windows.Forms.ListBox();
             this.txt_BuildingFilter = new System.Windows.Forms.TextBox();
@@ -48,9 +49,13 @@ namespace TII_NewDatabase.AddNewForms
             this.lbl_Type = new System.Windows.Forms.Label();
             this.dtp_InspectionDate = new System.Windows.Forms.DateTimePicker();
             this.lbl_Date = new System.Windows.Forms.Label();
+            this.error_dtp_InspectionDate = new System.Windows.Forms.ErrorProvider(this.components);
+            this.error_ElevatorStatus = new System.Windows.Forms.ErrorProvider(this.components);
             this.gbx_Building.SuspendLayout();
             this.gbx_InspectionInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ElevatorList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.error_dtp_InspectionDate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.error_ElevatorStatus)).BeginInit();
             this.SuspendLayout();
             // 
             // gbx_Building
@@ -112,8 +117,10 @@ namespace TII_NewDatabase.AddNewForms
             this.dgv_ElevatorList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ElevatorList.Location = new System.Drawing.Point(3, 16);
             this.dgv_ElevatorList.Name = "dgv_ElevatorList";
+            this.dgv_ElevatorList.ShowEditingIcon = false;
             this.dgv_ElevatorList.Size = new System.Drawing.Size(355, 271);
             this.dgv_ElevatorList.TabIndex = 13;
+            this.dgv_ElevatorList.Validated += new System.EventHandler(this.ValidateInformation);
             // 
             // btn_Cancel
             // 
@@ -133,6 +140,7 @@ namespace TII_NewDatabase.AddNewForms
             this.btn_SubmitInspection.TabIndex = 11;
             this.btn_SubmitInspection.Text = "Submit Inspection";
             this.btn_SubmitInspection.UseVisualStyleBackColor = true;
+            this.btn_SubmitInspection.Click += new System.EventHandler(this.SubmitInspection);
             // 
             // cbo_SetAllInspections
             // 
@@ -232,6 +240,7 @@ namespace TII_NewDatabase.AddNewForms
             this.dtp_InspectionDate.ShowCheckBox = true;
             this.dtp_InspectionDate.Size = new System.Drawing.Size(116, 20);
             this.dtp_InspectionDate.TabIndex = 2;
+            this.dtp_InspectionDate.ValueChanged += new System.EventHandler(this.ValidateInformation);
             // 
             // lbl_Date
             // 
@@ -241,6 +250,14 @@ namespace TII_NewDatabase.AddNewForms
             this.lbl_Date.Size = new System.Drawing.Size(33, 13);
             this.lbl_Date.TabIndex = 1;
             this.lbl_Date.Text = "Date:";
+            // 
+            // error_dtp_InspectionDate
+            // 
+            this.error_dtp_InspectionDate.ContainerControl = this;
+            // 
+            // error_ElevatorStatus
+            // 
+            this.error_ElevatorStatus.ContainerControl = this;
             // 
             // FormAddInspection
             // 
@@ -259,6 +276,8 @@ namespace TII_NewDatabase.AddNewForms
             this.gbx_InspectionInfo.ResumeLayout(false);
             this.gbx_InspectionInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ElevatorList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.error_dtp_InspectionDate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.error_ElevatorStatus)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -283,5 +302,7 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.ComboBox cbo_InspectionType;
         private System.Windows.Forms.Label lbl_Type;
         private System.Windows.Forms.DataGridView dgv_ElevatorList;
+        private System.Windows.Forms.ErrorProvider error_dtp_InspectionDate;
+        private System.Windows.Forms.ErrorProvider error_ElevatorStatus;
     }
 }

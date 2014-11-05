@@ -68,6 +68,7 @@
     <Compile Include="AddNewForms\FormAddNewContact.Designer.cs">
       <DependentUpon>FormAddNewContact.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FormConnectionSettings.cs">
       <SubType>Form</SubType>
     </Compile>

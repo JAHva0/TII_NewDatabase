@@ -98,6 +98,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_BuildingCity
             // 
             this.txt_BuildingCity.Location = new System.Drawing.Point(84, 107);
+            this.txt_BuildingCity.MaxLength = 30;
             this.txt_BuildingCity.Name = "txt_BuildingCity";
             this.txt_BuildingCity.Size = new System.Drawing.Size(80, 20);
             this.txt_BuildingCity.TabIndex = 3;
@@ -105,6 +106,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_BuildingZip
             // 
             this.txt_BuildingZip.Location = new System.Drawing.Point(203, 107);
+            this.txt_BuildingZip.MaxLength = 5;
             this.txt_BuildingZip.Name = "txt_BuildingZip";
             this.txt_BuildingZip.Size = new System.Drawing.Size(52, 20);
             this.txt_BuildingZip.TabIndex = 5;
@@ -112,6 +114,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_BuildingState
             // 
             this.txt_BuildingState.Location = new System.Drawing.Point(170, 107);
+            this.txt_BuildingState.MaxLength = 2;
             this.txt_BuildingState.Name = "txt_BuildingState";
             this.txt_BuildingState.Size = new System.Drawing.Size(27, 20);
             this.txt_BuildingState.TabIndex = 4;
@@ -119,6 +122,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_BuildingStreet
             // 
             this.txt_BuildingStreet.Location = new System.Drawing.Point(84, 81);
+            this.txt_BuildingStreet.MaxLength = 50;
             this.txt_BuildingStreet.Name = "txt_BuildingStreet";
             this.txt_BuildingStreet.Size = new System.Drawing.Size(171, 20);
             this.txt_BuildingStreet.TabIndex = 2;
@@ -126,6 +130,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_BuildingName
             // 
             this.txt_BuildingName.Location = new System.Drawing.Point(84, 55);
+            this.txt_BuildingName.MaxLength = 50;
             this.txt_BuildingName.Name = "txt_BuildingName";
             this.txt_BuildingName.Size = new System.Drawing.Size(171, 20);
             this.txt_BuildingName.TabIndex = 1;
@@ -192,6 +197,7 @@ namespace TII_NewDatabase.AddNewForms
             "Wicomico",
             "Worcester"});
             this.cbo_BuildingCounty.Location = new System.Drawing.Point(84, 133);
+            this.cbo_BuildingCounty.MaxLength = 30;
             this.cbo_BuildingCounty.Name = "cbo_BuildingCounty";
             this.cbo_BuildingCounty.Size = new System.Drawing.Size(113, 21);
             this.cbo_BuildingCounty.TabIndex = 6;
@@ -258,6 +264,7 @@ namespace TII_NewDatabase.AddNewForms
             "November",
             "December"});
             this.cbo_BuildingAnniversary.Location = new System.Drawing.Point(84, 220);
+            this.cbo_BuildingAnniversary.MaxLength = 20;
             this.cbo_BuildingAnniversary.Name = "cbo_BuildingAnniversary";
             this.cbo_BuildingAnniversary.Size = new System.Drawing.Size(115, 21);
             this.cbo_BuildingAnniversary.TabIndex = 9;
@@ -285,6 +292,7 @@ namespace TII_NewDatabase.AddNewForms
             // 
             this.cbo_Contractor.FormattingEnabled = true;
             this.cbo_Contractor.Location = new System.Drawing.Point(83, 246);
+            this.cbo_Contractor.MaxLength = 30;
             this.cbo_Contractor.Name = "cbo_Contractor";
             this.cbo_Contractor.Size = new System.Drawing.Size(165, 21);
             this.cbo_Contractor.TabIndex = 20;

@@ -55,6 +55,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_CompanyName
             // 
             this.txt_CompanyName.Location = new System.Drawing.Point(66, 11);
+            this.txt_CompanyName.MaxLength = 60;
             this.txt_CompanyName.Name = "txt_CompanyName";
             this.txt_CompanyName.Size = new System.Drawing.Size(171, 20);
             this.txt_CompanyName.TabIndex = 1;
@@ -71,6 +72,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_CompanyCity
             // 
             this.txt_CompanyCity.Location = new System.Drawing.Point(66, 63);
+            this.txt_CompanyCity.MaxLength = 30;
             this.txt_CompanyCity.Name = "txt_CompanyCity";
             this.txt_CompanyCity.Size = new System.Drawing.Size(80, 20);
             this.txt_CompanyCity.TabIndex = 23;
@@ -78,6 +80,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_CompanyZip
             // 
             this.txt_CompanyZip.Location = new System.Drawing.Point(185, 63);
+            this.txt_CompanyZip.MaxLength = 5;
             this.txt_CompanyZip.Name = "txt_CompanyZip";
             this.txt_CompanyZip.Size = new System.Drawing.Size(52, 20);
             this.txt_CompanyZip.TabIndex = 25;
@@ -85,6 +88,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_CompanyState
             // 
             this.txt_CompanyState.Location = new System.Drawing.Point(152, 63);
+            this.txt_CompanyState.MaxLength = 2;
             this.txt_CompanyState.Name = "txt_CompanyState";
             this.txt_CompanyState.Size = new System.Drawing.Size(27, 20);
             this.txt_CompanyState.TabIndex = 24;
@@ -92,6 +96,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_CompanyStreet
             // 
             this.txt_CompanyStreet.Location = new System.Drawing.Point(66, 37);
+            this.txt_CompanyStreet.MaxLength = 50;
             this.txt_CompanyStreet.Name = "txt_CompanyStreet";
             this.txt_CompanyStreet.Size = new System.Drawing.Size(171, 20);
             this.txt_CompanyStreet.TabIndex = 22;

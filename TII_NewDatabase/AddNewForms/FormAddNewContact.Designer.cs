@@ -67,6 +67,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_Email
             // 
             this.txt_Email.Location = new System.Drawing.Point(90, 117);
+            this.txt_Email.MaxLength = 50;
             this.txt_Email.Name = "txt_Email";
             this.txt_Email.Size = new System.Drawing.Size(160, 20);
             this.txt_Email.TabIndex = 6;
@@ -119,6 +120,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_Name
             // 
             this.txt_Name.Location = new System.Drawing.Point(90, 13);
+            this.txt_Name.MaxLength = 30;
             this.txt_Name.Name = "txt_Name";
             this.txt_Name.Size = new System.Drawing.Size(160, 20);
             this.txt_Name.TabIndex = 1;
@@ -135,6 +137,7 @@ namespace TII_NewDatabase.AddNewForms
             // txt_Extension
             // 
             this.txt_Extension.Location = new System.Drawing.Point(196, 39);
+            this.txt_Extension.MaxLength = 10;
             this.txt_Extension.Name = "txt_Extension";
             this.txt_Extension.Size = new System.Drawing.Size(54, 20);
             this.txt_Extension.TabIndex = 3;

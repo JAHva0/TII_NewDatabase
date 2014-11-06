@@ -400,6 +400,7 @@ namespace TII_NewDatabase
             "November",
             "December"});
             this.cbo_BuildingAnniversary.Location = new System.Drawing.Point(247, 144);
+            this.cbo_BuildingAnniversary.MaxLength = 20;
             this.cbo_BuildingAnniversary.Name = "cbo_BuildingAnniversary";
             this.cbo_BuildingAnniversary.Size = new System.Drawing.Size(115, 21);
             this.cbo_BuildingAnniversary.TabIndex = 28;
@@ -436,6 +437,7 @@ namespace TII_NewDatabase
             "Wicomico",
             "Worcester"});
             this.cbo_BuildingCounty.Location = new System.Drawing.Point(59, 109);
+            this.cbo_BuildingCounty.MaxLength = 30;
             this.cbo_BuildingCounty.Name = "cbo_BuildingCounty";
             this.cbo_BuildingCounty.Size = new System.Drawing.Size(113, 21);
             this.cbo_BuildingCounty.TabIndex = 27;
@@ -495,6 +497,7 @@ namespace TII_NewDatabase
             // txt_Contractor
             // 
             this.txt_Contractor.Location = new System.Drawing.Point(246, 170);
+            this.txt_Contractor.MaxLength = 30;
             this.txt_Contractor.Name = "txt_Contractor";
             this.txt_Contractor.ReadOnly = true;
             this.txt_Contractor.Size = new System.Drawing.Size(116, 20);
@@ -573,6 +576,7 @@ namespace TII_NewDatabase
             // txt_BuildingName
             // 
             this.txt_BuildingName.Location = new System.Drawing.Point(59, 19);
+            this.txt_BuildingName.MaxLength = 50;
             this.txt_BuildingName.Name = "txt_BuildingName";
             this.txt_BuildingName.ReadOnly = true;
             this.txt_BuildingName.Size = new System.Drawing.Size(171, 20);
@@ -610,6 +614,7 @@ namespace TII_NewDatabase
             // txt_BuildingZip
             // 
             this.txt_BuildingZip.Location = new System.Drawing.Point(178, 71);
+            this.txt_BuildingZip.MaxLength = 5;
             this.txt_BuildingZip.Name = "txt_BuildingZip";
             this.txt_BuildingZip.ReadOnly = true;
             this.txt_BuildingZip.Size = new System.Drawing.Size(52, 20);
@@ -618,6 +623,7 @@ namespace TII_NewDatabase
             // txt_BuildingAddress
             // 
             this.txt_BuildingAddress.Location = new System.Drawing.Point(59, 45);
+            this.txt_BuildingAddress.MaxLength = 50;
             this.txt_BuildingAddress.Name = "txt_BuildingAddress";
             this.txt_BuildingAddress.ReadOnly = true;
             this.txt_BuildingAddress.Size = new System.Drawing.Size(171, 20);
@@ -626,6 +632,7 @@ namespace TII_NewDatabase
             // txt_BuildingState
             // 
             this.txt_BuildingState.Location = new System.Drawing.Point(145, 71);
+            this.txt_BuildingState.MaxLength = 2;
             this.txt_BuildingState.Name = "txt_BuildingState";
             this.txt_BuildingState.ReadOnly = true;
             this.txt_BuildingState.Size = new System.Drawing.Size(27, 20);
@@ -634,6 +641,7 @@ namespace TII_NewDatabase
             // txt_BuildingCity
             // 
             this.txt_BuildingCity.Location = new System.Drawing.Point(59, 71);
+            this.txt_BuildingCity.MaxLength = 30;
             this.txt_BuildingCity.Name = "txt_BuildingCity";
             this.txt_BuildingCity.ReadOnly = true;
             this.txt_BuildingCity.Size = new System.Drawing.Size(80, 20);
@@ -671,6 +679,7 @@ namespace TII_NewDatabase
             // txt_CompanyName
             // 
             this.txt_CompanyName.Location = new System.Drawing.Point(59, 19);
+            this.txt_CompanyName.MaxLength = 60;
             this.txt_CompanyName.Name = "txt_CompanyName";
             this.txt_CompanyName.ReadOnly = true;
             this.txt_CompanyName.Size = new System.Drawing.Size(171, 20);
@@ -715,6 +724,7 @@ namespace TII_NewDatabase
             // txt_CompanyCity
             // 
             this.txt_CompanyCity.Location = new System.Drawing.Point(59, 71);
+            this.txt_CompanyCity.MaxLength = 30;
             this.txt_CompanyCity.Name = "txt_CompanyCity";
             this.txt_CompanyCity.ReadOnly = true;
             this.txt_CompanyCity.Size = new System.Drawing.Size(80, 20);
@@ -723,6 +733,7 @@ namespace TII_NewDatabase
             // txt_CompanyZip
             // 
             this.txt_CompanyZip.Location = new System.Drawing.Point(178, 71);
+            this.txt_CompanyZip.MaxLength = 5;
             this.txt_CompanyZip.Name = "txt_CompanyZip";
             this.txt_CompanyZip.ReadOnly = true;
             this.txt_CompanyZip.Size = new System.Drawing.Size(52, 20);
@@ -731,6 +742,7 @@ namespace TII_NewDatabase
             // txt_CompanyState
             // 
             this.txt_CompanyState.Location = new System.Drawing.Point(145, 71);
+            this.txt_CompanyState.MaxLength = 2;
             this.txt_CompanyState.Name = "txt_CompanyState";
             this.txt_CompanyState.ReadOnly = true;
             this.txt_CompanyState.Size = new System.Drawing.Size(27, 20);
@@ -739,6 +751,7 @@ namespace TII_NewDatabase
             // txt_CompanyStreet
             // 
             this.txt_CompanyStreet.Location = new System.Drawing.Point(59, 45);
+            this.txt_CompanyStreet.MaxLength = 50;
             this.txt_CompanyStreet.Name = "txt_CompanyStreet";
             this.txt_CompanyStreet.ReadOnly = true;
             this.txt_CompanyStreet.Size = new System.Drawing.Size(171, 20);
@@ -989,6 +1002,7 @@ namespace TII_NewDatabase
             // txt_Email
             // 
             this.txt_Email.Location = new System.Drawing.Point(84, 123);
+            this.txt_Email.MaxLength = 50;
             this.txt_Email.Name = "txt_Email";
             this.txt_Email.ReadOnly = true;
             this.txt_Email.Size = new System.Drawing.Size(160, 20);
@@ -1042,6 +1056,7 @@ namespace TII_NewDatabase
             // txt_ContactName
             // 
             this.txt_ContactName.Location = new System.Drawing.Point(84, 19);
+            this.txt_ContactName.MaxLength = 30;
             this.txt_ContactName.Name = "txt_ContactName";
             this.txt_ContactName.ReadOnly = true;
             this.txt_ContactName.Size = new System.Drawing.Size(160, 20);

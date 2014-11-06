@@ -12,7 +12,24 @@ namespace TII_NewDatabase
     /// Connection Settings Form.
     /// </summary>
     public partial class FormConnectionSettings : Form
-    {
+    {       
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormConnectionSettings"/> class.
+        /// </summary>
+        public FormConnectionSettings()
+        {
+            this.InitializeComponent();
+
+            // Populate the Text Boxes with any stored information
+            txt_UserName.Text = Properties.Settings.Default.UserName;
+            txt_Password.Text = Properties.Settings.Default.Password;
+            txt_ServerAddress.Text = Properties.Settings.Default.ServerAddress;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether or not the currently supplied connection credentials and server address make a valid connection.
+        /// </summary>
+        /// <value> True, if the database connection can be made. </value>
         public bool ConnectionWorking
         {
             get
@@ -25,19 +42,6 @@ namespace TII_NewDatabase
 
                 return false;
             }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FormConnectionSettings"/> class.
-        /// </summary>
-        public FormConnectionSettings()
-        {
-            this.InitializeComponent();
-
-            // Populate the Text Boxes with any stored information
-            txt_UserName.Text = Properties.Settings.Default.UserName;
-            txt_Password.Text = Properties.Settings.Default.Password;
-            txt_ServerAddress.Text = Properties.Settings.Default.ServerAddress;
         }
 
         /// <summary>

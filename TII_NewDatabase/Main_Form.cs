@@ -822,6 +822,7 @@ namespace TII_NewDatabase
                             companyList.Regenerate();
                             this.PopulateListboxes();
                         }
+
                         break;
                     }
 
@@ -834,6 +835,7 @@ namespace TII_NewDatabase
                             buildingList.Regenerate();
                             this.PopulateListboxes();
                         }
+
                         break;
                     }
             }

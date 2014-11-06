@@ -164,15 +164,15 @@ namespace TII_NewDatabase.AddNewForms
                     {
                         if (dtp_InspectionDate.Value > DateTime.Now)
                         {
-                            error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Date must be no later than today");
+                            this.error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Date must be no later than today");
                         }
                         else if (!dtp_InspectionDate.Checked)
                         {
-                            error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Please select a date for the inspection");
+                            this.error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Please select a date for the inspection");
                         }
                         else
                         {
-                            error_dtp_InspectionDate.Clear();
+                            this.error_dtp_InspectionDate.Clear();
                         }
 
                         break;
@@ -192,11 +192,11 @@ namespace TII_NewDatabase.AddNewForms
 
                         if (!allStatusComplete)
                         {
-                            error_ElevatorStatus.SetError(this.dgv_ElevatorList, "Must set a status for each elevator");
+                            this.error_ElevatorStatus.SetError(this.dgv_ElevatorList, "Must set a status for each elevator");
                         }
                         else
                         {
-                            error_ElevatorStatus.Clear();
+                            this.error_ElevatorStatus.Clear();
                         }
 
                         break;
@@ -228,6 +228,42 @@ namespace TII_NewDatabase.AddNewForms
 
                     newInspection.CommitToDatabase();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Method that changes the appearance of the Mouse when the user drags a file over the Report File textbox.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">Any Event Args.</param>
+        private void ReportFile_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        /// <summary>
+        /// Method for grabbing the filename out of the drag drop over the Report File Textbox and putting it into the Textbox.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">Any Event Args.</param>
+        private void ReportFile_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (filenames.Length != 1)
+                {
+                    // If the user tried to drag multiple files in at once, alert them that this is not possible and quit out.
+                    MessageBox.Show("Cannot Drag and Drop Multiple files", "Too many files", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                // Strip out the directory information
+                this.txt_ReportFile.Text = System.IO.Path.GetFileName(filenames[0]);
             }
         }
     }

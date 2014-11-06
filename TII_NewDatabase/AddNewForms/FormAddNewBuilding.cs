@@ -84,17 +84,17 @@ namespace TII_NewDatabase.AddNewForms
 
             try
             {
-                this.newBuilding.Owner = new Company(cbo_Owner.Text);
-                this.newBuilding.Name = txt_BuildingName.Text;
-                this.newBuilding.Street = txt_BuildingStreet.Text;
-                this.newBuilding.City = txt_BuildingCity.Text;
-                this.newBuilding.State = txt_BuildingState.Text;
-                this.newBuilding.Zip = txt_BuildingZip.Text;
-                this.newBuilding.County = cbo_BuildingCounty.Text;
-                this.newBuilding.FirmFee = new Money(txt_FirmFee.Text);
-                this.newBuilding.HourlyFee = new Money(txt_HourlyFee.Text);
-                this.newBuilding.Anniversary = cbo_BuildingAnniversary.Text;
-                this.newBuilding.Contractor = cbo_Contractor.Text;
+                this.newBuilding.Owner = new Company(this.cbo_Owner.Text);
+                this.newBuilding.Name = this.txt_BuildingName.Text;
+                this.newBuilding.Street = this.txt_BuildingStreet.Text;
+                this.newBuilding.City = this.txt_BuildingCity.Text;
+                this.newBuilding.State = this.txt_BuildingState.Text;
+                this.newBuilding.Zip = this.txt_BuildingZip.Text;
+                this.newBuilding.County = this.cbo_BuildingCounty.Text;
+                this.newBuilding.FirmFee = new Money(this.txt_FirmFee.Text);
+                this.newBuilding.HourlyFee = new Money(this.txt_HourlyFee.Text);
+                this.newBuilding.Anniversary = this.cbo_BuildingAnniversary.Text;
+                this.newBuilding.Contractor = this.cbo_Contractor.Text;
 
                 if (this.newBuilding.SaveConfirmation())
                 {

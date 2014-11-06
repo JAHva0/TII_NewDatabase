@@ -21,9 +21,9 @@ namespace TII_NewDatabase
             this.InitializeComponent();
 
             // Populate the Text Boxes with any stored information
-            txt_UserName.Text = Properties.Settings.Default.UserName;
-            txt_Password.Text = Properties.Settings.Default.Password;
-            txt_ServerAddress.Text = Properties.Settings.Default.ServerAddress;
+            this.txt_UserName.Text = Properties.Settings.Default.UserName;
+            this.txt_Password.Text = Properties.Settings.Default.Password;
+            this.txt_ServerAddress.Text = Properties.Settings.Default.ServerAddress;
         }
 
         /// <summary>

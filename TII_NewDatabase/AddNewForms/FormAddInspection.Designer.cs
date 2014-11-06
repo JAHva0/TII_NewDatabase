@@ -178,10 +178,13 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // txt_ReportFile
             // 
+            this.txt_ReportFile.AllowDrop = true;
             this.txt_ReportFile.Location = new System.Drawing.Point(422, 99);
             this.txt_ReportFile.Name = "txt_ReportFile";
             this.txt_ReportFile.Size = new System.Drawing.Size(212, 20);
             this.txt_ReportFile.TabIndex = 8;
+            this.txt_ReportFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragDrop);
+            this.txt_ReportFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragEnter);
             // 
             // lbl_ReportFile
             // 
@@ -261,7 +264,6 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // FormAddInspection
             // 
-            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_Cancel;

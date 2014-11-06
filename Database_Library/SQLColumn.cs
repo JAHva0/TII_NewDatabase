@@ -64,7 +64,7 @@ namespace Database
         public SQLColumn(string column, string value) 
             : this(column)
         {
-            if (value == null)
+            if (value == null || value == string.Empty)
             {
                 this.Value = "NULL";
             }

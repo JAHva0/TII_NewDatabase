@@ -138,7 +138,7 @@ namespace SQL
             string query = "UPDATE " + table_name + " SET ";
             foreach (SQLColumn pair in value_pairs)
             {
-                query += pair.Column + "='" + pair.Value + "', ";
+                query += pair.Column + "=" + pair.Value + ", ";
             }
 
             query = query.TrimFromEnd(2);

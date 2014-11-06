@@ -175,6 +175,7 @@ namespace TII_NewDatabase.AddNewForms
             this.btn_FindReport.TabIndex = 2;
             this.btn_FindReport.Text = "Find Report...";
             this.btn_FindReport.UseVisualStyleBackColor = true;
+            this.btn_FindReport.Click += new System.EventHandler(this.FindReport_Click);
             // 
             // txt_ReportFile
             // 

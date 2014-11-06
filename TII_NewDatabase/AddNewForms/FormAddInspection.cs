@@ -162,11 +162,11 @@ namespace TII_NewDatabase.AddNewForms
             {
                 case "dtp_InspectionDate":
                     {
-                        if (dtp_InspectionDate.Value > DateTime.Now)
+                        if (this.dtp_InspectionDate.Value > DateTime.Now)
                         {
                             this.error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Date must be no later than today");
                         }
-                        else if (!dtp_InspectionDate.Checked)
+                        else if (!this.dtp_InspectionDate.Checked)
                         {
                             this.error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Please select a date for the inspection");
                         }
@@ -264,6 +264,21 @@ namespace TII_NewDatabase.AddNewForms
 
                 // Strip out the directory information
                 this.txt_ReportFile.Text = System.IO.Path.GetFileName(filenames[0]);
+            }
+        }
+
+        /// <summary>
+        /// Method to allow the user to browse for the report file, which is then added to the Report File Textbox.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">Any Event Args.</param>
+        private void FindReport_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Multiselect = false;
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.txt_ReportFile.Text = System.IO.Path.GetFileName(ofd.FileName);
             }
         }
     }

@@ -12,7 +12,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.Button btn_TestConnection;
         private System.Windows.Forms.TextBox txt_ServerAddress;
         private System.Windows.Forms.Label lbl_ServerAddress;
-        private System.Windows.Forms.Button btn_SaveSettings;
         private System.Windows.Forms.Button btn_Cancel;
         
         /// <summary>
@@ -50,7 +49,6 @@ namespace TII_NewDatabase
             this.btn_TestConnection = new System.Windows.Forms.Button();
             this.txt_ServerAddress = new System.Windows.Forms.TextBox();
             this.lbl_ServerAddress = new System.Windows.Forms.Label();
-            this.btn_SaveSettings = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -129,21 +127,11 @@ namespace TII_NewDatabase
             this.lbl_ServerAddress.TabIndex = 4;
             this.lbl_ServerAddress.Text = "Server Address:";
             // 
-            // btn_SaveSettings
-            // 
-            this.btn_SaveSettings.Location = new System.Drawing.Point(12, 165);
-            this.btn_SaveSettings.Name = "btn_SaveSettings";
-            this.btn_SaveSettings.Size = new System.Drawing.Size(100, 23);
-            this.btn_SaveSettings.TabIndex = 5;
-            this.btn_SaveSettings.Text = "Save Settings";
-            this.btn_SaveSettings.UseVisualStyleBackColor = true;
-            this.btn_SaveSettings.Click += new System.EventHandler(this.Save_Settings);
-            // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(126, 165);
+            this.btn_Cancel.Location = new System.Drawing.Point(12, 165);
             this.btn_Cancel.Name = "btn_Cancel";
-            this.btn_Cancel.Size = new System.Drawing.Size(100, 23);
+            this.btn_Cancel.Size = new System.Drawing.Size(214, 23);
             this.btn_Cancel.TabIndex = 6;
             this.btn_Cancel.Text = "Cancel";
             this.btn_Cancel.UseVisualStyleBackColor = true;
@@ -155,7 +143,6 @@ namespace TII_NewDatabase
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(239, 202);
             this.Controls.Add(this.btn_Cancel);
-            this.Controls.Add(this.btn_SaveSettings);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

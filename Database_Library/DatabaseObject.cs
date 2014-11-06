@@ -132,7 +132,7 @@ namespace Database
                                                               new SQLColumn("NewValue", edit.New_Value)
                                                           };
 
-                success = success && SQL.Query.Insert("DBEdit", value_pairs);
+                success = success && SQL.Query.Insert("DBEdits", value_pairs);
             }
 
             return success;

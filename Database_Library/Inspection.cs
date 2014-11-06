@@ -72,7 +72,7 @@ namespace Database
             }
         }
 
-        /// <summary> Gets or Sets the Elevator_ID associted with this inspection. </summary>
+        /// <summary> Gets or sets the Elevator_ID associated with this inspection. </summary>
         /// <value> The database assigned Elevator ID of the unit that was inspected. </value>
         public int ElevatorID
         {

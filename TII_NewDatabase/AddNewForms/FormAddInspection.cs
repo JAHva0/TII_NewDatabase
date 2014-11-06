@@ -3,6 +3,7 @@
 namespace TII_NewDatabase.AddNewForms
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Windows.Forms;
     using Database;
@@ -13,6 +14,12 @@ namespace TII_NewDatabase.AddNewForms
     {
         /// <summary> Holds the building information from the selected building. </summary>
         private Building selectedBuilding;
+
+        /// <summary>
+        /// Dictionary that holds the relations between elevator numbers and their database assigned IDs. 
+        /// Prevents us from having to re-query for this information for each insertion when it is available when we load them for the first time.
+        /// </summary>
+        private Dictionary<string, int> dict_ElevatorIDs;
 
         /// <summary> A string array with the possible elevator statuses. To make things easier if one needs to be added, edited, or removed. </summary>
         private string[] elev_STATUSES = { "Clean", "Outstanding Violations", "Paperwork Needed", "Not Inspected" };
@@ -113,10 +120,14 @@ namespace TII_NewDatabase.AddNewForms
             col_ElevStatus.Items.AddRange(this.elev_STATUSES);
             this.dgv_ElevatorList.Columns.Add(col_ElevStatus);
 
+            // Reset the Elevator ID Dictionary
+            this.dict_ElevatorIDs = new Dictionary<string, int>();
+
             // Populate the elevator list with the number and nickname of each unit
             foreach (Elevator elev in this.selectedBuilding.ElevatorList)
             {
                 this.dgv_ElevatorList.Rows.Add(elev.ElevatorNumber, elev.Nickname, elev.ElevatorType, string.Empty);
+                this.dict_ElevatorIDs.Add(elev.ElevatorNumber, elev.ID.Value);
             }      
         }
 
@@ -202,6 +213,22 @@ namespace TII_NewDatabase.AddNewForms
         /// <param name="e">Any Event Args.</param>
         private void SubmitInspection(object sender, EventArgs e)
         {
+            foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
+            {
+                // If the elevator is marked as Not Inspected, there is no reason to make a note of it for the database.
+                if (elev.Cells["Status"].Value.ToString() != "Not Inspected")
+                {
+                    Inspection newInspection = new Inspection();
+                    newInspection.ElevatorID = this.dict_ElevatorIDs[elev.Cells["Elevator Number"].Value.ToString()];
+                    newInspection.Date = this.dtp_InspectionDate.Value;
+                    newInspection.Type = this.cbo_InspectionType.Text;
+                    newInspection.Status = elev.Cells["Status"].Value.ToString();
+                    newInspection.Inspector = this.cbo_Inspector.Text;
+                    newInspection.ReportFile = this.txt_ReportFile.Text;
+
+                    newInspection.CommitToDatabase();
+                }
+            }
         }
     }
 }

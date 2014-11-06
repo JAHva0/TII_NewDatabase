@@ -98,6 +98,7 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // btn_SaveEntry
             // 
+            this.btn_SaveEntry.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btn_SaveEntry.Location = new System.Drawing.Point(6, 19);
             this.btn_SaveEntry.Name = "btn_SaveEntry";
             this.btn_SaveEntry.Size = new System.Drawing.Size(159, 23);

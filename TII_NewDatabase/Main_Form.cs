@@ -816,14 +816,24 @@ namespace TII_NewDatabase
                 case "btn_AddNewCompany":
                     {
                         FormAddNewCompany newCompany = new FormAddNewCompany();
-                        newCompany.ShowDialog();
+                        if (newCompany.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            // If the Dialog result is "OK", then the user saved a new company and we should refresh anything to do with it.
+                            companyList.Regenerate();
+                            this.PopulateListboxes();
+                        }
                         break;
                     }
 
                 case "btn_NewBuilding":
                     {
                         FormAddNewBuilding newBuilding = new FormAddNewBuilding(this.txt_CompanyName.Text);
-                        newBuilding.ShowDialog();
+                        if (newBuilding.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            // If the Dialog result is "OK", then the user saved a new building and we should refresh anything to do with it.
+                            buildingList.Regenerate();
+                            this.PopulateListboxes();
+                        }
                         break;
                     }
             }

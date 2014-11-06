@@ -129,7 +129,8 @@ namespace Database
                                                               new SQLColumn("ColumnName", edit.Column_Name),
                                                               new SQLColumn("TimeStamp", DateTime.Now),
                                                               new SQLColumn("OldValue", edit.Old_Value), 
-                                                              new SQLColumn("NewValue", edit.New_Value)
+                                                              new SQLColumn("NewValue", edit.New_Value),
+                                                              new SQLColumn("UserName", SQL.Connection.GetConnection.WorkstationId)
                                                           };
 
                 success = success && SQL.Query.Insert("DBEdits", value_pairs);

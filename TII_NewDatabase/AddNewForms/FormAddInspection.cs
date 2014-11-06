@@ -61,7 +61,7 @@ namespace TII_NewDatabase.AddNewForms
         private void BuildingSelected(object sender, EventArgs e)
         {
             // If there is no selected item, bail out immediatly.
-            if (this.lbx_BuildingList.SelectedIndex == 0)
+            if (this.lbx_BuildingList.SelectedIndex == -1)
             {
                 return;
             }

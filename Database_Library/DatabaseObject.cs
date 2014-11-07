@@ -195,6 +195,54 @@ namespace Database
             this.edits.Add(new DBEdit(sender.GetType().Name, this.ID, column_name, old_value, new_value));
         }
 
+        /// <summary>
+        /// Method that is used by <see cref="IsEditedEventHandler"/> to flag via <see cref="edited"/> that a particular item has been 
+        /// edited since loading from the Database.
+        /// </summary>
+        /// <param name="sender">The class which is sending the edit, from which we can get the table name.</param>
+        /// <param name="column_name">The column the edit is occurring in.</param>
+        /// <param name="old_date">The original Date Time value of the cell.</param>
+        /// <param name="new_date">The new Date Time value of the cell.</param>
+        protected void BaseObject_Edited(object sender, string column_name, DateTime old_date, DateTime new_date)
+        {
+            string old_value;
+
+            if (old_date < new DateTime(2000, 1, 1))
+            {
+                old_value = string.Empty;
+            }
+            else
+            {
+                old_value = old_date.ToString();
+            }
+
+            this.BaseObject_Edited(sender, column_name, old_value, new_date.ToString());
+        }
+
+        /// <summary>
+        /// Method that is used by <see cref="IsEditedEventHandler"/> to flag via <see cref="edited"/> that a particular item has been 
+        /// edited since loading from the Database.
+        /// </summary>
+        /// <param name="sender">The class which is sending the edit, from which we can get the table name.</param>
+        /// <param name="column_name">The column the edit is occurring in.</param>
+        /// <param name="old_int">The original integer value of the cell.</param>
+        /// <param name="new_int">The new integer value of the cell.</param>
+        protected void BaseObject_Edited(object sender, string column_name, int old_int, int new_int)
+        {
+            string old_value;
+
+            if (old_int == 0)
+            {
+                old_value = string.Empty;
+            }
+            else
+            {
+                old_value = old_int.ToString();
+            }
+
+            this.BaseObject_Edited(sender, column_name, old_value, new_int.ToString());
+        }
+
         /// <summary> Private non-inherited struct to log edits made to the database. </summary>
         private struct DBEdit
         {

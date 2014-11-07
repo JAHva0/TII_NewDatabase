@@ -66,7 +66,7 @@ namespace Database
             {
                 if (value != this.date)
                 {
-                    this.BaseObject_Edited(this, "Date", this.date.ToShortDateString(), value.ToShortDateString());
+                    this.BaseObject_Edited(this, "Date", this.date, value);
                     this.date = value;
                 }
             }
@@ -85,7 +85,7 @@ namespace Database
             {
                 if (value != this.elevator_ID && value != 0)
                 {
-                    this.BaseObject_Edited(this, "Elevator_ID", this.elevator_ID.ToString(), value.ToString());
+                    this.BaseObject_Edited(this, "Elevator_ID", this.elevator_ID, value);
                     this.elevator_ID = value;
                 }
             }

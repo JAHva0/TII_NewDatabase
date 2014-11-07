@@ -35,7 +35,7 @@ namespace TII_NewDatabase.AddNewForms
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAddInspection"/> class.
         /// </summary>
-        /// <param name="building_address">The building address to initalize the form with. </param>
+        /// <param name="building_address">The building address to initialize the form with. </param>
         public FormAddInspection(string building_address)
         {
             this.InitializeComponent();

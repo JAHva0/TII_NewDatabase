@@ -34,6 +34,24 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_Owner.Text = company;
         }
 
+        /// <summary> Gets the Address of the building added to the database by this form.</summary>
+        /// <value> The address of the building added by this form. </value>
+        /// <exception cref="ArgumentNullException"> This Property can only be called if the building class contained within is not empty.</exception>
+        public string NewBuildingAddress
+        {
+            get
+            {
+                if (this.newBuilding.Street != string.Empty)
+                {
+                    return this.newBuilding.Street;
+                }
+                else
+                {
+                    throw new ArgumentNullException("You cannot retreive the address of a building that has not been committed");
+                }
+            }
+        }
+
         /// <summary>
         /// Fires once upon opening to populate the Company and Contractor list boxes.
         /// </summary>

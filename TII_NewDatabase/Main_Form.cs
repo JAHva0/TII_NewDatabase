@@ -840,6 +840,12 @@ namespace TII_NewDatabase
                             // If the Dialog result is "OK", then the user saved a new building and we should refresh anything to do with it.
                             buildingList.Regenerate();
                             this.PopulateListboxes();
+
+                            // If the active tab is the By Company tab, we should select the newly added building in the "Other Buildings" listbox
+                            if (this.tab_BuildingCompanySelector.SelectedTab == this.tab_ByCompany)
+                            {
+                                this.lbx_OtherCompanyBuildings.SelectedItem = newBuilding.NewBuildingAddress;
+                            }
                         }
 
                         break;

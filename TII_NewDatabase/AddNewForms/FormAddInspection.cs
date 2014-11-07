@@ -40,6 +40,10 @@ namespace TII_NewDatabase.AddNewForms
         {
             this.InitializeComponent();
             this.txt_BuildingFilter.Text = building_address;
+            if (lbx_BuildingList.Items.Count > 0)
+            {
+                this.lbx_BuildingList.SelectedIndex = 0;
+            }
         }
 
         /// <summary>

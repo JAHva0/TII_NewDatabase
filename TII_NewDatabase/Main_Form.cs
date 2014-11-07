@@ -305,9 +305,15 @@ namespace TII_NewDatabase
         /// <param name="sender">The List box which called the event.</param>
         /// <param name="e">Any Associated EventArgs.</param>
         private void ListBox_ItemSelected(object sender, EventArgs e)
-        {
+        {            
             ListBox currentLbx = (ListBox)sender;
             int selected_id;
+
+            // Quit immediately if the user didn't actually select something.
+            if (currentLbx.SelectedIndex == -1)
+            {
+                return;
+            }
 
             // Check which listbox was selected
             if (currentLbx.Name == "lbx_CompanyList")

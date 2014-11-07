@@ -33,13 +33,24 @@ namespace TII_NewDatabase.AddNewForms
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="FormAddInspection"/> class.
+        /// </summary>
+        /// <param name="building_address">The building address to initalize the form with. </param>
+        public FormAddInspection(string building_address)
+        {
+            this.InitializeComponent();
+            this.txt_BuildingFilter.Text = building_address;
+        }
+
+        /// <summary>
         /// Method that occurs once as the form loads as it is being displayed to the user.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">Any Event Args.</param>
         private void OnLoad(object sender, EventArgs e)
         {
-            this.lbx_BuildingList.Items.AddRange(Main_Form.BuildingList.GetFilteredList(string.Empty, string.Empty));
+            // Fire the Filter changed Method to load the form, either based on the address passed in or empty, to load a full list.
+            this.Filter_Changed(new object(), EventArgs.Empty);
         }
 
         /// <summary>

@@ -814,7 +814,7 @@ namespace TII_NewDatabase
             {
                 case "btn_EnterNewInspection":
                     {
-                        FormAddInspection newInspection = new FormAddInspection();
+                        FormAddInspection newInspection = new FormAddInspection(this.txt_BuildingAddress.Text);
                         newInspection.ShowDialog();
                         break;
                     }

@@ -274,7 +274,7 @@ namespace Database
             {
                 if (this.company_id != value.ID.Value)
                 {
-                    this.BaseObject_Edited(this, "Company_ID", this.company_id, value.ID);
+                    this.BaseObject_Edited(this, "Company_ID", this.company_id, value.ID.Value);
                     this.company_id = value.ID.Value;
                 }
             }

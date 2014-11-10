@@ -3,6 +3,7 @@
 namespace Database
 {
     using System;
+    using System.ComponentModel;
     using System.Data;
 
     /// <summary>
@@ -51,6 +52,48 @@ namespace Database
         public Inspection(int inspection_ID)
         {
             this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format("SELECT * FROM Inspection WHERE Inspection_ID = {0}", inspection_ID.ToString()))));
+        }
+
+        /// <summary>
+        /// A list of the various types of inspections. Prevents spelling errors and enforces consistency in the database.
+        /// </summary>
+        public enum I_Type
+        {
+            /// <summary> Periodic Inspection. </summary>
+            [Description("Periodic")]
+            PER,
+
+            /// <summary> Periodic Re-inspection. </summary>
+            [Description("Periodic Reinspection")]
+            PER_RE,
+
+            /// <summary> Category 1 and Periodic Inspection. </summary>
+            [Description("Category 1 & Periodic")]
+            CAT1_PER,
+
+            /// <summary> Category 1 and Periodic Re-inspection. </summary>
+            [Description("Category 1 & Periodic Reinspection")]
+            CAT1_PER_RE,
+
+            /// <summary> Category 5 and Periodic Inspection. </summary>
+            [Description("Category 5 & Periodic")]
+            CAT5_PER,
+
+            /// <summary> Category 5 and Periodic Re-inspection. </summary>
+            [Description("Category 5 & Periodic Reinspection")]
+            CAT5_PER_RE,
+
+            /// <summary> Annual Inspection. </summary>
+            [Description("Annual")]
+            ANNUAL,
+
+            /// <summary> A Re-inspection. </summary>
+            [Description("Reinspection")]
+            REINSPECTION,
+
+            /// <summary> Five Year Test and Inspection. </summary>
+            [Description("Five Year Test")]
+            FIVE_YEAR
         }
 
         /// <summary> Gets or sets the Date for the inspection. </summary>
@@ -197,6 +240,28 @@ namespace Database
             }
 
             return success && base.CommitToDatabase();
+        }
+
+        /// <summary>
+        /// Converts the elevator type provided by the string to the corresponding enumerator.
+        /// </summary>
+        /// <param name="type">Inspection type string.</param>
+        /// <returns>An Enumerator related tot he type string.</returns>
+        private static I_Type StringToTypeEnum(string type)
+        {
+            switch (type)
+            {
+                case "Periodic": return I_Type.PER;
+                case "Periodic Reinspection": return I_Type.PER_RE;
+                case "Category 1 / Periodic": return I_Type.CAT1_PER;
+                case "Category 1 / Periodic Reinspection": return I_Type.CAT1_PER_RE;
+                case "Category 5 / Periodic": return I_Type.CAT5_PER;
+                case "Category 5 / Periodic Reinspection": return I_Type.CAT5_PER_RE;
+                case "Annual": return I_Type.ANNUAL;
+                case "Reinspection": return I_Type.REINSPECTION;
+                case "Category 5": return I_Type.FIVE_YEAR;
+                default: throw new ArgumentException("Invalid Inspection Type: " + type);
+            }
         }
 
         /// <summary>

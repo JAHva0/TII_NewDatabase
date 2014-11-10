@@ -232,10 +232,10 @@ namespace SQL
                 call_count++;
                 SqlCommand nonquery_command = new SqlCommand(query, Connection.GetConnection);
                 Connection.GetConnection.Open();
-                // if (System.Windows.Forms.MessageBox.Show(query, "Insert Query", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-                // {
+                //// if (System.Windows.Forms.MessageBox.Show(query, "Insert Query", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                //// {
                 nonquery_command.ExecuteNonQuery();
-                // }
+                //// }
 
                 Connection.GetConnection.Close();
 

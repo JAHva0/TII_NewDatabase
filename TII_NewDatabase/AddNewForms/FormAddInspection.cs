@@ -236,7 +236,7 @@ namespace TII_NewDatabase.AddNewForms
                     Inspection newInspection = new Inspection();
                     newInspection.ElevatorID = this.dict_ElevatorIDs[elev.Cells["Elevator Number"].Value.ToString()];
                     newInspection.Date = this.dtp_InspectionDate.Value;
-                    newInspection.Type = this.cbo_InspectionType.Text;
+                    newInspection.InspectionType = this.cbo_InspectionType.Text;
                     newInspection.Status = elev.Cells["Status"].Value.ToString();
                     newInspection.Inspector = this.cbo_Inspector.Text;
                     newInspection.ReportFile = this.txt_ReportFile.Text;

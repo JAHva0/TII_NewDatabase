@@ -18,7 +18,7 @@ namespace Database
         private DateTime date;
 
         /// <summary> The type of inspection performed. </summary>
-        private string type;
+        private Type type;
 
         /// <summary> The status of the inspection. </summary>
         private string status;
@@ -57,7 +57,7 @@ namespace Database
         /// <summary>
         /// A list of the various types of inspections. Prevents spelling errors and enforces consistency in the database.
         /// </summary>
-        public enum I_Type
+        public enum Type
         {
             /// <summary> Periodic Inspection. </summary>
             [Description("Periodic")]
@@ -136,19 +136,24 @@ namespace Database
 
         /// <summary> Gets or sets the Type of inspection which was performed. </summary>
         /// <value> The type of inspection performed. </value>
-        public string Type
+        public string InspectionType
         {
             get
             {
-                return this.type;
+                return BaseObject.GetEnumDescription(this.type);
             }
 
             set
             {
-                if (value != this.type && value != string.Empty)
+                if (value != BaseObject.GetEnumDescription(this.type) && value != string.Empty)
                 {
-                    this.BaseObject_Edited(this, "Type", this.type, value);
-                    this.type = value;
+                    // Check to make sure that the string we've recieved can be made into an enum
+                    // The method will throw an exception if it is not included in the list, which is
+                    // important to know before we try to either add the Edited event or assign to the value.
+                    Inspection.StringToTypeEnum(value);
+
+                    this.BaseObject_Edited(this, "Type", BaseObject.GetEnumDescription(this.type), value);
+                    this.type = Inspection.StringToTypeEnum(value);
                 }
             }
         }
@@ -224,7 +229,7 @@ namespace Database
             {
                 new SQLColumn("Elevator_ID", this.elevator_ID),
                 new SQLColumn("Date", this.date),
-                new SQLColumn("Type", this.type),
+                new SQLColumn("Type", BaseObject.GetEnumDescription(this.type)),
                 new SQLColumn("Status", this.status),
                 new SQLColumn("Inspector", this.inspector),
                 new SQLColumn("Report", this.report)
@@ -247,19 +252,19 @@ namespace Database
         /// </summary>
         /// <param name="type">Inspection type string.</param>
         /// <returns>An Enumerator related tot he type string.</returns>
-        private static I_Type StringToTypeEnum(string type)
+        private static Type StringToTypeEnum(string type)
         {
             switch (type)
             {
-                case "Periodic": return I_Type.PER;
-                case "Periodic Reinspection": return I_Type.PER_RE;
-                case "Category 1 / Periodic": return I_Type.CAT1_PER;
-                case "Category 1 / Periodic Reinspection": return I_Type.CAT1_PER_RE;
-                case "Category 5 / Periodic": return I_Type.CAT5_PER;
-                case "Category 5 / Periodic Reinspection": return I_Type.CAT5_PER_RE;
-                case "Annual": return I_Type.ANNUAL;
-                case "Reinspection": return I_Type.REINSPECTION;
-                case "Category 5": return I_Type.FIVE_YEAR;
+                case "Periodic": return Type.PER;
+                case "Periodic Reinspection": return Type.PER_RE;
+                case "Category 1 / Periodic": return Type.CAT1_PER;
+                case "Category 1 / Periodic Reinspection": return Type.CAT1_PER_RE;
+                case "Category 5 / Periodic": return Type.CAT5_PER;
+                case "Category 5 / Periodic Reinspection": return Type.CAT5_PER_RE;
+                case "Annual": return Type.ANNUAL;
+                case "Reinspection": return Type.REINSPECTION;
+                case "Category 5": return Type.FIVE_YEAR;
                 default: throw new ArgumentException("Invalid Inspection Type: " + type);
             }
         }
@@ -293,7 +298,7 @@ namespace Database
                 }
 
                 // We are assigning all of the strings directly, under the assumption that they were checked for compatibility prior to being entered into the database.
-                this.type = row["Type"].ToString();
+                this.type = Inspection.StringToTypeEnum(row["Type"].ToString());
                 this.status = row["Status"].ToString();
                 this.inspector = row["Inspector"].ToString();
                 this.report = row["Report"].ToString();

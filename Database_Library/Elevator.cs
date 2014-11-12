@@ -179,6 +179,36 @@ namespace Database
         }
 
         /// <summary>
+        /// Submits the data enclosed in the class to the SQL Server as either an Insert or an Update dependant on the presence of an ID in the base class.
+        /// </summary>
+        /// <returns>True, if the operation completed successfully.</returns>
+        public override bool CommitToDatabase()
+        {
+            // Boolean for determining if the operation was successful
+            bool success;
+            
+            // Group the data from the class together into a single variable.
+            SQLColumn[] classData = new SQLColumn[]
+            {
+                new SQLColumn("Building_ID", this.building_id),
+                new SQLColumn("ElevatorNumber", this.ElevatorNumber),
+                new SQLColumn("Type", BaseObject.GetEnumDescription(this.type)),
+                new SQLColumn("Nick", this.nickname)
+            };
+
+            if (this.ID == null)
+            {
+                success = SQL.Query.Insert("Elevator", classData);
+            }
+            else
+            {
+                success = SQL.Query.Update("Elevator", classData, string.Format("Elevator_ID = {0}", this.ID));
+            }
+            
+            return success && base.CommitToDatabase();
+        }
+
+        /// <summary>
         /// Private method to fill the class with information.
         /// </summary>
         /// <param name="row">A Pre-filled DataRow from which to fill the class information.</param>

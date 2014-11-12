@@ -97,6 +97,12 @@
     <Compile Include="AddNewForms\FormAddNewContact.Designer.cs">
       <DependentUpon>FormAddNewContact.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddNewForms\FormAddNewElevator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddNewForms\FormAddNewElevator.Designer.cs">
+      <DependentUpon>FormAddNewElevator.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FormConnectionSettings.cs">
       <SubType>Form</SubType>
@@ -124,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddNewForms\FormAddNewContact.resx">
       <DependentUpon>FormAddNewContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddNewForms\FormAddNewElevator.resx">
+      <DependentUpon>FormAddNewElevator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormConnectionSettings.resx">
       <DependentUpon>FormConnectionSettings.cs</DependentUpon>

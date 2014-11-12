@@ -188,6 +188,7 @@ namespace TII_NewDatabase
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_NewElevator = new System.Windows.Forms.Button();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -902,6 +903,7 @@ namespace TII_NewDatabase
             // 
             // gbx_ButtonContainer
             // 
+            this.gbx_ButtonContainer.Controls.Add(this.btn_NewElevator);
             this.gbx_ButtonContainer.Controls.Add(this.btn_NewBuilding);
             this.gbx_ButtonContainer.Controls.Add(this.btn_AddNewCompany);
             this.gbx_ButtonContainer.Location = new System.Drawing.Point(248, 11);
@@ -1381,6 +1383,16 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
             // 
+            // btn_NewElevator
+            // 
+            this.btn_NewElevator.Location = new System.Drawing.Point(204, 19);
+            this.btn_NewElevator.Name = "btn_NewElevator";
+            this.btn_NewElevator.Size = new System.Drawing.Size(93, 23);
+            this.btn_NewElevator.TabIndex = 9;
+            this.btn_NewElevator.Text = "New Elevator";
+            this.btn_NewElevator.UseVisualStyleBackColor = true;
+            this.btn_NewElevator.Click += new System.EventHandler(this.OpenChildForm);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1543,5 +1555,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.ContextMenuStrip cmu_Contact;
         private System.Windows.Forms.ToolStripMenuItem cmi_AddContact;
         private System.Windows.Forms.ToolStripMenuItem cmi_RemoveContact;
+        private System.Windows.Forms.Button btn_NewElevator;
     }
 }

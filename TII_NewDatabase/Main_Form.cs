@@ -850,6 +850,15 @@ namespace TII_NewDatabase
 
                         break;
                     }
+
+                case "btn_NewElevator":
+                    {
+                        FormAddNewElevator newElevator = new FormAddNewElevator(this.currentlySelectedBuilding);
+                        newElevator.ShowDialog();
+                        break;
+                    }
+
+                default: throw new NotImplementedException(((Button)sender).Name + " is not provided for in the OpenChildForm() method.");
             }
         }
     }

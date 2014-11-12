@@ -3,6 +3,7 @@
 namespace Database
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
     using System.Diagnostics;
@@ -94,6 +95,23 @@ namespace Database
             /// <summary>A Vertical Lift.</summary>
             [Description("Vertical Lift")]
             VERTICAL_LIFT
+        }
+
+        /// <summary> Gets a string array containing all possible elevator types listed in the enumerator. </summary>
+        /// <value> A string array containing all possible elevator types. </value>
+        public static string[] Types
+        {
+            get
+            {
+                List<string> typeList = new List<string>();
+
+                foreach (Type t in Enum.GetValues(typeof(Type)))
+                {
+                    typeList.Add(BaseObject.GetEnumDescription(t));
+                }
+
+                return typeList.ToArray();
+            }
         }
 
         /// <summary> Gets or sets the Elevator Number for this unit. </summary>

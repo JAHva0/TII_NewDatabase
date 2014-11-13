@@ -114,6 +114,25 @@ namespace Database
             }
         }
 
+        /// <summary> Gets or sets the Building_ID for this unit's building. </summary>
+        /// <value> The Building_ID for this elevator's building. </value>
+        public int OwnerID
+        {
+            get
+            {
+                return this.building_id;
+            }
+
+            set
+            {
+                if (value != 0 && value != this.building_id)
+                {
+                    this.BaseObject_Edited(this, "Building_ID", this.building_id, value);
+                    this.building_id = value;
+                }
+            }
+        }
+
         /// <summary> Gets or sets the Elevator Number for this unit. </summary>
         /// <value> The Elevator Number for this unit. </value>
         public string ElevatorNumber

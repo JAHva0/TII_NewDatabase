@@ -30,6 +30,7 @@ namespace TII_NewDatabase.AddNewForms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbl_ElevatorNumber = new System.Windows.Forms.Label();
             this.txt_ElevatorNumber = new System.Windows.Forms.TextBox();
             this.lbl_ElevatorType = new System.Windows.Forms.Label();
@@ -38,6 +39,9 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_ElevatorType = new System.Windows.Forms.ComboBox();
             this.btn_SaveEntry = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
+            this.error_provider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btn_GenerateNumber = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.error_provider)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_ElevatorNumber
@@ -56,6 +60,7 @@ namespace TII_NewDatabase.AddNewForms
             this.txt_ElevatorNumber.Name = "txt_ElevatorNumber";
             this.txt_ElevatorNumber.Size = new System.Drawing.Size(100, 20);
             this.txt_ElevatorNumber.TabIndex = 1;
+            this.txt_ElevatorNumber.TextChanged += new System.EventHandler(this.ValidateData);
             // 
             // lbl_ElevatorType
             // 
@@ -72,6 +77,7 @@ namespace TII_NewDatabase.AddNewForms
             this.txt_ElevatorNick.Name = "txt_ElevatorNick";
             this.txt_ElevatorNick.Size = new System.Drawing.Size(100, 20);
             this.txt_ElevatorNick.TabIndex = 4;
+            this.txt_ElevatorNick.TextChanged += new System.EventHandler(this.ValidateData);
             // 
             // lbl_ElevatorNick
             // 
@@ -89,16 +95,19 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_ElevatorType.Name = "cbo_ElevatorType";
             this.cbo_ElevatorType.Size = new System.Drawing.Size(100, 21);
             this.cbo_ElevatorType.TabIndex = 6;
+            this.cbo_ElevatorType.TextChanged += new System.EventHandler(this.ValidateData);
             // 
             // btn_SaveEntry
             // 
             this.btn_SaveEntry.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btn_SaveEntry.Enabled = false;
             this.btn_SaveEntry.Location = new System.Drawing.Point(12, 90);
             this.btn_SaveEntry.Name = "btn_SaveEntry";
             this.btn_SaveEntry.Size = new System.Drawing.Size(310, 23);
             this.btn_SaveEntry.TabIndex = 7;
             this.btn_SaveEntry.Text = "Save Entry";
             this.btn_SaveEntry.UseVisualStyleBackColor = true;
+            this.btn_SaveEntry.Click += new System.EventHandler(this.SaveEntry);
             // 
             // btn_Cancel
             // 
@@ -110,11 +119,25 @@ namespace TII_NewDatabase.AddNewForms
             this.btn_Cancel.Text = "Cancel";
             this.btn_Cancel.UseVisualStyleBackColor = true;
             // 
+            // error_provider
+            // 
+            this.error_provider.ContainerControl = this;
+            // 
+            // btn_GenerateNumber
+            // 
+            this.btn_GenerateNumber.Location = new System.Drawing.Point(255, 12);
+            this.btn_GenerateNumber.Name = "btn_GenerateNumber";
+            this.btn_GenerateNumber.Size = new System.Drawing.Size(67, 20);
+            this.btn_GenerateNumber.TabIndex = 9;
+            this.btn_GenerateNumber.Text = "Generate...";
+            this.btn_GenerateNumber.UseVisualStyleBackColor = true;
+            // 
             // FormAddNewElevator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 153);
+            this.Controls.Add(this.btn_GenerateNumber);
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_SaveEntry);
             this.Controls.Add(this.cbo_ElevatorType);
@@ -125,6 +148,7 @@ namespace TII_NewDatabase.AddNewForms
             this.Controls.Add(this.lbl_ElevatorNumber);
             this.Name = "FormAddNewElevator";
             this.Text = "FormAddNewElevator";
+            ((System.ComponentModel.ISupportInitialize)(this.error_provider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,5 +164,7 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.ComboBox cbo_ElevatorType;
         private System.Windows.Forms.Button btn_SaveEntry;
         private System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.ErrorProvider error_provider;
+        private System.Windows.Forms.Button btn_GenerateNumber;
     }
 }

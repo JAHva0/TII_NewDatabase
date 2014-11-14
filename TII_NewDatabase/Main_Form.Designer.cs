@@ -138,6 +138,7 @@ namespace TII_NewDatabase
             this.tab_MainTabControl = new System.Windows.Forms.TabControl();
             this.tab_DatabaseBrowser = new System.Windows.Forms.TabPage();
             this.gbx_ButtonContainer = new System.Windows.Forms.GroupBox();
+            this.btn_NewElevator = new System.Windows.Forms.Button();
             this.btn_NewBuilding = new System.Windows.Forms.Button();
             this.btn_AddNewCompany = new System.Windows.Forms.Button();
             this.gbx_Contacts = new System.Windows.Forms.GroupBox();
@@ -188,7 +189,6 @@ namespace TII_NewDatabase
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
-            this.btn_NewElevator = new System.Windows.Forms.Button();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -483,6 +483,7 @@ namespace TII_NewDatabase
             this.lbx_ElevatorList.Location = new System.Drawing.Point(386, 134);
             this.lbx_ElevatorList.Name = "lbx_ElevatorList";
             this.lbx_ElevatorList.Size = new System.Drawing.Size(182, 82);
+            this.lbx_ElevatorList.Sorted = true;
             this.lbx_ElevatorList.TabIndex = 7;
             // 
             // btn_ViewMap
@@ -710,6 +711,7 @@ namespace TII_NewDatabase
             this.lbx_OtherCompanyBuildings.Location = new System.Drawing.Point(302, 30);
             this.lbx_OtherCompanyBuildings.Name = "lbx_OtherCompanyBuildings";
             this.lbx_OtherCompanyBuildings.Size = new System.Drawing.Size(266, 82);
+            this.lbx_OtherCompanyBuildings.Sorted = true;
             this.lbx_OtherCompanyBuildings.TabIndex = 7;
             this.lbx_OtherCompanyBuildings.SelectedIndexChanged += new System.EventHandler(this.ListBox_ItemSelected);
             // 
@@ -912,6 +914,16 @@ namespace TII_NewDatabase
             this.gbx_ButtonContainer.TabIndex = 9;
             this.gbx_ButtonContainer.TabStop = false;
             this.gbx_ButtonContainer.Text = "Database Operations";
+            // 
+            // btn_NewElevator
+            // 
+            this.btn_NewElevator.Location = new System.Drawing.Point(204, 19);
+            this.btn_NewElevator.Name = "btn_NewElevator";
+            this.btn_NewElevator.Size = new System.Drawing.Size(93, 23);
+            this.btn_NewElevator.TabIndex = 9;
+            this.btn_NewElevator.Text = "New Elevator";
+            this.btn_NewElevator.UseVisualStyleBackColor = true;
+            this.btn_NewElevator.Click += new System.EventHandler(this.OpenChildForm);
             // 
             // btn_NewBuilding
             // 
@@ -1382,16 +1394,6 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Size = new System.Drawing.Size(160, 22);
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
-            // 
-            // btn_NewElevator
-            // 
-            this.btn_NewElevator.Location = new System.Drawing.Point(204, 19);
-            this.btn_NewElevator.Name = "btn_NewElevator";
-            this.btn_NewElevator.Size = new System.Drawing.Size(93, 23);
-            this.btn_NewElevator.TabIndex = 9;
-            this.btn_NewElevator.Text = "New Elevator";
-            this.btn_NewElevator.UseVisualStyleBackColor = true;
-            this.btn_NewElevator.Click += new System.EventHandler(this.OpenChildForm);
             // 
             // Main_Form
             // 

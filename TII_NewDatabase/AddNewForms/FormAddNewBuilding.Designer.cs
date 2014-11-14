@@ -118,6 +118,7 @@ namespace TII_NewDatabase.AddNewForms
             this.txt_BuildingState.Name = "txt_BuildingState";
             this.txt_BuildingState.Size = new System.Drawing.Size(27, 20);
             this.txt_BuildingState.TabIndex = 4;
+            this.txt_BuildingState.Validated += new System.EventHandler(this.ValidateState);
             // 
             // txt_BuildingStreet
             // 

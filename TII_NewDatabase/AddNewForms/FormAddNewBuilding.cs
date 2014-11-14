@@ -134,5 +134,23 @@ namespace TII_NewDatabase.AddNewForms
         {
             MessageBox.Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
+
+        /// <summary>
+        /// To make things simpler, if the State textbox is Validated and the text is "DC", we go ahead and select that as the county.
+        /// </summary>
+        /// <param name="sender">The State Text box.</param>
+        /// <param name="e">On Validation.</param>
+        private void ValidateState(object sender, EventArgs e)
+        {
+            if (((Control)sender).Text == "DC")
+            {
+                this.cbo_BuildingCounty.Text = "Washington D.C.";
+                this.cbo_BuildingCounty.Enabled = false;
+            }
+            else
+            {
+                this.cbo_BuildingCounty.Enabled = true;
+            }
+        }
     }
 }

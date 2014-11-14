@@ -48,6 +48,7 @@ namespace Database
                                                                 "Elevator_ID", // Elevator Columns
                                                                 "ElevatorNumber",
                                                                 "Type",
+                                                                "Nick",
                                                                 "Inspection_ID", // Inspection Columns
                                                                 "Date",
                                                                 "InspectionType",
@@ -192,7 +193,7 @@ namespace Database
 
             if (!ValidColumnNames.Contains(column))
             {
-                throw new ArgumentException("SQLColumn", "Column name must appear in ValidColumnNames array");
+                throw new ArgumentException("Column name must appear in ValidColumnNames array", "SQLColumn");
             }
 
             this.Column = column;

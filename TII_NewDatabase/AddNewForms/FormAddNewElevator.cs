@@ -27,6 +27,26 @@ namespace TII_NewDatabase.AddNewForms
             this.owner = ownerBuilding;
             this.Text = "Add Elevator To " + ownerBuilding.Street;
             this.cbo_ElevatorType.Items.AddRange(Elevator.Types);
+
+            this.SetToolTips();
+        }
+
+        /// <summary>
+        /// Method to group together all of the tool tips for this form.
+        /// </summary>
+        private void SetToolTips()
+        {
+            ToolTip tip_ElevNumber = new ToolTip();
+            tip_ElevNumber.SetToolTip(this.txt_ElevatorNumber, "The State Elevator Number or District Certificate Number. If Unknown, press the \"Generate...\" button to obtain a temporary Number from the server");
+
+            ToolTip tip_ElevType = new ToolTip();
+            tip_ElevType.SetToolTip(this.cbo_ElevatorType, "The Type of unit to be added. If the desired type does not appear here, it must be added to the list manually");
+
+            ToolTip tip_ElevNick = new ToolTip();
+            tip_ElevNick.SetToolTip(this.txt_ElevatorNick, "(Optional) If the unit is referred to by some easier to remember name (i.e. \"1\" or \"Lobby\"), it may be entered here");
+
+            ToolTip tip_GenerateNumber = new ToolTip();
+            tip_GenerateNumber.SetToolTip(this.btn_GenerateNumber, "Generates a number in the format \"TII000000\" for use in the database as a placeholder until the unit is assigned an offical number");
         }
 
         /// <summary>
@@ -57,6 +77,15 @@ namespace TII_NewDatabase.AddNewForms
             {
                 case "txt_ElevatorNumber":
                     {
+                        if (txt_ElevatorNumber.Text == string.Empty)
+                        {
+                            this.error_provider.SetError(this.txt_ElevatorNumber, "An elevator number must be provided. Generate a temporary one if necessary.");
+                        }
+                        else
+                        {
+                            this.error_provider.SetError(this.txt_ElevatorNumber, string.Empty);
+                        }
+                        
                         break;
                     }
 
@@ -97,6 +126,11 @@ namespace TII_NewDatabase.AddNewForms
                 {
                     return false;
                 }
+            }
+
+            if (txt_ElevatorNumber.Text == string.Empty)
+            {
+                return false;
             }
 
             return true;

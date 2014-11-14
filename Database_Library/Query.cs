@@ -101,6 +101,19 @@ namespace SQL
         }
 
         /// <summary>
+        /// Creates a more safe query by restricting the inputs.
+        /// </summary>
+        /// <param name="column">The column to select.</param>
+        /// <param name="table_name">The table to select from.</param>
+        /// <param name="where_clause">A "Where" clause to restrict the data that is returned.</param>
+        /// <param name="order_by">Any ordering to be performed before the query is returned.</param>
+        /// <returns>A DataTable containing data as returned by the query.</returns>
+        public static DataTable Select(string column, string table_name, string where_clause, string order_by)
+        {
+            return GetTable(string.Format("SELECT {0} FROM {1} WHERE {2} ORDER BY {3}", column, table_name, where_clause));
+        }
+
+        /// <summary>
         /// Creates a safe Insert Query for any number of value pairs.
         /// </summary>
         /// <param name="table_name">The name of the table to be affected.</param>

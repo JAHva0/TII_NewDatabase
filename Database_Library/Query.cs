@@ -110,7 +110,7 @@ namespace SQL
         /// <returns>A DataTable containing data as returned by the query.</returns>
         public static DataTable Select(string column, string table_name, string where_clause, string order_by)
         {
-            return GetTable(string.Format("SELECT {0} FROM {1} WHERE {2} ORDER BY {3}", column, table_name, where_clause));
+            return GetTable(string.Format("SELECT {0} FROM {1} WHERE {2} ORDER BY {3}", column, table_name, where_clause, order_by));
         }
 
         /// <summary>

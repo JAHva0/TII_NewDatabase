@@ -3,6 +3,7 @@
 namespace TII_NewDatabase.AddNewForms
 {
     using System;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using Database;
     
@@ -134,6 +135,25 @@ namespace TII_NewDatabase.AddNewForms
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Generates a temporary elevator number in the format "TII00000" based on the highest number in that form present in the database at the moment.
+        /// </summary>
+        /// <param name="sender">The Generate button.</param>
+        /// <param name="e">The Click Event.</param>
+        private void GenerateNumber(object sender, EventArgs e)
+        {
+            // Get the topmost entry in the database that uses this format
+            string number = SQL.Query.Select("TOP 1 ElevatorNumber", "Elevator", "ElevatorNumber LIKE 'TII%'", "Elevator_ID DESC").Rows[0][0].ToString();
+            
+            // Strip out all the non-numeric characters from the string.
+            number = Regex.Replace(number, "[^.0-9]", string.Empty);
+
+            // Recreate the string with the number increased by one.
+            number = "TII" + (Convert.ToInt32(number) + 1).ToString().PadLeft(5, '0');
+
+            this.txt_ElevatorNumber.Text = number;
         }
     }
 }

@@ -131,6 +131,7 @@ namespace TII_NewDatabase.AddNewForms
             this.btn_GenerateNumber.TabIndex = 9;
             this.btn_GenerateNumber.Text = "Generate...";
             this.btn_GenerateNumber.UseVisualStyleBackColor = true;
+            this.btn_GenerateNumber.Click += new System.EventHandler(this.GenerateNumber);
             // 
             // FormAddNewElevator
             // 

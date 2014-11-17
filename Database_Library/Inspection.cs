@@ -3,6 +3,7 @@
 namespace Database
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
 
@@ -94,6 +95,23 @@ namespace Database
             /// <summary> Five Year Test and Inspection. </summary>
             [Description("Five Year Test")]
             FIVE_YEAR
+        }
+
+        /// <summary> Gets a string array containing all possible Inspection statuses listed in the enumerator. </summary>
+        /// <value> A string array containing all possible Inspection statuses. </value>
+        public static string[] Statuses
+        {
+            get
+            {
+                List<string> typeList = new List<string>();
+
+                foreach (Type t in Enum.GetValues(typeof(Type)))
+                {
+                    typeList.Add(BaseObject.GetEnumDescription(t));
+                }
+
+                return typeList.ToArray();
+            }
         }
 
         /// <summary> Gets or sets the Date for the inspection. </summary>

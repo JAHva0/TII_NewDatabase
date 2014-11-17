@@ -49,13 +49,11 @@ namespace TII_NewDatabase.AddNewForms
             this.lbl_Type = new System.Windows.Forms.Label();
             this.dtp_InspectionDate = new System.Windows.Forms.DateTimePicker();
             this.lbl_Date = new System.Windows.Forms.Label();
-            this.error_dtp_InspectionDate = new System.Windows.Forms.ErrorProvider(this.components);
-            this.error_ElevatorStatus = new System.Windows.Forms.ErrorProvider(this.components);
+            this.error_provider = new System.Windows.Forms.ErrorProvider(this.components);
             this.gbx_Building.SuspendLayout();
             this.gbx_InspectionInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ElevatorList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.error_dtp_InspectionDate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.error_ElevatorStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.error_provider)).BeginInit();
             this.SuspendLayout();
             // 
             // gbx_Building
@@ -147,11 +145,6 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_SetAllInspections.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cbo_SetAllInspections.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbo_SetAllInspections.FormattingEnabled = true;
-            this.cbo_SetAllInspections.Items.AddRange(new object[] {
-            "Clean",
-            "Outstanding Violations",
-            "Paperwork Needed",
-            "Not Inspected"});
             this.cbo_SetAllInspections.Location = new System.Drawing.Point(163, 293);
             this.cbo_SetAllInspections.Name = "cbo_SetAllInspections";
             this.cbo_SetAllInspections.Size = new System.Drawing.Size(147, 21);
@@ -255,13 +248,9 @@ namespace TII_NewDatabase.AddNewForms
             this.lbl_Date.TabIndex = 1;
             this.lbl_Date.Text = "Date:";
             // 
-            // error_dtp_InspectionDate
+            // error_provider
             // 
-            this.error_dtp_InspectionDate.ContainerControl = this;
-            // 
-            // error_ElevatorStatus
-            // 
-            this.error_ElevatorStatus.ContainerControl = this;
+            this.error_provider.ContainerControl = this;
             // 
             // FormAddInspection
             // 
@@ -279,8 +268,7 @@ namespace TII_NewDatabase.AddNewForms
             this.gbx_InspectionInfo.ResumeLayout(false);
             this.gbx_InspectionInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ElevatorList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.error_dtp_InspectionDate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.error_ElevatorStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.error_provider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -305,7 +293,6 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.ComboBox cbo_InspectionType;
         private System.Windows.Forms.Label lbl_Type;
         private System.Windows.Forms.DataGridView dgv_ElevatorList;
-        private System.Windows.Forms.ErrorProvider error_dtp_InspectionDate;
-        private System.Windows.Forms.ErrorProvider error_ElevatorStatus;
+        private System.Windows.Forms.ErrorProvider error_provider;
     }
 }

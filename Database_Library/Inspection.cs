@@ -56,6 +56,28 @@ namespace Database
         }
 
         /// <summary>
+        /// A list of the various inspection statuses. Prevents spelling errors and enforces consistency in the database.
+        /// </summary>
+        public enum Insp_Status
+        {
+            /// <summary> Clean Inspection. </summary>
+            [Description("Clean")]
+            CLEAN,
+
+            /// <summary> Inspection has items remaining. </summary>
+            [Description("Outstanding Items")]
+            OUTSANDING,
+
+            /// <summary> Inspection has items, but they are paperwork only. </summary>
+            [Description("Paperwork Only")]
+            PAPERWORK,
+
+            /// <summary> No Inspection was performed. </summary>
+            [Description("No Inspection")]
+            NO_INSPECT
+        }
+
+        /// <summary>
         /// A list of the various types of inspections. Prevents spelling errors and enforces consistency in the database.
         /// </summary>
         public enum Type
@@ -100,6 +122,23 @@ namespace Database
         /// <summary> Gets a string array containing all possible Inspection statuses listed in the enumerator. </summary>
         /// <value> A string array containing all possible Inspection statuses. </value>
         public static string[] Statuses
+        {
+            get
+            {
+                List<string> statusList = new List<string>();
+
+                foreach (Insp_Status t in Enum.GetValues(typeof(Insp_Status)))
+                {
+                    statusList.Add(BaseObject.GetEnumDescription(t));
+                }
+
+                return statusList.ToArray();
+            }
+        }
+
+        /// <summary> Gets a string array containing all possible Inspection types listed in the enumerator. </summary>
+        /// <value> A string array containing all possible Inspection types. </value>
+        public static string[] Types
         {
             get
             {

@@ -20,9 +20,6 @@ namespace TII_NewDatabase.AddNewForms
         /// Prevents us from having to re-query for this information for each insertion when it is available when we load them for the first time.
         /// </summary>
         private Dictionary<string, int> dict_ElevatorIDs;
-
-        /// <summary> A string array with the possible elevator statuses. To make things easier if one needs to be added, edited, or removed. </summary>
-        private string[] elev_STATUSES = { "Clean", "Outstanding Violations", "Paperwork Needed", "Not Inspected" };
         
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAddInspection"/> class.
@@ -30,6 +27,8 @@ namespace TII_NewDatabase.AddNewForms
         public FormAddInspection()
         {
             this.InitializeComponent();
+            this.ValidateInformation(this, EventArgs.Empty);
+            this.cbo_SetAllInspections.Items.AddRange(Inspection.Statuses);
         }
 
         /// <summary>
@@ -37,8 +36,9 @@ namespace TII_NewDatabase.AddNewForms
         /// </summary>
         /// <param name="building_address">The building address to initialize the form with. </param>
         public FormAddInspection(string building_address)
+            : this()
         {
-            this.InitializeComponent();
+            
             this.txt_BuildingFilter.Text = building_address;
             if (lbx_BuildingList.Items.Count > 0)
             {
@@ -132,7 +132,7 @@ namespace TII_NewDatabase.AddNewForms
             // Add a status dropdown column
             DataGridViewComboBoxColumn col_ElevStatus = new DataGridViewComboBoxColumn();
             col_ElevStatus.Name = "Status";
-            col_ElevStatus.Items.AddRange(this.elev_STATUSES);
+            col_ElevStatus.Items.AddRange(Inspection.Statuses);
             this.dgv_ElevatorList.Columns.Add(col_ElevStatus);
 
             // Reset the Elevator ID Dictionary
@@ -171,23 +171,31 @@ namespace TII_NewDatabase.AddNewForms
              * 2 - The date has been changed and is valid for the inspection.
              * 3 - There is a valid Inspection Type assigned.
              * 4 - There is a valid Inspector assigned.
-            */
-                        
+            */        
+
             switch (((Control)sender).Name)
             {
+                case "FormAddInspection":
+                    {
+                        // This is the form initializing itself.
+                        this.ValidateInformation(this.dtp_InspectionDate, EventArgs.Empty);
+                        this.ValidateInformation(this.dgv_ElevatorList, EventArgs.Empty);
+                        break;
+                    }
+                
                 case "dtp_InspectionDate":
                     {
                         if (this.dtp_InspectionDate.Value > DateTime.Now)
                         {
-                            this.error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Date must be no later than today");
+                            this.error_provider.SetError(this.dtp_InspectionDate, "Date must be no later than today");
                         }
                         else if (!this.dtp_InspectionDate.Checked)
                         {
-                            this.error_dtp_InspectionDate.SetError(this.dtp_InspectionDate, "Please select a date for the inspection");
+                            this.error_provider.SetError(this.dtp_InspectionDate, "Please select a date for the inspection");
                         }
                         else
                         {
-                            this.error_dtp_InspectionDate.Clear();
+                            this.error_provider.SetError(this.dtp_InspectionDate, string.Empty);
                         }
 
                         break;
@@ -199,26 +207,38 @@ namespace TII_NewDatabase.AddNewForms
                         
                         foreach (DataGridViewRow row in this.dgv_ElevatorList.Rows)
                         {
-                            foreach (string status in this.elev_STATUSES)
+                            if (!Inspection.Statuses.Contains(row.Cells["Status"].Value.ToString()))
                             {
-                                // Check for valid status here.
+                                allStatusComplete = false;
                             }
                         }
 
                         if (!allStatusComplete)
                         {
-                            this.error_ElevatorStatus.SetError(this.dgv_ElevatorList, "Must set a status for each elevator");
+                            this.error_provider.SetError(this.dgv_ElevatorList, "Must set a status for each elevator");
                         }
                         else
                         {
-                            this.error_ElevatorStatus.Clear();
+                            this.error_provider.SetError(this.dgv_ElevatorList, string.Empty);
                         }
 
+                        break;
+                    }
+                case "cbo_InspectionType":
+                    {
+                        
+                        
+                        break;
+                    }
+                case "cbo_Inspector":
+                    {
                         break;
                     }
 
                 default: throw new Exception("How did you get here?");
             }
+
+            
         }
 
         /// <summary>

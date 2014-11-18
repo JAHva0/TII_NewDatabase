@@ -22,7 +22,7 @@ namespace Database
         private Type type;
 
         /// <summary> The status of the inspection. </summary>
-        private string status;
+        private Insp_Status status;
 
         /// <summary> The inspector involved. </summary>
         private string inspector;
@@ -221,15 +221,15 @@ namespace Database
         {
             get
             {
-                return this.status;
+                return BaseObject.GetEnumDescription(this.status);
             }
 
             set
             {
-                if (value != this.status && value != string.Empty)
+                if (value != BaseObject.GetEnumDescription(this.status) && value != string.Empty)
                 {
-                    this.BaseObject_Edited(this, "Status", this.status, value);
-                    this.status = value;
+                    this.BaseObject_Edited(this, "Status", BaseObject.GetEnumDescription(this.status), value);
+                    this.status = Inspection.StringToStatusEnum(value);
                 }
             }
         }
@@ -287,7 +287,7 @@ namespace Database
                 new SQLColumn("Elevator_ID", this.elevator_ID),
                 new SQLColumn("Date", this.date),
                 new SQLColumn("Type", BaseObject.GetEnumDescription(this.type)),
-                new SQLColumn("Status", this.status),
+                new SQLColumn("Status", BaseObject.GetEnumDescription(this.status)),
                 new SQLColumn("Inspector", this.inspector),
                 new SQLColumn("Report", this.report)
             };
@@ -327,6 +327,23 @@ namespace Database
         }
 
         /// <summary>
+        /// Converts the elevator type provided by the string to the corresponding enumerator.
+        /// </summary>
+        /// <param name="status">Inspection status string.</param>
+        /// <returns>An Enumerator related to the status string.</returns>
+        private static Insp_Status StringToStatusEnum(string status)
+        {
+            switch (status)
+            {
+                case "Clean": return Insp_Status.CLEAN;
+                case "Outstanding Items": return Insp_Status.OUTSANDING;
+                case "Paperwork Only": return Insp_Status.PAPERWORK;
+                case "No Inspection": return Insp_Status.NO_INSPECT;
+                default: throw new ArgumentException("Invalid Inspection Status: " + status);
+            }
+        }
+
+        /// <summary>
         /// Loads information from the database into the class structure.
         /// </summary>
         /// <param name="row"> The applicable row out of the inspection table. </param>
@@ -356,7 +373,7 @@ namespace Database
 
                 // We are assigning all of the strings directly, under the assumption that they were checked for compatibility prior to being entered into the database.
                 this.type = Inspection.StringToTypeEnum(row["Type"].ToString());
-                this.status = row["Status"].ToString();
+                this.status = Inspection.StringToStatusEnum(row["Status"].ToString());
                 this.inspector = row["Inspector"].ToString();
                 this.report = row["Report"].ToString();
             }

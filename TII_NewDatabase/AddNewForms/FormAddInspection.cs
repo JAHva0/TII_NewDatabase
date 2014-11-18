@@ -38,7 +38,6 @@ namespace TII_NewDatabase.AddNewForms
         public FormAddInspection(string building_address)
             : this()
         {
-            
             this.txt_BuildingFilter.Text = building_address;
             if (lbx_BuildingList.Items.Count > 0)
             {
@@ -224,12 +223,12 @@ namespace TII_NewDatabase.AddNewForms
 
                         break;
                     }
+
                 case "cbo_InspectionType":
                     {
-                        
-                        
                         break;
                     }
+
                 case "cbo_Inspector":
                     {
                         break;
@@ -237,8 +236,6 @@ namespace TII_NewDatabase.AddNewForms
 
                 default: throw new Exception("How did you get here?");
             }
-
-            
         }
 
         /// <summary>

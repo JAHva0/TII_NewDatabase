@@ -45,7 +45,7 @@ namespace TII_NewDatabase
         /// <summary>
         /// View/Edit the user preferences.
         /// </summary>
-        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnu_Preferances;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -76,7 +76,7 @@ namespace TII_NewDatabase
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnu_Preferances = new System.Windows.Forms.ToolStripMenuItem();
             this.testMethodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbx_InspectionHistory = new System.Windows.Forms.GroupBox();
             this.btn_EnterNewInspection = new System.Windows.Forms.Button();
@@ -234,13 +234,13 @@ namespace TII_NewDatabase
             // forceBackupToolStripMenuItem
             // 
             this.forceBackupToolStripMenuItem.Name = "forceBackupToolStripMenuItem";
-            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.forceBackupToolStripMenuItem.Text = "Force &Backup";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -248,7 +248,7 @@ namespace TII_NewDatabase
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectionsToolStripMenuItem,
-            this.preferencesToolStripMenuItem});
+            this.mnu_Preferances});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.settingsToolStripMenuItem.Text = "&Settings";
@@ -256,15 +256,16 @@ namespace TII_NewDatabase
             // connectionsToolStripMenuItem
             // 
             this.connectionsToolStripMenuItem.Name = "connectionsToolStripMenuItem";
-            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.connectionsToolStripMenuItem.Text = "C&onnections";
             this.connectionsToolStripMenuItem.Click += new System.EventHandler(this.OpenConnectionSettingsForm);
             // 
-            // preferencesToolStripMenuItem
+            // mnu_Preferances
             // 
-            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.preferencesToolStripMenuItem.Text = "&Preferences";
+            this.mnu_Preferances.Name = "mnu_Preferances";
+            this.mnu_Preferances.Size = new System.Drawing.Size(152, 22);
+            this.mnu_Preferances.Text = "&Preferences";
+            this.mnu_Preferances.Click += new System.EventHandler(this.OpenChildForm);
             // 
             // testMethodToolStripMenuItem
             // 

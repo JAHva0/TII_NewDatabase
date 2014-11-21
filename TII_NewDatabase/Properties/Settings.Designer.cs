@@ -94,5 +94,17 @@ namespace TII_NewDatabase.Properties {
                 this["InactveFilterOn"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ReportLocation {
+            get {
+                return ((string)(this["ReportLocation"]));
+            }
+            set {
+                this["ReportLocation"] = value;
+            }
+        }
     }
 }

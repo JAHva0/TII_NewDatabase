@@ -810,7 +810,17 @@ namespace TII_NewDatabase
         /// <param name="e">Any Event Args.</param>
         private void OpenChildForm(object sender, EventArgs e)
         {
-            switch (((Button)sender).Name)
+            string sender_name = string.Empty;
+            if (sender is Control)
+            {
+                sender_name = ((Control)sender).Name;
+            }
+            else if (sender is ToolStripItem)
+            {
+                sender_name = ((ToolStripItem)sender).Name;
+            }
+            
+            switch (sender_name)
             {
                 case "btn_EnterNewInspection":
                     {
@@ -858,7 +868,14 @@ namespace TII_NewDatabase
                         break;
                     }
 
-                default: throw new NotImplementedException(((Button)sender).Name + " is not provided for in the OpenChildForm() method.");
+                case "mnu_Preferances":
+                    {
+                        FormPreferances preferances = new FormPreferances();
+                        preferances.ShowDialog();
+                        break;
+                    }
+
+                default: throw new NotImplementedException(sender_name + " is not provided for in the OpenChildForm() method.");
             }
         }
     }

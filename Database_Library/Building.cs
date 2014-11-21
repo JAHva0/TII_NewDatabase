@@ -739,7 +739,7 @@ namespace Database
                 case "Washington D.C.": return CountyName.WASHINGTONDC;
                 case "Wicomico": return CountyName.WICOMICO;
                 case "Worcester": return CountyName.WORCESTER;
-                default: throw new ArgumentException("Invalid County Name: " + c);
+                default: throw new ArgumentException(string.Format("Invalid County Name: '{0}'", c));
             }
         }
 
@@ -765,7 +765,7 @@ namespace Database
                 case "November": return Month.NOV;
                 case "December": return Month.DEC;
                 case "": return Month.NONE;
-                default: throw new ArgumentException("Invalid Month Selection");
+                default: throw new ArgumentException(string.Format("Invalid Month Selection: '{0}'", m));
             }
         }
 
@@ -776,72 +776,82 @@ namespace Database
         private void LoadFromDatabase(DataRow row)
         {
             Debug.Assert(row != null, "Row cannot be null");
-            
-            // Test the ID because it seems like a nice thing to do.
-            int id;
-            if (int.TryParse(row["Building_ID"].ToString(), out id))
+
+            try
             {
-                this.ID = id;
+                // Test the ID because it seems like a nice thing to do.
+                int id;
+                if (int.TryParse(row["Building_ID"].ToString(), out id))
+                {
+                    this.ID = id;
+                }
+
+                Debug.Assert(this.ID != 0, "Building_ID cannot be 0 - this throws everything off");
+
+                if (int.TryParse(row["Company_ID"].ToString(), out id))
+                {
+                    this.company_id = id;
+                }
+
+                Debug.Assert(this.company_id != 0, "Every Building must have a cooresponding owner. Company_ID cannot be 0");
+
+                // Assign the opening strings. Pretty straightforward.
+                this.proposal_number = row["ProposalNumber"].ToString();
+                this.proposal_file = row["ProposalFile"].ToString();
+                this.name = row["Name"].ToString();
+                this.address.Street = row["Address"].ToString();
+                this.address.City = row["City"].ToString();
+                this.address.State = row["State"].ToString();
+                this.address.Zip = row["Zip"].ToString();
+
+                // Get the county enum based on this string.
+                this.county = StringToCountyEnum(row["County"].ToString());
+
+                // Check if the 
+                decimal d;
+                if (decimal.TryParse(row["FirmFee"].ToString(), out d))
+                {
+                    this.firm_fee.Value = d;
+                }
+
+                if (decimal.TryParse(row["HourlyFee"].ToString(), out d))
+                {
+                    this.hourly_fee.Value = d;
+                }
+
+                this.anniversary = StringtoMonthEnum(row["Anniversary"].ToString());
+
+                this.contractor = row["Contractor"].ToString();
+
+                bool.TryParse(row["Active"].ToString(), out this.active);
+
+                float lat, lng;
+                float.TryParse(row["Latitude"].ToString(), out lat);
+                float.TryParse(row["Longitude"].ToString(), out lng);
+
+                // If bot the lat and long parsed correctly, set up the coordinates.
+                if (lat != 0.0D && lng != 0.0D)
+                {
+                    this.coordinates = new GeographicCoordinates(lat, lng);
+                }
+
+                // Pull a list of contacts (If any exist for this building)
+                this.contact_list = new List<Contact>();
+                foreach (DataRow con in SQL.Query.Select(string.Format(
+                                                         "SELECT DISTINCT * FROM Contact " +
+                                                         "JOIN Building_Contact_Relations ON Contact.Contact_ID = Building_Contact_Relations.Contact_ID " +
+                                                         "WHERE Building_Contact_Relations.Building_ID = {0}",
+                                                         this.ID)).Rows)
+                {
+                    this.contact_list.Add(new Contact(con));
+                }
             }
-
-            Debug.Assert(this.ID != 0, "Building_ID cannot be 0 - this throws everything off");
-
-            if (int.TryParse(row["Company_ID"].ToString(), out id))
+            catch (Exception ex)
             {
-                this.company_id = id;
-            }
-
-            Debug.Assert(this.company_id != 0, "Every Building must have a cooresponding owner. Company_ID cannot be 0");
-
-            // Assign the opening strings. Pretty straightforward.
-            this.proposal_number = row["ProposalNumber"].ToString();
-            this.proposal_file = row["ProposalFile"].ToString();
-            this.name = row["Name"].ToString();
-            this.address.Street = row["Address"].ToString();
-            this.address.City = row["City"].ToString();
-            this.address.State = row["State"].ToString();
-            this.address.Zip = row["Zip"].ToString();
-
-            // Get the county enum based on this string.
-            this.county = StringToCountyEnum(row["County"].ToString());
-
-            // Check if the 
-            decimal d;
-            if (decimal.TryParse(row["FirmFee"].ToString(), out d))
-            {
-                this.firm_fee.Value = d;
-            }
-
-            if (decimal.TryParse(row["HourlyFee"].ToString(), out d))
-            {
-                this.hourly_fee.Value = d;
-            }
-
-            this.anniversary = StringtoMonthEnum(row["Anniversary"].ToString());
-
-            this.contractor = row["Contractor"].ToString();
-
-            bool.TryParse(row["Active"].ToString(), out this.active);
-
-            float lat, lng;
-            float.TryParse(row["Latitude"].ToString(), out lat);
-            float.TryParse(row["Longitude"].ToString(), out lng);
-
-            // If bot the lat and long parsed correctly, set up the coordinates.
-            if (lat != 0.0D && lng != 0.0D)
-            {
-                this.coordinates = new GeographicCoordinates(lat, lng);
-            }
-
-            // Pull a list of contacts (If any exist for this building)
-            this.contact_list = new List<Contact>();
-            foreach (DataRow con in SQL.Query.Select(string.Format(
-                                                     "SELECT DISTINCT * FROM Contact " +
-                                                     "JOIN Building_Contact_Relations ON Contact.Contact_ID = Building_Contact_Relations.Contact_ID " +
-                                                     "WHERE Building_Contact_Relations.Building_ID = {0}",
-                                                     this.ID)).Rows)
-            {
-                this.contact_list.Add(new Contact(con));
+                if (ex.Message.Contains("Invalid County Name") || ex.Message.Contains("Invalid Month Selection"))
+                {
+                    throw new InvalidEnumArgumentException(string.Format("\r\rError Parsing Database Information:\rBuilding_ID: '{0}'\r{1}\r\r{2}", this.ID, this.address.ToString(), ex.Message));
+                }
             }
         }
 

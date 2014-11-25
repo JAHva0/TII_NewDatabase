@@ -506,13 +506,20 @@ namespace TII_NewDatabase
             // In case we end up with more than one report from that date, open them all.
             foreach (DataRow row in report_file)
             {
-                if (File.Exists(row["Report"].ToString()))
+                try
                 {
-                    Process.Start(row["Report"].ToString());
+                    if (!row["Report"].ToString().Contains(@"C:") && Directory.Exists(Properties.Settings.Default.ReportLocation))
+                    {
+                        Process.Start(Properties.Settings.Default.ReportLocation + row["Report"].ToString());
+                    }
+                    else
+                    {
+                        Process.Start(row["Report"].ToString());
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Unable to Locate Report File.");
+
                 }
             }
         }

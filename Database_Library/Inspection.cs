@@ -272,6 +272,14 @@ namespace Database
             }
         }
 
+        public void OpenReportFile(string path)
+        {
+            if (report != string.Empty)
+            {
+                System.Diagnostics.Process.Start(path + this.report);
+            }
+        }
+
         /// <summary>
         /// Submits the data enclosed in the class to the SQL Server as either an Insert or an Update dependant on the presence of an ID in the base class.
         /// </summary>

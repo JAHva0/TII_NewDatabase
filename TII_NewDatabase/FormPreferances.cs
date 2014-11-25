@@ -5,6 +5,9 @@ namespace TII_NewDatabase
     using System;
     using System.IO;
     using System.Windows.Forms;
+
+    using System.Data;
+    using Database;
     
     /// <summary>
     /// Class to display and modify user preferences.

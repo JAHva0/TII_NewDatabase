@@ -48,9 +48,17 @@ namespace TII_NewDatabase
             try
             {
                 return new DateTime(
-                    Convert.ToInt32(str_date.Substring(0, 2)),
+                    Convert.ToInt32("20" + str_date.Substring(0, 2)),
                     Convert.ToInt32(str_date.Substring(2, 2)),
                     Convert.ToInt32(str_date.Substring(4, 2)));
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw new ArgumentOutOfRangeException("String must be exactly 6 chars long", ex);
+            }
+            catch (FormatException ex)
+            {
+                throw new FormatException("String must be exactly 6 integers", ex);
             }
             catch (Exception ex)
             {

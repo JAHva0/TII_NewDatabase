@@ -519,7 +519,7 @@ namespace TII_NewDatabase
                 }
                 catch (Exception ex)
                 {
-
+                    throw ex;
                 }
             }
         }

@@ -34,7 +34,7 @@ namespace TII_NewDatabase
         {
             get
             {
-                Connection.CreateConnection(txt_UserName.Text, txt_Password.Text, txt_ServerAddress.Text);
+                Connection.CreateConnection(this.txt_UserName.Text, this.txt_Password.Text, this.txt_ServerAddress.Text);
                 if (Connection.ConnectionUp)
                 {
                     return true;

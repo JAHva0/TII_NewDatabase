@@ -6,7 +6,6 @@ namespace TII_NewDatabase
     using System.IO;
     using System.Windows.Forms;
 
-    using System.Data;
     using Database;
     
     /// <summary>

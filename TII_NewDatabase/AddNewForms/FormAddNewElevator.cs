@@ -78,7 +78,7 @@ namespace TII_NewDatabase.AddNewForms
             {
                 case "txt_ElevatorNumber":
                     {
-                        if (txt_ElevatorNumber.Text == string.Empty)
+                        if (this.txt_ElevatorNumber.Text == string.Empty)
                         {
                             this.error_provider.SetError(this.txt_ElevatorNumber, "An elevator number must be provided. Generate a temporary one if necessary.");
                         }
@@ -129,7 +129,7 @@ namespace TII_NewDatabase.AddNewForms
                 }
             }
 
-            if (txt_ElevatorNumber.Text == string.Empty)
+            if (this.txt_ElevatorNumber.Text == string.Empty)
             {
                 return false;
             }

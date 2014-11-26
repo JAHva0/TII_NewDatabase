@@ -27,5 +27,35 @@ namespace TII_NewDatabase
 
             return false;
         }
+
+        /// <summary>
+        /// Converts a DateTime to a string Formatted "YYMMDD".
+        /// </summary>
+        /// <param name="date">The DateTime to Convert.</param>
+        /// <returns> A string representation of the value.</returns>
+        public static string ToYYMMDDString(this DateTime date)
+        {
+            return date.Year.ToString().PadLeft(2, '0') + date.Month.ToString().PadLeft(2, '0') + date.Day.ToString().PadLeft(2, '0');
+        }
+
+        /// <summary>
+        /// Converts a string in the format "YYMMDD" to it's <see cref="DateTime"/> representation.
+        /// </summary>
+        /// <param name="str_date">The string to convert.</param>
+        /// <returns> A Date generated from the string value. </returns>
+        public static DateTime ToYYMMDD(this string str_date)
+        {
+            try
+            {
+                return new DateTime(
+                    Convert.ToInt32(str_date.Substring(0, 2)),
+                    Convert.ToInt32(str_date.Substring(2, 2)),
+                    Convert.ToInt32(str_date.Substring(4, 2)));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

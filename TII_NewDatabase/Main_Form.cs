@@ -16,6 +16,8 @@ namespace TII_NewDatabase
     using Database;
     using SQL;
 
+    using HelperClasses;
+
     /// <summary>
     /// Containing class for Form Functions.
     /// </summary>

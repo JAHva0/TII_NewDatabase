@@ -272,9 +272,13 @@ namespace Database
             }
         }
 
+        /// <summary>
+        /// Checks to see if there is a report file, and if so, attempts to open it. 
+        /// </summary>
+        /// <param name="path"> The path to the desired report file. </param>
         public void OpenReportFile(string path)
         {
-            if (report != string.Empty)
+            if (this.report != string.Empty)
             {
                 System.Diagnostics.Process.Start(path + this.report);
             }

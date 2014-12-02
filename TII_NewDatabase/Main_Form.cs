@@ -14,9 +14,8 @@ namespace TII_NewDatabase
     using System.Windows.Forms;
     using AddNewForms;
     using Database;
-    using SQL;
-
     using HelperClasses;
+    using SQL;
 
     /// <summary>
     /// Containing class for Form Functions.

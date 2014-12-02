@@ -68,10 +68,16 @@ namespace TII_NewDatabase
             }
         }
 
-        public static double SimilarityFactor(this string str, string toCompare)
+        /// <summary>
+        /// Compares this string to another, and returns a percentage value indicating how similar the two strings are.
+        /// </summary>
+        /// <param name="str">The string calling the function.</param>
+        /// <param name="stringToCompare">The string to be compared against.</param>
+        /// <returns>A double indicating how similar this string is to another. </returns>
+        public static double SimilarityFactor(this string str, string stringToCompare)
         {
             List<string> pairs1 = WordLetterPairs(str.ToUpper());
-            List<string> pairs2 = WordLetterPairs(toCompare.ToUpper());
+            List<string> pairs2 = WordLetterPairs(stringToCompare.ToUpper());
 
             int intersection = 0;
             int union = pairs1.Count + pairs2.Count;
@@ -92,9 +98,14 @@ namespace TII_NewDatabase
             return (2.0 * intersection) / union;
         }
 
+        /// <summary>
+        /// Splits the string passed into two letter pairs by word.
+        /// </summary>
+        /// <param name="str">The string to parse.</param>
+        /// <returns> A collection of two letter pairs. </returns>
         private static List<string> WordLetterPairs(string str)
         {
-            List<string> AllPairs = new List<string>();
+            List<string> allPairs = new List<string>();
 
             string[] words = Regex.Split(str, @"\s");
 
@@ -102,18 +113,23 @@ namespace TII_NewDatabase
             {
                 if (!string.IsNullOrEmpty(words[w]))
                 {
-                    string[] PairsInWord = LetterPairs(words[w]);
+                    string[] pairsInWord = LetterPairs(words[w]);
 
-                    for (int p = 0; p < PairsInWord.Length; p++)
+                    for (int p = 0; p < pairsInWord.Length; p++)
                     {
-                        AllPairs.Add(PairsInWord[p]);
+                        allPairs.Add(pairsInWord[p]);
                     }
                 }
             }
 
-            return AllPairs;
+            return allPairs;
         }
 
+        /// <summary>
+        /// Splits the word passed into two letter pairs, i.e. ABCD becomes AB BC CD.
+        /// </summary>
+        /// <param name="str">The string to parse.</param>
+        /// <returns> An array of two letter pairs. </returns>
         private static string[] LetterPairs(string str)
         {
             int numPairs = str.Length - 1;

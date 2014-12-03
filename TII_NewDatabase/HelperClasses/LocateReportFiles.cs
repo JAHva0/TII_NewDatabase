@@ -52,18 +52,22 @@ namespace TII_NewDatabase.HelperClasses
 
                             Similarity mostlikely = similarities.OrderByDescending(o => o.Similar).ToList().First();
 
-                            DataTable matchingInspections = SQL.Query.Select(string.Format(
-                                "SELECT Inspection_ID " +
-                                "FROM Inspection " +
-                                "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
-                                "WHERE Building_ID = {0} " +
-                                "AND Date = '{1}'", Main_Form.BuildingList.GetItemID(mostlikely.Value), date));
+                            DataTable matchingInspections = SQL.Query.Select(
+                                string.Format(
+                                    "SELECT Inspection_ID " +
+                                    "FROM Inspection " +
+                                    "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
+                                    "WHERE Building_ID = {0} " +
+                                    "AND Date = '{1}'", 
+                                    Main_Form.BuildingList.GetItemID(mostlikely.Value), 
+                                    date));
 
                             foreach (DataRow inspection in matchingInspections.Rows)
                             {
-                                SQL.Query.Update("Inspection",
-                                                    new Database.SQLColumn[] { new Database.SQLColumn("Report", file) },
-                                                    string.Format("Inspection_ID = '{0}'", inspection["Inspection_ID"]));
+                                SQL.Query.Update(
+                                    "Inspection",
+                                    new Database.SQLColumn[] { new Database.SQLColumn("Report", file) },
+                                    string.Format("Inspection_ID = '{0}'", inspection["Inspection_ID"]));
                             }
                         }
                         catch (Exception ex)

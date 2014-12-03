@@ -116,6 +116,7 @@
     <Compile Include="FormPreferances.Designer.cs">
       <DependentUpon>FormPreferances.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\DatabaseBackup.cs" />
     <Compile Include="HelperClasses\LocateReportFiles.cs" />
     <Compile Include="ListStructs.cs" />
     <Compile Include="Main_Form.cs">

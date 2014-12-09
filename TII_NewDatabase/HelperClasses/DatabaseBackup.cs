@@ -41,7 +41,7 @@ namespace TII_NewDatabase.HelperClasses
                     // Get the names of every table in the database
                     foreach (DataRow tablename in SQL.Query.Select("SELECT name FROM sys.tables").Rows)
                     {
-                        writer.Write("$" + tablename["name"]+"$");
+                        writer.Write("$" + tablename["name"] + "$");
                         bool columnsSaved = false;
                         
                         // Select every value that exists in the table
@@ -107,6 +107,10 @@ namespace TII_NewDatabase.HelperClasses
             File.Delete(filename + "_temp");
         }
 
+        /// <summary>
+        /// Drops all tables in a database, then creates new tables and entries based on the information stored in the backup file.
+        /// </summary>
+        /// <param name="file">The backup file to restore from.</param>
         public static void RestoreBackup(string file)
         {
             // Check that the file actually exists first. 
@@ -129,11 +133,11 @@ namespace TII_NewDatabase.HelperClasses
                         if (line.StartsWith("$"))
                         {
                             tablename = line.Substring(1, line.LastIndexOf('$') - 1);
-                            string CreateTableQuery = string.Format("CREATE TABLE {0} ({1})", tablename, line.Substring(line.LastIndexOf('$') + 1).Replace("|", ", "));
+                            string createTableQuery = string.Format("CREATE TABLE {0} ({1})", tablename, line.Substring(line.LastIndexOf('$') + 1).Replace("|", ", "));
                         }
                         else
                         {
-                            string InsertEntryQuery = string.Format("INSERT INTO {0} VALUES ({1})", tablename, line.Replace("|", ", "));
+                            string insertEntryQuery = string.Format("INSERT INTO {0} VALUES ('{1}')", tablename, line.Replace("|", "', '"));
                         }
                     }
                 }

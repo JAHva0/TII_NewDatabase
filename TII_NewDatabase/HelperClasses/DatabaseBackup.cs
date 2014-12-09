@@ -41,7 +41,7 @@ namespace TII_NewDatabase.HelperClasses
                     // Get the names of every table in the database
                     foreach (DataRow tablename in SQL.Query.Select("SELECT name FROM sys.tables").Rows)
                     {
-                        writer.WriteLine("$" + tablename["name"]);
+                        writer.Write("$" + tablename["name"]+"$");
                         bool columnsSaved = false;
                         
                         // Select every value that exists in the table
@@ -71,6 +71,7 @@ namespace TII_NewDatabase.HelperClasses
                                 columnsSaved = true;
                             }
 
+                            // Write each row on it's own line, seperated by a pipe char.
                             for (int i = 0; i < row.ItemArray.Length; i++)
                             {
                                 if (i != 0)
@@ -104,6 +105,39 @@ namespace TII_NewDatabase.HelperClasses
             }
 
             File.Delete(filename + "_temp");
+        }
+
+        public static void RestoreBackup(string file)
+        {
+            // Check that the file actually exists first. 
+            if (!File.Exists(file))
+            {
+                throw new FileNotFoundException("Unable to locate " + file);
+            }
+
+            using (StreamReader stream = new StreamReader(file))
+            {
+                string line = string.Empty;
+                string tablename = string.Empty;
+
+                while ((line = stream.ReadLine()) != null)
+                {
+                    if (!line.StartsWith("##"))
+                    {
+                        // If there's a $ at the start of the line, we are creating a new table. 
+                        // Grab the table name and put together a Create Table statement. 
+                        if (line.StartsWith("$"))
+                        {
+                            tablename = line.Substring(1, line.LastIndexOf('$') - 1);
+                            string CreateTableQuery = string.Format("CREATE TABLE {0} ({1})", tablename, line.Substring(line.LastIndexOf('$') + 1).Replace("|", ", "));
+                        }
+                        else
+                        {
+                            string InsertEntryQuery = string.Format("INSERT INTO {0} VALUES ({1})", tablename, line.Replace("|", ", "));
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

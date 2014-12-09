@@ -181,7 +181,8 @@ namespace TII_NewDatabase
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;
 
-            DatabaseBackup.CreateBackup(Properties.Settings.Default.ReportLocation + @"\Backup");
+            //DatabaseBackup.CreateBackup(Properties.Settings.Default.ReportLocation + @"\Backup");
+            DatabaseBackup.RestoreBackup(@"C:\Users\Jon\Documents\TPIRs\Backup\20141205-16-DB_Backup.tiibackup");
         }
 
         /// <summary>

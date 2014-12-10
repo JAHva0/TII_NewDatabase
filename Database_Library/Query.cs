@@ -278,6 +278,17 @@ namespace SQL
 
                 return true;
             }
+            catch (SqlException ex)
+            {
+                if (ex.Message.Contains("Violation of UNIQUE KEY constraint"))
+                {
+                    throw ex;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
             catch (Exception ex)
             {
                 // Add Handling and Debugging for Exceptions as they arise

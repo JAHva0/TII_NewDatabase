@@ -893,8 +893,23 @@ namespace TII_NewDatabase
 
                 case "btn_NewElevator":
                     {
-                        FormAddNewElevator newElevator = new FormAddNewElevator(this.currentlySelectedBuilding);
-                        newElevator.ShowDialog();
+                        try
+                        {
+                            FormAddNewElevator newElevator = new FormAddNewElevator(this.currentlySelectedBuilding);
+                            newElevator.ShowDialog();
+                            this.PopulateFields(this.currentlySelectedBuilding);
+                        }
+                        catch (SQLDuplicateEntryException ex)
+                        {
+                            // If we get a duplicate entry error, alert the user
+                            MessageBox.Show(string.Format("An Elevator with the number {0} already exists in the database.", ((Elevator)ex.FailedObject).ElevatorNumber), "Duplicate Elevator Number", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        
+                            // Possibly we should either tell the user what building has the elevator number they are using? or if they would like to navigate to that building?
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
                         break;
                     }
 

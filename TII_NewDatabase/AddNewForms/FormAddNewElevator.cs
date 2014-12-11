@@ -63,7 +63,19 @@ namespace TII_NewDatabase.AddNewForms
             newElevator.ElevatorType = this.cbo_ElevatorType.Text;
             newElevator.Nickname = this.txt_ElevatorNick.Text;
 
-            newElevator.CommitToDatabase();
+            try
+            {
+                newElevator.CommitToDatabase();
+            }
+            catch (SQL.SQLDuplicateEntryException ex)
+            {
+                throw new SQL.SQLDuplicateEntryException("Duplicate Elevator Entry", ex, newElevator);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         /// <summary>

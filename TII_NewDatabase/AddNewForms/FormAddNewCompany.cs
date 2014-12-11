@@ -22,6 +22,16 @@ namespace TII_NewDatabase.AddNewForms
             this.InitializeComponent();
         }
 
+        /// <summary> Gets the string value of the company name this form is trying / has added. </summary>
+        /// <value> The company name this form was working with. </value>
+        public string newCompanyName
+        {
+            get
+            {
+                return this.newCompany.Name;
+            }
+        }
+
         /// <summary>
         /// Fires upon clicking the save button. Checks to make sure vital information is present in the form.
         /// Also catches any exceptions thrown by attempting to assign invalid data to the Company class and alerts

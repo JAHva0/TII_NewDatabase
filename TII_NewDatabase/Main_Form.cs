@@ -847,6 +847,11 @@ namespace TII_NewDatabase
                                 // If the Dialog result is "OK", then the user saved a new company and we should refresh anything to do with it.
                                 companyList.Regenerate();
                                 this.PopulateListboxes();
+
+                                // Also select this new company in the company list box
+                                this.tab_BuildingCompanySelector.SelectedTab = this.tab_ByCompany;
+                                this.txt_FilterCompany.Text = newCompany.CompanyName;
+                                this.lbx_CompanyList.SelectedItem = this.txt_FilterCompany.Text;
                             }
                         }
                         catch (SQLDuplicateEntryException ex)

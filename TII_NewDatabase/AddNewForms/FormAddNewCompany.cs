@@ -82,7 +82,18 @@ namespace TII_NewDatabase.AddNewForms
 
             if (this.newCompany.SaveConfirmation())
             {
-                this.newCompany.CommitToDatabase();
+                try
+                {
+                    this.newCompany.CommitToDatabase();
+                }
+                catch (SQL.SQLDuplicateEntryException ex)
+                {
+                    throw new SQL.SQLDuplicateEntryException("Duplicate Company Entry", ex, this.newCompany);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
 

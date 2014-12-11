@@ -282,7 +282,7 @@ namespace SQL
             {
                 if (ex.Message.Contains("Violation of UNIQUE KEY constraint"))
                 {
-                    throw ex;
+                    throw new SQLDuplicateEntryException("Violation of UNIQUE KEY constraint", ex);
                 }
                 else
                 {
@@ -293,6 +293,13 @@ namespace SQL
             {
                 // Add Handling and Debugging for Exceptions as they arise
                 throw ex;
+            }
+            finally
+            {
+                if (Connection.GetConnection.State != ConnectionState.Closed)
+                {
+                    Connection.GetConnection.Close();
+                }
             }
         }
     }

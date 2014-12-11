@@ -246,40 +246,46 @@ namespace TII_NewDatabase.AddNewForms
         private void SubmitInspection(object sender, EventArgs e)
         {
             bool success = true;
-            
-            foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
+            try
             {
-                // If the elevator is marked as Not Inspected, there is no reason to make a note of it for the database.
-                if (elev.Cells["Status"].Value.ToString() != "Not Inspected")
+                foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
                 {
-                    Inspection newInspection = new Inspection();
-                    newInspection.ElevatorID = this.dict_ElevatorIDs[elev.Cells["Elevator Number"].Value.ToString()];
-                    newInspection.Date = this.dtp_InspectionDate.Value;
-                    newInspection.InspectionType = this.cbo_InspectionType.Text;
-                    newInspection.Status = elev.Cells["Status"].Value.ToString();
-                    newInspection.Inspector = this.cbo_Inspector.Text;
-                    newInspection.ReportFile = this.txt_ReportFile.Text;
+                    // If the elevator is marked as Not Inspected, there is no reason to make a note of it for the database.
+                    if (elev.Cells["Status"].Value.ToString() != "Not Inspected")
+                    {
+                        Inspection newInspection = new Inspection();
+                        newInspection.ElevatorID = this.dict_ElevatorIDs[elev.Cells["Elevator Number"].Value.ToString()];
+                        newInspection.Date = this.dtp_InspectionDate.Value;
+                        newInspection.InspectionType = this.cbo_InspectionType.Text;
+                        newInspection.Status = elev.Cells["Status"].Value.ToString();
+                        newInspection.Inspector = this.cbo_Inspector.Text;
+                        newInspection.ReportFile = this.txt_ReportFile.Text;
 
-                    success = success && newInspection.CommitToDatabase();
+                        success = success && newInspection.CommitToDatabase();
+                    }
+                }
+
+                if (success)
+                {
+                    MessageBox.Show("Inspection Added Successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Clear all the fields to reset the form.
+                    this.dtp_InspectionDate.Value = DateTime.Today;
+                    this.dtp_InspectionDate.Checked = false;
+                    this.cbo_InspectionType.Text = string.Empty;
+                    this.cbo_Inspector.Text = string.Empty;
+                    this.txt_ReportFile.Text = string.Empty;
+                    this.cbo_SetAllInspections.Text = string.Empty;
+                    this.SetAllInspections(new object(), EventArgs.Empty);
+                }
+                else
+                {
+                    MessageBox.Show("Something has gone wrong...", "SQL Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
-
-            if (success)
+            catch (Exception ex)
             {
-                MessageBox.Show("Inspection Added Successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Clear all the fields to reset the form.
-                this.dtp_InspectionDate.Value = DateTime.Today;
-                this.dtp_InspectionDate.Checked = false;
-                this.cbo_InspectionType.Text = string.Empty;
-                this.cbo_Inspector.Text = string.Empty;
-                this.txt_ReportFile.Text = string.Empty;
-                this.cbo_SetAllInspections.Text = string.Empty;
-                this.SetAllInspections(new object(), EventArgs.Empty);
-            }
-            else
-            {
-                MessageBox.Show("Something has gone wrong...", "SQL Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                throw ex;
             }
         }
 

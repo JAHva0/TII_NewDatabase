@@ -840,11 +840,28 @@ namespace TII_NewDatabase
                 case "btn_AddNewCompany":
                     {
                         FormAddNewCompany newCompany = new FormAddNewCompany();
-                        if (newCompany.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        try
                         {
-                            // If the Dialog result is "OK", then the user saved a new company and we should refresh anything to do with it.
-                            companyList.Regenerate();
-                            this.PopulateListboxes();
+                            if (newCompany.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                // If the Dialog result is "OK", then the user saved a new company and we should refresh anything to do with it.
+                                companyList.Regenerate();
+                                this.PopulateListboxes();
+                            }
+                        }
+                        catch (SQLDuplicateEntryException ex)
+                        {
+                            // If the user attempted to enter in a company which the SQL Server rejected as a duplicate, catch the exception here.
+                            // Alert the user of the error
+                            MessageBox.Show(((Company)ex.FailedObject).Name + " already exists in the database", "Duplicate Company Entry", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            
+                            // Make sure tha company tab is active and select the duplicate value in the list
+                            this.tab_BuildingCompanySelector.SelectedTab = this.tab_ByCompany;
+                            this.lbx_CompanyList.SelectedItem = ((Company)ex.FailedObject).Name;
+                        }
+                        catch (Exception)
+                        {
+                            throw;
                         }
 
                         break;

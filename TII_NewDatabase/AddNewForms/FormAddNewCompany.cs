@@ -24,7 +24,7 @@ namespace TII_NewDatabase.AddNewForms
 
         /// <summary> Gets the string value of the company name this form is trying / has added. </summary>
         /// <value> The company name this form was working with. </value>
-        public string newCompanyName
+        public string NewCompanyName
         {
             get
             {

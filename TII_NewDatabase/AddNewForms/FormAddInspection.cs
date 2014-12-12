@@ -270,23 +270,36 @@ namespace TII_NewDatabase.AddNewForms
                     MessageBox.Show("Inspection Added Successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Clear all the fields to reset the form.
-                    this.dtp_InspectionDate.Value = DateTime.Today;
-                    this.dtp_InspectionDate.Checked = false;
-                    this.cbo_InspectionType.Text = string.Empty;
-                    this.cbo_Inspector.Text = string.Empty;
-                    this.txt_ReportFile.Text = string.Empty;
-                    this.cbo_SetAllInspections.Text = string.Empty;
-                    this.SetAllInspections(new object(), EventArgs.Empty);
+                    this.ResetForm();
                 }
                 else
                 {
                     MessageBox.Show("Something has gone wrong...", "SQL Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
+            catch (SQLDuplicateEntryException)
+            {
+                MessageBox.Show(string.Format("{0} inspection already exists for this building on {1}", this.cbo_InspectionType.Text, this.dtp_InspectionDate), "Duplicate Inspection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.ResetForm();
+            }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// Method for resetting the form back to it's initial state.
+        /// </summary>
+        private void ResetForm()
+        {
+            this.dtp_InspectionDate.Value = DateTime.Today;
+            this.dtp_InspectionDate.Checked = false;
+            this.cbo_InspectionType.Text = string.Empty;
+            this.cbo_Inspector.Text = string.Empty;
+            this.txt_ReportFile.Text = string.Empty;
+            this.cbo_SetAllInspections.Text = string.Empty;
+            this.SetAllInspections(new object(), EventArgs.Empty);
         }
 
         /// <summary>

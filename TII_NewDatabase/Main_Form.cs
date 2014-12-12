@@ -850,7 +850,7 @@ namespace TII_NewDatabase
 
                                 // Also select this new company in the company list box
                                 this.tab_BuildingCompanySelector.SelectedTab = this.tab_ByCompany;
-                                this.txt_FilterCompany.Text = newCompany.CompanyName;
+                                this.txt_FilterCompany.Text = newCompany.NewCompanyName;
                                 this.lbx_CompanyList.SelectedItem = this.txt_FilterCompany.Text;
                             }
                         }

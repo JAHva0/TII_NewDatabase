@@ -875,19 +875,35 @@ namespace TII_NewDatabase
                 case "btn_NewBuilding":
                     {
                         FormAddNewBuilding newBuilding = new FormAddNewBuilding(this.txt_CompanyName.Text);
-                        if (newBuilding.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        try
                         {
-                            // If the Dialog result is "OK", then the user saved a new building and we should refresh anything to do with it.
-                            buildingList.Regenerate();
-                            this.PopulateListboxes();
-
-                            // If the active tab is the By Company tab, we should select the newly added building in the "Other Buildings" listbox
-                            if (this.tab_BuildingCompanySelector.SelectedTab == this.tab_ByCompany)
+                            if (newBuilding.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                this.lbx_OtherCompanyBuildings.SelectedItem = newBuilding.NewBuildingAddress;
+                                // If the Dialog result is "OK", then the user saved a new building and we should refresh anything to do with it.
+                                buildingList.Regenerate();
+                                this.PopulateListboxes();
+
+                                // If the active tab is the By Company tab, we should select the newly added building in the "Other Buildings" listbox
+                                if (this.tab_BuildingCompanySelector.SelectedTab == this.tab_ByCompany)
+                                {
+                                    this.lbx_OtherCompanyBuildings.SelectedItem = newBuilding.NewBuildingAddress;
+                                }
                             }
                         }
+                        catch (SQLDuplicateEntryException ex)
+                        {
+                            // If the user attempted to enter in a building address which the SQL Server rejected as a duplicate, catch the exception here
+                            MessageBox.Show(((Building)ex.FailedObject).Street + " already exists in the database", "Duplicate Building Entry", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
+                            // Make sure the building tab is active and select the duplicate value from the list
+                            this.tab_BuildingCompanySelector.SelectedTab = this.tab_ByBuilding;
+                            this.lbx_BuildingList.SelectedItem = ((Building)ex.FailedObject).Street;
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                        
                         break;
                     }
 

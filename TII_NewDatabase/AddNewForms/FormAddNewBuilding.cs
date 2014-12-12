@@ -119,6 +119,10 @@ namespace TII_NewDatabase.AddNewForms
                     this.newBuilding.CommitToDatabase();
                 }
             }
+            catch (SQL.SQLDuplicateEntryException ex)
+            {
+                throw new SQLDuplicateEntryException("Duplicate Building Entry", ex, this.newBuilding);
+            }
             catch (Exception ex)
             {
                 throw ex;

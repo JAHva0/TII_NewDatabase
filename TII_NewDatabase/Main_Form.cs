@@ -888,6 +888,10 @@ namespace TII_NewDatabase
                                 {
                                     this.lbx_OtherCompanyBuildings.SelectedItem = newBuilding.NewBuildingAddress;
                                 }
+                                else if (this.tab_BuildingCompanySelector.SelectedTab == this.tab_ByBuilding)
+                                {
+                                    this.lbx_BuildingList.SelectedItem = newBuilding.NewBuildingAddress;
+                                }
                             }
                         }
                         catch (SQLDuplicateEntryException ex)

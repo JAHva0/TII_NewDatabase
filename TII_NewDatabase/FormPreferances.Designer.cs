@@ -34,6 +34,8 @@ namespace TII_NewDatabase
             this.txt_ReportFileLocation = new System.Windows.Forms.TextBox();
             this.btn_BrowseForReportFolder = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
+            this.lbl_ReportFormat = new System.Windows.Forms.Label();
+            this.txt_ReportFormat = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbl_ReportFileLocation
@@ -49,12 +51,12 @@ namespace TII_NewDatabase
             // 
             this.txt_ReportFileLocation.Location = new System.Drawing.Point(15, 25);
             this.txt_ReportFileLocation.Name = "txt_ReportFileLocation";
-            this.txt_ReportFileLocation.Size = new System.Drawing.Size(257, 20);
+            this.txt_ReportFileLocation.Size = new System.Drawing.Size(375, 20);
             this.txt_ReportFileLocation.TabIndex = 1;
             // 
             // btn_BrowseForReportFolder
             // 
-            this.btn_BrowseForReportFolder.Location = new System.Drawing.Point(213, 51);
+            this.btn_BrowseForReportFolder.Location = new System.Drawing.Point(328, 51);
             this.btn_BrowseForReportFolder.Name = "btn_BrowseForReportFolder";
             this.btn_BrowseForReportFolder.Size = new System.Drawing.Size(59, 21);
             this.btn_BrowseForReportFolder.TabIndex = 2;
@@ -73,11 +75,31 @@ namespace TII_NewDatabase
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.OnClick_SaveAndExit);
             // 
+            // lbl_ReportFormat
+            // 
+            this.lbl_ReportFormat.AutoSize = true;
+            this.lbl_ReportFormat.Location = new System.Drawing.Point(15, 62);
+            this.lbl_ReportFormat.Name = "lbl_ReportFormat";
+            this.lbl_ReportFormat.Size = new System.Drawing.Size(77, 13);
+            this.lbl_ReportFormat.TabIndex = 4;
+            this.lbl_ReportFormat.Text = "Report Format:";
+            // 
+            // txt_ReportFormat
+            // 
+            this.txt_ReportFormat.Location = new System.Drawing.Point(15, 78);
+            this.txt_ReportFormat.Name = "txt_ReportFormat";
+            this.txt_ReportFormat.ReadOnly = true;
+            this.txt_ReportFormat.Size = new System.Drawing.Size(375, 20);
+            this.txt_ReportFormat.TabIndex = 5;
+            this.txt_ReportFormat.Text = "{ST}\\{Inspector Name}\\{YYMMDD} - {InspType} - {Address} - {ElevNo}.pdf";
+            // 
             // FormPreferances
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 265);
+            this.ClientSize = new System.Drawing.Size(399, 265);
+            this.Controls.Add(this.txt_ReportFormat);
+            this.Controls.Add(this.lbl_ReportFormat);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.btn_BrowseForReportFolder);
             this.Controls.Add(this.txt_ReportFileLocation);
@@ -96,5 +118,7 @@ namespace TII_NewDatabase
         private System.Windows.Forms.TextBox txt_ReportFileLocation;
         private System.Windows.Forms.Button btn_BrowseForReportFolder;
         private System.Windows.Forms.Button btn_Save;
+        private System.Windows.Forms.Label lbl_ReportFormat;
+        private System.Windows.Forms.TextBox txt_ReportFormat;
     }
 }

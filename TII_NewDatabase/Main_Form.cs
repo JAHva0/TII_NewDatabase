@@ -834,6 +834,7 @@ namespace TII_NewDatabase
                     {
                         FormAddInspection newInspection = new FormAddInspection(this.txt_BuildingAddress.Text);
                         newInspection.ShowDialog();
+                        this.PopulateFields(this.currentlySelectedBuilding);
                         break;
                     }
 

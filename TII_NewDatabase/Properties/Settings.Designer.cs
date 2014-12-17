@@ -106,5 +106,17 @@ namespace TII_NewDatabase.Properties {
                 this["ReportLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MoveAndSaveReports {
+            get {
+                return ((bool)(this["MoveAndSaveReports"]));
+            }
+            set {
+                this["MoveAndSaveReports"] = value;
+            }
+        }
     }
 }

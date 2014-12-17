@@ -36,6 +36,7 @@ namespace TII_NewDatabase
             this.btn_Save = new System.Windows.Forms.Button();
             this.lbl_ReportFormat = new System.Windows.Forms.Label();
             this.txt_ReportFormat = new System.Windows.Forms.TextBox();
+            this.cbx_MoveAndNameReports = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lbl_ReportFileLocation
@@ -93,11 +94,22 @@ namespace TII_NewDatabase
             this.txt_ReportFormat.TabIndex = 5;
             this.txt_ReportFormat.Text = "{ST}\\{Inspector Name}\\{YYMMDD} - {InspType} - {Address} - {ElevNo}.pdf";
             // 
+            // cbx_MoveAndNameReports
+            // 
+            this.cbx_MoveAndNameReports.AutoSize = true;
+            this.cbx_MoveAndNameReports.Location = new System.Drawing.Point(152, 104);
+            this.cbx_MoveAndNameReports.Name = "cbx_MoveAndNameReports";
+            this.cbx_MoveAndNameReports.Size = new System.Drawing.Size(235, 17);
+            this.cbx_MoveAndNameReports.TabIndex = 6;
+            this.cbx_MoveAndNameReports.Text = "Automatically Move and Name Report Files?";
+            this.cbx_MoveAndNameReports.UseVisualStyleBackColor = true;
+            // 
             // FormPreferances
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(399, 265);
+            this.Controls.Add(this.cbx_MoveAndNameReports);
             this.Controls.Add(this.txt_ReportFormat);
             this.Controls.Add(this.lbl_ReportFormat);
             this.Controls.Add(this.btn_Save);
@@ -120,5 +132,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.Label lbl_ReportFormat;
         private System.Windows.Forms.TextBox txt_ReportFormat;
+        private System.Windows.Forms.CheckBox cbx_MoveAndNameReports;
     }
 }

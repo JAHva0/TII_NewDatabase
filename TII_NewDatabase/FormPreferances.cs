@@ -29,6 +29,7 @@ namespace TII_NewDatabase
         private void OnLoad(object sender, EventArgs e)
         {
             this.txt_ReportFileLocation.Text = Properties.Settings.Default.ReportLocation;
+            this.cbx_MoveAndNameReports.Checked = Properties.Settings.Default.MoveAndSaveReports;
         }
 
         /// <summary>
@@ -69,6 +70,7 @@ namespace TII_NewDatabase
         private void OnClick_SaveAndExit(object sender, EventArgs e)
         {
             Properties.Settings.Default.ReportLocation = this.txt_ReportFileLocation.Text;
+            Properties.Settings.Default.MoveAndSaveReports = this.cbx_MoveAndNameReports.Checked;
             Properties.Settings.Default.Save();
             this.Close();
         }

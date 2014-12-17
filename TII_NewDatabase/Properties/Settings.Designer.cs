@@ -118,5 +118,17 @@ namespace TII_NewDatabase.Properties {
                 this["MoveAndSaveReports"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoOpenOnDragDrop {
+            get {
+                return ((bool)(this["AutoOpenOnDragDrop"]));
+            }
+            set {
+                this["AutoOpenOnDragDrop"] = value;
+            }
+        }
     }
 }

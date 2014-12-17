@@ -30,6 +30,7 @@ namespace TII_NewDatabase
         {
             this.txt_ReportFileLocation.Text = Properties.Settings.Default.ReportLocation;
             this.cbx_MoveAndNameReports.Checked = Properties.Settings.Default.MoveAndSaveReports;
+            this.cbx_AutoOpenOnDragDrop.Checked = Properties.Settings.Default.AutoOpenOnDragDrop;
         }
 
         /// <summary>
@@ -71,6 +72,7 @@ namespace TII_NewDatabase
         {
             Properties.Settings.Default.ReportLocation = this.txt_ReportFileLocation.Text;
             Properties.Settings.Default.MoveAndSaveReports = this.cbx_MoveAndNameReports.Checked;
+            Properties.Settings.Default.AutoOpenOnDragDrop = this.cbx_AutoOpenOnDragDrop.Checked;
             Properties.Settings.Default.Save();
             this.Close();
         }

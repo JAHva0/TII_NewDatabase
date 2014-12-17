@@ -5,6 +5,7 @@ namespace TII_NewDatabase.AddNewForms
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.IO;
     using System.Windows.Forms;
     using Database;
     using SQL;
@@ -12,6 +13,9 @@ namespace TII_NewDatabase.AddNewForms
     /// <summary> Form for entering inspection information. </summary>
     public partial class FormAddInspection : Form
     {
+        // {ST}\\{Inspector Name}\\{YYMMDD} - {InspType} - {Address} - {ElevNo}.pdf
+        private const string REPORTFILE_FORMAT = @"{ST}\\{Inspector Name}\\{YYMMDD} - {InspType} - {Address}.pdf";
+        
         /// <summary> Holds the building information from the selected building. </summary>
         private Building selectedBuilding;
 
@@ -248,6 +252,20 @@ namespace TII_NewDatabase.AddNewForms
             bool success = true;
             try
             {
+                // If enabled, use the Format provided to rename the report file with the information entered and make a copy in the report folder. 
+                if (Properties.Settings.Default.MoveAndSaveReports)
+                {
+                    string filename = REPORTFILE_FORMAT;
+                    filename.Replace("{ST}", this.selectedBuilding.State);
+                    filename.Replace("{Inspector Name}", this.cbo_Inspector.Text);
+                    filename.Replace("{YYMMDD}", this.dtp_InspectionDate.Value.ToYYMMDDString());
+                    filename.Replace("{InspType}", this.cbo_InspectionType.Text);
+                    filename.Replace("{Address}", this.selectedBuilding.Street);
+
+                    File.Copy(this.txt_ReportFile.Text, Properties.Settings.Default.ReportLocation + filename);
+                    this.txt_ReportFile.Text = filename;
+                }
+                
                 foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
                 {
                     // If the elevator is marked as Not Inspected, there is no reason to make a note of it for the database.
@@ -333,8 +351,13 @@ namespace TII_NewDatabase.AddNewForms
                     return;
                 }
 
-                // Strip out the directory information
-                this.txt_ReportFile.Text = System.IO.Path.GetFileName(filenames[0]);
+                this.txt_ReportFile.Text = filenames[0];
+
+                // If the setting is enabled, open the report file using the default program.
+                if (Properties.Settings.Default.AutoOpenOnDragDrop)
+                {
+                    System.Diagnostics.Process.Start(this.txt_ReportFile.Text);
+                }
             }
         }
 

@@ -51,7 +51,7 @@ namespace Database
                                                                 "Nick",
                                                                 "Inspection_ID", // Inspection Columns
                                                                 "Date",
-                                                                "InspectionType",
+                                                                "IType_ID",
                                                                 "Status",
                                                                 "Inspector",
                                                                 "Report"

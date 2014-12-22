@@ -37,7 +37,7 @@ namespace TII_NewDatabase
         /// <returns> A string representation of the value.</returns>
         public static string ToYYMMDDString(this DateTime date)
         {
-            return date.Year.ToString().PadLeft(2, '0') + date.Month.ToString().PadLeft(2, '0') + date.Day.ToString().PadLeft(2, '0');
+            return date.Year.ToString().Substring(2) + date.Month.ToString().PadLeft(2, '0') + date.Day.ToString().PadLeft(2, '0');
         }
 
         /// <summary>

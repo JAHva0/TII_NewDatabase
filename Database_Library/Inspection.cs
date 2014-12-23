@@ -6,20 +6,26 @@ namespace Database
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
+    using System.Linq;
 
     /// <summary>
     /// Initializes a class object that can be used to load and/or modify inspection information from the database.
     /// </summary>
     public class Inspection : BaseObject
     {
+        /// <summary>
+        /// Loaded the first time anything tries to access the inspection class. Is a copy of the InspectionTypes table.
+        /// </summary>
+        private static Dictionary<int, string[]> inspectionType;
+        
         /// <summary> The elevator ID associated with this inspection. </summary>
         private int elevator_ID;
 
         /// <summary> The date this inspection occurred on. </summary>
         private DateTime date;
 
-        /// <summary> The type of inspection performed. </summary>
-        private Type type;
+        /// <summary> The IType_ID (Inspection Type ID) of the inspection performed. </summary>
+        private int itype_id;
 
         /// <summary> The status of the inspection. </summary>
         private Insp_Status status;
@@ -35,6 +41,19 @@ namespace Database
         /// </summary>
         public Inspection()
         {
+            if (inspectionType == null)
+            {
+                inspectionType = new Dictionary<int, string[]>();
+
+                // The first entry will be for 0, {"No Inspection", "NULL"} so that new classes will assume this 
+                inspectionType.Add(0, new string[] { "No Inspection", "NULL" });
+
+                // If this is the first time the Inspection class has been accessed, load the inspection types dictionary. 
+                foreach (DataRow row in SQL.Query.Select("SELECT * FROM InspectionTypes").Rows)
+                {
+                    inspectionType.Add(Convert.ToInt32(row["IType_ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbv"].ToString().Trim() });
+                }
+            }
         }
 
         /// <summary>
@@ -77,48 +96,6 @@ namespace Database
             NO_INSPECT
         }
 
-        /// <summary>
-        /// A list of the various types of inspections. Prevents spelling errors and enforces consistency in the database.
-        /// </summary>
-        public enum Type
-        {
-            /// <summary> Periodic Inspection. </summary>
-            [Description("Periodic")]
-            PER,
-
-            /// <summary> Periodic Re-inspection. </summary>
-            [Description("Periodic Reinspection")]
-            PER_RE,
-
-            /// <summary> Category 1 and Periodic Inspection. </summary>
-            [Description("Category 1 & Periodic")]
-            CAT1_PER,
-
-            /// <summary> Category 1 and Periodic Re-inspection. </summary>
-            [Description("Category 1 & Periodic Reinspection")]
-            CAT1_PER_RE,
-
-            /// <summary> Category 5 and Periodic Inspection. </summary>
-            [Description("Category 5 & Periodic")]
-            CAT5_PER,
-
-            /// <summary> Category 5 and Periodic Re-inspection. </summary>
-            [Description("Category 5 & Periodic Reinspection")]
-            CAT5_PER_RE,
-
-            /// <summary> Annual Inspection. </summary>
-            [Description("Annual")]
-            ANNUAL,
-
-            /// <summary> A Re-inspection. </summary>
-            [Description("Reinspection")]
-            REINSPECTION,
-
-            /// <summary> Five Year Test and Inspection. </summary>
-            [Description("Five Year Test")]
-            FIVE_YEAR
-        }
-
         /// <summary> Gets a string array containing all possible Inspection statuses listed in the enumerator. </summary>
         /// <value> A string array containing all possible Inspection statuses. </value>
         public static string[] Statuses
@@ -144,9 +121,9 @@ namespace Database
             {
                 List<string> typeList = new List<string>();
 
-                foreach (Type t in Enum.GetValues(typeof(Type)))
+                foreach (string[] s in inspectionType.Values)
                 {
-                    typeList.Add(BaseObject.GetEnumDescription(t));
+                    typeList.Add(s[0]);
                 }
 
                 return typeList.ToArray();
@@ -197,20 +174,19 @@ namespace Database
         {
             get
             {
-                return BaseObject.GetEnumDescription(this.type);
+                return inspectionType[this.itype_id][0];
             }
 
             set
             {
-                if (value != BaseObject.GetEnumDescription(this.type) && value != string.Empty)
+                if (value != inspectionType[this.itype_id][0] && value != string.Empty)
                 {
-                    // Check to make sure that the string we've recieved can be made into an enum
-                    // The method will throw an exception if it is not included in the list, which is
-                    // important to know before we try to either add the Edited event or assign to the value.
-                    Inspection.StringToTypeEnum(value);
+                    // Select the key associated with the value we passed in in store it to the itype_id integer
+                    // If no such value exists in the dictionary, we've done something wrong and an exception will throw.
+                    int id = inspectionType.Where(v => v.Value[0] == value).Single().Key;
 
-                    this.BaseObject_Edited(this, "Type", BaseObject.GetEnumDescription(this.type), value);
-                    this.type = Inspection.StringToTypeEnum(value);
+                    this.BaseObject_Edited(this, "IType_ID", this.itype_id, id);
+                    this.itype_id = id;
                 }
             }
         }
@@ -284,6 +260,11 @@ namespace Database
             }
         }
 
+        public static string GetInspectionTypeAbbv(string value)
+        {
+            return inspectionType.Where(v => v.Value[0] == value).Single().Value[1];
+        }
+
         /// <summary>
         /// Submits the data enclosed in the class to the SQL Server as either an Insert or an Update dependant on the presence of an ID in the base class.
         /// </summary>
@@ -298,7 +279,7 @@ namespace Database
             {
                 new SQLColumn("Elevator_ID", this.elevator_ID),
                 new SQLColumn("Date", this.date),
-                new SQLColumn("Type", BaseObject.GetEnumDescription(this.type)),
+                new SQLColumn("IType_ID", this.itype_id),
                 new SQLColumn("Status", BaseObject.GetEnumDescription(this.status)),
                 new SQLColumn("Inspector", this.inspector),
                 new SQLColumn("Report", this.report)
@@ -314,28 +295,6 @@ namespace Database
             }
 
             return success && base.CommitToDatabase();
-        }
-
-        /// <summary>
-        /// Converts the elevator type provided by the string to the corresponding enumerator.
-        /// </summary>
-        /// <param name="type">Inspection type string.</param>
-        /// <returns>An Enumerator related tot he type string.</returns>
-        private static Type StringToTypeEnum(string type)
-        {
-            switch (type)
-            {
-                case "Periodic": return Type.PER;
-                case "Periodic Reinspection": return Type.PER_RE;
-                case "Category 1 / Periodic": return Type.CAT1_PER;
-                case "Category 1 / Periodic Reinspection": return Type.CAT1_PER_RE;
-                case "Category 5 / Periodic": return Type.CAT5_PER;
-                case "Category 5 / Periodic Reinspection": return Type.CAT5_PER_RE;
-                case "Annual": return Type.ANNUAL;
-                case "Reinspection": return Type.REINSPECTION;
-                case "Category 5": return Type.FIVE_YEAR;
-                default: throw new ArgumentException("Invalid Inspection Type: " + type);
-            }
         }
 
         /// <summary>
@@ -376,6 +335,12 @@ namespace Database
                     this.elevator_ID = id;
                 }
 
+                // And the IType_ID
+                if (int.TryParse(row["IType_ID"].ToString(), out id))
+                {
+                    this.itype_id = id;
+                }
+
                 // Make sure we have a parseable date
                 DateTime d;
                 if (DateTime.TryParse(row["Date"].ToString(), out d))
@@ -384,15 +349,14 @@ namespace Database
                 }
 
                 // We are assigning all of the strings directly, under the assumption that they were checked for compatibility prior to being entered into the database.
-                this.type = Inspection.StringToTypeEnum(row["Type"].ToString());
                 this.status = Inspection.StringToStatusEnum(row["Status"].ToString());
                 this.inspector = row["Inspector"].ToString();
                 this.report = row["Report"].ToString();
             }
-            catch
+            catch (Exception ex)
             {
                 // Implement exceptions as they arise.
-                throw new Exception("Error Loading Inspection from Database");
+                throw new Exception("Error Loading Inspection from Database", ex);
             }
         }
     }

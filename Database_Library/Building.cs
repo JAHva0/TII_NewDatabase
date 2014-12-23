@@ -623,13 +623,15 @@ namespace Database
                 
                 List<InspectionHistory> history = new List<InspectionHistory>();
                 foreach (DataRow row in SQL.Query.Select(string.Format(
-                                                                       "SELECT DISTINCT Date, Type, Status, Inspector, Report " +
-                                                                       "FROM Inspection WHERE Elevator_ID IN " +
+                                                                       "SELECT DISTINCT Date, Name AS Type, Status, Inspector, Report " +
+                                                                       "FROM Inspection " +
+                                                                       "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
+                                                                       "WHERE Elevator_ID IN " +
                                                                        "(" +
                                                                            "SELECT Elevator_ID " +
                                                                            "FROM Elevator " +
                                                                            "WHERE Building_ID = {0}" +
-                                                                       ")" +
+                                                                       ") " +
                                                                        "ORDER BY Date Desc", 
                                                                        this.ID)).Rows)
                 {
@@ -878,7 +880,7 @@ namespace Database
             public InspectionHistory(DataRow row)
             {
                 DateTime.TryParse(row["Date"].ToString(), out this.Date);
-                this.Type = row["Type"].ToString();
+                this.Type = row["Type"].ToString().Trim(); // For some reason the SQL Table returns the string with white space trailing. 
                 this.Status = row["Status"].ToString();
                 this.Inspector = row["Inspector"].ToString();
 

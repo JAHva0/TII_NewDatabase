@@ -13,8 +13,8 @@ namespace TII_NewDatabase.AddNewForms
     /// <summary> Form for entering inspection information. </summary>
     public partial class FormAddInspection : Form
     {
-        // {ST}\\{Inspector Name}\\{YYMMDD} - {InspType} - {Address} - {ElevNo}.pdf
-        private const string REPORTFILE_FORMAT = @"{ST}\\{Inspector Name}\\{YYMMDD} - {InspType} - {Address}.pdf";
+        /// <summary> The Report Format to use in the report folder. </summary>
+        private const string REPORTFILE_FORMAT = @"\{ST}\{Inspector Name}\{YYMMDD} - {InspType} - {Address}.pdf";
         
         /// <summary> Holds the building information from the selected building. </summary>
         private Building selectedBuilding;
@@ -252,15 +252,16 @@ namespace TII_NewDatabase.AddNewForms
             bool success = true;
             try
             {
-                // If enabled, use the Format provided to rename the report file with the information entered and make a copy in the report folder. 
-                if (Properties.Settings.Default.MoveAndSaveReports)
+                // If enabled and we have a valid file in the textbox, use the Format provided to rename the report file 
+                // with the information entered and make a copy in the report folder. 
+                if (Properties.Settings.Default.MoveAndSaveReports && File.Exists(this.txt_ReportFile.Text))
                 {
                     string filename = REPORTFILE_FORMAT;
-                    filename.Replace("{ST}", this.selectedBuilding.State);
-                    filename.Replace("{Inspector Name}", this.cbo_Inspector.Text);
-                    filename.Replace("{YYMMDD}", this.dtp_InspectionDate.Value.ToYYMMDDString());
-                    filename.Replace("{InspType}", this.cbo_InspectionType.Text);
-                    filename.Replace("{Address}", this.selectedBuilding.Street);
+                    filename = filename.Replace("{ST}", this.selectedBuilding.State);
+                    filename = filename.Replace("{Inspector Name}", this.cbo_Inspector.Text);
+                    filename = filename.Replace("{YYMMDD}", this.dtp_InspectionDate.Value.ToYYMMDDString());
+                    filename = filename.Replace("{InspType}", this.cbo_InspectionType.Text);
+                    filename = filename.Replace("{Address}", this.selectedBuilding.Street);
 
                     File.Copy(this.txt_ReportFile.Text, Properties.Settings.Default.ReportLocation + filename);
                     this.txt_ReportFile.Text = filename;

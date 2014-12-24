@@ -179,6 +179,10 @@
       <Project>{5fd3abae-0cf4-4c98-96ff-7889e25c047f}</Project>
       <Name>Database_Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PDF_Library\PDF_Library.csproj">
+      <Project>{778e52d1-1442-4960-b5a8-45bdf680c4eb}</Project>
+      <Name>PDF_Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

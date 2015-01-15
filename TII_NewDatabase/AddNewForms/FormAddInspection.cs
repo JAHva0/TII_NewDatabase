@@ -9,6 +9,7 @@ namespace TII_NewDatabase.AddNewForms
     using System.Windows.Forms;
     using Database;
     using SQL;
+    using PDF_Library;
 
     /// <summary> Form for entering inspection information. </summary>
     public partial class FormAddInspection : Form
@@ -237,7 +238,10 @@ namespace TII_NewDatabase.AddNewForms
                     {
                         break;
                     }
-
+                case "lbx_ReportFileList":
+                    {
+                        break;
+                    }
                 default: throw new Exception("How did you get here?");
             }
         }
@@ -250,22 +254,43 @@ namespace TII_NewDatabase.AddNewForms
         private void SubmitInspection(object sender, EventArgs e)
         {
             bool success = true;
+
+            string FormattedReportFile = string.Empty;
+
             try
             {
+                // If the setting for moving a saving reports has been enabled
+                if (Properties.Settings.Default.MoveAndSaveReports && this.lbx_ReportFileList.Items.Count != 0)
+                {
+                    FormattedReportFile = Properties.Settings.Default.ReportLocation + FormatReportFilename();
+
+                    // If there are multiple files in the list box, combine them in the order in which they appear
+                    if (this.lbx_ReportFileList.Items.Count > 1)
+                    {
+                        string[] files = new string[this.lbx_ReportFileList.Items.Count];
+                        for (int i = 0; i < files.Length; i++)
+                        {
+                            files[i] = this.lbx_ReportFileList.Items[i].ToString();
+                        }
+
+                        PDF.CombineFiles(files, FormattedReportFile);
+                    }
+                    else
+                    {
+                        File.Copy(this.lbx_ReportFileList.Items[0].ToString(), FormattedReportFile);
+                    }
+                }
+                
+                
                 // If enabled and we have a valid file in the textbox, use the Format provided to rename the report file 
                 // with the information entered and make a copy in the report folder. 
-                if (Properties.Settings.Default.MoveAndSaveReports && File.Exists(this.txt_ReportFile.Text))
-                {
-                    string filename = REPORTFILE_FORMAT;
-                    filename = filename.Replace("{ST}", this.selectedBuilding.State);
-                    filename = filename.Replace("{Inspector Name}", this.cbo_Inspector.Text);
-                    filename = filename.Replace("{YYMMDD}", this.dtp_InspectionDate.Value.ToYYMMDDString());
-                    filename = filename.Replace("{InspType}", this.cbo_InspectionType.Text);
-                    filename = filename.Replace("{Address}", this.selectedBuilding.Street);
+                //if (Properties.Settings.Default.MoveAndSaveReports && File.Exists(this.txt_ReportFile.Text))
+                //{
+                //    string filename = FormatReportFilename();
 
-                    File.Copy(this.txt_ReportFile.Text, Properties.Settings.Default.ReportLocation + filename);
-                    this.txt_ReportFile.Text = filename;
-                }
+                //    File.Copy(this.txt_ReportFile.Text, Properties.Settings.Default.ReportLocation + filename);
+                //    this.txt_ReportFile.Text = filename;
+                //}
                 
                 foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
                 {
@@ -278,7 +303,7 @@ namespace TII_NewDatabase.AddNewForms
                         newInspection.InspectionType = this.cbo_InspectionType.Text;
                         newInspection.Status = elev.Cells["Status"].Value.ToString();
                         newInspection.Inspector = this.cbo_Inspector.Text;
-                        newInspection.ReportFile = this.txt_ReportFile.Text;
+                        newInspection.ReportFile = FormattedReportFile;
 
                         success = success && newInspection.CommitToDatabase();
                     }
@@ -308,6 +333,21 @@ namespace TII_NewDatabase.AddNewForms
         }
 
         /// <summary>
+        /// Creates a string from the data in the form 
+        /// </summary>
+        /// <returns></returns>
+        private string FormatReportFilename()
+        {
+            string filename = REPORTFILE_FORMAT;
+            filename = filename.Replace("{ST}", this.selectedBuilding.State);
+            filename = filename.Replace("{Inspector Name}", this.cbo_Inspector.Text);
+            filename = filename.Replace("{YYMMDD}", this.dtp_InspectionDate.Value.ToYYMMDDString());
+            filename = filename.Replace("{InspType}", Inspection.GetInspectionTypeAbbv(this.cbo_InspectionType.Text));
+            filename = filename.Replace("{Address}", this.selectedBuilding.Street);
+            return filename;
+        }
+
+        /// <summary>
         /// Method for resetting the form back to it's initial state.
         /// </summary>
         private void ResetForm()
@@ -316,7 +356,7 @@ namespace TII_NewDatabase.AddNewForms
             this.dtp_InspectionDate.Checked = false;
             this.cbo_InspectionType.Text = string.Empty;
             this.cbo_Inspector.Text = string.Empty;
-            this.txt_ReportFile.Text = string.Empty;
+            this.lbx_ReportFileList.Items.Clear();
             this.cbo_SetAllInspections.Text = string.Empty;
             this.SetAllInspections(new object(), EventArgs.Empty);
         }
@@ -345,20 +385,7 @@ namespace TII_NewDatabase.AddNewForms
             {
                 string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-                if (filenames.Length != 1)
-                {
-                    // If the user tried to drag multiple files in at once, alert them that this is not possible and quit out.
-                    MessageBox.Show("Cannot Drag and Drop Multiple files", "Too many files", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
-
-                this.txt_ReportFile.Text = filenames[0];
-
-                // If the setting is enabled, open the report file using the default program.
-                if (Properties.Settings.Default.AutoOpenOnDragDrop)
-                {
-                    System.Diagnostics.Process.Start(this.txt_ReportFile.Text);
-                }
+                this.lbx_ReportFileList.Items.AddRange(filenames);
             }
         }
 
@@ -367,13 +394,13 @@ namespace TII_NewDatabase.AddNewForms
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">Any Event Args.</param>
-        private void FindReport_Click(object sender, EventArgs e)
+        private void AddReport_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = false;
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                this.txt_ReportFile.Text = System.IO.Path.GetFileName(ofd.FileName);
+                this.lbx_ReportFileList.Items.Add(System.IO.Path.GetFileName(ofd.FileName));
             }
         }
     }

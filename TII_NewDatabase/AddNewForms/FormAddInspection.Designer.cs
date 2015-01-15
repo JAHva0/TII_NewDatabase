@@ -41,7 +41,6 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_SetAllInspections = new System.Windows.Forms.ComboBox();
             this.lbl_SetAllInspections = new System.Windows.Forms.Label();
             this.btn_FindReport = new System.Windows.Forms.Button();
-            this.txt_ReportFile = new System.Windows.Forms.TextBox();
             this.lbl_ReportFile = new System.Windows.Forms.Label();
             this.cbo_Inspector = new System.Windows.Forms.ComboBox();
             this.lbl_Inspector = new System.Windows.Forms.Label();
@@ -50,6 +49,7 @@ namespace TII_NewDatabase.AddNewForms
             this.dtp_InspectionDate = new System.Windows.Forms.DateTimePicker();
             this.lbl_Date = new System.Windows.Forms.Label();
             this.error_provider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.lbx_ReportFileList = new System.Windows.Forms.ListBox();
             this.gbx_Building.SuspendLayout();
             this.gbx_InspectionInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ElevatorList)).BeginInit();
@@ -87,13 +87,13 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // gbx_InspectionInfo
             // 
+            this.gbx_InspectionInfo.Controls.Add(this.lbx_ReportFileList);
             this.gbx_InspectionInfo.Controls.Add(this.dgv_ElevatorList);
             this.gbx_InspectionInfo.Controls.Add(this.btn_Cancel);
             this.gbx_InspectionInfo.Controls.Add(this.btn_SubmitInspection);
             this.gbx_InspectionInfo.Controls.Add(this.cbo_SetAllInspections);
             this.gbx_InspectionInfo.Controls.Add(this.lbl_SetAllInspections);
             this.gbx_InspectionInfo.Controls.Add(this.btn_FindReport);
-            this.gbx_InspectionInfo.Controls.Add(this.txt_ReportFile);
             this.gbx_InspectionInfo.Controls.Add(this.lbl_ReportFile);
             this.gbx_InspectionInfo.Controls.Add(this.cbo_Inspector);
             this.gbx_InspectionInfo.Controls.Add(this.lbl_Inspector);
@@ -103,7 +103,7 @@ namespace TII_NewDatabase.AddNewForms
             this.gbx_InspectionInfo.Controls.Add(this.lbl_Date);
             this.gbx_InspectionInfo.Location = new System.Drawing.Point(165, 12);
             this.gbx_InspectionInfo.Name = "gbx_InspectionInfo";
-            this.gbx_InspectionInfo.Size = new System.Drawing.Size(640, 320);
+            this.gbx_InspectionInfo.Size = new System.Drawing.Size(647, 320);
             this.gbx_InspectionInfo.TabIndex = 1;
             this.gbx_InspectionInfo.TabStop = false;
             this.gbx_InspectionInfo.Text = "Inspection Information";
@@ -162,23 +162,13 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // btn_FindReport
             // 
-            this.btn_FindReport.Location = new System.Drawing.Point(542, 125);
+            this.btn_FindReport.Location = new System.Drawing.Point(530, 170);
             this.btn_FindReport.Name = "btn_FindReport";
-            this.btn_FindReport.Size = new System.Drawing.Size(92, 20);
+            this.btn_FindReport.Size = new System.Drawing.Size(104, 20);
             this.btn_FindReport.TabIndex = 2;
-            this.btn_FindReport.Text = "Find Report...";
+            this.btn_FindReport.Text = "Add Report File...";
             this.btn_FindReport.UseVisualStyleBackColor = true;
-            this.btn_FindReport.Click += new System.EventHandler(this.FindReport_Click);
-            // 
-            // txt_ReportFile
-            // 
-            this.txt_ReportFile.AllowDrop = true;
-            this.txt_ReportFile.Location = new System.Drawing.Point(422, 99);
-            this.txt_ReportFile.Name = "txt_ReportFile";
-            this.txt_ReportFile.Size = new System.Drawing.Size(212, 20);
-            this.txt_ReportFile.TabIndex = 8;
-            this.txt_ReportFile.DragDrop += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragDrop);
-            this.txt_ReportFile.DragEnter += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragEnter);
+            this.btn_FindReport.Click += new System.EventHandler(this.AddReport_Click);
             // 
             // lbl_ReportFile
             // 
@@ -252,12 +242,24 @@ namespace TII_NewDatabase.AddNewForms
             // 
             this.error_provider.ContainerControl = this;
             // 
+            // lbx_ReportFileList
+            // 
+            this.lbx_ReportFileList.AllowDrop = true;
+            this.lbx_ReportFileList.FormattingEnabled = true;
+            this.lbx_ReportFileList.Location = new System.Drawing.Point(422, 99);
+            this.lbx_ReportFileList.Name = "lbx_ReportFileList";
+            this.lbx_ReportFileList.Size = new System.Drawing.Size(212, 69);
+            this.lbx_ReportFileList.TabIndex = 14;
+            this.lbx_ReportFileList.DragDrop += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragDrop);
+            this.lbx_ReportFileList.DragEnter += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragEnter);
+            this.lbx_ReportFileList.Validated += new System.EventHandler(this.ValidateInformation);
+            // 
             // FormAddInspection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_Cancel;
-            this.ClientSize = new System.Drawing.Size(817, 344);
+            this.ClientSize = new System.Drawing.Size(825, 344);
             this.Controls.Add(this.gbx_InspectionInfo);
             this.Controls.Add(this.gbx_Building);
             this.Name = "FormAddInspection";
@@ -286,7 +288,6 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.ComboBox cbo_SetAllInspections;
         private System.Windows.Forms.Label lbl_SetAllInspections;
         private System.Windows.Forms.Button btn_FindReport;
-        private System.Windows.Forms.TextBox txt_ReportFile;
         private System.Windows.Forms.Label lbl_ReportFile;
         private System.Windows.Forms.ComboBox cbo_Inspector;
         private System.Windows.Forms.Label lbl_Inspector;
@@ -294,5 +295,6 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.Label lbl_Type;
         private System.Windows.Forms.DataGridView dgv_ElevatorList;
         private System.Windows.Forms.ErrorProvider error_provider;
+        private System.Windows.Forms.ListBox lbx_ReportFileList;
     }
 }

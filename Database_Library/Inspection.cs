@@ -260,9 +260,19 @@ namespace Database
             }
         }
 
+        /// <summary>
+        /// Gets the abberviation associated with a given inspection type name.
+        /// </summary>
+        /// <param name="value">The inspection type to get the abbreviation paired with.</param>
+        /// <returns>A string abbreviation associated with the given value.</returns>
         public static string GetInspectionTypeAbbv(string value)
         {
-            return inspectionType.Where(v => v.Value[0] == value).Single().Value[1];
+            if (Inspection.inspectionType == null)
+            {
+                Inspection I = new Inspection();
+            }
+            
+            return inspectionType.Where(v => v.Value[0] == value).SingleOrDefault().Value[1];
         }
 
         /// <summary>

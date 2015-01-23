@@ -64,10 +64,7 @@ namespace TII_NewDatabase.AddNewForms
                this.cbo_Owner.Items.Add(r["Name"].ToString());
            }
 
-           foreach (DataRow c in Query.Select("DISTINCT Contractor", "Building", "Contractor IS NOT NULL").Rows)
-           {
-               this.cbo_Contractor.Items.Add(c["Contractor"].ToString());
-           }
+           this.cbo_Contractor.Items.AddRange(Building.ContractorList.ToArray());
         }
 
         /// <summary>

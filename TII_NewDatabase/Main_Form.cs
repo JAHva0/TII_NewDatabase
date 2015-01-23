@@ -130,6 +130,9 @@ namespace TII_NewDatabase
             this.cbx_ShowDC.Checked = Properties.Settings.Default.DCFilterOn;
             this.cbx_ShowInactive.Checked = Properties.Settings.Default.InactveFilterOn;
 
+            // Initalize the contractor checkbox
+            this.cbo_Contractor.Items.AddRange(Building.ContractorList.ToArray());
+
             // Populate the Lists with the Company and Building Information
             string companyQuery = "SELECT DISTINCT " +
                                   "Company.Company_ID, " +
@@ -400,7 +403,7 @@ namespace TII_NewDatabase
                 this.cbo_BuildingAnniversary.Text = selected_building.Anniversary;
             }
 
-            this.txt_Contractor.Text = selected_building.Contractor;
+            this.cbo_Contractor.Text = selected_building.Contractor;
             this.cbx_BuildingActive.Checked = selected_building.Active;
 
             // Populate the elevator list box.
@@ -706,7 +709,7 @@ namespace TII_NewDatabase
                         this.currentlySelectedBuilding.FirmFee = new Money(this.txt_FirmFee.Text);
                         this.currentlySelectedBuilding.HourlyFee = new Money(this.txt_HourlyFee.Text);
                         this.currentlySelectedBuilding.Anniversary = this.cbo_BuildingAnniversary.Text;
-                        this.currentlySelectedBuilding.Contractor = this.txt_Contractor.Text;
+                        this.currentlySelectedBuilding.Contractor = this.cbo_Contractor.Text;
 
                         if (this.currentlySelectedBuilding.SaveConfirmation())
                         {

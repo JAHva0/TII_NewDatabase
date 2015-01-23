@@ -96,7 +96,6 @@ namespace TII_NewDatabase
             this.btn_AddBldgDocument = new System.Windows.Forms.Button();
             this.lbx_ElevatorList = new System.Windows.Forms.ListBox();
             this.btn_ViewMap = new System.Windows.Forms.Button();
-            this.txt_Contractor = new System.Windows.Forms.TextBox();
             this.lbl_Contractor = new System.Windows.Forms.Label();
             this.lbl_Anniversary = new System.Windows.Forms.Label();
             this.txt_HourlyFee = new System.Windows.Forms.TextBox();
@@ -189,6 +188,7 @@ namespace TII_NewDatabase
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbo_Contractor = new System.Windows.Forms.ComboBox();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -234,13 +234,13 @@ namespace TII_NewDatabase
             // forceBackupToolStripMenuItem
             // 
             this.forceBackupToolStripMenuItem.Name = "forceBackupToolStripMenuItem";
-            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.forceBackupToolStripMenuItem.Text = "Force &Backup";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -256,14 +256,14 @@ namespace TII_NewDatabase
             // connectionsToolStripMenuItem
             // 
             this.connectionsToolStripMenuItem.Name = "connectionsToolStripMenuItem";
-            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.connectionsToolStripMenuItem.Text = "C&onnections";
             this.connectionsToolStripMenuItem.Click += new System.EventHandler(this.OpenConnectionSettingsForm);
             // 
             // mnu_Preferances
             // 
             this.mnu_Preferances.Name = "mnu_Preferances";
-            this.mnu_Preferances.Size = new System.Drawing.Size(152, 22);
+            this.mnu_Preferances.Size = new System.Drawing.Size(140, 22);
             this.mnu_Preferances.Text = "&Preferences";
             this.mnu_Preferances.Click += new System.EventHandler(this.OpenChildForm);
             // 
@@ -342,6 +342,7 @@ namespace TII_NewDatabase
             // 
             // gbx_Building
             // 
+            this.gbx_Building.Controls.Add(this.cbo_Contractor);
             this.gbx_Building.Controls.Add(this.btn_EditBuilding);
             this.gbx_Building.Controls.Add(this.cbo_BuildingAnniversary);
             this.gbx_Building.Controls.Add(this.cbo_BuildingCounty);
@@ -349,7 +350,6 @@ namespace TII_NewDatabase
             this.gbx_Building.Controls.Add(this.btn_AddBldgDocument);
             this.gbx_Building.Controls.Add(this.lbx_ElevatorList);
             this.gbx_Building.Controls.Add(this.btn_ViewMap);
-            this.gbx_Building.Controls.Add(this.txt_Contractor);
             this.gbx_Building.Controls.Add(this.lbl_Contractor);
             this.gbx_Building.Controls.Add(this.lbl_Anniversary);
             this.gbx_Building.Controls.Add(this.txt_HourlyFee);
@@ -496,15 +496,6 @@ namespace TII_NewDatabase
             this.btn_ViewMap.TabIndex = 7;
             this.btn_ViewMap.Text = "View Map";
             this.btn_ViewMap.UseVisualStyleBackColor = true;
-            // 
-            // txt_Contractor
-            // 
-            this.txt_Contractor.Location = new System.Drawing.Point(246, 170);
-            this.txt_Contractor.MaxLength = 30;
-            this.txt_Contractor.Name = "txt_Contractor";
-            this.txt_Contractor.ReadOnly = true;
-            this.txt_Contractor.Size = new System.Drawing.Size(116, 20);
-            this.txt_Contractor.TabIndex = 24;
             // 
             // lbl_Contractor
             // 
@@ -1396,6 +1387,15 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
             // 
+            // cbo_Contractor
+            // 
+            this.cbo_Contractor.Enabled = false;
+            this.cbo_Contractor.FormattingEnabled = true;
+            this.cbo_Contractor.Location = new System.Drawing.Point(247, 171);
+            this.cbo_Contractor.Name = "cbo_Contractor";
+            this.cbo_Contractor.Size = new System.Drawing.Size(115, 21);
+            this.cbo_Contractor.TabIndex = 30;
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1476,7 +1476,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.Button btn_AddBldgDocument;
         private System.Windows.Forms.ListBox lbx_ElevatorList;
         private System.Windows.Forms.Button btn_ViewMap;
-        private System.Windows.Forms.TextBox txt_Contractor;
         private System.Windows.Forms.Label lbl_Contractor;
         private System.Windows.Forms.Label lbl_Anniversary;
         private System.Windows.Forms.TextBox txt_HourlyFee;
@@ -1559,5 +1558,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.ToolStripMenuItem cmi_AddContact;
         private System.Windows.Forms.ToolStripMenuItem cmi_RemoveContact;
         private System.Windows.Forms.Button btn_NewElevator;
+        private System.Windows.Forms.ComboBox cbo_Contractor;
     }
 }

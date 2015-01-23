@@ -653,6 +653,22 @@ namespace Database
         }
 
         /// <summary>
+        /// Gets a list of contractors currently present in the database.
+        /// </summary>
+        public static List<string> ContractorList
+        {
+            get
+            {
+                List<string> contractorList = new List<string>();
+                foreach (DataRow c in SQL.Query.Select("DISTINCT Contractor", "Building", "Contractor IS NOT NULL").Rows)
+                {
+                    contractorList.Add(c["Contractor"].ToString());
+                }
+                return contractorList;
+            }
+        }
+
+        /// <summary>
         /// Method to Insert or update the information in the class into the database.
         /// </summary>
         /// <returns>True if all operations were performed successfully.</returns>

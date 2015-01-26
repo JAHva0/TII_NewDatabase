@@ -430,7 +430,10 @@ namespace TII_NewDatabase
                     i.SubItems.Add("No");
                 }
 
-                this.lvw_InspectionList.Items.Add(i);
+                if (historyitem.Status != "No Inspection")
+                {
+                    this.lvw_InspectionList.Items.Add(i);
+                }
             }
 
             // Populate the Building Contact List

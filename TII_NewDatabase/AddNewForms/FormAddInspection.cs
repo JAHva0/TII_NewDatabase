@@ -7,9 +7,10 @@ namespace TII_NewDatabase.AddNewForms
     using System.Data;
     using System.IO;
     using System.Windows.Forms;
+
     using Database;
-    using SQL;
     using PDF_Library;
+    using SQL;
 
     /// <summary> Form for entering inspection information. </summary>
     public partial class FormAddInspection : Form
@@ -101,7 +102,8 @@ namespace TII_NewDatabase.AddNewForms
                     "Category 1 / Periodic Reinspection",
                     "Category 5 / Periodic",
                     "Category 5 / Periodic Reinspection"
-                };  
+                };
+                btn_CreateDCCert.Visible = true;
             }
             else
             {
@@ -110,7 +112,8 @@ namespace TII_NewDatabase.AddNewForms
                     "Annual",
                     "Reinspection",
                     "Category 5"
-                };  
+                };
+                btn_CreateDCCert.Visible = false;
             }
 
             this.cbo_InspectionType.Items.AddRange(inspectionTypes);
@@ -238,10 +241,12 @@ namespace TII_NewDatabase.AddNewForms
                     {
                         break;
                     }
+
                 case "lbx_ReportFileList":
                     {
                         break;
                     }
+
                 default: throw new Exception("How did you get here?");
             }
         }
@@ -255,14 +260,14 @@ namespace TII_NewDatabase.AddNewForms
         {
             bool success = true;
 
-            string FormattedReportFile = string.Empty;
+            string formattedReportFile = string.Empty;
 
             try
             {
                 // If the setting for moving a saving reports has been enabled
                 if (Properties.Settings.Default.MoveAndSaveReports && this.lbx_ReportFileList.Items.Count != 0)
                 {
-                    FormattedReportFile = Properties.Settings.Default.ReportLocation + FormatReportFilename();
+                    formattedReportFile = Properties.Settings.Default.ReportLocation + this.FormatReportFilename();
 
                     // If there are multiple files in the list box, combine them in the order in which they appear
                     if (this.lbx_ReportFileList.Items.Count > 1)
@@ -273,24 +278,34 @@ namespace TII_NewDatabase.AddNewForms
                             files[i] = this.lbx_ReportFileList.Items[i].ToString();
                         }
 
-                        PDF.CombineFiles(files, FormattedReportFile);
+                        ////if (!File.Exists(FormattedReportFile))
+                        ////{
+
+                        ////}
+                        PDF.CombineFiles(files, formattedReportFile);
                     }
                     else
                     {
-                        File.Copy(this.lbx_ReportFileList.Items[0].ToString(), FormattedReportFile);
+                        if (!File.Exists(formattedReportFile))
+                        {
+                            File.Copy(this.lbx_ReportFileList.Items[0].ToString(), formattedReportFile);
+                        }
+                        else
+                        {
+                            MessageBox.Show("A report already exists in " + formattedReportFile, "Duplicate Report", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
                     }
                 }
-                
-                
-                // If enabled and we have a valid file in the textbox, use the Format provided to rename the report file 
-                // with the information entered and make a copy in the report folder. 
-                //if (Properties.Settings.Default.MoveAndSaveReports && File.Exists(this.txt_ReportFile.Text))
-                //{
-                //    string filename = FormatReportFilename();
+                               
+                //// If enabled and we have a valid file in the textbox, use the Format provided to rename the report file 
+                //// with the information entered and make a copy in the report folder. 
+                ////if (Properties.Settings.Default.MoveAndSaveReports && File.Exists(this.txt_ReportFile.Text))
+                ////{
+                ////    string filename = FormatReportFilename();
 
-                //    File.Copy(this.txt_ReportFile.Text, Properties.Settings.Default.ReportLocation + filename);
-                //    this.txt_ReportFile.Text = filename;
-                //}
+                ////    File.Copy(this.txt_ReportFile.Text, Properties.Settings.Default.ReportLocation + filename);
+                ////    this.txt_ReportFile.Text = filename;
+                ////}
                 
                 foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
                 {
@@ -303,7 +318,7 @@ namespace TII_NewDatabase.AddNewForms
                         newInspection.InspectionType = this.cbo_InspectionType.Text;
                         newInspection.Status = elev.Cells["Status"].Value.ToString();
                         newInspection.Inspector = this.cbo_Inspector.Text;
-                        newInspection.ReportFile = FormattedReportFile;
+                        newInspection.ReportFile = formattedReportFile;
 
                         success = success && newInspection.CommitToDatabase();
                     }
@@ -333,9 +348,9 @@ namespace TII_NewDatabase.AddNewForms
         }
 
         /// <summary>
-        /// Creates a string from the data in the form 
+        /// Creates a string from the data in the form.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A form containing data in the provided Report File Format.</returns>
         private string FormatReportFilename()
         {
             string filename = REPORTFILE_FORMAT;

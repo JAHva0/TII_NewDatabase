@@ -35,6 +35,7 @@ namespace TII_NewDatabase.AddNewForms
             this.lbx_BuildingList = new System.Windows.Forms.ListBox();
             this.txt_BuildingFilter = new System.Windows.Forms.TextBox();
             this.gbx_InspectionInfo = new System.Windows.Forms.GroupBox();
+            this.lbx_ReportFileList = new System.Windows.Forms.ListBox();
             this.dgv_ElevatorList = new System.Windows.Forms.DataGridView();
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_SubmitInspection = new System.Windows.Forms.Button();
@@ -49,7 +50,7 @@ namespace TII_NewDatabase.AddNewForms
             this.dtp_InspectionDate = new System.Windows.Forms.DateTimePicker();
             this.lbl_Date = new System.Windows.Forms.Label();
             this.error_provider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.lbx_ReportFileList = new System.Windows.Forms.ListBox();
+            this.btn_CreateDCCert = new System.Windows.Forms.Button();
             this.gbx_Building.SuspendLayout();
             this.gbx_InspectionInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ElevatorList)).BeginInit();
@@ -87,6 +88,7 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // gbx_InspectionInfo
             // 
+            this.gbx_InspectionInfo.Controls.Add(this.btn_CreateDCCert);
             this.gbx_InspectionInfo.Controls.Add(this.lbx_ReportFileList);
             this.gbx_InspectionInfo.Controls.Add(this.dgv_ElevatorList);
             this.gbx_InspectionInfo.Controls.Add(this.btn_Cancel);
@@ -107,6 +109,18 @@ namespace TII_NewDatabase.AddNewForms
             this.gbx_InspectionInfo.TabIndex = 1;
             this.gbx_InspectionInfo.TabStop = false;
             this.gbx_InspectionInfo.Text = "Inspection Information";
+            // 
+            // lbx_ReportFileList
+            // 
+            this.lbx_ReportFileList.AllowDrop = true;
+            this.lbx_ReportFileList.FormattingEnabled = true;
+            this.lbx_ReportFileList.Location = new System.Drawing.Point(422, 99);
+            this.lbx_ReportFileList.Name = "lbx_ReportFileList";
+            this.lbx_ReportFileList.Size = new System.Drawing.Size(212, 69);
+            this.lbx_ReportFileList.TabIndex = 14;
+            this.lbx_ReportFileList.DragDrop += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragDrop);
+            this.lbx_ReportFileList.DragEnter += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragEnter);
+            this.lbx_ReportFileList.Validated += new System.EventHandler(this.ValidateInformation);
             // 
             // dgv_ElevatorList
             // 
@@ -242,17 +256,14 @@ namespace TII_NewDatabase.AddNewForms
             // 
             this.error_provider.ContainerControl = this;
             // 
-            // lbx_ReportFileList
+            // btn_CreateDCCert
             // 
-            this.lbx_ReportFileList.AllowDrop = true;
-            this.lbx_ReportFileList.FormattingEnabled = true;
-            this.lbx_ReportFileList.Location = new System.Drawing.Point(422, 99);
-            this.lbx_ReportFileList.Name = "lbx_ReportFileList";
-            this.lbx_ReportFileList.Size = new System.Drawing.Size(212, 69);
-            this.lbx_ReportFileList.TabIndex = 14;
-            this.lbx_ReportFileList.DragDrop += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragDrop);
-            this.lbx_ReportFileList.DragEnter += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragEnter);
-            this.lbx_ReportFileList.Validated += new System.EventHandler(this.ValidateInformation);
+            this.btn_CreateDCCert.Location = new System.Drawing.Point(530, 196);
+            this.btn_CreateDCCert.Name = "btn_CreateDCCert";
+            this.btn_CreateDCCert.Size = new System.Drawing.Size(104, 23);
+            this.btn_CreateDCCert.TabIndex = 2;
+            this.btn_CreateDCCert.Text = "Create DC Cert";
+            this.btn_CreateDCCert.UseVisualStyleBackColor = true;
             // 
             // FormAddInspection
             // 
@@ -296,5 +307,6 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.DataGridView dgv_ElevatorList;
         private System.Windows.Forms.ErrorProvider error_provider;
         private System.Windows.Forms.ListBox lbx_ReportFileList;
+        private System.Windows.Forms.Button btn_CreateDCCert;
     }
 }

@@ -87,6 +87,7 @@ namespace TII_NewDatabase
             this.col_Inspector = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_Report = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gbx_Building = new System.Windows.Forms.GroupBox();
+            this.cbo_Contractor = new System.Windows.Forms.ComboBox();
             this.btn_EditBuilding = new System.Windows.Forms.Button();
             this.cbo_BuildingAnniversary = new System.Windows.Forms.ComboBox();
             this.cbo_BuildingCounty = new System.Windows.Forms.ComboBox();
@@ -158,37 +159,20 @@ namespace TII_NewDatabase
             this.lbl_CompanyContacts = new System.Windows.Forms.Label();
             this.lbx_CompanyContacts = new System.Windows.Forms.ListBox();
             this.tab_UpcomingAndOverdue = new System.Windows.Forms.TabPage();
-            this.gbx_ContactLog = new System.Windows.Forms.GroupBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tlp_UpcomingAndOverdue = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lvw_UpcomingInspection = new System.Windows.Forms.ListView();
+            this.col_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.lvw_OverdueInspections = new System.Windows.Forms.ListView();
+            this.col_Over_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_OverDays = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_OverType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_OverStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbo_Contractor = new System.Windows.Forms.ComboBox();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -203,10 +187,9 @@ namespace TII_NewDatabase
             this.gbx_Contacts.SuspendLayout();
             this.gbx_ContactInfo.SuspendLayout();
             this.tab_UpcomingAndOverdue.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.tlp_UpcomingAndOverdue.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.cmu_Contact.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -372,6 +355,15 @@ namespace TII_NewDatabase
             this.gbx_Building.TabIndex = 7;
             this.gbx_Building.TabStop = false;
             this.gbx_Building.Text = "Building";
+            // 
+            // cbo_Contractor
+            // 
+            this.cbo_Contractor.Enabled = false;
+            this.cbo_Contractor.FormattingEnabled = true;
+            this.cbo_Contractor.Location = new System.Drawing.Point(247, 171);
+            this.cbo_Contractor.Name = "cbo_Contractor";
+            this.cbo_Contractor.Size = new System.Drawing.Size(115, 21);
+            this.cbo_Contractor.TabIndex = 30;
             // 
             // btn_EditBuilding
             // 
@@ -878,6 +870,7 @@ namespace TII_NewDatabase
             this.tab_MainTabControl.SelectedIndex = 0;
             this.tab_MainTabControl.Size = new System.Drawing.Size(887, 930);
             this.tab_MainTabControl.TabIndex = 8;
+            this.tab_MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabChanged);
             // 
             // tab_DatabaseBrowser
             // 
@@ -1108,10 +1101,7 @@ namespace TII_NewDatabase
             // 
             // tab_UpcomingAndOverdue
             // 
-            this.tab_UpcomingAndOverdue.Controls.Add(this.gbx_ContactLog);
-            this.tab_UpcomingAndOverdue.Controls.Add(this.groupBox6);
             this.tab_UpcomingAndOverdue.Controls.Add(this.tlp_UpcomingAndOverdue);
-            this.tab_UpcomingAndOverdue.Controls.Add(this.groupBox4);
             this.tab_UpcomingAndOverdue.Location = new System.Drawing.Point(4, 22);
             this.tab_UpcomingAndOverdue.Name = "tab_UpcomingAndOverdue";
             this.tab_UpcomingAndOverdue.Padding = new System.Windows.Forms.Padding(3);
@@ -1120,250 +1110,100 @@ namespace TII_NewDatabase
             this.tab_UpcomingAndOverdue.Text = "Upcoming / Overdue ";
             this.tab_UpcomingAndOverdue.UseVisualStyleBackColor = true;
             // 
-            // gbx_ContactLog
-            // 
-            this.gbx_ContactLog.Location = new System.Drawing.Point(349, 330);
-            this.gbx_ContactLog.Name = "gbx_ContactLog";
-            this.gbx_ContactLog.Size = new System.Drawing.Size(527, 448);
-            this.gbx_ContactLog.TabIndex = 11;
-            this.gbx_ContactLog.TabStop = false;
-            this.gbx_ContactLog.Text = "Contact Log";
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.listView1);
-            this.groupBox6.Location = new System.Drawing.Point(349, 784);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(514, 170);
-            this.groupBox6.TabIndex = 9;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Inspection History";
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5});
-            this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(14, 24);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(494, 129);
-            this.listView1.TabIndex = 15;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Date";
-            this.columnHeader1.Width = 70;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Inspection Type";
-            this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader2.Width = 100;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Status";
-            this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader3.Width = 100;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Inspector";
-            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader4.Width = 80;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Report Available";
-            this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader5.Width = 100;
-            // 
             // tlp_UpcomingAndOverdue
             // 
+            this.tlp_UpcomingAndOverdue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tlp_UpcomingAndOverdue.ColumnCount = 1;
             this.tlp_UpcomingAndOverdue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tlp_UpcomingAndOverdue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tlp_UpcomingAndOverdue.Controls.Add(this.groupBox2, 0, 0);
             this.tlp_UpcomingAndOverdue.Controls.Add(this.groupBox3, 0, 1);
-            this.tlp_UpcomingAndOverdue.Location = new System.Drawing.Point(7, 63);
+            this.tlp_UpcomingAndOverdue.Location = new System.Drawing.Point(7, 6);
             this.tlp_UpcomingAndOverdue.Name = "tlp_UpcomingAndOverdue";
             this.tlp_UpcomingAndOverdue.RowCount = 2;
-            this.tlp_UpcomingAndOverdue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_UpcomingAndOverdue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlp_UpcomingAndOverdue.Size = new System.Drawing.Size(336, 891);
+            this.tlp_UpcomingAndOverdue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.32211F));
+            this.tlp_UpcomingAndOverdue.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.67789F));
+            this.tlp_UpcomingAndOverdue.Size = new System.Drawing.Size(414, 892);
             this.tlp_UpcomingAndOverdue.TabIndex = 1;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lvw_UpcomingInspection);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(330, 439);
+            this.groupBox2.Size = new System.Drawing.Size(402, 380);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Upcoming";
             // 
+            // lvw_UpcomingInspection
+            // 
+            this.lvw_UpcomingInspection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvw_UpcomingInspection.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.col_Address,
+            this.col_Type});
+            this.lvw_UpcomingInspection.Location = new System.Drawing.Point(7, 20);
+            this.lvw_UpcomingInspection.Name = "lvw_UpcomingInspection";
+            this.lvw_UpcomingInspection.Size = new System.Drawing.Size(389, 354);
+            this.lvw_UpcomingInspection.TabIndex = 0;
+            this.lvw_UpcomingInspection.UseCompatibleStateImageBehavior = false;
+            this.lvw_UpcomingInspection.View = System.Windows.Forms.View.Details;
+            // 
+            // col_Address
+            // 
+            this.col_Address.Text = "Address";
+            this.col_Address.Width = 240;
+            // 
+            // col_Type
+            // 
+            this.col_Type.Text = "Type";
+            this.col_Type.Width = 140;
+            // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(3, 448);
+            this.groupBox3.Controls.Add(this.lvw_OverdueInspections);
+            this.groupBox3.Location = new System.Drawing.Point(3, 389);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(330, 440);
+            this.groupBox3.Size = new System.Drawing.Size(408, 500);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Overdue";
             // 
-            // groupBox4
+            // lvw_OverdueInspections
             // 
-            this.groupBox4.Controls.Add(this.groupBox5);
-            this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Controls.Add(this.listBox1);
-            this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.listBox2);
-            this.groupBox4.Location = new System.Drawing.Point(349, 66);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(284, 258);
-            this.groupBox4.TabIndex = 10;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Contacts";
+            this.lvw_OverdueInspections.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.col_Over_Address,
+            this.col_OverDays,
+            this.col_OverType,
+            this.col_OverStatus});
+            this.lvw_OverdueInspections.Location = new System.Drawing.Point(7, 19);
+            this.lvw_OverdueInspections.Name = "lvw_OverdueInspections";
+            this.lvw_OverdueInspections.Size = new System.Drawing.Size(395, 475);
+            this.lvw_OverdueInspections.TabIndex = 1;
+            this.lvw_OverdueInspections.UseCompatibleStateImageBehavior = false;
+            this.lvw_OverdueInspections.View = System.Windows.Forms.View.Details;
             // 
-            // groupBox5
+            // col_Over_Address
             // 
-            this.groupBox5.Controls.Add(this.textBox1);
-            this.groupBox5.Controls.Add(this.textBox2);
-            this.groupBox5.Controls.Add(this.textBox3);
-            this.groupBox5.Controls.Add(this.textBox4);
-            this.groupBox5.Controls.Add(this.label1);
-            this.groupBox5.Controls.Add(this.label2);
-            this.groupBox5.Controls.Add(this.label3);
-            this.groupBox5.Controls.Add(this.label4);
-            this.groupBox5.Controls.Add(this.label5);
-            this.groupBox5.Controls.Add(this.textBox5);
-            this.groupBox5.Location = new System.Drawing.Point(9, 81);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(256, 153);
-            this.groupBox5.TabIndex = 14;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Selected Contact";
+            this.col_Over_Address.Text = "Address";
+            this.col_Over_Address.Width = 120;
             // 
-            // textBox1
+            // col_OverDays
             // 
-            this.textBox1.Location = new System.Drawing.Point(84, 97);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 24;
+            this.col_OverDays.Text = "Days Past";
             // 
-            // textBox2
+            // col_OverType
             // 
-            this.textBox2.Location = new System.Drawing.Point(84, 71);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 23;
+            this.col_OverType.Text = "Type";
+            this.col_OverType.Width = 90;
             // 
-            // textBox3
+            // col_OverStatus
             // 
-            this.textBox3.Location = new System.Drawing.Point(84, 45);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(125, 20);
-            this.textBox3.TabIndex = 22;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(84, 123);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(160, 20);
-            this.textBox4.TabIndex = 21;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 126);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "E-Mail:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(51, 100);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(27, 13);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "Fax:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 74);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Cell Phone:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 48);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(72, 13);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Office Phone:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(39, 22);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Name:";
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(84, 19);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(160, 20);
-            this.textBox5.TabIndex = 13;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(142, 16);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(92, 13);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Building Contacts:";
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(145, 32);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 43);
-            this.listBox1.TabIndex = 11;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 16);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(99, 13);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Company Contacts:";
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(9, 32);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(120, 43);
-            this.listBox2.TabIndex = 9;
+            this.col_OverStatus.Text = "Status";
+            this.col_OverStatus.Width = 115;
             // 
             // cmu_Contact
             // 
@@ -1386,15 +1226,6 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Size = new System.Drawing.Size(160, 22);
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
-            // 
-            // cbo_Contractor
-            // 
-            this.cbo_Contractor.Enabled = false;
-            this.cbo_Contractor.FormattingEnabled = true;
-            this.cbo_Contractor.Location = new System.Drawing.Point(247, 171);
-            this.cbo_Contractor.Name = "cbo_Contractor";
-            this.cbo_Contractor.Size = new System.Drawing.Size(115, 21);
-            this.cbo_Contractor.TabIndex = 30;
             // 
             // Main_Form
             // 
@@ -1433,12 +1264,9 @@ namespace TII_NewDatabase
             this.gbx_ContactInfo.ResumeLayout(false);
             this.gbx_ContactInfo.PerformLayout();
             this.tab_UpcomingAndOverdue.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
             this.tlp_UpcomingAndOverdue.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.cmu_Contact.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1524,30 +1352,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.TableLayoutPanel tlp_UpcomingAndOverdue;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.GroupBox gbx_ContactLog;
         private System.Windows.Forms.Button btn_EditCompany;
         private System.Windows.Forms.GroupBox gbx_ButtonContainer;
         private System.Windows.Forms.Button btn_AddNewCompany;
@@ -1559,5 +1363,13 @@ namespace TII_NewDatabase
         private System.Windows.Forms.ToolStripMenuItem cmi_RemoveContact;
         private System.Windows.Forms.Button btn_NewElevator;
         private System.Windows.Forms.ComboBox cbo_Contractor;
+        private System.Windows.Forms.ListView lvw_UpcomingInspection;
+        private System.Windows.Forms.ColumnHeader col_Address;
+        private System.Windows.Forms.ColumnHeader col_Type;
+        private System.Windows.Forms.ListView lvw_OverdueInspections;
+        private System.Windows.Forms.ColumnHeader col_Over_Address;
+        private System.Windows.Forms.ColumnHeader col_OverType;
+        private System.Windows.Forms.ColumnHeader col_OverStatus;
+        private System.Windows.Forms.ColumnHeader col_OverDays;
     }
 }

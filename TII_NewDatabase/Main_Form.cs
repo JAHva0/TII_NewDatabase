@@ -43,7 +43,7 @@ namespace TII_NewDatabase
 
         /// <summary> The Contact currently selected on the form. </summary>
         private Contact currentltSelectedContact;
-        
+
         /// <summary>Initializes a new instance of the <see cref="Main_Form"/> class.</summary>
         public Main_Form()
         {
@@ -78,11 +78,12 @@ namespace TII_NewDatabase
         /// <param name="e">Will always be empty.</param>
         private void Main_Form_Load(object sender, EventArgs e)
         {
+            #region Check Connection
             Connection.CreateConnection(
                                         Properties.Settings.Default.UserName,
                                         Properties.Settings.Default.Password,
                                         Properties.Settings.Default.ServerAddress);
-            
+
             // Check if the stored connection criteria are valid
             if (!Connection.ConnectionUp)
             {
@@ -124,6 +125,7 @@ namespace TII_NewDatabase
                                                 Properties.Settings.Default.ServerAddress);
                 }
             }
+            #endregion
 
             // Initialize the checkbox filters to whatever the saved settings are
             this.cbx_ShowMD.Checked = Properties.Settings.Default.MDFilterOn;
@@ -169,7 +171,7 @@ namespace TII_NewDatabase
                                   "FROM Company " +
                                   "LEFT JOIN Building ON Building.Company_ID = Company.Company_ID";
             companyList = new DatabaseList(companyQuery);
-            
+
             string buildingQuery = "SELECT Building_ID, Address, state, Active FROM Building";
             buildingList = new DatabaseList(buildingQuery);
 
@@ -223,7 +225,7 @@ namespace TII_NewDatabase
             {
                 return;
             }
-            
+
             // Find out which checkbox was clicked
             switch (((CheckBox)sender).Name)
             {
@@ -233,9 +235,9 @@ namespace TII_NewDatabase
                         break;
                     }
 
-                case "cbx_ShowDC": 
+                case "cbx_ShowDC":
                     {
-                        Properties.Settings.Default.DCFilterOn = this.cbx_ShowDC.Checked; 
+                        Properties.Settings.Default.DCFilterOn = this.cbx_ShowDC.Checked;
                         break;
                     }
 
@@ -256,12 +258,12 @@ namespace TII_NewDatabase
         /// When called, populate the Company and Building Lists based on the contents of the Dictionaries, as well as the checkbox filters.
         /// </summary>
         private void PopulateListboxes()
-        {            
+        {
             string dc_md_both = "NOTHING SELECTED"; // Default to something that nothing would have, in case neither checkbox is selected
             if (this.cbx_ShowDC.Checked && !this.cbx_ShowMD.Checked)
             {
                 dc_md_both = "DC"; // Only Show Companies with DC Buildings
-            }
+            }                                                                    
 
             if (!this.cbx_ShowDC.Checked && this.cbx_ShowMD.Checked)
             {
@@ -278,8 +280,8 @@ namespace TII_NewDatabase
             {
                 this.lbx_CompanyList.Items.Clear();
                 this.lbx_CompanyList.Items.AddRange(companyList.GetFilteredList(
-                                                                                dc_md_both, 
-                                                                                this.txt_FilterCompany.Text, 
+                                                                                dc_md_both,
+                                                                                this.txt_FilterCompany.Text,
                                                                                 !this.cbx_ShowInactive.Checked));
             }
             else
@@ -309,7 +311,7 @@ namespace TII_NewDatabase
         /// <param name="sender">The List box which called the event.</param>
         /// <param name="e">Any Associated EventArgs.</param>
         private void ListBox_ItemSelected(object sender, EventArgs e)
-        {            
+        {
             ListBox currentLbx = (ListBox)sender;
             int selected_id;
 
@@ -470,7 +472,7 @@ namespace TII_NewDatabase
             {
                 return;
             }
-            
+
             ContextMenu reportFileMenu;
 
             // Check to see if the item the user clicked was noted to have a report when it loaded and provide the appropriate context menu.
@@ -509,7 +511,7 @@ namespace TII_NewDatabase
                                                                            "AND Date = '{1}'",
                                                                            this.txt_BuildingAddress.Text,
                                                                            this.lvw_InspectionList.SelectedItems[0].Text)).Rows;
-            
+
             // In case we end up with more than one report from that date, open them all.
             foreach (DataRow row in report_file)
             {
@@ -543,7 +545,7 @@ namespace TII_NewDatabase
             {
                 return;
             }
-            
+
             // See which list box was selected, and make sure the other one is unselected when that happens
             if (((ListBox)sender).Name == "lbx_CompanyContacts")
             {
@@ -620,7 +622,7 @@ namespace TII_NewDatabase
         private void EnableEditing(object sender, EventArgs e)
         {
             this.tab_BuildingCompanySelector.Enabled = false;
-            
+
             Button buttonSender = (Button)sender;
             GroupBox buttonParent = (GroupBox)buttonSender.Parent;
             this.SetGroupBoxReadOnlyState(buttonParent, false);
@@ -646,16 +648,16 @@ namespace TII_NewDatabase
         /// <param name="sender">The button which triggered the event.</param>
         /// <param name="e">Any Event Args.</param>
         private void DisableEditing(object sender, EventArgs e)
-        {  
+        {
             Button buttonSender = (Button)sender;
             GroupBox buttonParent = (GroupBox)buttonSender.Parent;
             this.SetGroupBoxReadOnlyState(buttonParent, true);
             buttonParent.Controls.RemoveByKey("btn_Cancel");
 
             // Find the button that should intialize editing, and reset the text and the target for the click event.
-            Button editButton = (from b in buttonParent.Controls.Cast<Button>()
-                              where b.Name.Contains("btn_Edit")
-                              select b).First();
+            Control editButton = (from b in buttonParent.Controls.Cast<Control>()
+                                 where b.Name.Contains("btn_Edit")
+                                 select b).First();
             editButton.Text = "Edit";
             editButton.Click += this.EnableEditing;
             editButton.Click -= this.SaveChanges;
@@ -674,7 +676,7 @@ namespace TII_NewDatabase
         /// <param name="sender">The button which triggered the event.</param>
         /// <param name="e">Any Event Args.</param>
         private void SaveChanges(object sender, EventArgs e)
-        {            
+        {
             Button buttonSender = (Button)sender;
             GroupBox buttonParent = (GroupBox)buttonSender.Parent;
 
@@ -683,7 +685,7 @@ namespace TII_NewDatabase
                 case "Company":
                     {
                         Debug.Assert(this.currentlySelectedCompany != null, "Company cannot be null at this point");
-                        
+
                         this.currentlySelectedCompany.Name = this.txt_CompanyName.Text;
                         this.currentlySelectedCompany.Street = this.txt_CompanyStreet.Text;
                         this.currentlySelectedCompany.City = this.txt_CompanyCity.Text;
@@ -770,7 +772,7 @@ namespace TII_NewDatabase
         private void AddContact(object sender, EventArgs e)
         {
             FormAddNewContact addContact = new FormAddNewContact();
-            
+
             switch (((MenuItem)sender).Text)
             {
                 case "Add New Contact":
@@ -786,11 +788,11 @@ namespace TII_NewDatabase
 
                 case "Modify Contact":
                     {
-                        addContact = new FormAddNewContact(this.currentltSelectedContact); 
+                        addContact = new FormAddNewContact(this.currentltSelectedContact);
                         break;
                     }
             }
-                        
+
             addContact.ShowDialog();
         }
 
@@ -833,7 +835,7 @@ namespace TII_NewDatabase
             {
                 sender_name = ((ToolStripItem)sender).Name;
             }
-            
+
             switch (sender_name)
             {
                 case "btn_EnterNewInspection":
@@ -866,7 +868,7 @@ namespace TII_NewDatabase
                             // If the user attempted to enter in a company which the SQL Server rejected as a duplicate, catch the exception here.
                             // Alert the user of the error
                             MessageBox.Show(((Company)ex.FailedObject).Name + " already exists in the database", "Duplicate Company Entry", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            
+
                             // Make sure tha company tab is active and select the duplicate value in the list
                             this.tab_BuildingCompanySelector.SelectedTab = this.tab_ByCompany;
                             this.lbx_CompanyList.SelectedItem = ((Company)ex.FailedObject).Name;
@@ -914,7 +916,7 @@ namespace TII_NewDatabase
                         {
                             throw;
                         }
-                        
+
                         break;
                     }
 
@@ -930,7 +932,7 @@ namespace TII_NewDatabase
                         {
                             // If we get a duplicate entry error, alert the user
                             MessageBox.Show(string.Format("An Elevator with the number {0} already exists in the database.", ((Elevator)ex.FailedObject).ElevatorNumber), "Duplicate Elevator Number", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        
+
                             // Possibly we should either tell the user what building has the elevator number they are using? or if they would like to navigate to that building?
                         }
                         catch (Exception ex)
@@ -949,6 +951,48 @@ namespace TII_NewDatabase
                     }
 
                 default: throw new NotImplementedException(sender_name + " is not provided for in the OpenChildForm() method.");
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the main control tab is changed. Used to load form data when desired, rather than at load time.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">Not used by this method.</param>
+        private void MainTabChanged(object sender, EventArgs e)
+        {
+            if (this.tab_MainTabControl.SelectedTab == this.tab_UpcomingAndOverdue)
+            {
+                #region Overdue Inspection Query
+                string overdue_query =
+                    "SELECT DISTINCT Address, DATEDIFF(DAY, Inspection.Date, GetDate()) as DaysPast, InspectionTypes.Name, Inspection.Status " +
+                    "FROM Inspection " +
+                    "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
+                    "JOIN Building ON Elevator.Building_ID = Building.Building_ID " +
+                    "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
+                    "WHERE Inspection_ID IN " +
+                    "    (SELECT TOP 1 Inspection_ID " +
+                    "    FROM Inspection  " +
+                    "    JOIN Elevator AS Dupe ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
+                    "    WHERE Dupe.Elevator_ID = Elevator.Elevator_ID " +
+                    "    ORDER BY Date DESC) " +
+                    "AND Status <> 'Clean'  " +
+                    "AND Status <> 'No Inspection' " +
+                    "AND DATEDIFF(DAY, Inspection.Date, GetDate()) > 30 " +
+                    "AND Active <> 0 " + 
+                    "ORDER BY DaysPast DESC";
+                #endregion
+
+                this.lvw_OverdueInspections.Items.Clear();
+                foreach (DataRow row in SQL.Query.Select(overdue_query).Rows)
+                {
+                    ListViewItem item = new ListViewItem(row["Address"].ToString());
+                    item.SubItems.Add(row["DaysPast"].ToString());
+                    item.SubItems.Add(row["Name"].ToString());
+                    item.SubItems.Add(row["Status"].ToString());
+
+                    this.lvw_OverdueInspections.Items.Add(item);
+                }
             }
         }
     }

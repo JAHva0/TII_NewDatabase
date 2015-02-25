@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddObjects.cs" />
     <Compile Include="Combine_Files.cs" />
     <Compile Include="PDF_Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

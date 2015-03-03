@@ -418,5 +418,12 @@ namespace TII_NewDatabase.AddNewForms
                 this.lbx_ReportFileList.Items.Add(System.IO.Path.GetFileName(ofd.FileName));
             }
         }
+
+        private void CreateDCCert(object sender, EventArgs e)
+        {
+            PDF_Document newCert = new PDF_Document("TempCert.pdf");
+            newCert.AddImage(@"C:\Users\Jon\Documents\TPIRs\DC\CleanCert_blank.jpg");
+            newCert.ClosePDF();
+        }
     }
 }

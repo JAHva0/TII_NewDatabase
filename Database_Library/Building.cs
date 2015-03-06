@@ -632,10 +632,31 @@ namespace Database
                                                                            "FROM Elevator " +
                                                                            "WHERE Building_ID = {0}" +
                                                                        ") " +
+                                                                       "AND Status <> 'No Inspection' " +
                                                                        "ORDER BY Date Desc", 
                                                                        this.ID)).Rows)
                 {
                     history.Add(new InspectionHistory(row));
+                }
+
+                // Pare out results where one unit was clean and another was not. Make sure just the unclean listing remains
+                List<InspectionHistory> EntriesToRemove = new List<InspectionHistory>();
+
+                foreach (InspectionHistory inspection in history)
+                {
+                    var duplicateDates = from i in history
+                                         where i.Date == inspection.Date
+                                         select i;
+
+                    if (duplicateDates.Count() > 1)
+                    {
+                        EntriesToRemove.Add(duplicateDates.Single(x => x.Status == "Clean"));
+                    }
+                }
+
+                foreach (InspectionHistory entry in EntriesToRemove)
+                {
+                    history.Remove(entry);
                 }
 
                 return history;

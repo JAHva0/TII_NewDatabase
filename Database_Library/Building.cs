@@ -645,7 +645,7 @@ namespace Database
                 foreach (InspectionHistory inspection in history)
                 {
                     var duplicateDates = from i in history
-                                         where i.Date == inspection.Date
+                                         where i.Date == inspection.Date && i.Type == inspection.Type
                                          select i;
 
                     if (duplicateDates.Count() > 1)

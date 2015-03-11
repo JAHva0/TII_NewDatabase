@@ -110,6 +110,7 @@ namespace TII_NewDatabase.AddNewForms
                 this.newBuilding.HourlyFee = new Money(this.txt_HourlyFee.Text);
                 this.newBuilding.Anniversary = this.cbo_BuildingAnniversary.Text;
                 this.newBuilding.Contractor = this.cbo_Contractor.Text;
+                this.newBuilding.Active = true;
 
                 if (this.newBuilding.SaveConfirmation())
                 {

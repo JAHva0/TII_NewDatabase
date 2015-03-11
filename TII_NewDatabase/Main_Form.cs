@@ -414,6 +414,16 @@ namespace TII_NewDatabase
             {
                 this.lbx_ElevatorList.Items.Add(elev.ElevatorNumber);
             }
+            
+            // If there are no elevators, disable the add inspection button
+            if (selected_building.ElevatorList.Count == 0)
+            {
+                this.btn_EnterNewInspection.Enabled = false;
+            }
+            else
+            {
+                this.btn_EnterNewInspection.Enabled = true;
+            }
 
             // Populate the Inspection History list view
             this.lvw_InspectionList.Items.Clear();

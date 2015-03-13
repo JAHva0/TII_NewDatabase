@@ -493,7 +493,11 @@ namespace TII_NewDatabase
             }
             else
             {
-                reportFileMenu = new ContextMenu(new MenuItem[] { new MenuItem("No Report Associated") });
+                reportFileMenu = new ContextMenu(new MenuItem[] 
+                { 
+                    new MenuItem("No Report Associated"),
+                    new MenuItem("Locate A Report", this.ReportFileMenu_LocateReport)
+                });
                 reportFileMenu.MenuItems[0].Enabled = false; // Don't enable the menu item, it's just for information
             }
 
@@ -541,6 +545,37 @@ namespace TII_NewDatabase
                     throw ex;
                 }
             }
+        }
+
+        private void ReportFileMenu_LocateReport(object sender, EventArgs e)
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+            OFD.Title = string.Format("Locate Report for {0} on {1}", this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, this.lvw_InspectionList.SelectedItems[0].Text);
+            OFD.DefaultExt = ".pdf";
+            OFD.InitialDirectory = Properties.Settings.Default.ReportLocation;
+            if (OFD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string query = string.Format("SELECT Inspection.Inspection_ID, Elevator.Elevator_ID, Date, IType_ID, Status, Inspector, Report FROM Inspection " +
+                                             "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
+                                             "JOIN Building ON Building.Building_ID = Elevator.Building_ID " +
+                                             "WHERE Date = '{0}' " +
+                                             "AND IType_ID = (SELECT IType_ID FROM InspectionTypes WHERE Name = '{1}') " +
+                                             "AND Building.Building_ID = {2}",
+                                             this.lvw_InspectionList.SelectedItems[0].Text, // Date
+                                             this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, // Type
+                                             this.currentlySelectedBuilding.ID);
+                // Update every inspection entry with the same date, type, and building ID
+                foreach (DataRow inspectionToUpdate in SQL.Query.Select(query).Rows)
+                {
+                    Inspection toUpdate = new Inspection(inspectionToUpdate);
+                    toUpdate.ReportFile = OFD.FileName;
+                    toUpdate.CommitToDatabase();
+                }
+                // Fire the populate method to re-draw all of the information, including that we now have a report file associated.
+                this.PopulateFields(this.currentlySelectedBuilding);
+            }
+
+
         }
 
         /// <summary>

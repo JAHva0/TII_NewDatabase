@@ -574,8 +574,6 @@ namespace TII_NewDatabase
                 // Fire the populate method to re-draw all of the information, including that we now have a report file associated.
                 this.PopulateFields(this.currentlySelectedBuilding);
             }
-
-
         }
 
         /// <summary>

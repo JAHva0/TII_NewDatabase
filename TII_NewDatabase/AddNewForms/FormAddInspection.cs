@@ -288,6 +288,15 @@ namespace TII_NewDatabase.AddNewForms
                     {
                         if (!File.Exists(formattedReportFile))
                         {
+                            // Check to be sure that the folder for this inspector exists.
+                            if (!Directory.Exists(Path.GetDirectoryName(formattedReportFile)))
+                            {
+                                if (MessageBox.Show(string.Format("Folder for {0} does not exist. Create?", this.cbo_Inspector.Text), "Create Missing Folder?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.OK)
+                                {
+                                    Directory.CreateDirectory(Path.GetDirectoryName(formattedReportFile));
+                                }
+                            }
+                            
                             File.Copy(this.lbx_ReportFileList.Items[0].ToString(), formattedReportFile);
                         }
                         else

@@ -249,6 +249,21 @@ namespace Database
         }
 
         /// <summary>
+        /// Gets the abbreviation associated with a given inspection type name.
+        /// </summary>
+        /// <param name="value">The inspection type to get the abbreviation paired with.</param>
+        /// <returns>A string abbreviation associated with the given value.</returns>
+        public static string GetInspectionTypeAbbv(string value)
+        {
+            ////if (Inspection.inspectionType == null)
+            ////{
+            ////    Inspection i = new Inspection();
+            ////}
+
+            return inspectionType.Where(v => v.Value[0] == value).SingleOrDefault().Value[1];
+        }
+
+        /// <summary>
         /// Checks to see if there is a report file, and if so, attempts to open it. 
         /// </summary>
         /// <param name="path"> The path to the desired report file. </param>
@@ -258,21 +273,6 @@ namespace Database
             {
                 System.Diagnostics.Process.Start(path + this.report);
             }
-        }
-
-        /// <summary>
-        /// Gets the abberviation associated with a given inspection type name.
-        /// </summary>
-        /// <param name="value">The inspection type to get the abbreviation paired with.</param>
-        /// <returns>A string abbreviation associated with the given value.</returns>
-        public static string GetInspectionTypeAbbv(string value)
-        {
-            if (Inspection.inspectionType == null)
-            {
-                Inspection I = new Inspection();
-            }
-            
-            return inspectionType.Where(v => v.Value[0] == value).SingleOrDefault().Value[1];
         }
 
         /// <summary>

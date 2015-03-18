@@ -30,6 +30,9 @@ namespace Database
                                                                 "Active", 
                                                                 "Latitude", 
                                                                 "Longitude",
+                                                                "FES",
+                                                                "Smks",
+                                                                "Heats",
                                                                 "Contact_ID", // Contact Columns
                                                                 "OfficePhone", 
                                                                 "OfficeExt",

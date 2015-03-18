@@ -50,6 +50,15 @@ namespace Database
         /// <summary> Geographic Coordinates of the building.</summary>
         private GeographicCoordinates coordinates;
 
+        /// <summary> Boolean for Fire Emergency Service. </summary>
+        private bool fire_emergency_service;
+
+        /// <summary> Boolean for Smoke Detectors. </summary>
+        private bool smoke_detectors;
+
+        /// <summary> Boolean for Heat Detectors. </summary>
+        private bool heat_detectors;
+
         /// <summary> A collection of contacts associated with this building. </summary>
         private List<Contact> contact_list = new List<Contact>();
 
@@ -250,6 +259,24 @@ namespace Database
             /// <summary>Month of December.</summary>
             [Description("December")]
             DEC,
+        }
+
+        /// <summary>
+        /// Gets a list of contractors currently present in the database.
+        /// </summary>
+        /// <value>A list of the contractors in the database.</value>
+        public static List<string> ContractorList
+        {
+            get
+            {
+                List<string> contractorList = new List<string>();
+                foreach (DataRow c in SQL.Query.Select("DISTINCT Contractor", "Building", "Contractor IS NOT NULL").Rows)
+                {
+                    contractorList.Add(c["Contractor"].ToString());
+                }
+
+                return contractorList;
+            }
         }
 
         /// <summary>
@@ -587,6 +614,72 @@ namespace Database
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the building is equipped with Fire Emergency Service.
+        /// </summary>
+        /// <value>The Fire Emergency Status for this building.</value>
+        public bool FireEmergencyService
+        {
+            get
+            {
+                return this.fire_emergency_service;
+            }
+
+            set
+            {
+                // as long as this value is different from what we already have, change it.
+                if (value != this.fire_emergency_service)
+                {
+                    this.BaseObject_Edited(this, "FES", this.fire_emergency_service.ToString(), value.ToString());
+                    this.fire_emergency_service = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the building is equipped with Smoke Detectors.
+        /// </summary>
+        /// /// <value>The Smoke Detector Status for this building.</value>
+        public bool SmokeDetectors
+        {
+            get
+            {
+                return this.smoke_detectors;
+            }
+
+            set
+            {
+                // as long as this value is different from what we already have, change it.
+                if (value != this.smoke_detectors)
+                {
+                    this.BaseObject_Edited(this, "Smks", this.smoke_detectors.ToString(), value.ToString());
+                    this.smoke_detectors = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the building is equipped with Heat Detectors.
+        /// </summary>
+        /// /// <value>The Heat Detector Status for this building.</value>
+        public bool HeatDetectors
+        {
+            get
+            {
+                return this.heat_detectors;
+            }
+
+            set
+            {
+                // as long as this value is different from what we already have, change it.
+                if (value != this.heat_detectors)
+                {
+                    this.BaseObject_Edited(this, "FES", this.heat_detectors.ToString(), value.ToString());
+                    this.heat_detectors = value;
+                }
+            }
+        }
+
         /// <summary> Gets a list of the Elevator Numbers associated with this unit. </summary>
         /// <value> A collection of strings as pulled from the database. Can be empty.</value>
         public List<Elevator> ElevatorList
@@ -640,7 +733,7 @@ namespace Database
                 }
 
                 // Pare out results where one unit was clean and another was not. Make sure just the unclean listing remains
-                List<InspectionHistory> EntriesToRemove = new List<InspectionHistory>();
+                List<InspectionHistory> entriesToRemove = new List<InspectionHistory>();
 
                 foreach (InspectionHistory inspection in history)
                 {
@@ -650,11 +743,11 @@ namespace Database
 
                     if (duplicateDates.Count() > 1)
                     {
-                        EntriesToRemove.Add(duplicateDates.Single(x => x.Status == "Clean"));
+                        entriesToRemove.Add(duplicateDates.Single(x => x.Status == "Clean"));
                     }
                 }
 
-                foreach (InspectionHistory entry in EntriesToRemove)
+                foreach (InspectionHistory entry in entriesToRemove)
                 {
                     history.Remove(entry);
                 }
@@ -670,22 +763,6 @@ namespace Database
             get
             {
                 return this.contact_list;
-            }
-        }
-
-        /// <summary>
-        /// Gets a list of contractors currently present in the database.
-        /// </summary>
-        public static List<string> ContractorList
-        {
-            get
-            {
-                List<string> contractorList = new List<string>();
-                foreach (DataRow c in SQL.Query.Select("DISTINCT Contractor", "Building", "Contractor IS NOT NULL").Rows)
-                {
-                    contractorList.Add(c["Contractor"].ToString());
-                }
-                return contractorList;
             }
         }
 
@@ -863,6 +940,9 @@ namespace Database
                 this.contractor = row["Contractor"].ToString();
 
                 bool.TryParse(row["Active"].ToString(), out this.active);
+                bool.TryParse(row["FES"].ToString(), out this.fire_emergency_service);
+                bool.TryParse(row["Smks"].ToString(), out this.smoke_detectors);
+                bool.TryParse(row["Heats"].ToString(), out this.heat_detectors);
 
                 float lat, lng;
                 float.TryParse(row["Latitude"].ToString(), out lat);

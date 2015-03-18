@@ -78,54 +78,7 @@ namespace TII_NewDatabase
         /// <param name="e">Will always be empty.</param>
         private void Main_Form_Load(object sender, EventArgs e)
         {
-            #region Check Connection
-            Connection.CreateConnection(
-                                        Properties.Settings.Default.UserName,
-                                        Properties.Settings.Default.Password,
-                                        Properties.Settings.Default.ServerAddress);
-
-            // Check if the stored connection criteria are valid
-            if (!Connection.ConnectionUp)
-            {
-                while (!Connection.ConnectionUp)
-                {
-                    // See if there are any stored fields are blank
-                    if (Properties.Settings.Default.UserName == string.Empty ||
-                        Properties.Settings.Default.Password == string.Empty ||
-                        Properties.Settings.Default.ServerAddress == string.Empty)
-                    {
-                        if (
-                            MessageBox.Show(
-                                            "A Valid Connection must be made prior to opening the Database - Please ensure all credentials are stored and valid.",
-                                            "Missing Connection Credentials",
-                                            MessageBoxButtons.OKCancel,
-                                            MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Cancel)
-                        {
-                            this.Close(); // If the user cancels the Missing Credentials popup, just shut down everything.
-                        }
-                    }
-                    else
-                    {
-                        if (
-                            MessageBox.Show(
-                                            "The Stored Credentials do not appear to be valid. Please check the UserName, Password, and Server Location.",
-                                            "Invalid Connection Credentials",
-                                            MessageBoxButtons.OKCancel,
-                                            MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Cancel)
-                        {
-                            this.Close(); // If the user cancels the Invalid Credentials popup, just shut down everything.
-                        }
-                    }
-
-                    // Create a new Connection that can be tested
-                    this.OpenConnectionSettingsForm(new object(), EventArgs.Empty);
-                    Connection.CreateConnection(
-                                                Properties.Settings.Default.UserName,
-                                                Properties.Settings.Default.Password,
-                                                Properties.Settings.Default.ServerAddress);
-                }
-            }
-            #endregion
+            this.CheckDatabaseConnection();
 
             // Initialize the checkbox filters to whatever the saved settings are
             this.cbx_ShowMD.Checked = Properties.Settings.Default.MDFilterOn;
@@ -185,6 +138,59 @@ namespace TII_NewDatabase
 
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;
+        }
+
+        /// <summary>
+        /// Run once before anything starts up. Check to be sure that we are capable of creating a connection to the SQL Server.
+        /// </summary>
+        private void CheckDatabaseConnection()
+        {
+            Connection.CreateConnection(
+                                        Properties.Settings.Default.UserName,
+                                        Properties.Settings.Default.Password,
+                                        Properties.Settings.Default.ServerAddress);
+
+            // Check if the stored connection criteria are valid
+            if (!Connection.ConnectionUp)
+            {
+                while (!Connection.ConnectionUp)
+                {
+                    // See if there are any stored fields are blank
+                    if (Properties.Settings.Default.UserName == string.Empty ||
+                        Properties.Settings.Default.Password == string.Empty ||
+                        Properties.Settings.Default.ServerAddress == string.Empty)
+                    {
+                        if (
+                            MessageBox.Show(
+                                            "A Valid Connection must be made prior to opening the Database - Please ensure all credentials are stored and valid.",
+                                            "Missing Connection Credentials",
+                                            MessageBoxButtons.OKCancel,
+                                            MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Cancel)
+                        {
+                            this.Close(); // If the user cancels the Missing Credentials popup, just shut down everything.
+                        }
+                    }
+                    else
+                    {
+                        if (
+                            MessageBox.Show(
+                                            "The Stored Credentials do not appear to be valid. Please check the UserName, Password, and Server Location.",
+                                            "Invalid Connection Credentials",
+                                            MessageBoxButtons.OKCancel,
+                                            MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Cancel)
+                        {
+                            this.Close(); // If the user cancels the Invalid Credentials popup, just shut down everything.
+                        }
+                    }
+
+                    // Create a new Connection that can be tested
+                    this.OpenConnectionSettingsForm(new object(), EventArgs.Empty);
+                    Connection.CreateConnection(
+                                                Properties.Settings.Default.UserName,
+                                                Properties.Settings.Default.Password,
+                                                Properties.Settings.Default.ServerAddress);
+                }
+            }
         }
 
         /// <summary>
@@ -547,15 +553,21 @@ namespace TII_NewDatabase
             }
         }
 
+        /// <summary>
+        /// Creates an open file dialog to allow the user to select a report file to associate with an existing inspection entry in the database.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
         private void ReportFileMenu_LocateReport(object sender, EventArgs e)
         {
-            OpenFileDialog OFD = new OpenFileDialog();
-            OFD.Title = string.Format("Locate Report for {0} on {1}", this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, this.lvw_InspectionList.SelectedItems[0].Text);
-            OFD.DefaultExt = ".pdf";
-            OFD.InitialDirectory = Properties.Settings.Default.ReportLocation;
-            if (OFD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            OpenFileDialog open_file_diag = new OpenFileDialog();
+            open_file_diag.Title = string.Format("Locate Report for {0} on {1}", this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, this.lvw_InspectionList.SelectedItems[0].Text);
+            open_file_diag.DefaultExt = ".pdf";
+            open_file_diag.InitialDirectory = Properties.Settings.Default.ReportLocation;
+            if (open_file_diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string query = string.Format("SELECT Inspection.Inspection_ID, Elevator.Elevator_ID, Date, IType_ID, Status, Inspector, Report FROM Inspection " +
+                string query = string.Format(
+                                             "SELECT Inspection.Inspection_ID, Elevator.Elevator_ID, Date, IType_ID, Status, Inspector, Report FROM Inspection " +
                                              "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
                                              "JOIN Building ON Building.Building_ID = Elevator.Building_ID " +
                                              "WHERE Date = '{0}' " +
@@ -564,13 +576,15 @@ namespace TII_NewDatabase
                                              this.lvw_InspectionList.SelectedItems[0].Text, // Date
                                              this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, // Type
                                              this.currentlySelectedBuilding.ID);
+
                 // Update every inspection entry with the same date, type, and building ID
                 foreach (DataRow inspectionToUpdate in SQL.Query.Select(query).Rows)
                 {
-                    Inspection toUpdate = new Inspection(inspectionToUpdate);
-                    toUpdate.ReportFile = OFD.FileName;
-                    toUpdate.CommitToDatabase();
+                    Inspection to_Update = new Inspection(inspectionToUpdate);
+                    to_Update.ReportFile = open_file_diag.FileName;
+                    to_Update.CommitToDatabase();
                 }
+
                 // Fire the populate method to re-draw all of the information, including that we now have a report file associated.
                 this.PopulateFields(this.currentlySelectedBuilding);
             }
@@ -1006,7 +1020,6 @@ namespace TII_NewDatabase
         {
             if (this.tab_MainTabControl.SelectedTab == this.tab_UpcomingAndOverdue)
             {
-                #region Overdue Inspection Query
                 string overdue_query =
                     "SELECT DISTINCT Address, DATEDIFF(DAY, Inspection.Date, GetDate()) as DaysPast, InspectionTypes.Name, Inspection.Status " +
                     "FROM Inspection " +
@@ -1024,7 +1037,6 @@ namespace TII_NewDatabase
                     "AND DATEDIFF(DAY, Inspection.Date, GetDate()) > 30 " +
                     "AND Active <> 0 " + 
                     "ORDER BY DaysPast DESC";
-                #endregion
 
                 this.lvw_OverdueInspections.Items.Clear();
                 foreach (DataRow row in SQL.Query.Select(overdue_query).Rows)

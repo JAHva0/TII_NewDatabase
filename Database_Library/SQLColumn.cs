@@ -31,7 +31,7 @@ namespace Database
                                                                 "Latitude", 
                                                                 "Longitude",
                                                                 "FES",
-                                                                "Smks",
+                                                                "EmPwr",
                                                                 "Heats",
                                                                 "Contact_ID", // Contact Columns
                                                                 "OfficePhone", 

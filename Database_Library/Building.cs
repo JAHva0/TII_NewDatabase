@@ -54,7 +54,7 @@ namespace Database
         private bool fire_emergency_service;
 
         /// <summary> Boolean for Smoke Detectors. </summary>
-        private bool smoke_detectors;
+        private bool emergency_power;
 
         /// <summary> Boolean for Heat Detectors. </summary>
         private bool heat_detectors;
@@ -640,20 +640,20 @@ namespace Database
         /// Gets or sets a value indicating whether or not the building is equipped with Smoke Detectors.
         /// </summary>
         /// /// <value>The Smoke Detector Status for this building.</value>
-        public bool SmokeDetectors
+        public bool EmergencyPower
         {
             get
             {
-                return this.smoke_detectors;
+                return this.emergency_power;
             }
 
             set
             {
                 // as long as this value is different from what we already have, change it.
-                if (value != this.smoke_detectors)
+                if (value != this.emergency_power)
                 {
-                    this.BaseObject_Edited(this, "Smks", this.smoke_detectors.ToString(), value.ToString());
-                    this.smoke_detectors = value;
+                    this.BaseObject_Edited(this, "Smks", this.emergency_power.ToString(), value.ToString());
+                    this.emergency_power = value;
                 }
             }
         }
@@ -941,7 +941,7 @@ namespace Database
 
                 bool.TryParse(row["Active"].ToString(), out this.active);
                 bool.TryParse(row["FES"].ToString(), out this.fire_emergency_service);
-                bool.TryParse(row["Smks"].ToString(), out this.smoke_detectors);
+                bool.TryParse(row["Smks"].ToString(), out this.emergency_power);
                 bool.TryParse(row["Heats"].ToString(), out this.heat_detectors);
 
                 float lat, lng;

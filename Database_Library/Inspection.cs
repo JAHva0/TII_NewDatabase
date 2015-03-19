@@ -255,10 +255,11 @@ namespace Database
         /// <returns>A string abbreviation associated with the given value.</returns>
         public static string GetInspectionTypeAbbv(string value)
         {
-            ////if (Inspection.inspectionType == null)
-            ////{
-            ////    Inspection i = new Inspection();
-            ////}
+            // Make sure that if the inspectionType property is null, we just make a quick new inspection to initialize it.
+            if (Inspection.inspectionType == null)
+            {
+                Inspection i = new Inspection();
+            }
 
             return inspectionType.Where(v => v.Value[0] == value).SingleOrDefault().Value[1];
         }

@@ -20,6 +20,8 @@ namespace PDF_Library
         /// <summary> PDF Writer to handle adding content to the document. </summary>
         private PdfWriter writer;
 
+        private PdfContentByte canvas;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PDF_Document"/> class.
         /// </summary>
@@ -40,10 +42,7 @@ namespace PDF_Library
             this.doc.Open();
 
             // Create a blank first page so it doesn't complain if we don't end up adding anything.
-            PdfContentByte cb = this.writer.DirectContent;
-            cb.MoveTo(this.doc.PageSize.Width / 2, this.doc.PageSize.Height / 2);
-            cb.LineTo(this.doc.PageSize.Width / 2, this.doc.PageSize.Height / 2);
-            cb.Stroke();
+            this.canvas = writer.DirectContent;
         }
 
         /// <summary>
@@ -83,33 +82,18 @@ namespace PDF_Library
             return CreateFont(basefont, size, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
         }
 
-        /// <summary>
-        /// Adds a text string to a designated location on the current PDF.
-        /// </summary>
-        /// <param name="text">The test string to add.</param>
-        /// <param name="location">The location coordinates for the upper left point of text.</param>
-        /// <param name="textbox">The size of the textbox the text should be written in.</param>
-        /// <param name="rowheight">If it is to take up multiple lines, how far apart the lines should be.</param>
-        /// <param name="textFont">The font to be used for the string text.</param>
-        public void AddText(string text, Point location, Size textbox, int rowheight, iTextSharp.text.Font textFont)
+        public void AddText(string text, Point location)
         {
-            PdfContentByte cb = this.writer.DirectContent;
-            ColumnText coltext = new ColumnText(cb);
-            Phrase newText = new Phrase(text, textFont);
-            coltext.SetSimpleColumn(newText, location.X, location.Y, textbox.Height, textbox.Width, rowheight, Element.ALIGN_LEFT);
-            coltext.Go();
+            this.canvas.BeginText();
+            this.canvas.MoveText(location.X, location.Y);
+            this.canvas.SetFontAndSize(BaseFont.CreateFont(), 12);
+            this.canvas.ShowText(text);
+            this.canvas.EndText();
         }
 
-        /// <summary>
-        /// Adds a text string to a designated location on the current PDF.
-        /// </summary>
-        /// <param name="text">The test string to add.</param>
-        /// <param name="location">The location coordinates for the upper left point of text.</param>
-        /// <param name="textbox">The size of the textbox the text should be written in.</param>
-        /// <param name="rowheight">If it is to take up multiple lines, how far apart the lines should be.</param>
-        public void AddText(string text, Point location, Size textbox, int rowheight)
+        public void AddText(string text, int x_location, int y_location)
         {
-            this.AddText(text, location, textbox, rowheight, CreateFont(BaseFont.TIMES_ROMAN, 12));
+            AddText(text, new Point(x_location, y_location));
         }
 
         /// <summary>

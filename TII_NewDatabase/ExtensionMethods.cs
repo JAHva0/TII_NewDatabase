@@ -99,7 +99,59 @@ namespace TII_NewDatabase
         }
 
         /// <summary>
-        /// Splits the string passed into two letter pairs by word.
+        /// Creates a formatted string from a list.
+        /// </summary>
+        /// <param name="l">A list of strings to combine.</param>
+        /// <param name="ampersand">Should the last two items be separated by an ampersand.</param>
+        /// <returns>A string, formatted as directed.</returns>
+        public static string ToFormattedList(this List<string> l, bool ampersand = true)
+        {
+            string str = string.Empty;
+
+            // Sort the list into default order, just in case.
+            l.Sort();
+
+            // Add to the return string depending on the number of items in the list:
+            // 1 - just the one item that was passed
+            // 2 - the two items seperated by either an ampersand or a comma
+            // 3 or more - items seperated by a comma until
+            if (l.Count == 1)
+            {
+                str = l[0];
+            }
+            else if (l.Count == 2)
+            {
+                if (ampersand)
+                {
+                    str = l[0] + " & " + l[1];
+                }
+                else
+                {
+                    str = l[0] + ", " + l[1];
+                }
+            }
+            else if (l.Count > 2)
+            {
+                for (int i = 0; i < l.Count - 3; i++)
+                {
+                    str += l[i] + ", ";
+                }
+
+                if (ampersand)
+                {
+                    str += l[l.Count - 2] + " & " + l[l.Count - 1];
+                }
+                else
+                {
+                    str += l[l.Count - 2] + ", " + l[l.Count - 1];
+                }
+            }
+
+            return str;
+        }
+
+        /// <summary>
+        /// Used by <see cref="SimilartyFactor"/>. Splits the string passed into two letter pairs by word.
         /// </summary>
         /// <param name="str">The string to parse.</param>
         /// <returns> A collection of two letter pairs. </returns>
@@ -126,7 +178,7 @@ namespace TII_NewDatabase
         }
 
         /// <summary>
-        /// Splits the word passed into two letter pairs, i.e. ABCD becomes AB BC CD.
+        /// Used by <see cref="SimilartyFactor"/>. Splits the word passed into two letter pairs, i.e. ABCD becomes AB BC CD.
         /// </summary>
         /// <param name="str">The string to parse.</param>
         /// <returns> An array of two letter pairs. </returns>

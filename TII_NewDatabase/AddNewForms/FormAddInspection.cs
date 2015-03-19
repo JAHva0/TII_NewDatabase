@@ -428,10 +428,124 @@ namespace TII_NewDatabase.AddNewForms
             }
         }
 
+        /// <summary>
+        /// Creates a DC Cert based on the building and inspection information provided.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
         private void CreateDCCert(object sender, EventArgs e)
         {
+            if (File.Exists("TempCert.pdf"))
+            {
+                File.Delete("TempCert.pdf");
+            }
+            
             PDF_Document newCert = new PDF_Document("TempCert.pdf");
             newCert.AddImage(@"C:\Users\Jon\Documents\TPIRs\DC\CleanCert_blank.jpg");
+
+            // Third Party Agency
+            newCert.AddText("Technical Inspection of D.C. Inc.", 180, 713);
+
+            // Date
+            newCert.AddText(DateTime.Now.ToString("MMMM dd, yyyy"), 470, 713);
+
+            // Elevator Professional In Charge
+            newCert.AddText("Anthony Vattimo, Jr.", 200, 690);
+
+            // QEI#
+            newCert.AddText("S-171", 500, 690);
+
+            // Name of Inspector
+            newCert.AddText(this.cbo_Inspector.Text, 135, 667);
+
+            // QEI#
+            newCert.AddText("C3690", 500, 667);
+
+            // Unit #(s)
+            List<string> unitnos = new List<string>();
+            foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
+            {
+                unitnos.Add(elev.Cells["Nickname"].Value.ToString());
+            }
+
+            newCert.AddText("#" + unitnos.ToFormattedList(), 90, 644);
+
+            // DCRA Certificate(s)
+            List<string> certnos = new List<string>();
+            foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
+            {
+                certnos.Add(elev.Cells["Elevator Number"].Value.ToString());
+            }
+
+            // The first seven certificate numbers can fit on the first line. Any number after than but less than 16 can go on the second.
+            if (certnos.Count <= 7)
+            {
+                newCert.AddText(certnos.ToFormattedList(), 145, 621);
+            }
+            else if (certnos.Count >= 8 && certnos.Count <= 16)
+            {
+                newCert.AddText(certnos.GetRange(0, 7).ToFormattedList(false), 145, 621);
+                newCert.AddText(certnos.GetRange(7, certnos.Count - 7).ToFormattedList(), 45, 598);
+            }
+            else
+            {
+                MessageBox.Show("Cannot create a cert with more than 16 units", "Too Many Units", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                newCert.ClosePDF();
+                return;
+            }
+            
+            // Project Address
+            newCert.AddText("11 Dupont Circle, NW, Washington, DC 20036", 125, 575);
+
+            // Project Name
+            newCert.AddText("11 Dupont Circle, NW", 160, 552);
+
+            // Inspection Discipline
+            newCert.AddText("X", 195, 529);
+
+            // Inspection Type
+            // Periodic - will always be selected
+            newCert.AddText("X", 195, 505);
+
+            // Category 1
+            if (this.cbo_InspectionType.Text.Contains("Category 1"))
+            {
+                newCert.AddText("X", 375, 505);
+            }
+
+            // Category 5
+            if (this.cbo_InspectionType.Text.Contains("Category 5"))
+            {
+                newCert.AddText("X", 375, 493);
+            }
+
+            // FES
+            if (this.selectedBuilding.FireEmergencyService)
+            {
+                newCert.AddText("X", 195, 493);
+            }
+
+            // Heat devices
+            if (this.selectedBuilding.HeatDetectors)
+            {
+                newCert.AddText("X", 195, 482);
+            }
+            
+            // Emergency Power
+            if (this.selectedBuilding.EmergencyPower)
+            {
+                newCert.AddText("X", 375, 482);
+            }
+
+            // Elevator Professional In Charge
+            newCert.AddText("Anthony Vattimo, Jr.", 100, 410);
+
+            // Third Party Company Name
+            newCert.AddText("Technical Inspection of D.C. Inc.", 90, 371);
+
+            // Code year
+            newCert.AddText("2013", 105, 269);
+
             newCert.ClosePDF();
         }
     }

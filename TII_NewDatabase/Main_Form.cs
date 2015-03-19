@@ -414,6 +414,24 @@ namespace TII_NewDatabase
             this.cbo_Contractor.Text = selected_building.Contractor;
             this.cbx_BuildingActive.Checked = selected_building.Active;
 
+            // Hide the FES, Em Power, and Heat checkboxes if it is not a DC building.
+            if (selected_building.State == "DC")
+            {
+                this.cbx_FES.Visible = true;
+                this.cbx_EmPwr.Visible = true;
+                this.cbx_Heats.Visible = true;
+            }
+            else
+            {
+                this.cbx_FES.Visible = false;
+                this.cbx_EmPwr.Visible = false;
+                this.cbx_Heats.Visible = false;
+            }
+
+            this.cbx_FES.Checked = selected_building.FireEmergencyService;
+            this.cbx_EmPwr.Checked = selected_building.EmergencyPower;
+            this.cbx_Heats.Checked = selected_building.HeatDetectors;
+
             // Populate the elevator list box.
             this.lbx_ElevatorList.Items.Clear();
             foreach (Elevator elev in selected_building.ElevatorList)
@@ -772,6 +790,9 @@ namespace TII_NewDatabase
                         this.currentlySelectedBuilding.HourlyFee = new Money(this.txt_HourlyFee.Text);
                         this.currentlySelectedBuilding.Anniversary = this.cbo_BuildingAnniversary.Text;
                         this.currentlySelectedBuilding.Contractor = this.cbo_Contractor.Text;
+                        this.currentlySelectedBuilding.FireEmergencyService = this.cbx_FES.Checked;
+                        this.currentlySelectedBuilding.EmergencyPower = this.cbx_EmPwr.Checked;
+                        this.currentlySelectedBuilding.HeatDetectors = this.cbx_Heats.Checked;
 
                         if (this.currentlySelectedBuilding.SaveConfirmation())
                         {

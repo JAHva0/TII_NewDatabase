@@ -173,6 +173,9 @@ namespace TII_NewDatabase
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbx_FES = new System.Windows.Forms.CheckBox();
+            this.cbx_EmPwr = new System.Windows.Forms.CheckBox();
+            this.cbx_Heats = new System.Windows.Forms.CheckBox();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -217,13 +220,13 @@ namespace TII_NewDatabase
             // forceBackupToolStripMenuItem
             // 
             this.forceBackupToolStripMenuItem.Name = "forceBackupToolStripMenuItem";
-            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.forceBackupToolStripMenuItem.Text = "Force &Backup";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -233,20 +236,20 @@ namespace TII_NewDatabase
             this.connectionsToolStripMenuItem,
             this.mnu_Preferances});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "&Settings";
             // 
             // connectionsToolStripMenuItem
             // 
             this.connectionsToolStripMenuItem.Name = "connectionsToolStripMenuItem";
-            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.connectionsToolStripMenuItem.Text = "C&onnections";
             this.connectionsToolStripMenuItem.Click += new System.EventHandler(this.OpenConnectionSettingsForm);
             // 
             // mnu_Preferances
             // 
             this.mnu_Preferances.Name = "mnu_Preferances";
-            this.mnu_Preferances.Size = new System.Drawing.Size(140, 22);
+            this.mnu_Preferances.Size = new System.Drawing.Size(141, 22);
             this.mnu_Preferances.Text = "&Preferences";
             this.mnu_Preferances.Click += new System.EventHandler(this.OpenChildForm);
             // 
@@ -325,7 +328,10 @@ namespace TII_NewDatabase
             // 
             // gbx_Building
             // 
+            this.gbx_Building.Controls.Add(this.cbx_Heats);
             this.gbx_Building.Controls.Add(this.cbo_Contractor);
+            this.gbx_Building.Controls.Add(this.cbx_EmPwr);
+            this.gbx_Building.Controls.Add(this.cbx_FES);
             this.gbx_Building.Controls.Add(this.btn_EditBuilding);
             this.gbx_Building.Controls.Add(this.cbo_BuildingAnniversary);
             this.gbx_Building.Controls.Add(this.cbo_BuildingCounty);
@@ -1211,21 +1217,54 @@ namespace TII_NewDatabase
             this.cmi_AddContact,
             this.cmi_RemoveContact});
             this.cmu_Contact.Name = "cmu_Contact";
-            this.cmu_Contact.Size = new System.Drawing.Size(161, 48);
+            this.cmu_Contact.Size = new System.Drawing.Size(163, 48);
             // 
             // cmi_AddContact
             // 
             this.cmi_AddContact.Name = "cmi_AddContact";
-            this.cmi_AddContact.Size = new System.Drawing.Size(160, 22);
+            this.cmi_AddContact.Size = new System.Drawing.Size(162, 22);
             this.cmi_AddContact.Text = "Add Contact";
             this.cmi_AddContact.Click += new System.EventHandler(this.AddContact);
             // 
             // cmi_RemoveContact
             // 
             this.cmi_RemoveContact.Name = "cmi_RemoveContact";
-            this.cmi_RemoveContact.Size = new System.Drawing.Size(160, 22);
+            this.cmi_RemoveContact.Size = new System.Drawing.Size(162, 22);
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
+            // 
+            // cbx_FES
+            // 
+            this.cbx_FES.AutoSize = true;
+            this.cbx_FES.Enabled = false;
+            this.cbx_FES.Location = new System.Drawing.Point(60, 199);
+            this.cbx_FES.Name = "cbx_FES";
+            this.cbx_FES.Size = new System.Drawing.Size(46, 17);
+            this.cbx_FES.TabIndex = 31;
+            this.cbx_FES.Text = "FES";
+            this.cbx_FES.UseVisualStyleBackColor = true;
+            // 
+            // cbx_EmPwr
+            // 
+            this.cbx_EmPwr.AutoSize = true;
+            this.cbx_EmPwr.Enabled = false;
+            this.cbx_EmPwr.Location = new System.Drawing.Point(112, 199);
+            this.cbx_EmPwr.Name = "cbx_EmPwr";
+            this.cbx_EmPwr.Size = new System.Drawing.Size(62, 17);
+            this.cbx_EmPwr.TabIndex = 32;
+            this.cbx_EmPwr.Text = "Em Pwr";
+            this.cbx_EmPwr.UseVisualStyleBackColor = true;
+            // 
+            // cbx_Heats
+            // 
+            this.cbx_Heats.AutoSize = true;
+            this.cbx_Heats.Enabled = false;
+            this.cbx_Heats.Location = new System.Drawing.Point(180, 199);
+            this.cbx_Heats.Name = "cbx_Heats";
+            this.cbx_Heats.Size = new System.Drawing.Size(54, 17);
+            this.cbx_Heats.TabIndex = 33;
+            this.cbx_Heats.Text = "Heats";
+            this.cbx_Heats.UseVisualStyleBackColor = true;
             // 
             // Main_Form
             // 
@@ -1371,5 +1410,8 @@ namespace TII_NewDatabase
         private System.Windows.Forms.ColumnHeader col_OverType;
         private System.Windows.Forms.ColumnHeader col_OverStatus;
         private System.Windows.Forms.ColumnHeader col_OverDays;
+        private System.Windows.Forms.CheckBox cbx_Heats;
+        private System.Windows.Forms.CheckBox cbx_EmPwr;
+        private System.Windows.Forms.CheckBox cbx_FES;
     }
 }

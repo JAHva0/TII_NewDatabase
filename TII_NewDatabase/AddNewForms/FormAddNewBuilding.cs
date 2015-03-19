@@ -111,6 +111,9 @@ namespace TII_NewDatabase.AddNewForms
                 this.newBuilding.Anniversary = this.cbo_BuildingAnniversary.Text;
                 this.newBuilding.Contractor = this.cbo_Contractor.Text;
                 this.newBuilding.Active = true;
+                this.newBuilding.FireEmergencyService = this.cbx_FES.Checked;
+                this.newBuilding.EmergencyPower = this.cbx_EmPwr.Checked;
+                this.newBuilding.HeatDetectors = this.cbx_Heats.Checked;
 
                 if (this.newBuilding.SaveConfirmation())
                 {

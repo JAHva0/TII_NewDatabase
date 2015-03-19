@@ -52,6 +52,9 @@ namespace TII_NewDatabase.AddNewForms
             this.lbl_Contractor = new System.Windows.Forms.Label();
             this.lbl_Anniversary = new System.Windows.Forms.Label();
             this.cbo_Contractor = new System.Windows.Forms.ComboBox();
+            this.cbx_Heats = new System.Windows.Forms.CheckBox();
+            this.cbx_EmPwr = new System.Windows.Forms.CheckBox();
+            this.cbx_FES = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +62,7 @@ namespace TII_NewDatabase.AddNewForms
             // 
             this.groupBox1.Controls.Add(this.btn_SaveEntry);
             this.groupBox1.Controls.Add(this.btn_Cancel);
-            this.groupBox1.Location = new System.Drawing.Point(12, 281);
+            this.groupBox1.Location = new System.Drawing.Point(13, 305);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(242, 81);
             this.groupBox1.TabIndex = 19;
@@ -298,12 +301,45 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_Contractor.Size = new System.Drawing.Size(165, 21);
             this.cbo_Contractor.TabIndex = 20;
             // 
+            // cbx_Heats
+            // 
+            this.cbx_Heats.AutoSize = true;
+            this.cbx_Heats.Location = new System.Drawing.Point(161, 282);
+            this.cbx_Heats.Name = "cbx_Heats";
+            this.cbx_Heats.Size = new System.Drawing.Size(54, 17);
+            this.cbx_Heats.TabIndex = 36;
+            this.cbx_Heats.Text = "Heats";
+            this.cbx_Heats.UseVisualStyleBackColor = true;
+            // 
+            // cbx_EmPwr
+            // 
+            this.cbx_EmPwr.AutoSize = true;
+            this.cbx_EmPwr.Location = new System.Drawing.Point(93, 282);
+            this.cbx_EmPwr.Name = "cbx_EmPwr";
+            this.cbx_EmPwr.Size = new System.Drawing.Size(62, 17);
+            this.cbx_EmPwr.TabIndex = 35;
+            this.cbx_EmPwr.Text = "Em Pwr";
+            this.cbx_EmPwr.UseVisualStyleBackColor = true;
+            // 
+            // cbx_FES
+            // 
+            this.cbx_FES.AutoSize = true;
+            this.cbx_FES.Location = new System.Drawing.Point(41, 282);
+            this.cbx_FES.Name = "cbx_FES";
+            this.cbx_FES.Size = new System.Drawing.Size(46, 17);
+            this.cbx_FES.TabIndex = 34;
+            this.cbx_FES.Text = "FES";
+            this.cbx_FES.UseVisualStyleBackColor = true;
+            // 
             // FormAddNewBuilding
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_Cancel;
-            this.ClientSize = new System.Drawing.Size(266, 374);
+            this.ClientSize = new System.Drawing.Size(266, 397);
+            this.Controls.Add(this.cbx_Heats);
+            this.Controls.Add(this.cbx_EmPwr);
+            this.Controls.Add(this.cbx_FES);
             this.Controls.Add(this.cbo_Contractor);
             this.Controls.Add(this.cbo_BuildingAnniversary);
             this.Controls.Add(this.lbl_Contractor);
@@ -357,5 +393,8 @@ namespace TII_NewDatabase.AddNewForms
         private System.Windows.Forms.Label lbl_Contractor;
         private System.Windows.Forms.Label lbl_Anniversary;
         private System.Windows.Forms.ComboBox cbo_Contractor;
+        private System.Windows.Forms.CheckBox cbx_Heats;
+        private System.Windows.Forms.CheckBox cbx_EmPwr;
+        private System.Windows.Forms.CheckBox cbx_FES;
     }
 }

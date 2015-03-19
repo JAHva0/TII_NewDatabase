@@ -414,20 +414,6 @@ namespace TII_NewDatabase
             this.cbo_Contractor.Text = selected_building.Contractor;
             this.cbx_BuildingActive.Checked = selected_building.Active;
 
-            // Hide the FES, Em Power, and Heat checkboxes if it is not a DC building.
-            if (selected_building.State == "DC")
-            {
-                this.cbx_FES.Visible = true;
-                this.cbx_EmPwr.Visible = true;
-                this.cbx_Heats.Visible = true;
-            }
-            else
-            {
-                this.cbx_FES.Visible = false;
-                this.cbx_EmPwr.Visible = false;
-                this.cbx_Heats.Visible = false;
-            }
-
             this.cbx_FES.Checked = selected_building.FireEmergencyService;
             this.cbx_EmPwr.Checked = selected_building.EmergencyPower;
             this.cbx_Heats.Checked = selected_building.HeatDetectors;

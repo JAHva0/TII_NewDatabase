@@ -793,7 +793,10 @@ namespace Database
                                                         new SQLColumn("Contractor", this.contractor),
                                                         new SQLColumn("Active", this.active),
                                                         new SQLColumn("Latitude", this.coordinates.Latitude),
-                                                        new SQLColumn("Longitude", this.coordinates.Longitude)
+                                                        new SQLColumn("Longitude", this.coordinates.Longitude),
+                                                        new SQLColumn("FES", this.fire_emergency_service),
+                                                        new SQLColumn("EmPwr", this.emergency_power), 
+                                                        new SQLColumn("Heats", this.heat_detectors)
                                                     };
 
             if (this.ID == null)

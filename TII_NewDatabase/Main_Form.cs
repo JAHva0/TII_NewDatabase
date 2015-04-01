@@ -1027,7 +1027,52 @@ namespace TII_NewDatabase
         {
             if (this.tab_MainTabControl.SelectedTab == this.tab_UpcomingAndOverdue)
             {
-                string overdue_query =
+                // Load the list of upcoming inspections
+                this.UpdateUpcomingInspections();
+
+                // Load the list of overdue buildings.
+                this.UpdateOverdueQuery();
+            }
+        }
+
+        private void UpdateUpcomingInspections()
+        {
+            // Start with just the Maryland Inspections, since those are always annuals
+            string upcoming_query =
+                "SELECT DISTINCT Address, InspectionTypes.Name, DATEADD(DAY, 365, Date) as DueDate " +
+                "FROM Inspection " +
+                "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
+                "JOIN Building ON Elevator.Building_ID = Building.Building_ID " +
+                "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
+                "WHERE Inspection_ID IN " +
+                "    (SELECT TOP 1 Inspection_ID " +
+                "    FROM Inspection " +
+                "    JOIN Elevator AS Dupe ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
+                "    WHERE Dupe.Elevator_ID = Elevator.Elevator_ID " +
+                "    AND Inspection.IType_ID = 7 " +
+                "    ORDER BY Date DESC) " +
+                "AND DATEDIFF(DAY, Date, GETDATE()) < 365 " +
+                "AND DATEDIFF(DAY, Date, GETDATE()) > (365 - " + this.cbo_UpcomingDays.Text + ") " +
+                "AND State = 'MD' " +
+                "ORDER BY DueDate";
+
+            this.lvw_UpcomingInspection.Items.Clear();
+            foreach (DataRow row in SQL.Query.Select(upcoming_query).Rows)
+            {
+                ListViewItem item = new ListViewItem(row["Address"].ToString());
+                item.SubItems.Add("Annual");
+                item.SubItems.Add(row["DueDate"].ToString());
+
+                this.lvw_UpcomingInspection.Items.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Method which updates the overdue building list.
+        /// </summary>
+        private void UpdateOverdueQuery()
+        {
+            string overdue_query =
                     "SELECT DISTINCT Address, DATEDIFF(DAY, Inspection.Date, GetDate()) as DaysPast, InspectionTypes.Name, Inspection.Status " +
                     "FROM Inspection " +
                     "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
@@ -1056,6 +1101,17 @@ namespace TII_NewDatabase
                     this.lvw_OverdueInspections.Items.Add(item);
                 }
             }
+
+        private void cbo_UpcomingDays_SelectedValueChanged(object sender, EventArgs e)
+        {
+            int i;
+            // Check to be sure this is a valid integer first.
+            if (!int.TryParse(cbo_UpcomingDays.Text, out i))
+            {
+                MessageBox.Show("Must Select an integer value");
+            }
+
+            this.UpdateUpcomingInspections();
         }
     }
 }

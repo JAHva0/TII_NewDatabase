@@ -87,7 +87,10 @@ namespace TII_NewDatabase
             this.col_Inspector = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_Report = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gbx_Building = new System.Windows.Forms.GroupBox();
+            this.cbx_Heats = new System.Windows.Forms.CheckBox();
             this.cbo_Contractor = new System.Windows.Forms.ComboBox();
+            this.cbx_EmPwr = new System.Windows.Forms.CheckBox();
+            this.cbx_FES = new System.Windows.Forms.CheckBox();
             this.btn_EditBuilding = new System.Windows.Forms.Button();
             this.cbo_BuildingAnniversary = new System.Windows.Forms.ComboBox();
             this.cbo_BuildingCounty = new System.Windows.Forms.ComboBox();
@@ -160,10 +163,14 @@ namespace TII_NewDatabase
             this.lbx_CompanyContacts = new System.Windows.Forms.ListBox();
             this.tab_UpcomingAndOverdue = new System.Windows.Forms.TabPage();
             this.tlp_UpcomingAndOverdue = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbx_UpcomingInspections = new System.Windows.Forms.GroupBox();
+            this.lbl_days = new System.Windows.Forms.Label();
+            this.lbl_InTheNext = new System.Windows.Forms.Label();
+            this.cbo_UpcomingDays = new System.Windows.Forms.ComboBox();
             this.lvw_UpcomingInspection = new System.Windows.Forms.ListView();
             this.col_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_DueDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lvw_OverdueInspections = new System.Windows.Forms.ListView();
             this.col_Over_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -173,9 +180,6 @@ namespace TII_NewDatabase
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbx_FES = new System.Windows.Forms.CheckBox();
-            this.cbx_EmPwr = new System.Windows.Forms.CheckBox();
-            this.cbx_Heats = new System.Windows.Forms.CheckBox();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -191,7 +195,7 @@ namespace TII_NewDatabase
             this.gbx_ContactInfo.SuspendLayout();
             this.tab_UpcomingAndOverdue.SuspendLayout();
             this.tlp_UpcomingAndOverdue.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gbx_UpcomingInspections.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.cmu_Contact.SuspendLayout();
             this.SuspendLayout();
@@ -362,6 +366,17 @@ namespace TII_NewDatabase
             this.gbx_Building.TabStop = false;
             this.gbx_Building.Text = "Building";
             // 
+            // cbx_Heats
+            // 
+            this.cbx_Heats.AutoSize = true;
+            this.cbx_Heats.Enabled = false;
+            this.cbx_Heats.Location = new System.Drawing.Point(180, 199);
+            this.cbx_Heats.Name = "cbx_Heats";
+            this.cbx_Heats.Size = new System.Drawing.Size(54, 17);
+            this.cbx_Heats.TabIndex = 33;
+            this.cbx_Heats.Text = "Heats";
+            this.cbx_Heats.UseVisualStyleBackColor = true;
+            // 
             // cbo_Contractor
             // 
             this.cbo_Contractor.Enabled = false;
@@ -370,6 +385,28 @@ namespace TII_NewDatabase
             this.cbo_Contractor.Name = "cbo_Contractor";
             this.cbo_Contractor.Size = new System.Drawing.Size(115, 21);
             this.cbo_Contractor.TabIndex = 30;
+            // 
+            // cbx_EmPwr
+            // 
+            this.cbx_EmPwr.AutoSize = true;
+            this.cbx_EmPwr.Enabled = false;
+            this.cbx_EmPwr.Location = new System.Drawing.Point(112, 199);
+            this.cbx_EmPwr.Name = "cbx_EmPwr";
+            this.cbx_EmPwr.Size = new System.Drawing.Size(62, 17);
+            this.cbx_EmPwr.TabIndex = 32;
+            this.cbx_EmPwr.Text = "Em Pwr";
+            this.cbx_EmPwr.UseVisualStyleBackColor = true;
+            // 
+            // cbx_FES
+            // 
+            this.cbx_FES.AutoSize = true;
+            this.cbx_FES.Enabled = false;
+            this.cbx_FES.Location = new System.Drawing.Point(60, 199);
+            this.cbx_FES.Name = "cbx_FES";
+            this.cbx_FES.Size = new System.Drawing.Size(46, 17);
+            this.cbx_FES.TabIndex = 31;
+            this.cbx_FES.Text = "FES";
+            this.cbx_FES.UseVisualStyleBackColor = true;
             // 
             // btn_EditBuilding
             // 
@@ -1123,7 +1160,7 @@ namespace TII_NewDatabase
             this.tlp_UpcomingAndOverdue.ColumnCount = 1;
             this.tlp_UpcomingAndOverdue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tlp_UpcomingAndOverdue.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tlp_UpcomingAndOverdue.Controls.Add(this.groupBox2, 0, 0);
+            this.tlp_UpcomingAndOverdue.Controls.Add(this.gbx_UpcomingInspections, 0, 0);
             this.tlp_UpcomingAndOverdue.Controls.Add(this.groupBox3, 0, 1);
             this.tlp_UpcomingAndOverdue.Location = new System.Drawing.Point(7, 6);
             this.tlp_UpcomingAndOverdue.Name = "tlp_UpcomingAndOverdue";
@@ -1133,15 +1170,52 @@ namespace TII_NewDatabase
             this.tlp_UpcomingAndOverdue.Size = new System.Drawing.Size(414, 892);
             this.tlp_UpcomingAndOverdue.TabIndex = 1;
             // 
-            // groupBox2
+            // gbx_UpcomingInspections
             // 
-            this.groupBox2.Controls.Add(this.lvw_UpcomingInspection);
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(402, 380);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Upcoming";
+            this.gbx_UpcomingInspections.Controls.Add(this.lbl_days);
+            this.gbx_UpcomingInspections.Controls.Add(this.lbl_InTheNext);
+            this.gbx_UpcomingInspections.Controls.Add(this.cbo_UpcomingDays);
+            this.gbx_UpcomingInspections.Controls.Add(this.lvw_UpcomingInspection);
+            this.gbx_UpcomingInspections.Location = new System.Drawing.Point(3, 3);
+            this.gbx_UpcomingInspections.Name = "gbx_UpcomingInspections";
+            this.gbx_UpcomingInspections.Size = new System.Drawing.Size(402, 380);
+            this.gbx_UpcomingInspections.TabIndex = 0;
+            this.gbx_UpcomingInspections.TabStop = false;
+            this.gbx_UpcomingInspections.Text = "Upcoming";
+            // 
+            // lbl_days
+            // 
+            this.lbl_days.AutoSize = true;
+            this.lbl_days.Location = new System.Drawing.Point(107, 22);
+            this.lbl_days.Name = "lbl_days";
+            this.lbl_days.Size = new System.Drawing.Size(32, 13);
+            this.lbl_days.TabIndex = 3;
+            this.lbl_days.Text = "days.";
+            // 
+            // lbl_InTheNext
+            // 
+            this.lbl_InTheNext.AutoSize = true;
+            this.lbl_InTheNext.Location = new System.Drawing.Point(6, 22);
+            this.lbl_InTheNext.Name = "lbl_InTheNext";
+            this.lbl_InTheNext.Size = new System.Drawing.Size(57, 13);
+            this.lbl_InTheNext.TabIndex = 2;
+            this.lbl_InTheNext.Text = "In the next";
+            // 
+            // cbo_UpcomingDays
+            // 
+            this.cbo_UpcomingDays.FormattingEnabled = true;
+            this.cbo_UpcomingDays.Items.AddRange(new object[] {
+            "10",
+            "15",
+            "30",
+            "60",
+            "90"});
+            this.cbo_UpcomingDays.Location = new System.Drawing.Point(64, 19);
+            this.cbo_UpcomingDays.Name = "cbo_UpcomingDays";
+            this.cbo_UpcomingDays.Size = new System.Drawing.Size(41, 21);
+            this.cbo_UpcomingDays.TabIndex = 1;
+            this.cbo_UpcomingDays.Text = "30";
+            this.cbo_UpcomingDays.SelectedValueChanged += new System.EventHandler(this.cbo_UpcomingDays_SelectedValueChanged);
             // 
             // lvw_UpcomingInspection
             // 
@@ -1150,10 +1224,11 @@ namespace TII_NewDatabase
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvw_UpcomingInspection.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.col_Address,
-            this.col_Type});
-            this.lvw_UpcomingInspection.Location = new System.Drawing.Point(7, 20);
+            this.col_Type,
+            this.col_DueDate});
+            this.lvw_UpcomingInspection.Location = new System.Drawing.Point(7, 46);
             this.lvw_UpcomingInspection.Name = "lvw_UpcomingInspection";
-            this.lvw_UpcomingInspection.Size = new System.Drawing.Size(389, 354);
+            this.lvw_UpcomingInspection.Size = new System.Drawing.Size(389, 328);
             this.lvw_UpcomingInspection.TabIndex = 0;
             this.lvw_UpcomingInspection.UseCompatibleStateImageBehavior = false;
             this.lvw_UpcomingInspection.View = System.Windows.Forms.View.Details;
@@ -1161,12 +1236,17 @@ namespace TII_NewDatabase
             // col_Address
             // 
             this.col_Address.Text = "Address";
-            this.col_Address.Width = 240;
+            this.col_Address.Width = 180;
             // 
             // col_Type
             // 
             this.col_Type.Text = "Type";
-            this.col_Type.Width = 140;
+            this.col_Type.Width = 120;
+            // 
+            // col_DueDate
+            // 
+            this.col_DueDate.Text = "Due Date";
+            this.col_DueDate.Width = 80;
             // 
             // groupBox3
             // 
@@ -1233,39 +1313,6 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
             // 
-            // cbx_FES
-            // 
-            this.cbx_FES.AutoSize = true;
-            this.cbx_FES.Enabled = false;
-            this.cbx_FES.Location = new System.Drawing.Point(60, 199);
-            this.cbx_FES.Name = "cbx_FES";
-            this.cbx_FES.Size = new System.Drawing.Size(46, 17);
-            this.cbx_FES.TabIndex = 31;
-            this.cbx_FES.Text = "FES";
-            this.cbx_FES.UseVisualStyleBackColor = true;
-            // 
-            // cbx_EmPwr
-            // 
-            this.cbx_EmPwr.AutoSize = true;
-            this.cbx_EmPwr.Enabled = false;
-            this.cbx_EmPwr.Location = new System.Drawing.Point(112, 199);
-            this.cbx_EmPwr.Name = "cbx_EmPwr";
-            this.cbx_EmPwr.Size = new System.Drawing.Size(62, 17);
-            this.cbx_EmPwr.TabIndex = 32;
-            this.cbx_EmPwr.Text = "Em Pwr";
-            this.cbx_EmPwr.UseVisualStyleBackColor = true;
-            // 
-            // cbx_Heats
-            // 
-            this.cbx_Heats.AutoSize = true;
-            this.cbx_Heats.Enabled = false;
-            this.cbx_Heats.Location = new System.Drawing.Point(180, 199);
-            this.cbx_Heats.Name = "cbx_Heats";
-            this.cbx_Heats.Size = new System.Drawing.Size(54, 17);
-            this.cbx_Heats.TabIndex = 33;
-            this.cbx_Heats.Text = "Heats";
-            this.cbx_Heats.UseVisualStyleBackColor = true;
-            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1304,7 +1351,8 @@ namespace TII_NewDatabase
             this.gbx_ContactInfo.PerformLayout();
             this.tab_UpcomingAndOverdue.ResumeLayout(false);
             this.tlp_UpcomingAndOverdue.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
+            this.gbx_UpcomingInspections.ResumeLayout(false);
+            this.gbx_UpcomingInspections.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.cmu_Contact.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1389,7 +1437,7 @@ namespace TII_NewDatabase
         private System.Windows.Forms.Label lbl_ContactName;
         private System.Windows.Forms.TextBox txt_ContactName;
         private System.Windows.Forms.TableLayoutPanel tlp_UpcomingAndOverdue;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbx_UpcomingInspections;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btn_EditCompany;
         private System.Windows.Forms.GroupBox gbx_ButtonContainer;
@@ -1413,5 +1461,9 @@ namespace TII_NewDatabase
         private System.Windows.Forms.CheckBox cbx_Heats;
         private System.Windows.Forms.CheckBox cbx_EmPwr;
         private System.Windows.Forms.CheckBox cbx_FES;
+        private System.Windows.Forms.Label lbl_days;
+        private System.Windows.Forms.Label lbl_InTheNext;
+        private System.Windows.Forms.ComboBox cbo_UpcomingDays;
+        private System.Windows.Forms.ColumnHeader col_DueDate;
     }
 }

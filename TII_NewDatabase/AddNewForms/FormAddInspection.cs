@@ -49,6 +49,9 @@ namespace TII_NewDatabase.AddNewForms
             {
                 this.lbx_BuildingList.SelectedIndex = 0;
             }
+
+            // Set the Inspector Combo box to display all active inspectors in alphabetical order
+            this.cbo_Inspector.Items.AddRange(Inspection.GetInspectors(true));
         }
 
         /// <summary>
@@ -313,7 +316,7 @@ namespace TII_NewDatabase.AddNewForms
                         newInspection.Date = this.dtp_InspectionDate.Value;
                         newInspection.InspectionType = this.cbo_InspectionType.Text;
                         newInspection.Status = elev.Cells["Status"].Value.ToString();
-                        newInspection.Inspector = this.cbo_Inspector.Text;
+                        newInspection.InspectorName = this.cbo_Inspector.Text;
                         newInspection.ReportFile = formattedReportFile;
 
                         success = success && newInspection.CommitToDatabase();

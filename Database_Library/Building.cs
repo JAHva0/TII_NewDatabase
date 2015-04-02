@@ -716,9 +716,10 @@ namespace Database
                 
                 List<InspectionHistory> history = new List<InspectionHistory>();
                 foreach (DataRow row in SQL.Query.Select(string.Format(
-                                                                       "SELECT DISTINCT Date, Name AS Type, Status, Inspector, Report " +
+                                                                       "SELECT DISTINCT Date, InspectionTypes.Name AS Type, Status, Inspector.Name as Inspector, Report " +
                                                                        "FROM Inspection " +
                                                                        "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
+                                                                       "JOIN Inspector ON Inspection.Inspector_ID = Inspector.Inspector_ID " +
                                                                        "WHERE Elevator_ID IN " +
                                                                        "(" +
                                                                            "SELECT Elevator_ID " +

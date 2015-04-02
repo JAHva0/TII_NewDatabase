@@ -56,7 +56,7 @@ namespace Database
                                                                 "Date",
                                                                 "IType_ID",
                                                                 "Status",
-                                                                "Inspector",
+                                                                "Inspector_ID",
                                                                 "Report"
         };
 

@@ -208,9 +208,6 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_Inspector.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cbo_Inspector.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbo_Inspector.FormattingEnabled = true;
-            this.cbo_Inspector.Items.AddRange(new object[] {
-            "Gary Beadle",
-            "Gordon Kraft"});
             this.cbo_Inspector.Location = new System.Drawing.Point(422, 72);
             this.cbo_Inspector.Name = "cbo_Inspector";
             this.cbo_Inspector.Size = new System.Drawing.Size(116, 21);

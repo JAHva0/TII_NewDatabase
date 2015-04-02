@@ -17,6 +17,11 @@ namespace Database
         /// Loaded the first time anything tries to access the inspection class. Is a copy of the InspectionTypes table.
         /// </summary>
         private static Dictionary<int, string[]> inspectionType;
+
+        /// <summary>
+        /// Loaded the first time anything tries to access the inspection class. Is a copy of the Inspector table.
+        /// </summary>
+        private static List<Inspector> inspectorList;
         
         /// <summary> The elevator ID associated with this inspection. </summary>
         private int elevator_ID;
@@ -31,7 +36,7 @@ namespace Database
         private Insp_Status status;
 
         /// <summary> The inspector involved. </summary>
-        private string inspector;
+        private int inspector_id;
 
         /// <summary> The file path for the report associated with this inspection. </summary>
         private string report;
@@ -52,6 +57,15 @@ namespace Database
                 foreach (DataRow row in SQL.Query.Select("SELECT * FROM InspectionTypes").Rows)
                 {
                     inspectionType.Add(Convert.ToInt32(row["IType_ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbv"].ToString().Trim(), row["Locales"].ToString().Trim() });
+                }
+            }
+
+            if (inspectorList == null)
+            {
+                inspectorList = new List<Inspector>();
+                foreach (DataRow row in SQL.Query.Select("SELECT * FROM Inspector").Rows)
+                {
+                    inspectorList.Add(new Inspector(row));
                 }
             }
         }
@@ -195,19 +209,23 @@ namespace Database
 
         /// <summary> Gets or sets the Inspector for the inspection. </summary>
         /// <value> The inspector who performed this inspection. </value>
-        public string Inspector
+        public string InspectorName
         {
             get
             {
-                return this.inspector;
+                // Query the inspector list for the Inspector_ID we pulled from the database
+                return inspectorList.Where(x => x.Inspector_ID == this.inspector_id).Single().Name.Trim();
             }
 
             set
             {
-                if (value != this.inspector && value != string.Empty)
+                int id = inspectorList.Where(x => x.Name.Trim() == value).SingleOrDefault().Inspector_ID;
+
+                // If the ID we get from the value is different from the one we have stored
+                if (id != this.inspector_id && value != string.Empty)
                 {
-                    this.BaseObject_Edited(this, "Inspector", this.inspector, value);
-                    this.inspector = value;
+                    this.BaseObject_Edited(this, "Inspector_ID", this.inspector_id, id);
+                    this.inspector_id = id;
                 }
             }
         }
@@ -274,6 +292,33 @@ namespace Database
         }
 
         /// <summary>
+        /// Gets a list of inspectors that were loaded from the inspector table in the database.
+        /// </summary>
+        /// <param name="activeOnly"> If true, only returns those inspector's considered active. Otherwise returns all inspectors.</param>
+        /// <returns>An array of inspector names.</returns>
+        public static string[] GetInspectors(bool activeOnly)
+        {
+            List<string> inspectorNames = new List<string>();
+
+            foreach (Inspector i in inspectorList)
+            {
+                if (!activeOnly)
+                {
+                    inspectorNames.Add(i.Name);
+                }
+                else
+                {
+                    if (i.Active)
+                    {
+                        inspectorNames.Add(i.Name);
+                    }
+                }
+            }
+
+            return inspectorNames.ToArray();
+        }
+
+        /// <summary>
         /// Checks to see if there is a report file, and if so, attempts to open it. 
         /// </summary>
         /// <param name="path"> The path to the desired report file. </param>
@@ -301,7 +346,7 @@ namespace Database
                 new SQLColumn("Date", this.date),
                 new SQLColumn("IType_ID", this.itype_id),
                 new SQLColumn("Status", BaseObject.GetEnumDescription(this.status)),
-                new SQLColumn("Inspector", this.inspector),
+                new SQLColumn("Inspector_ID", this.inspector_id),
                 new SQLColumn("Report", this.report)
             };
 
@@ -361,6 +406,12 @@ namespace Database
                     this.itype_id = id;
                 }
 
+                // And the Inspector_ID
+                if (int.TryParse(row["Inspector_ID"].ToString(), out id))
+                {
+                    this.inspector_id = id;
+                }
+
                 // Make sure we have a parseable date
                 DateTime d;
                 if (DateTime.TryParse(row["Date"].ToString(), out d))
@@ -370,13 +421,88 @@ namespace Database
 
                 // We are assigning all of the strings directly, under the assumption that they were checked for compatibility prior to being entered into the database.
                 this.status = Inspection.StringToStatusEnum(row["Status"].ToString());
-                this.inspector = row["Inspector"].ToString();
                 this.report = row["Report"].ToString();
             }
             catch (Exception ex)
             {
                 // Implement exceptions as they arise.
                 throw new Exception("Error Loading Inspection from Database", ex);
+            }
+        }
+
+        /// <summary>
+        /// Private class for loading items from the Inspector Table.
+        /// </summary>
+        private class Inspector
+        {
+            /// <summary> The Database assigned ID for this inspector. </summary>
+            private int inspector_ID;
+
+            /// <summary> The name of this inspector. </summary>
+            private string name;
+
+            /// <summary> The NAESA ID number for this inspector. </summary>
+            private string naesaID;
+
+            /// <summary> Is the inspector considered Active. </summary>
+            private bool active;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Inspector"/> class.
+            /// </summary>
+            /// <param name="data">A single data row, loaded from the Inspector Table.</param>
+            public Inspector(DataRow data)
+            {
+                int id;
+                if (int.TryParse(data["Inspector_ID"].ToString(), out id))
+                {
+                    this.inspector_ID = id;
+                }
+
+                this.name = data["Name"].ToString();
+                this.naesaID = data["NAESAID"].ToString();
+
+                bool.TryParse(data["Active"].ToString(), out this.active);
+            }
+
+            /// <summary> Gets the Database assigned ID for this inspector. </summary>
+            /// <value> The inspector's database ID. </value>
+            public int Inspector_ID
+            {
+                get
+                {
+                    return this.inspector_ID;
+                }
+            }
+
+            /// <summary> Gets the Name for this inspector. </summary>
+            /// <value> The Inspector's name. </value>
+            public string Name
+            {
+                get
+                {
+                    return this.name;
+                }
+            }
+
+            /// <summary> Gets the NAESA ID Number for this inspector. </summary>
+            /// <value> The inspector's NAESA ID Number. </value>
+            public string NAESAID
+            {
+                get
+                {
+                    return this.naesaID;
+                }
+            }
+
+            /// <summary> Gets a value indicating whether this Inspector is considered Active. </summary>
+            /// <value> True, if the inspector is active. </value>
+            public bool Active
+            {
+                get
+                {
+                    return this.active;
+                }
             }
         }
     }

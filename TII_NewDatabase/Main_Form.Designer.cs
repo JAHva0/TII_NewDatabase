@@ -1215,7 +1215,7 @@ namespace TII_NewDatabase
             this.cbo_UpcomingDays.Size = new System.Drawing.Size(41, 21);
             this.cbo_UpcomingDays.TabIndex = 1;
             this.cbo_UpcomingDays.Text = "30";
-            this.cbo_UpcomingDays.SelectedValueChanged += new System.EventHandler(this.cbo_UpcomingDays_SelectedValueChanged);
+            this.cbo_UpcomingDays.SelectedValueChanged += new System.EventHandler(this.UpcomingDays_SelectedValueChanged);
             // 
             // lvw_UpcomingInspection
             // 

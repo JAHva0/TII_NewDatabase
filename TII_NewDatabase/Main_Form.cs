@@ -1035,6 +1035,9 @@ namespace TII_NewDatabase
             }
         }
 
+        /// <summary>
+        /// Loads a list of Inspections from the database that are due in the next X days, where X is selected by the user.
+        /// </summary>
         private void UpdateUpcomingInspections()
         {
             // Start with just the Maryland Inspections, since those are always annuals
@@ -1102,11 +1105,16 @@ namespace TII_NewDatabase
                 }
             }
 
-        private void cbo_UpcomingDays_SelectedValueChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Updates the Upcoming Inspections List when the user selects a new date range from the combo box.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
+        private void UpcomingDays_SelectedValueChanged(object sender, EventArgs e)
         {
-            int i;
             // Check to be sure this is a valid integer first.
-            if (!int.TryParse(cbo_UpcomingDays.Text, out i))
+            int i;
+            if (!int.TryParse(this.cbo_UpcomingDays.Text, out i))
             {
                 MessageBox.Show("Must Select an integer value");
             }

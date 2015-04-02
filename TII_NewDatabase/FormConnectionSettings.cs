@@ -54,9 +54,9 @@ namespace TII_NewDatabase
             if (this.ConnectionWorking)
             {
                 // Store each of the text boxes in it's cooresponding Settings Item and save it as the default
-                Properties.Settings.Default.UserName = txt_UserName.Text;
-                Properties.Settings.Default.Password = txt_Password.Text;
-                Properties.Settings.Default.ServerAddress = txt_ServerAddress.Text;
+                Properties.Settings.Default.UserName = this.txt_UserName.Text;
+                Properties.Settings.Default.Password = this.txt_Password.Text;
+                Properties.Settings.Default.ServerAddress = this.txt_ServerAddress.Text;
                 Properties.Settings.Default.Save();
 
                 if (MessageBox.Show("Settings Saved - close this window?", "Connection Successful", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)

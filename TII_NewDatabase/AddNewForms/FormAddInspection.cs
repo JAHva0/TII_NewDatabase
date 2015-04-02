@@ -103,7 +103,7 @@ namespace TII_NewDatabase.AddNewForms
                     "Category 5 / Periodic",
                     "Category 5 / Periodic Reinspection"
                 };
-                btn_CreateDCCert.Visible = true;
+                this.btn_CreateDCCert.Visible = true;
             }
             else
             {
@@ -113,7 +113,7 @@ namespace TII_NewDatabase.AddNewForms
                     "Reinspection",
                     "Category 5"
                 };
-                btn_CreateDCCert.Visible = false;
+                this.btn_CreateDCCert.Visible = false;
             }
 
             this.cbo_InspectionType.Items.AddRange(inspectionTypes);

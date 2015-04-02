@@ -94,25 +94,12 @@ namespace TII_NewDatabase.AddNewForms
             string[] inspectionTypes;
             if (this.selectedBuilding.County == "Washington D.C.")
             {
-                inspectionTypes = new string[]
-                {
-                    "Periodic",
-                    "Periodic Reinspection",
-                    "Category 1 / Periodic",
-                    "Category 1 / Periodic Reinspection",
-                    "Category 5 / Periodic",
-                    "Category 5 / Periodic Reinspection"
-                };
+                inspectionTypes = Inspection.GetInspectionTypes("DC");
                 this.btn_CreateDCCert.Visible = true;
             }
             else
             {
-                inspectionTypes = new string[]
-                {
-                    "Annual",
-                    "Reinspection",
-                    "Category 5"
-                };
+                inspectionTypes = Inspection.GetInspectionTypes("MD");
                 this.btn_CreateDCCert.Visible = false;
             }
 

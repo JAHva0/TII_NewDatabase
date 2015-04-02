@@ -46,12 +46,12 @@ namespace Database
                 inspectionType = new Dictionary<int, string[]>();
 
                 // The first entry will be for 0, {"No Inspection", "NULL"} so that new classes will assume this 
-                inspectionType.Add(0, new string[] { "No Inspection", "NULL" });
+                inspectionType.Add(0, new string[] { "No Inspection", "NULL", string.Empty });
 
                 // If this is the first time the Inspection class has been accessed, load the inspection types dictionary. 
                 foreach (DataRow row in SQL.Query.Select("SELECT * FROM InspectionTypes").Rows)
                 {
-                    inspectionType.Add(Convert.ToInt32(row["IType_ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbv"].ToString().Trim() });
+                    inspectionType.Add(Convert.ToInt32(row["IType_ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbv"].ToString().Trim(), row["Locales"].ToString().Trim() });
                 }
             }
         }
@@ -110,23 +110,6 @@ namespace Database
                 }
 
                 return statusList.ToArray();
-            }
-        }
-
-        /// <summary> Gets a string array containing all possible Inspection types listed in the enumerator. </summary>
-        /// <value> A string array containing all possible Inspection types. </value>
-        public static string[] Types
-        {
-            get
-            {
-                List<string> typeList = new List<string>();
-
-                foreach (string[] s in inspectionType.Values)
-                {
-                    typeList.Add(s[0]);
-                }
-
-                return typeList.ToArray();
             }
         }
 
@@ -246,6 +229,32 @@ namespace Database
                     this.report = value;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a string array of all inspection types stored in the database.
+        /// </summary>
+        /// <param name="locale">The Abbreviation of the location where this type of inspection is found. </param>
+        /// <returns>A string array of all inspection types that contain the locale variable. (or all, if locale is null).</returns>
+        public static string[] GetInspectionTypes(string locale = null)
+        {
+            // If we haven't tried to create an inspection yet, we likely do not have this information loaded from the server.
+            // Create an empty inspection class that can be cleaned up immediatly in order to have the data avaiable.
+            if (inspectionType == null)
+            {
+                Inspection i = new Inspection();
+            }
+            
+            List<string> typeList = new List<string>();
+            foreach (string[] type in inspectionType.Values)
+            {
+                if (type[2].Contains(locale))
+                {
+                    typeList.Add(type[0]);
+                }
+            }
+
+            return typeList.ToArray();
         }
 
         /// <summary>

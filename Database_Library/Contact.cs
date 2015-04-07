@@ -238,18 +238,8 @@ namespace Database
                 this.ID = Convert.ToInt32(
                     BaseObject.AffirmOneRow(SQL.Query.Select("Contact_ID", "Contact",
                                                               string.Format(
-                                                              "Name = {0} AND " +
-                                                              "OfficePhone = {1} AND " +
-                                                              "OfficeExt = {2} AND " +
-                                                              "CellPhone = {3} AND " +
-                                                              "Fax = {4} AND " +
-                                                              "Email = {5}",
-                                                              this.name, 
-                                                              this.officephone.Number, 
-                                                              this.officephone.Ext, 
-                                                              this.cellphone.Number, 
-                                                              this.fax.Number, 
-                                                              this.email)))["Contact_ID"].ToString());
+                                                              "Name = '{0}'",
+                                                              this.name)))["Contact_ID"].ToString());
 
                 // Now that we have the ID of this new contact, make associations based on the company and building keys that are present.
                 foreach (int company_ID in this.companies.Keys)

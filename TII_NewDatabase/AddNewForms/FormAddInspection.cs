@@ -6,6 +6,7 @@ namespace TII_NewDatabase.AddNewForms
     using System.Collections.Generic;
     using System.Data;
     using System.IO;
+    using System.Linq;
     using System.Windows.Forms;
 
     using Database;
@@ -52,6 +53,67 @@ namespace TII_NewDatabase.AddNewForms
             {
                 this.lbx_BuildingList.SelectedIndex = 0;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormAddInspection"/> class.
+        /// </summary>
+        /// <param name="building_address">The building address to initialize the form with. </param>
+        /// <param name="inspectionDate">The date of the inspection to load inspetion data from.</param>
+        /// <param name="inspectionType">The type of the inspection to load inspection data from.</param>
+        public FormAddInspection(string building_address, DateTime inspectionDate, string inspectionType)
+            : this(building_address)
+        {
+            // Set the date, since that was passed in
+            this.dtp_InspectionDate.Checked = true;
+            this.dtp_InspectionDate.Value = inspectionDate;
+
+            // Set the inspection type, since that was passed in as well
+            this.cbo_InspectionType.Text = inspectionType;
+
+            // Query to select all inspections from this building, on this date, of this type
+            string query = string.Format("SELECT * FROM Inspection " +
+                                         "WHERE Elevator_ID IN " +
+                                         "    ( " +
+                                         "    SELECT Elevator_ID " +
+                                         "    FROM Building " +
+                                         "    JOIN Elevator ON Elevator.Building_ID = Building.Building_ID " +
+                                         "    WHERE Address = '{0}' " +
+                                         "    ) " +
+                                         "AND Date = '{1}' " +
+                                         "AND IType_ID = " +
+                                         "    ( " +
+                                         "    SELECT IType_ID" +
+                                         "    FROM InspectionTypes" +
+                                         "    WHERE Name = '{2}'" +
+                                         "    )", building_address, inspectionDate, inspectionType);
+
+            List<Inspection> inspectionList = new List<Inspection>();
+
+            foreach (DataRow row in SQL.Query.Select(query).Rows)
+            {
+                inspectionList.Add(new Inspection(row));
+            }
+
+            // Set the inspector's name.
+            // We can just use the first result in the inspection list, since we only have a single inspector working on any site on a day
+            this.cbo_Inspector.Text = inspectionList[0].InspectorName;
+
+            // Same goes for the report file
+            this.lbx_ReportFileList.Items.Add(inspectionList[0].ReportFile);
+
+            // Set the Inspection Status for each elevator
+            foreach (DataGridViewRow i in this.dgv_ElevatorList.Rows)
+            {
+                i.Cells["Status"].Value = inspectionList.Where(x => x.ElevatorNumber == i.Cells["Elevator Number"].Value.ToString()).Single().Status;
+            }
+
+            // Disable the Address filter box and list
+            this.txt_BuildingFilter.Enabled = false;
+            this.lbx_BuildingList.Enabled = false;
+
+            // Change the Submit button so it's clear that we're in edit mode
+            this.btn_SubmitInspection.Text = "Submit Revised Inspection";
         }
 
         /// <summary>

@@ -600,7 +600,12 @@ namespace TII_NewDatabase
         /// <param name="e">The parameter is not used.</param>
         private void ReportFileMenu_EditInspection(object sender, EventArgs e)
         {
-            FormAddInspection EditInspection = new FormAddInspection();
+            FormAddInspection EditInspection = new FormAddInspection
+                (
+                    this.txt_BuildingAddress.Text,
+                    Convert.ToDateTime(this.lvw_InspectionList.SelectedItems[0].Text),
+                    lvw_InspectionList.SelectedItems[0].SubItems[1].Text
+                );
             EditInspection.ShowDialog();
         }
 

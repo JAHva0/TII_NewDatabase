@@ -147,6 +147,18 @@ namespace TII_NewDatabase.AddNewForms
                 throw ex;
             }
 
+            // Add all the selected Companies in the listbox
+            foreach (string companyname in this.lbx_AssociatedCompanies.Items)
+            {
+                this.newContact.AddCompany(companyname);
+            }
+
+            // Add all the selected Buildings in the listbox
+            foreach (string buildingaddress in this.lbx_AssociatedBuildings.Items)
+            {
+                this.newContact.AddBuilding(buildingaddress);
+            }
+
             this.newContact.CommitToDatabase();
         }
 

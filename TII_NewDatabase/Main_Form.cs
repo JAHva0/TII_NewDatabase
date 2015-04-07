@@ -562,7 +562,7 @@ namespace TII_NewDatabase
         private void ReportFileMenu_LocateReport(object sender, EventArgs e)
         {
             OpenFileDialog open_file_diag = new OpenFileDialog();
-            open_file_diag.Title = string.Format("Locate Report for {0} on {1}", this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, this.lvw_InspectionList.SelectedItems[0].Text);
+            open_file_diag.Title = string.Format("Locate Report for {0} at {1} on {2}", this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, this.txt_BuildingAddress.Text, this.lvw_InspectionList.SelectedItems[0].Text);
             open_file_diag.DefaultExt = ".pdf";
             open_file_diag.InitialDirectory = Properties.Settings.Default.ReportLocation;
             if (open_file_diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)

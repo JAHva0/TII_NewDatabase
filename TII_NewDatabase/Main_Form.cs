@@ -493,21 +493,18 @@ namespace TII_NewDatabase
                 return;
             }
 
-            ContextMenu reportFileMenu;
+            ContextMenu reportFileMenu = new ContextMenu();
 
             // Check to see if the item the user clicked was noted to have a report when it loaded and provide the appropriate context menu.
             if (this.lvw_InspectionList.SelectedItems[0].SubItems[4].Text == "Yes")
             {
-                reportFileMenu = new ContextMenu(new MenuItem[] { new MenuItem("Open Report File") });
-                reportFileMenu.MenuItems[0].Click += this.ReportFileMenu_Click;
+                reportFileMenu.MenuItems.Add(new MenuItem("Open Report File", this.ReportFileMenu_Click));
             }
             else
             {
-                reportFileMenu = new ContextMenu(new MenuItem[] 
-                { 
-                    new MenuItem("No Report Associated"),
-                    new MenuItem("Locate A Report", this.ReportFileMenu_LocateReport)
-                });
+                reportFileMenu.MenuItems.Add(new MenuItem("No Report Associated"));
+                reportFileMenu.MenuItems.Add(new MenuItem("Locate A Report", this.ReportFileMenu_LocateReport));
+
                 reportFileMenu.MenuItems[0].Enabled = false; // Don't enable the menu item, it's just for information
             }
 

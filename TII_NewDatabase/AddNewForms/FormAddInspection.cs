@@ -35,6 +35,9 @@ namespace TII_NewDatabase.AddNewForms
             this.InitializeComponent();
             this.ValidateInformation(this, EventArgs.Empty);
             this.cbo_SetAllInspections.Items.AddRange(Inspection.Statuses);
+
+            // Set the Inspector Combo box to display all active inspectors in alphabetical order
+            this.cbo_Inspector.Items.AddRange(Inspection.GetInspectors(true));
         }
 
         /// <summary>
@@ -49,9 +52,6 @@ namespace TII_NewDatabase.AddNewForms
             {
                 this.lbx_BuildingList.SelectedIndex = 0;
             }
-
-            // Set the Inspector Combo box to display all active inspectors in alphabetical order
-            this.cbo_Inspector.Items.AddRange(Inspection.GetInspectors(true));
         }
 
         /// <summary>

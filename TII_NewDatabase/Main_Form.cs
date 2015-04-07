@@ -508,6 +508,8 @@ namespace TII_NewDatabase
                 reportFileMenu.MenuItems[0].Enabled = false; // Don't enable the menu item, it's just for information
             }
 
+            reportFileMenu.MenuItems.Add(new MenuItem("Edit Inspection", this.ReportFileMenu_EditInspection));
+
             this.lvw_InspectionList.ContextMenu = reportFileMenu;
         }
 
@@ -589,6 +591,17 @@ namespace TII_NewDatabase
                 // Fire the populate method to re-draw all of the information, including that we now have a report file associated.
                 this.PopulateFields(this.currentlySelectedBuilding);
             }
+        }
+
+        /// <summary>
+        /// Opens the Inspection Form with the data from this inspection already entered so that it may be modified and re-entered.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
+        private void ReportFileMenu_EditInspection(object sender, EventArgs e)
+        {
+            FormAddInspection EditInspection = new FormAddInspection();
+            EditInspection.ShowDialog();
         }
 
         /// <summary>

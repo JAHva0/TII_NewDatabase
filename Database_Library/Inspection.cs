@@ -75,6 +75,7 @@ namespace Database
         /// </summary>
         /// <param name="row"> The data row to load the inspection from.</param>
         public Inspection(DataRow row)
+            : this()
         {
             this.LoadFromDatabase(row);
         }
@@ -84,6 +85,7 @@ namespace Database
         /// </summary>
         /// <param name="inspection_ID">The Inspection ID to load from.</param>
         public Inspection(int inspection_ID)
+            : this()
         {
             this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format("SELECT * FROM Inspection WHERE Inspection_ID = {0}", inspection_ID.ToString()))));
         }
@@ -298,6 +300,11 @@ namespace Database
         /// <returns>An array of inspector names.</returns>
         public static string[] GetInspectors(bool activeOnly)
         {
+            if (inspectorList == null)
+            {
+                Inspection I = new Inspection();
+            }
+            
             List<string> inspectorNames = new List<string>();
 
             foreach (Inspector i in inspectorList)

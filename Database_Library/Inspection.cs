@@ -466,7 +466,7 @@ namespace Database
                     this.inspector_ID = id;
                 }
 
-                this.name = data["Name"].ToString();
+                this.name = data["Name"].ToString().Trim();
                 this.naesaID = data["NAESAID"].ToString();
 
                 bool.TryParse(data["Active"].ToString(), out this.active);

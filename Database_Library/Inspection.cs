@@ -167,6 +167,16 @@ namespace Database
             }
         }
 
+        /// <summary> Gets the Elevator Number of the Elevator this inspection was performed on. </summary>
+        /// <value> A string value of the Elevator Number for this inspection. </value>
+        public string ElevatorNumber
+        {
+            get
+            {
+                return BaseObject.AffirmOneRow(SQL.Query.Select("ElevatorNumber", "Elevator", string.Format("Elevator_ID = '{0}'", this.elevator_ID)))["ElevatorNumber"].ToString();
+            }
+        }
+
         /// <summary> Gets or sets the Type of inspection which was performed. </summary>
         /// <value> The type of inspection performed. </value>
         public string InspectionType

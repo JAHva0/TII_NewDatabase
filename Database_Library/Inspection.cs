@@ -33,7 +33,7 @@ namespace Database
         private int itype_id;
 
         /// <summary> The status of the inspection. </summary>
-        private Insp_Status status;
+        private Insp_Status status = Insp_Status.NO_INSPECT;
 
         /// <summary> The inspector involved. </summary>
         private int inspector_id;

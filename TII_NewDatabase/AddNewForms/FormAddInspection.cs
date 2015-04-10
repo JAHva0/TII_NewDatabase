@@ -27,6 +27,9 @@ namespace TII_NewDatabase.AddNewForms
         /// Prevents us from having to re-query for this information for each insertion when it is available when we load them for the first time.
         /// </summary>
         private Dictionary<string, int> dict_ElevatorIDs;
+
+        /// <summary> A list of the inspections to be added to the database. </summary>
+        private List<Inspection> inspectionList = new List<Inspection>();
         
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAddInspection"/> class.
@@ -34,6 +37,7 @@ namespace TII_NewDatabase.AddNewForms
         public FormAddInspection()
         {
             this.InitializeComponent();
+
             this.ValidateInformation(this, EventArgs.Empty);
             this.cbo_SetAllInspections.Items.AddRange(Inspection.Statuses);
 
@@ -59,7 +63,7 @@ namespace TII_NewDatabase.AddNewForms
         /// Initializes a new instance of the <see cref="FormAddInspection"/> class.
         /// </summary>
         /// <param name="building_address">The building address to initialize the form with. </param>
-        /// <param name="inspectionDate">The date of the inspection to load inspetion data from.</param>
+        /// <param name="inspectionDate">The date of the inspection to load inspection data from.</param>
         /// <param name="inspectionType">The type of the inspection to load inspection data from.</param>
         public FormAddInspection(string building_address, DateTime inspectionDate, string inspectionType)
             : this(building_address)
@@ -72,7 +76,8 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_InspectionType.Text = inspectionType;
 
             // Query to select all inspections from this building, on this date, of this type
-            string query = string.Format("SELECT * FROM Inspection " +
+            string query = string.Format(
+                                         "SELECT * FROM Inspection " +
                                          "WHERE Elevator_ID IN " +
                                          "    ( " +
                                          "    SELECT Elevator_ID " +
@@ -86,26 +91,27 @@ namespace TII_NewDatabase.AddNewForms
                                          "    SELECT IType_ID" +
                                          "    FROM InspectionTypes" +
                                          "    WHERE Name = '{2}'" +
-                                         "    )", building_address, inspectionDate, inspectionType);
-
-            List<Inspection> inspectionList = new List<Inspection>();
+                                         "    )", 
+                                         building_address, 
+                                         inspectionDate, 
+                                         inspectionType);
 
             foreach (DataRow row in SQL.Query.Select(query).Rows)
             {
-                inspectionList.Add(new Inspection(row));
+                this.inspectionList.Add(new Inspection(row));
             }
 
             // Set the inspector's name.
             // We can just use the first result in the inspection list, since we only have a single inspector working on any site on a day
-            this.cbo_Inspector.Text = inspectionList[0].InspectorName;
+            this.cbo_Inspector.Text = this.inspectionList[0].InspectorName;
 
             // Same goes for the report file
-            this.lbx_ReportFileList.Items.Add(inspectionList[0].ReportFile);
+            this.lbx_ReportFileList.Items.Add(this.inspectionList[0].ReportFile);
 
             // Set the Inspection Status for each elevator
             foreach (DataGridViewRow i in this.dgv_ElevatorList.Rows)
             {
-                i.Cells["Status"].Value = inspectionList.Where(x => x.ElevatorNumber == i.Cells["Elevator Number"].Value.ToString()).Single().Status;
+                i.Cells["Status"].Value = this.inspectionList.Where(x => x.ElevatorNumber == i.Cells["Elevator Number"].Value.ToString()).Single().Status;
             }
 
             // Disable the Address filter box and list
@@ -197,12 +203,23 @@ namespace TII_NewDatabase.AddNewForms
             // Reset the Elevator ID Dictionary
             this.dict_ElevatorIDs = new Dictionary<string, int>();
 
+            // Create a new set of Inspections
+            this.inspectionList = new List<Inspection>();
+
             // Populate the elevator list with the number and nickname of each unit
             foreach (Elevator elev in this.selectedBuilding.ElevatorList)
             {
                 this.dgv_ElevatorList.Rows.Add(elev.ElevatorNumber, elev.Nickname, elev.ElevatorType, string.Empty);
                 this.dict_ElevatorIDs.Add(elev.ElevatorNumber, elev.ID.Value);
-            }      
+                
+                // Create a new inspection for each elevator, to be updated as the form is filled out
+                Inspection i = new Inspection();
+                i.ElevatorID = elev.ID.Value;
+                this.inspectionList.Add(i);
+            }
+
+            // Validate the Data Grid View
+            this.ValidateInformation(this.dgv_ElevatorList, EventArgs.Empty);
         }
 
         /// <summary>
@@ -236,9 +253,10 @@ namespace TII_NewDatabase.AddNewForms
             {
                 case "FormAddInspection":
                     {
-                        // This is the form initializing itself.
+                        // This is the form initializing itself. Validate all of our controls so errors appear which must be cleared
                         this.ValidateInformation(this.dtp_InspectionDate, EventArgs.Empty);
-                        this.ValidateInformation(this.dgv_ElevatorList, EventArgs.Empty);
+                        this.ValidateInformation(this.cbo_InspectionType, EventArgs.Empty);
+                        this.ValidateInformation(this.cbo_Inspector, EventArgs.Empty);
                         break;
                     }
                 
@@ -254,7 +272,14 @@ namespace TII_NewDatabase.AddNewForms
                         }
                         else
                         {
+                            // If no error was found, remove the error symbol from the control
                             this.error_provider.SetError(this.dtp_InspectionDate, string.Empty);
+
+                            // Update all of the inspections in the list to have the new date
+                            foreach (Inspection i in this.inspectionList)
+                            {
+                                i.Date = this.dtp_InspectionDate.Value;
+                            }
                         }
 
                         break;
@@ -270,6 +295,12 @@ namespace TII_NewDatabase.AddNewForms
                             {
                                 allStatusComplete = false;
                             }
+
+                            // As long as we're rolling through each row, update each inspection with the value that's currently set
+                            // Select from the inspection List where the ID is equal to the ID we get from the dictionary for this elevator number
+                            // Set the status of the one inspection we get from the query (there should only be one) to whatever is in the data grid view row
+                            int elevatorID = this.dict_ElevatorIDs[row.Cells["Elevator Number"].Value.ToString()];
+                            this.inspectionList.Where(x => x.ElevatorID == elevatorID).Single().Status = row.Cells["Status"].Value.ToString();
                         }
 
                         if (!allStatusComplete)
@@ -284,18 +315,73 @@ namespace TII_NewDatabase.AddNewForms
                         break;
                     }
 
+                case "dgv_InspectionList_Cell":
+                    {
+                        this.ValidateInformation(this.dgv_ElevatorList, EventArgs.Empty);
+                        break;
+                    }
+
                 case "cbo_InspectionType":
                     {
+                        // Make sure the inspection type is not empty
+                        if (this.cbo_InspectionType.Text == string.Empty)
+                        {
+                            this.error_provider.SetError(this.cbo_InspectionType, "Must enter an inspection type");
+                            break;
+                        }
+                        
+                        // Make sure the inspection type that is in the box is one that is included in the type list
+                        if (!cbo_InspectionType.Items.Contains(cbo_InspectionType.Text))
+                        {
+                            this.error_provider.SetError(this.cbo_InspectionType, "Must be a valid inspection type from the list");
+                            break;
+                        }
+
+                        // Update all of our inspections and remove the error if the value meets all of our criteria
+
+                        // Set the inspection type for all inspections in our list to be equal to what we've set in the combo box
+                        foreach (Inspection i in this.inspectionList)
+                        {
+                            i.InspectionType = this.cbo_InspectionType.Text;
+                        }
+
+                        // Remove the error
+                        this.error_provider.SetError(this.cbo_InspectionType, string.Empty);
                         break;
                     }
 
                 case "cbo_Inspector":
                     {
+                        // Make sure there is an inspector set
+                        if (this.cbo_Inspector.Text == string.Empty)
+                        {
+                            this.error_provider.SetError(this.cbo_Inspector, "Must enter an inspector's name");
+                            break;
+                        }
+
+                        // Make sure the inspector is a valid name from the inspector list
+                        if (!Inspection.GetInspectors().Contains(this.cbo_Inspector.Text))
+                        {
+                            this.error_provider.SetError(this.cbo_Inspector, "Must be an inspector who appears in the database");
+                            break;
+                        }
+                        
+                        // Update all of our inspections and remove the error if the value meets all of our criteria
+
+                        // Set the inspector for all inspections in our list to be what we've set in the combo box
+                        foreach (Inspection i in this.inspectionList)
+                        {
+                            i.InspectorName = this.cbo_Inspector.Text;
+                        }
+
+                        // Remove the error
+                        this.error_provider.SetError(this.cbo_Inspector, string.Empty);
                         break;
                     }
 
-                case "lbx_ReportFileList":
+                case "cbo_SetAllInspections":
                     {
+                        this.ValidateInformation(this.dgv_ElevatorList, EventArgs.Empty);
                         break;
                     }
 
@@ -312,76 +398,20 @@ namespace TII_NewDatabase.AddNewForms
         {
             bool success = true;
 
-            string formattedReportFile = string.Empty;
-
             try
             {
-                // If the setting for moving a saving reports has been enabled
+                // If the setting for moving a saving reports has been enabled and the user has added at least one report
                 if (Properties.Settings.Default.MoveAndSaveReports && this.lbx_ReportFileList.Items.Count != 0)
                 {
-                    formattedReportFile = Properties.Settings.Default.ReportLocation + this.FormatReportFilename();
-
-                    // If there are multiple files in the list box, combine them in the order in which they appear
-                    if (this.lbx_ReportFileList.Items.Count > 1)
-                    {
-                        string[] files = new string[this.lbx_ReportFileList.Items.Count];
-                        for (int i = 0; i < files.Length; i++)
-                        {
-                            files[i] = this.lbx_ReportFileList.Items[i].ToString();
-                        }
-
-                        ////if (!File.Exists(FormattedReportFile))
-                        ////{
-
-                        ////}
-                        PDF.CombineFiles(files, formattedReportFile);
-                    }
-                    else
-                    {
-                        if (!File.Exists(formattedReportFile))
-                        {
-                            // Check to be sure that the folder for this inspector exists.
-                            if (!Directory.Exists(Path.GetDirectoryName(formattedReportFile)))
-                            {
-                                if (MessageBox.Show(string.Format("Folder for {0} does not exist. Create?", this.cbo_Inspector.Text), "Create Missing Folder?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.OK)
-                                {
-                                    Directory.CreateDirectory(Path.GetDirectoryName(formattedReportFile));
-                                }
-                            }
-                            
-                            File.Copy(this.lbx_ReportFileList.Items[0].ToString(), formattedReportFile);
-                        }
-                        else
-                        {
-                            MessageBox.Show("A report already exists in " + formattedReportFile, "Duplicate Report", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        }
-                    }
+                    this.MoveAndSaveReport();
                 }
-                               
-                //// If enabled and we have a valid file in the textbox, use the Format provided to rename the report file 
-                //// with the information entered and make a copy in the report folder. 
-                ////if (Properties.Settings.Default.MoveAndSaveReports && File.Exists(this.txt_ReportFile.Text))
-                ////{
-                ////    string filename = FormatReportFilename();
 
-                ////    File.Copy(this.txt_ReportFile.Text, Properties.Settings.Default.ReportLocation + filename);
-                ////    this.txt_ReportFile.Text = filename;
-                ////}
-                
-                foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
+                foreach (Inspection i in this.inspectionList)
                 {
-                    // If the elevator is marked as Not Inspected, there is no reason to make a note of it for the database.
-                    if (elev.Cells["Status"].Value.ToString() != "Not Inspected")
+                    // If the elevator wasn't inspected, there's no reason to make a note of it for the database.
+                    if (i.Status != "Not Inspected")
                     {
-                        Inspection newInspection = new Inspection();
-                        newInspection.ElevatorID = this.dict_ElevatorIDs[elev.Cells["Elevator Number"].Value.ToString()];
-                        newInspection.Date = this.dtp_InspectionDate.Value;
-                        newInspection.InspectionType = this.cbo_InspectionType.Text;
-                        newInspection.Status = elev.Cells["Status"].Value.ToString();
-                        newInspection.InspectorName = this.cbo_Inspector.Text;
-                        newInspection.ReportFile = formattedReportFile;
-
-                        success = success && newInspection.CommitToDatabase();
+                        success = success && i.CommitToDatabase();
                     }
                 }
 
@@ -405,6 +435,52 @@ namespace TII_NewDatabase.AddNewForms
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Moves the report added in the list box to the location stored in settings and designated by the Report Format.
+        /// If there are more than one file in the list box, combines them into a single file before moving them.
+        /// </summary>
+        private void MoveAndSaveReport()
+        {
+            string formattedReportFile = Properties.Settings.Default.ReportLocation + this.FormatReportFilename();
+
+            // If there are multiple files in the list box, combine them in the order in which they appear
+            if (this.lbx_ReportFileList.Items.Count > 1)
+            {
+                string[] files = new string[this.lbx_ReportFileList.Items.Count];
+                for (int i = 0; i < files.Length; i++)
+                {
+                    files[i] = this.lbx_ReportFileList.Items[i].ToString();
+                }
+
+                PDF.CombineFiles(files, formattedReportFile);
+            }
+            else
+            {
+                if (!File.Exists(formattedReportFile))
+                {
+                    // Check to be sure that the folder for this inspector exists.
+                    if (!Directory.Exists(Path.GetDirectoryName(formattedReportFile)))
+                    {
+                        if (MessageBox.Show(string.Format("Folder for {0} does not exist. Create?", this.cbo_Inspector.Text), "Create Missing Folder?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.OK)
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(formattedReportFile));
+                        }
+                        else
+                        {
+                            MessageBox.Show("No folder exists for this file - it will not be moved.", "Folder Does Not Exist");
+                            return;
+                        }
+                    }
+
+                    File.Copy(this.lbx_ReportFileList.Items[0].ToString(), formattedReportFile);
+                }
+                else
+                {
+                    MessageBox.Show("A report already exists in " + formattedReportFile, "Duplicate Report", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
         }
 
@@ -599,6 +675,22 @@ namespace TII_NewDatabase.AddNewForms
             newCert.AddText("2013", 105, 269);
 
             newCert.ClosePDF();
+        }
+
+        /// <summary>
+        /// When the elevator list combo box is opened in order to modify the values, we assign the Validate event to that combo box so we can check it.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
+        private void ElevatorList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            ComboBox cb = e.Control as ComboBox;
+            if (cb != null)
+            {
+                cb.Name = "dgv_InspectionList_Cell";
+                cb.TextChanged += this.ValidateInformation;
+                cb.SelectedIndexChanged += this.ValidateInformation;
+            }
         }
     }
 }

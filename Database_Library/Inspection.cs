@@ -308,7 +308,7 @@ namespace Database
         /// </summary>
         /// <param name="activeOnly"> If true, only returns those inspector's considered active. Otherwise returns all inspectors.</param>
         /// <returns>An array of inspector names.</returns>
-        public static string[] GetInspectors(bool activeOnly)
+        public static string[] GetInspectors(bool activeOnly = false)
         {
             if (inspectorList == null)
             {

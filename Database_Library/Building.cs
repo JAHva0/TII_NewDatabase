@@ -471,7 +471,7 @@ namespace Database
         {
             get
             {
-                return this.address.ToString()
+                return this.address.ToString();
             }
         }
 

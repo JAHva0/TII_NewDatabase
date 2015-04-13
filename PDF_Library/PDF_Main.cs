@@ -102,9 +102,20 @@ namespace PDF_Library
         /// <param name="imagePath">The Filepath for the image.</param>
         public void AddImage(string imagePath)
         {
+            this.AddImage(imagePath, 1.0f, new Point(1, 1));
+        }
+
+        /// <summary>
+        /// Add an image to the document with a given scale and location
+        /// </summary>
+        /// <param name="imagePath">The Filepath for the image.</param>
+        /// <param name="scale">The amount to scale the image.</param>
+        /// <param name="location">The coordinates for the image to appear on the document.</param>
+        public void AddImage(string imagePath, float scale, Point location)
+        {
             var image = iTextSharp.text.Image.GetInstance(imagePath);
-            image.ScaleToFit(this.doc.PageSize.Width, this.doc.PageSize.Height);
-            image.SetAbsolutePosition(1, 1);
+            image.ScaleToFit(image.Width * scale, image.Height * scale);
+            image.SetAbsolutePosition(location.X, location.Y);
             doc.Add(image);
         }
 

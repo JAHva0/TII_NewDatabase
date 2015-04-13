@@ -465,6 +465,15 @@ namespace Database
             }
         }
 
+        /// <summary> Gets the address of this building. </summary>
+        /// <value> The formatted address of this building. </value>
+        public string FormattedAddress
+        {
+            get
+            {
+            }
+        }
+
         /// <summary> Gets or sets the county name.</summary>
         /// <value>The county associated with this building.</value>
         public string County

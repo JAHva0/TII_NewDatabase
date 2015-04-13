@@ -132,7 +132,7 @@ namespace TII_NewDatabase
             }
             else if (l.Count > 2)
             {
-                for (int i = 0; i < l.Count - 3; i++)
+                for (int i = 0; i < l.Count - 2; i++)
                 {
                     str += l[i] + ", ";
                 }

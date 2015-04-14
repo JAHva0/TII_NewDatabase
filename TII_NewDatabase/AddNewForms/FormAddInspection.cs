@@ -408,6 +408,9 @@ namespace TII_NewDatabase.AddNewForms
 
                 foreach (Inspection i in this.inspectionList)
                 {
+                    // Set the report to whatever is in the listbox at the moment.
+                    i.ReportFile = this.lbx_ReportFileList.Items[0].ToString();
+
                     // If the elevator wasn't inspected, there's no reason to make a note of it for the database.
                     if (i.Status != "Not Inspected")
                     {
@@ -446,6 +449,19 @@ namespace TII_NewDatabase.AddNewForms
         {
             string formattedReportFile = Properties.Settings.Default.ReportLocation + this.FormatReportFilename();
 
+            // Check to see if this file already exists
+            if (File.Exists(formattedReportFile))
+            {
+                if (MessageBox.Show("A report with this filename already exists. Overwrite?", "Report already exists", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.OK)
+                {
+                    File.Delete(formattedReportFile);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            
             // If there are multiple files in the list box, combine them in the order in which they appear
             if (this.lbx_ReportFileList.Items.Count > 1)
             {
@@ -459,29 +475,26 @@ namespace TII_NewDatabase.AddNewForms
             }
             else
             {
-                if (!File.Exists(formattedReportFile))
+                // Check to be sure that the folder for this inspector exists.
+                if (!Directory.Exists(Path.GetDirectoryName(formattedReportFile)))
                 {
-                    // Check to be sure that the folder for this inspector exists.
-                    if (!Directory.Exists(Path.GetDirectoryName(formattedReportFile)))
+                    if (MessageBox.Show(string.Format("Folder for {0} does not exist. Create?", this.cbo_Inspector.Text), "Create Missing Folder?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.OK)
                     {
-                        if (MessageBox.Show(string.Format("Folder for {0} does not exist. Create?", this.cbo_Inspector.Text), "Create Missing Folder?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.OK)
-                        {
-                            Directory.CreateDirectory(Path.GetDirectoryName(formattedReportFile));
-                        }
-                        else
-                        {
-                            MessageBox.Show("No folder exists for this file - it will not be moved.", "Folder Does Not Exist");
-                            return;
-                        }
+                        Directory.CreateDirectory(Path.GetDirectoryName(formattedReportFile));
                     }
+                    else
+                    {
+                        MessageBox.Show("No folder exists for this file - it will not be moved.", "Folder Does Not Exist");
+                        return;
+                    }
+                }
 
-                    File.Copy(this.lbx_ReportFileList.Items[0].ToString(), formattedReportFile);
-                }
-                else
-                {
-                    MessageBox.Show("A report already exists in " + formattedReportFile, "Duplicate Report", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+                File.Copy(this.lbx_ReportFileList.Items[0].ToString(), formattedReportFile);
             }
+
+            // Clear the Report Listbox and replace it with the new filename
+            this.lbx_ReportFileList.Items.Clear();
+            this.lbx_ReportFileList.Items.Add(formattedReportFile);
         }
 
         /// <summary>
@@ -591,19 +604,17 @@ namespace TII_NewDatabase.AddNewForms
 
             // Unit #(s)
             List<string> unitnos = new List<string>();
-            foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
-            {
-                unitnos.Add(elev.Cells["Nickname"].Value.ToString());
-            }
-
-            newCert.AddText("#" + unitnos.ToFormattedList(), 90, 644);
 
             // DCRA Certificate(s)
             List<string> certnos = new List<string>();
+
             foreach (DataGridViewRow elev in this.dgv_ElevatorList.Rows)
             {
+                unitnos.Add(elev.Cells["Nickname"].Value.ToString());
                 certnos.Add(elev.Cells["Elevator Number"].Value.ToString());
             }
+
+            newCert.AddText("#" + unitnos.ToFormattedList(), 90, 644);
 
             // The first seven certificate numbers can fit on the first line. Any number after than but less than 16 can go on the second.
             if (certnos.Count <= 7)
@@ -623,10 +634,10 @@ namespace TII_NewDatabase.AddNewForms
             }
             
             // Project Address
-            newCert.AddText("11 Dupont Circle, NW, Washington, DC 20036", 125, 575);
+            newCert.AddText(this.selectedBuilding.FormattedAddress, 125, 575);
 
             // Project Name
-            newCert.AddText("11 Dupont Circle, NW", 160, 552);
+            newCert.AddText(this.selectedBuilding.Name, 160, 552);
 
             // Inspection Discipline
             newCert.AddText("X", 195, 529);
@@ -647,23 +658,23 @@ namespace TII_NewDatabase.AddNewForms
                 newCert.AddText("X", 375, 493);
             }
 
-            // FES
-            if (this.selectedBuilding.FireEmergencyService)
-            {
-                newCert.AddText("X", 195, 493);
-            }
+            ////// FES
+            ////if (this.selectedBuilding.FireEmergencyService)
+            ////{
+            ////    newCert.AddText("X", 195, 493);
+            ////}
 
-            // Heat devices
-            if (this.selectedBuilding.HeatDetectors)
-            {
-                newCert.AddText("X", 195, 482);
-            }
+            ////// Heat devices
+            ////if (this.selectedBuilding.HeatDetectors)
+            ////{
+            ////    newCert.AddText("X", 195, 482);
+            ////}
             
-            // Emergency Power
-            if (this.selectedBuilding.EmergencyPower)
-            {
-                newCert.AddText("X", 375, 482);
-            }
+            ////// Emergency Power
+            ////if (this.selectedBuilding.EmergencyPower)
+            ////{
+            ////    newCert.AddText("X", 375, 482);
+            ////}
 
             // Elevator Professional In Charge
             newCert.AddText("Anthony Vattimo, Jr.", 100, 410);
@@ -674,7 +685,12 @@ namespace TII_NewDatabase.AddNewForms
             // Code year
             newCert.AddText("2013", 105, 269);
 
+            // Add Signature
+            newCert.AddImage(@"C:\Users\Jon\Documents\TPIRs\DC\TonySig.png", .45f, new System.Drawing.Point(105, 172));
+
             newCert.ClosePDF();
+
+            this.lbx_ReportFileList.Items.Add("TempCert.pdf");
         }
 
         /// <summary>
@@ -688,7 +704,7 @@ namespace TII_NewDatabase.AddNewForms
             if (cb != null)
             {
                 cb.Name = "dgv_InspectionList_Cell";
-                cb.TextChanged += this.ValidateInformation;
+                cb.SelectedIndexChanged -= this.ValidateInformation; // Otherwise it just keeps adding handlers to the event,
                 cb.SelectedIndexChanged += this.ValidateInformation;
             }
         }

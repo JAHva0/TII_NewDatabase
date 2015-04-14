@@ -130,7 +130,6 @@ namespace TII_NewDatabase.AddNewForms
             this.lbx_ReportFileList.TabIndex = 14;
             this.lbx_ReportFileList.DragDrop += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragDrop);
             this.lbx_ReportFileList.DragEnter += new System.Windows.Forms.DragEventHandler(this.ReportFile_DragEnter);
-            this.lbx_ReportFileList.Validated += new System.EventHandler(this.ValidateInformation);
             // 
             // dgv_ElevatorList
             // 
@@ -142,7 +141,7 @@ namespace TII_NewDatabase.AddNewForms
             this.dgv_ElevatorList.ShowEditingIcon = false;
             this.dgv_ElevatorList.Size = new System.Drawing.Size(355, 271);
             this.dgv_ElevatorList.TabIndex = 13;
-            this.dgv_ElevatorList.Validated += new System.EventHandler(this.ValidateInformation);
+            this.dgv_ElevatorList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ElevatorList_EditingControlShowing);
             // 
             // btn_Cancel
             // 
@@ -173,6 +172,7 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_SetAllInspections.Name = "cbo_SetAllInspections";
             this.cbo_SetAllInspections.Size = new System.Drawing.Size(147, 21);
             this.cbo_SetAllInspections.TabIndex = 10;
+            this.cbo_SetAllInspections.SelectedIndexChanged += new System.EventHandler(this.ValidateInformation);
             this.cbo_SetAllInspections.TextChanged += new System.EventHandler(this.SetAllInspections);
             // 
             // lbl_SetAllInspections
@@ -212,6 +212,7 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_Inspector.Name = "cbo_Inspector";
             this.cbo_Inspector.Size = new System.Drawing.Size(116, 21);
             this.cbo_Inspector.TabIndex = 6;
+            this.cbo_Inspector.TextChanged += new System.EventHandler(this.ValidateInformation);
             // 
             // lbl_Inspector
             // 
@@ -229,6 +230,7 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_InspectionType.Name = "cbo_InspectionType";
             this.cbo_InspectionType.Size = new System.Drawing.Size(212, 21);
             this.cbo_InspectionType.TabIndex = 4;
+            this.cbo_InspectionType.TextChanged += new System.EventHandler(this.ValidateInformation);
             // 
             // lbl_Type
             // 
@@ -261,6 +263,7 @@ namespace TII_NewDatabase.AddNewForms
             // 
             // error_provider
             // 
+            this.error_provider.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.error_provider.ContainerControl = this;
             // 
             // FormAddInspection

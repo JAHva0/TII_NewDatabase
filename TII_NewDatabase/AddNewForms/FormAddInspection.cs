@@ -408,8 +408,11 @@ namespace TII_NewDatabase.AddNewForms
 
                 foreach (Inspection i in this.inspectionList)
                 {
-                    // Set the report to whatever is in the listbox at the moment.
-                    i.ReportFile = this.lbx_ReportFileList.Items[0].ToString();
+                    // If there is at least one item in the reports, set the report to whatever is in the listbox at the moment.
+                    if (this.lbx_ReportFileList.Items.Count > 0)
+                    {
+                        i.ReportFile = this.lbx_ReportFileList.Items[0].ToString();
+                    }
 
                     // If the elevator wasn't inspected, there's no reason to make a note of it for the database.
                     if (i.Status != "Not Inspected")

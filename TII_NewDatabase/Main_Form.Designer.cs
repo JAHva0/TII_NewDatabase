@@ -180,6 +180,7 @@ namespace TII_NewDatabase
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.tab_Calendar = new System.Windows.Forms.TabPage();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -908,6 +909,7 @@ namespace TII_NewDatabase
             // 
             this.tab_MainTabControl.Controls.Add(this.tab_DatabaseBrowser);
             this.tab_MainTabControl.Controls.Add(this.tab_UpcomingAndOverdue);
+            this.tab_MainTabControl.Controls.Add(this.tab_Calendar);
             this.tab_MainTabControl.Location = new System.Drawing.Point(12, 73);
             this.tab_MainTabControl.Name = "tab_MainTabControl";
             this.tab_MainTabControl.SelectedIndex = 0;
@@ -1313,6 +1315,15 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
             // 
+            // tab_Calendar
+            // 
+            this.tab_Calendar.Location = new System.Drawing.Point(4, 22);
+            this.tab_Calendar.Name = "tab_Calendar";
+            this.tab_Calendar.Size = new System.Drawing.Size(879, 904);
+            this.tab_Calendar.TabIndex = 2;
+            this.tab_Calendar.Text = "Calendar / Scheduling";
+            this.tab_Calendar.UseVisualStyleBackColor = true;
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1465,5 +1476,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.Label lbl_InTheNext;
         private System.Windows.Forms.ComboBox cbo_UpcomingDays;
         private System.Windows.Forms.ColumnHeader col_DueDate;
+        private System.Windows.Forms.TabPage tab_Calendar;
     }
 }

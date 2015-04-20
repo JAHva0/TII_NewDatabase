@@ -1356,9 +1356,24 @@ namespace TII_NewDatabase
             // nym_HoursNeeded
             // 
             this.nym_HoursNeeded.Location = new System.Drawing.Point(96, 103);
+            this.nym_HoursNeeded.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.nym_HoursNeeded.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nym_HoursNeeded.Name = "nym_HoursNeeded";
             this.nym_HoursNeeded.Size = new System.Drawing.Size(99, 20);
             this.nym_HoursNeeded.TabIndex = 2;
+            this.nym_HoursNeeded.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // lbl_NoLaterThan
             // 
@@ -1374,8 +1389,10 @@ namespace TII_NewDatabase
             this.dtp_NoLaterThan.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtp_NoLaterThan.Location = new System.Drawing.Point(96, 77);
             this.dtp_NoLaterThan.Name = "dtp_NoLaterThan";
+            this.dtp_NoLaterThan.ShowUpDown = true;
             this.dtp_NoLaterThan.Size = new System.Drawing.Size(99, 20);
             this.dtp_NoLaterThan.TabIndex = 4;
+            this.dtp_NoLaterThan.Value = new System.DateTime(2015, 4, 20, 15, 0, 0, 0);
             // 
             // lbl_NoEarlierThan
             // 
@@ -1391,8 +1408,10 @@ namespace TII_NewDatabase
             this.dtp_NoEarlierThan.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtp_NoEarlierThan.Location = new System.Drawing.Point(96, 51);
             this.dtp_NoEarlierThan.Name = "dtp_NoEarlierThan";
+            this.dtp_NoEarlierThan.ShowUpDown = true;
             this.dtp_NoEarlierThan.Size = new System.Drawing.Size(99, 20);
             this.dtp_NoEarlierThan.TabIndex = 2;
+            this.dtp_NoEarlierThan.Value = new System.DateTime(2015, 4, 20, 7, 0, 0, 0);
             // 
             // cal_CalendarDisplay
             // 

@@ -131,7 +131,7 @@ namespace Database
                                                               new SQLColumn("TimeStamp", DateTime.Now),
                                                               new SQLColumn("OldValue", edit.Old_Value), 
                                                               new SQLColumn("NewValue", edit.New_Value),
-                                                              new SQLColumn("UserName", SQL.Connection.GetConnection.WorkstationId)
+                                                              new SQLColumn("UserName", SQL.Connection.GetUser)
                                                           };
 
                 success = success && SQL.Query.Insert("DBEdits", value_pairs);
@@ -193,7 +193,7 @@ namespace Database
         protected void BaseObject_Edited(object sender, string column_name, string old_value, string new_value)
         {
             // Check to make sure this particular value hasn't been changed previously
-            if (edits.Exists(x => x.Column_Name == column_name))
+            if (this.edits.Exists(x => x.Column_Name == column_name))
             {
                 // This column name appears in edits already, so we are just going to change the new value rather than make a new DBEdit entry
                 DBEdit toChange = new DBEdit();
@@ -204,6 +204,7 @@ namespace Database
                         toChange = e;
                     }
                 }
+
                 // Remove the edit with that column name
                 this.edits.Remove(toChange);
 

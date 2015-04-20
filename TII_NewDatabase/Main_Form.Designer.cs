@@ -177,10 +177,21 @@ namespace TII_NewDatabase
             this.col_OverDays = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_OverType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_OverStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tab_Calendar = new System.Windows.Forms.TabPage();
+            this.gbx_NextAvailable = new System.Windows.Forms.GroupBox();
+            this.lbx_PossibleAppointments = new System.Windows.Forms.ListBox();
+            this.lbl_HoursNeeded = new System.Windows.Forms.Label();
+            this.nym_HoursNeeded = new System.Windows.Forms.NumericUpDown();
+            this.lbl_NoLaterThan = new System.Windows.Forms.Label();
+            this.dtp_NoLaterThan = new System.Windows.Forms.DateTimePicker();
+            this.lbl_NoEarlierThan = new System.Windows.Forms.Label();
+            this.dtp_NoEarlierThan = new System.Windows.Forms.DateTimePicker();
+            this.cal_CalendarDisplay = new System.Windows.Forms.MonthCalendar();
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
-            this.tab_Calendar = new System.Windows.Forms.TabPage();
+            this.dtp_StartDate = new System.Windows.Forms.DateTimePicker();
+            this.lbl_StartDate = new System.Windows.Forms.Label();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -198,6 +209,9 @@ namespace TII_NewDatabase
             this.tlp_UpcomingAndOverdue.SuspendLayout();
             this.gbx_UpcomingInspections.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tab_Calendar.SuspendLayout();
+            this.gbx_NextAvailable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nym_HoursNeeded)).BeginInit();
             this.cmu_Contact.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1293,6 +1307,99 @@ namespace TII_NewDatabase
             this.col_OverStatus.Text = "Status";
             this.col_OverStatus.Width = 115;
             // 
+            // tab_Calendar
+            // 
+            this.tab_Calendar.Controls.Add(this.gbx_NextAvailable);
+            this.tab_Calendar.Controls.Add(this.cal_CalendarDisplay);
+            this.tab_Calendar.Location = new System.Drawing.Point(4, 22);
+            this.tab_Calendar.Name = "tab_Calendar";
+            this.tab_Calendar.Size = new System.Drawing.Size(879, 904);
+            this.tab_Calendar.TabIndex = 2;
+            this.tab_Calendar.Text = "Calendar / Scheduling";
+            this.tab_Calendar.UseVisualStyleBackColor = true;
+            // 
+            // gbx_NextAvailable
+            // 
+            this.gbx_NextAvailable.Controls.Add(this.lbl_StartDate);
+            this.gbx_NextAvailable.Controls.Add(this.dtp_StartDate);
+            this.gbx_NextAvailable.Controls.Add(this.lbx_PossibleAppointments);
+            this.gbx_NextAvailable.Controls.Add(this.lbl_HoursNeeded);
+            this.gbx_NextAvailable.Controls.Add(this.nym_HoursNeeded);
+            this.gbx_NextAvailable.Controls.Add(this.lbl_NoLaterThan);
+            this.gbx_NextAvailable.Controls.Add(this.dtp_NoLaterThan);
+            this.gbx_NextAvailable.Controls.Add(this.lbl_NoEarlierThan);
+            this.gbx_NextAvailable.Controls.Add(this.dtp_NoEarlierThan);
+            this.gbx_NextAvailable.Location = new System.Drawing.Point(15, 183);
+            this.gbx_NextAvailable.Name = "gbx_NextAvailable";
+            this.gbx_NextAvailable.Size = new System.Drawing.Size(227, 230);
+            this.gbx_NextAvailable.TabIndex = 1;
+            this.gbx_NextAvailable.TabStop = false;
+            this.gbx_NextAvailable.Text = "Next Available Appointments";
+            // 
+            // lbx_PossibleAppointments
+            // 
+            this.lbx_PossibleAppointments.FormattingEnabled = true;
+            this.lbx_PossibleAppointments.Location = new System.Drawing.Point(9, 134);
+            this.lbx_PossibleAppointments.Name = "lbx_PossibleAppointments";
+            this.lbx_PossibleAppointments.Size = new System.Drawing.Size(212, 82);
+            this.lbx_PossibleAppointments.TabIndex = 2;
+            // 
+            // lbl_HoursNeeded
+            // 
+            this.lbl_HoursNeeded.AutoSize = true;
+            this.lbl_HoursNeeded.Location = new System.Drawing.Point(11, 105);
+            this.lbl_HoursNeeded.Name = "lbl_HoursNeeded";
+            this.lbl_HoursNeeded.Size = new System.Drawing.Size(79, 13);
+            this.lbl_HoursNeeded.TabIndex = 6;
+            this.lbl_HoursNeeded.Text = "Hours Needed:";
+            // 
+            // nym_HoursNeeded
+            // 
+            this.nym_HoursNeeded.Location = new System.Drawing.Point(96, 103);
+            this.nym_HoursNeeded.Name = "nym_HoursNeeded";
+            this.nym_HoursNeeded.Size = new System.Drawing.Size(99, 20);
+            this.nym_HoursNeeded.TabIndex = 2;
+            // 
+            // lbl_NoLaterThan
+            // 
+            this.lbl_NoLaterThan.AutoSize = true;
+            this.lbl_NoLaterThan.Location = new System.Drawing.Point(6, 83);
+            this.lbl_NoLaterThan.Name = "lbl_NoLaterThan";
+            this.lbl_NoLaterThan.Size = new System.Drawing.Size(79, 13);
+            this.lbl_NoLaterThan.TabIndex = 5;
+            this.lbl_NoLaterThan.Text = "No Later Than:";
+            // 
+            // dtp_NoLaterThan
+            // 
+            this.dtp_NoLaterThan.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_NoLaterThan.Location = new System.Drawing.Point(96, 77);
+            this.dtp_NoLaterThan.Name = "dtp_NoLaterThan";
+            this.dtp_NoLaterThan.Size = new System.Drawing.Size(99, 20);
+            this.dtp_NoLaterThan.TabIndex = 4;
+            // 
+            // lbl_NoEarlierThan
+            // 
+            this.lbl_NoEarlierThan.AutoSize = true;
+            this.lbl_NoEarlierThan.Location = new System.Drawing.Point(6, 57);
+            this.lbl_NoEarlierThan.Name = "lbl_NoEarlierThan";
+            this.lbl_NoEarlierThan.Size = new System.Drawing.Size(84, 13);
+            this.lbl_NoEarlierThan.TabIndex = 3;
+            this.lbl_NoEarlierThan.Text = "No Earlier Than:";
+            // 
+            // dtp_NoEarlierThan
+            // 
+            this.dtp_NoEarlierThan.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtp_NoEarlierThan.Location = new System.Drawing.Point(96, 51);
+            this.dtp_NoEarlierThan.Name = "dtp_NoEarlierThan";
+            this.dtp_NoEarlierThan.Size = new System.Drawing.Size(99, 20);
+            this.dtp_NoEarlierThan.TabIndex = 2;
+            // 
+            // cal_CalendarDisplay
+            // 
+            this.cal_CalendarDisplay.Location = new System.Drawing.Point(15, 9);
+            this.cal_CalendarDisplay.Name = "cal_CalendarDisplay";
+            this.cal_CalendarDisplay.TabIndex = 0;
+            // 
             // cmu_Contact
             // 
             this.cmu_Contact.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1315,14 +1422,22 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
             // 
-            // tab_Calendar
+            // dtp_StartDate
             // 
-            this.tab_Calendar.Location = new System.Drawing.Point(4, 22);
-            this.tab_Calendar.Name = "tab_Calendar";
-            this.tab_Calendar.Size = new System.Drawing.Size(879, 904);
-            this.tab_Calendar.TabIndex = 2;
-            this.tab_Calendar.Text = "Calendar / Scheduling";
-            this.tab_Calendar.UseVisualStyleBackColor = true;
+            this.dtp_StartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtp_StartDate.Location = new System.Drawing.Point(96, 25);
+            this.dtp_StartDate.Name = "dtp_StartDate";
+            this.dtp_StartDate.Size = new System.Drawing.Size(99, 20);
+            this.dtp_StartDate.TabIndex = 2;
+            // 
+            // lbl_StartDate
+            // 
+            this.lbl_StartDate.AutoSize = true;
+            this.lbl_StartDate.Location = new System.Drawing.Point(27, 31);
+            this.lbl_StartDate.Name = "lbl_StartDate";
+            this.lbl_StartDate.Size = new System.Drawing.Size(58, 13);
+            this.lbl_StartDate.TabIndex = 7;
+            this.lbl_StartDate.Text = "Start Date:";
             // 
             // Main_Form
             // 
@@ -1365,6 +1480,10 @@ namespace TII_NewDatabase
             this.gbx_UpcomingInspections.ResumeLayout(false);
             this.gbx_UpcomingInspections.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.tab_Calendar.ResumeLayout(false);
+            this.gbx_NextAvailable.ResumeLayout(false);
+            this.gbx_NextAvailable.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nym_HoursNeeded)).EndInit();
             this.cmu_Contact.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1477,5 +1596,16 @@ namespace TII_NewDatabase
         private System.Windows.Forms.ComboBox cbo_UpcomingDays;
         private System.Windows.Forms.ColumnHeader col_DueDate;
         private System.Windows.Forms.TabPage tab_Calendar;
+        private System.Windows.Forms.GroupBox gbx_NextAvailable;
+        private System.Windows.Forms.MonthCalendar cal_CalendarDisplay;
+        private System.Windows.Forms.ListBox lbx_PossibleAppointments;
+        private System.Windows.Forms.Label lbl_HoursNeeded;
+        private System.Windows.Forms.NumericUpDown nym_HoursNeeded;
+        private System.Windows.Forms.Label lbl_NoLaterThan;
+        private System.Windows.Forms.DateTimePicker dtp_NoLaterThan;
+        private System.Windows.Forms.Label lbl_NoEarlierThan;
+        private System.Windows.Forms.DateTimePicker dtp_NoEarlierThan;
+        private System.Windows.Forms.Label lbl_StartDate;
+        private System.Windows.Forms.DateTimePicker dtp_StartDate;
     }
 }

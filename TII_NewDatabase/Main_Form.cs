@@ -136,6 +136,9 @@ namespace TII_NewDatabase
                 this.lbx_CompanyList.SelectedIndex = 0;
             }
 
+            // Initialize the Calendar tab
+            this.InitializeSchedulingTab();
+
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;
         }

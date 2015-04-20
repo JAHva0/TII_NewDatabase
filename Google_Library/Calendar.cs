@@ -30,14 +30,14 @@ namespace Google_Library
         /// </summary>
         /// <param name="service">The Calendar Service needed to access.</param>
         /// <param name="name">The Name of the calendar.</param>
-        public Calendar(CalendarService service, string name)
+        public Calendar(string name)
         {
             // Get a list of all the calendars on this account, and pull out the one with a matching name.
-            Calendar entry = GetList(service).Where(x => x.name == name).SingleOrDefault();
+            Calendar entry = GetList().Where(x => x.name == name).SingleOrDefault();
             this.id = entry.id;
             this.name = entry.name;
             this.colorID = entry.colorID;
-            this.service = service;
+            this.service = Authorization.calendarService;
         }
 
         /// <summary>
@@ -45,12 +45,12 @@ namespace Google_Library
         /// </summary>
         /// <param name="service">The Calendar Service needed to access.</param>
         /// <param name="entry">A <see cref="CalendarListEntry"/> loaded by a list request. </param>
-        private Calendar(CalendarService service, CalendarListEntry entry)
+        private Calendar(CalendarListEntry entry)
         {
             this.id = entry.Id;
             this.name = entry.Summary;
             this.colorID = entry.ColorId;
-            this.service = service;
+            this.service = Authorization.calendarService;
         }
 
         /// <summary> Gets the name of this calendar. </summary>
@@ -69,9 +69,9 @@ namespace Google_Library
         /// <param name="service">The Service used to access the calendar.</param>
         /// <param name="options">Any options that might be requested.</param>
         /// <returns>A list of <see cref="Calendar"/>.</returns>
-        public static List<Calendar> GetList(CalendarService service, Options options = null)
+        public static List<Calendar> GetList(Options options = null)
         {
-            CalendarListResource.ListRequest request = service.CalendarList.List();
+            CalendarListResource.ListRequest request = Authorization.calendarService.CalendarList.List();
 
             if (options == null)
             {
@@ -90,7 +90,7 @@ namespace Google_Library
             List<Calendar> finalList = new List<Calendar>();
             foreach (CalendarListEntry entry in calList.Items)
             {
-                finalList.Add(new Calendar(service, entry));
+                finalList.Add(new Calendar(entry));
             }
 
             return finalList;

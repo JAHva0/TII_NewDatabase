@@ -16,6 +16,8 @@ namespace Google_Library
     /// </summary>
     public class Authorization
     {
+        internal static CalendarService calendarService;
+        
         /// <summary>
         /// Authenticate application using OAuth2.
         /// </summary>
@@ -23,7 +25,7 @@ namespace Google_Library
         /// <param name="clientSecret">The Secret from the Client Secrets File.</param>
         /// <param name="userName">A string used to identify the user.</param>
         /// <returns>A valid calendar service.</returns>
-        public static CalendarService CalAuthenticateOAuth2(string clientID, string clientSecret, string userName)
+        public static void CalAuthenticateOAuth2(string clientID, string clientSecret, string userName)
         {
             // We are requesting to Read and Manage the user's Calendars
             string[] scopes = new string[] { CalendarService.Scope.Calendar, CalendarService.Scope.CalendarReadonly };
@@ -39,13 +41,11 @@ namespace Google_Library
                     CancellationToken.None,
                     new FileDataStore("TIIDatabase")).Result;
 
-                CalendarService service = new CalendarService(new BaseClientService.Initializer()
+                calendarService = new CalendarService(new BaseClientService.Initializer()
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = "TII Database"
                 });
-
-                return service;
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace Google_Library
         /// <param name="clientSecretFile"> The Json file containing the client secrets. </param>
         /// <param name="userName">A string used to identify the user.</param>
         /// <returns>A valid calendar service.</returns>
-        public static CalendarService CalAuthenticateOAuth2(string clientSecretFile, string userName)
+        public static void CalAuthenticateOAuth2(string clientSecretFile, string userName)
         {
             string secret = string.Empty;
             string id = string.Empty;
@@ -88,7 +88,7 @@ namespace Google_Library
                 }
             }
 
-            return CalAuthenticateOAuth2(id, secret, userName);
+            CalAuthenticateOAuth2(id, secret, userName);
         }
     }
 }

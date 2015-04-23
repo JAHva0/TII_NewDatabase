@@ -197,6 +197,20 @@ namespace Database
             }
         }
 
+        public string ToCondensedString
+        {
+            get
+            {
+                return string.Format(
+                    "{0}|{1}|{2}|{3}|{4}",
+                    this.ID,
+                    this.building_id,
+                    this.number,
+                    this.ElevatorType,
+                    this.nickname);
+            }
+        }
+
         /// <summary>
         /// Submits the data enclosed in the class to the SQL Server as either an Insert or an Update dependant on the presence of an ID in the base class.
         /// </summary>

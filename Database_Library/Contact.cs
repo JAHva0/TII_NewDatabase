@@ -209,6 +209,22 @@ namespace Database
             }
         }
 
+        public string ToCondensedString
+        {
+            get
+            {
+                return string.Format(
+                    "{0}|{1}|{2}|{3}|{4}|{5}|{6}",
+                    this.ID,
+                    this.name,
+                    this.officephone.Number,
+                    this.officephone.Ext,
+                    this.cellphone.Number,
+                    this.fax.Number,
+                    this.email);
+            }
+        }
+
         /// <summary>
         /// Submits the data enclosed in the class to the SQL server as either an Insert or and Update statement dependant on the presence of an ID in the base Class.
         /// </summary>
@@ -227,10 +243,30 @@ namespace Database
                                                         new SQLColumn("Email", this.email)
                                                     };
 
+            
+
             if (this.ID == null)
             {
                 // If ID is null, then this is a new entry to the database and we should insert it.
                 success = SQL.Query.Insert("Contact", classData);
+                
+                // So that we can then add the buildings and company relations to this contact, load the ID right back from the database.
+                this.ID = Convert.ToInt32(
+                    BaseObject.AffirmOneRow(SQL.Query.Select("Contact_ID", "Contact",
+                                                              string.Format(
+                                                              "Name = '{0}'",
+                                                              this.name)))["Contact_ID"].ToString());
+
+                // Now that we have the ID of this new contact, make associations based on the company and building keys that are present.
+                foreach (int company_ID in this.companies.Keys)
+                {
+                    SQL.Query.Insert("Company_Contact_Relations", new SQLColumn[] { new SQLColumn("Company_ID", company_ID), new SQLColumn("Contact_ID", this.ID) });
+                }
+
+                foreach (int building_ID in this.building.Keys)
+                {
+                    SQL.Query.Insert("Building_Contact_Relations", new SQLColumn[] { new SQLColumn("Building_ID", building_ID), new SQLColumn("Contact_ID", this.ID) });
+                }
             }
             else
             {

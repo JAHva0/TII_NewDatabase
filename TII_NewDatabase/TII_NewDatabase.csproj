@@ -23,8 +23,8 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>\\JON-PC\Jon Shared\TII_DatabaseBrowser\</UpdateUrl>
-    <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>0.01.02.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>0.01.03.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -63,6 +63,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -119,6 +120,9 @@
     <Compile Include="HelperClasses\DatabaseBackup.cs" />
     <Compile Include="HelperClasses\LocateReportFiles.cs" />
     <Compile Include="ListStructs.cs" />
+    <Compile Include="Main_Form - Calendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Main_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +165,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="client_secret.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -180,6 +187,10 @@
     <ProjectReference Include="..\Database_Library\Database_Library.csproj">
       <Project>{5fd3abae-0cf4-4c98-96ff-7889e25c047f}</Project>
       <Name>Database_Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Google_Library\Google_Library.csproj">
+      <Project>{b5566a69-ebae-4b48-a6b5-3a133ad419d9}</Project>
+      <Name>Google_Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\PDF_Library\PDF_Library.csproj">
       <Project>{778e52d1-1442-4960-b5a8-45bdf680c4eb}</Project>

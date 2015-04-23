@@ -17,6 +17,11 @@ namespace Database
         /// Loaded the first time anything tries to access the inspection class. Is a copy of the InspectionTypes table.
         /// </summary>
         private static Dictionary<int, string[]> inspectionType;
+
+        /// <summary>
+        /// Loaded the first time anything tries to access the inspection class. Is a copy of the Inspector table.
+        /// </summary>
+        private static List<Inspector> inspectorList;
         
         /// <summary> The elevator ID associated with this inspection. </summary>
         private int elevator_ID;
@@ -28,10 +33,10 @@ namespace Database
         private int itype_id;
 
         /// <summary> The status of the inspection. </summary>
-        private Insp_Status status;
+        private Insp_Status status = Insp_Status.NO_INSPECT;
 
         /// <summary> The inspector involved. </summary>
-        private string inspector;
+        private int inspector_id;
 
         /// <summary> The file path for the report associated with this inspection. </summary>
         private string report;
@@ -46,12 +51,21 @@ namespace Database
                 inspectionType = new Dictionary<int, string[]>();
 
                 // The first entry will be for 0, {"No Inspection", "NULL"} so that new classes will assume this 
-                inspectionType.Add(0, new string[] { "No Inspection", "NULL" });
+                inspectionType.Add(0, new string[] { "No Inspection", "NULL", string.Empty });
 
                 // If this is the first time the Inspection class has been accessed, load the inspection types dictionary. 
                 foreach (DataRow row in SQL.Query.Select("SELECT * FROM InspectionTypes").Rows)
                 {
-                    inspectionType.Add(Convert.ToInt32(row["IType_ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbv"].ToString().Trim() });
+                    inspectionType.Add(Convert.ToInt32(row["IType_ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbv"].ToString().Trim(), row["Locales"].ToString().Trim() });
+                }
+            }
+
+            if (inspectorList == null)
+            {
+                inspectorList = new List<Inspector>();
+                foreach (DataRow row in SQL.Query.Select("SELECT * FROM Inspector").Rows)
+                {
+                    inspectorList.Add(new Inspector(row));
                 }
             }
         }
@@ -61,6 +75,7 @@ namespace Database
         /// </summary>
         /// <param name="row"> The data row to load the inspection from.</param>
         public Inspection(DataRow row)
+            : this()
         {
             this.LoadFromDatabase(row);
         }
@@ -70,6 +85,7 @@ namespace Database
         /// </summary>
         /// <param name="inspection_ID">The Inspection ID to load from.</param>
         public Inspection(int inspection_ID)
+            : this()
         {
             this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format("SELECT * FROM Inspection WHERE Inspection_ID = {0}", inspection_ID.ToString()))));
         }
@@ -113,23 +129,6 @@ namespace Database
             }
         }
 
-        /// <summary> Gets a string array containing all possible Inspection types listed in the enumerator. </summary>
-        /// <value> A string array containing all possible Inspection types. </value>
-        public static string[] Types
-        {
-            get
-            {
-                List<string> typeList = new List<string>();
-
-                foreach (string[] s in inspectionType.Values)
-                {
-                    typeList.Add(s[0]);
-                }
-
-                return typeList.ToArray();
-            }
-        }
-
         /// <summary> Gets or sets the Date for the inspection. </summary>
         /// <value> The date this inspection occurred on. </value>
         public DateTime Date
@@ -165,6 +164,16 @@ namespace Database
                     this.BaseObject_Edited(this, "Elevator_ID", this.elevator_ID, value);
                     this.elevator_ID = value;
                 }
+            }
+        }
+
+        /// <summary> Gets the Elevator Number of the Elevator this inspection was performed on. </summary>
+        /// <value> A string value of the Elevator Number for this inspection. </value>
+        public string ElevatorNumber
+        {
+            get
+            {
+                return BaseObject.AffirmOneRow(SQL.Query.Select("ElevatorNumber", "Elevator", string.Format("Elevator_ID = '{0}'", this.elevator_ID)))["ElevatorNumber"].ToString();
             }
         }
 
@@ -212,19 +221,23 @@ namespace Database
 
         /// <summary> Gets or sets the Inspector for the inspection. </summary>
         /// <value> The inspector who performed this inspection. </value>
-        public string Inspector
+        public string InspectorName
         {
             get
             {
-                return this.inspector;
+                // Query the inspector list for the Inspector_ID we pulled from the database
+                return inspectorList.Where(x => x.Inspector_ID == this.inspector_id).Single().Name.Trim();
             }
 
             set
             {
-                if (value != this.inspector && value != string.Empty)
+                int id = inspectorList.Where(x => x.Name.Trim() == value).SingleOrDefault().Inspector_ID;
+
+                // If the ID we get from the value is different from the one we have stored
+                if (id != this.inspector_id && value != string.Empty)
                 {
-                    this.BaseObject_Edited(this, "Inspector", this.inspector, value);
-                    this.inspector = value;
+                    this.BaseObject_Edited(this, "Inspector_ID", this.inspector_id, id);
+                    this.inspector_id = id;
                 }
             }
         }
@@ -248,6 +261,48 @@ namespace Database
             }
         }
 
+        public string ToCondensedString
+        {
+            get
+            {
+                return string.Format(
+                    "{0}|{1}|{2}|{3}|{4}|{5}|{6}",
+                    this.ID,
+                    this.elevator_ID,
+                    this.date.ToShortDateString(),
+                    this.itype_id,
+                    this.status,
+                    this.inspector_id,
+                    this.report);
+            }
+        }
+
+        /// <summary>
+        /// Gets a string array of all inspection types stored in the database.
+        /// </summary>
+        /// <param name="locale">The Abbreviation of the location where this type of inspection is found. </param>
+        /// <returns>A string array of all inspection types that contain the locale variable. (or all, if locale is null).</returns>
+        public static string[] GetInspectionTypes(string locale = null)
+        {
+            // If we haven't tried to create an inspection yet, we likely do not have this information loaded from the server.
+            // Create an empty inspection class that can be cleaned up immediatly in order to have the data avaiable.
+            if (inspectionType == null)
+            {
+                Inspection i = new Inspection();
+            }
+            
+            List<string> typeList = new List<string>();
+            foreach (string[] type in inspectionType.Values)
+            {
+                if (type[2].Contains(locale))
+                {
+                    typeList.Add(type[0]);
+                }
+            }
+
+            return typeList.ToArray();
+        }
+
         /// <summary>
         /// Gets the abbreviation associated with a given inspection type name.
         /// </summary>
@@ -262,6 +317,38 @@ namespace Database
             }
 
             return inspectionType.Where(v => v.Value[0] == value).SingleOrDefault().Value[1];
+        }
+
+        /// <summary>
+        /// Gets a list of inspectors that were loaded from the inspector table in the database.
+        /// </summary>
+        /// <param name="activeOnly"> If true, only returns those inspector's considered active. Otherwise returns all inspectors.</param>
+        /// <returns>An array of inspector names.</returns>
+        public static string[] GetInspectors(bool activeOnly = false)
+        {
+            if (inspectorList == null)
+            {
+                Inspection I = new Inspection();
+            }
+            
+            List<string> inspectorNames = new List<string>();
+
+            foreach (Inspector i in inspectorList)
+            {
+                if (!activeOnly)
+                {
+                    inspectorNames.Add(i.Name);
+                }
+                else
+                {
+                    if (i.Active)
+                    {
+                        inspectorNames.Add(i.Name);
+                    }
+                }
+            }
+
+            return inspectorNames.ToArray();
         }
 
         /// <summary>
@@ -292,7 +379,7 @@ namespace Database
                 new SQLColumn("Date", this.date),
                 new SQLColumn("IType_ID", this.itype_id),
                 new SQLColumn("Status", BaseObject.GetEnumDescription(this.status)),
-                new SQLColumn("Inspector", this.inspector),
+                new SQLColumn("Inspector_ID", this.inspector_id),
                 new SQLColumn("Report", this.report)
             };
 
@@ -352,6 +439,12 @@ namespace Database
                     this.itype_id = id;
                 }
 
+                // And the Inspector_ID
+                if (int.TryParse(row["Inspector_ID"].ToString(), out id))
+                {
+                    this.inspector_id = id;
+                }
+
                 // Make sure we have a parseable date
                 DateTime d;
                 if (DateTime.TryParse(row["Date"].ToString(), out d))
@@ -361,13 +454,88 @@ namespace Database
 
                 // We are assigning all of the strings directly, under the assumption that they were checked for compatibility prior to being entered into the database.
                 this.status = Inspection.StringToStatusEnum(row["Status"].ToString());
-                this.inspector = row["Inspector"].ToString();
                 this.report = row["Report"].ToString();
             }
             catch (Exception ex)
             {
                 // Implement exceptions as they arise.
                 throw new Exception("Error Loading Inspection from Database", ex);
+            }
+        }
+
+        /// <summary>
+        /// Private class for loading items from the Inspector Table.
+        /// </summary>
+        private class Inspector
+        {
+            /// <summary> The Database assigned ID for this inspector. </summary>
+            private int inspector_ID;
+
+            /// <summary> The name of this inspector. </summary>
+            private string name;
+
+            /// <summary> The NAESA ID number for this inspector. </summary>
+            private string naesaID;
+
+            /// <summary> Is the inspector considered Active. </summary>
+            private bool active;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Inspector"/> class.
+            /// </summary>
+            /// <param name="data">A single data row, loaded from the Inspector Table.</param>
+            public Inspector(DataRow data)
+            {
+                int id;
+                if (int.TryParse(data["Inspector_ID"].ToString(), out id))
+                {
+                    this.inspector_ID = id;
+                }
+
+                this.name = data["Name"].ToString().Trim();
+                this.naesaID = data["NAESAID"].ToString();
+
+                bool.TryParse(data["Active"].ToString(), out this.active);
+            }
+
+            /// <summary> Gets the Database assigned ID for this inspector. </summary>
+            /// <value> The inspector's database ID. </value>
+            public int Inspector_ID
+            {
+                get
+                {
+                    return this.inspector_ID;
+                }
+            }
+
+            /// <summary> Gets the Name for this inspector. </summary>
+            /// <value> The Inspector's name. </value>
+            public string Name
+            {
+                get
+                {
+                    return this.name;
+                }
+            }
+
+            /// <summary> Gets the NAESA ID Number for this inspector. </summary>
+            /// <value> The inspector's NAESA ID Number. </value>
+            public string NAESAID
+            {
+                get
+                {
+                    return this.naesaID;
+                }
+            }
+
+            /// <summary> Gets a value indicating whether this Inspector is considered Active. </summary>
+            /// <value> True, if the inspector is active. </value>
+            public bool Active
+            {
+                get
+                {
+                    return this.active;
+                }
             }
         }
     }

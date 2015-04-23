@@ -6,6 +6,7 @@ namespace Database
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
+    using System.Linq;
     using System.Windows.Forms;
 
     /// <summary>
@@ -21,7 +22,7 @@ namespace Database
     public class BaseObject
     {
         /// <summary> A list of edits added as required by the Edited event.</summary>
-        private ArrayList edits = new ArrayList();
+        private List<DBEdit> edits = new List<DBEdit>();
        
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseObject" /> class.
@@ -130,7 +131,7 @@ namespace Database
                                                               new SQLColumn("TimeStamp", DateTime.Now),
                                                               new SQLColumn("OldValue", edit.Old_Value), 
                                                               new SQLColumn("NewValue", edit.New_Value),
-                                                              new SQLColumn("UserName", SQL.Connection.GetConnection.WorkstationId)
+                                                              new SQLColumn("UserName", SQL.Connection.GetUser)
                                                           };
 
                 success = success && SQL.Query.Insert("DBEdits", value_pairs);
@@ -191,8 +192,33 @@ namespace Database
         /// <param name="new_value">The new value of the cell.</param>
         protected void BaseObject_Edited(object sender, string column_name, string old_value, string new_value)
         {
-            // Add a new edit to the edit array for use during a commit.
-            this.edits.Add(new DBEdit(sender.GetType().Name, this.ID, column_name, old_value, new_value));
+            // Check to make sure this particular value hasn't been changed previously
+            if (this.edits.Exists(x => x.Column_Name == column_name))
+            {
+                // This column name appears in edits already, so we are just going to change the new value rather than make a new DBEdit entry
+                DBEdit toChange = new DBEdit();
+                foreach (DBEdit e in this.edits)
+                {
+                    if (e.Column_Name == column_name)
+                    {
+                        toChange = e;
+                    }
+                }
+
+                // Remove the edit with that column name
+                this.edits.Remove(toChange);
+
+                // Modify the new value to reflect what we have just changed it to.
+                toChange.New_Value = new_value;
+
+                // Add the modified edit back into the list.
+                this.edits.Add(toChange);
+            }
+            else
+            {
+                // Add a new edit to the edit array for use during a commit.
+                this.edits.Add(new DBEdit(sender.GetType().Name, this.ID, column_name, old_value, new_value));
+            }
         }
 
         /// <summary>

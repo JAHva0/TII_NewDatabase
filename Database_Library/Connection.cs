@@ -63,6 +63,16 @@ namespace SQL
         {
             get { return server_connection; }
         }
+
+        /// <summary> Gets the name of the user who is currently connected to the SQL Server. </summary>
+        /// <value> A string value. </value>
+        public static string GetUser
+        {
+            get
+            {
+                return server_connection.WorkstationId;
+            }
+        }
         
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateConnection"/> class. Use <see cref="CheckConnection"/> to confirm that the credentials are valid.

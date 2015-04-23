@@ -136,6 +136,9 @@ namespace TII_NewDatabase
                 this.lbx_CompanyList.SelectedIndex = 0;
             }
 
+            // Initialize the Calendar tab
+            this.InitializeSchedulingTab();
+
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;
         }
@@ -493,23 +496,22 @@ namespace TII_NewDatabase
                 return;
             }
 
-            ContextMenu reportFileMenu;
+            ContextMenu reportFileMenu = new ContextMenu();
 
             // Check to see if the item the user clicked was noted to have a report when it loaded and provide the appropriate context menu.
             if (this.lvw_InspectionList.SelectedItems[0].SubItems[4].Text == "Yes")
             {
-                reportFileMenu = new ContextMenu(new MenuItem[] { new MenuItem("Open Report File") });
-                reportFileMenu.MenuItems[0].Click += this.ReportFileMenu_Click;
+                reportFileMenu.MenuItems.Add(new MenuItem("Open Report File", this.ReportFileMenu_Click));
             }
             else
             {
-                reportFileMenu = new ContextMenu(new MenuItem[] 
-                { 
-                    new MenuItem("No Report Associated"),
-                    new MenuItem("Locate A Report", this.ReportFileMenu_LocateReport)
-                });
+                reportFileMenu.MenuItems.Add(new MenuItem("No Report Associated"));
+                reportFileMenu.MenuItems.Add(new MenuItem("Locate A Report", this.ReportFileMenu_LocateReport));
+
                 reportFileMenu.MenuItems[0].Enabled = false; // Don't enable the menu item, it's just for information
             }
+
+            reportFileMenu.MenuItems.Add(new MenuItem("Edit Inspection", this.ReportFileMenu_EditInspection));
 
             this.lvw_InspectionList.ContextMenu = reportFileMenu;
         }
@@ -565,7 +567,7 @@ namespace TII_NewDatabase
         private void ReportFileMenu_LocateReport(object sender, EventArgs e)
         {
             OpenFileDialog open_file_diag = new OpenFileDialog();
-            open_file_diag.Title = string.Format("Locate Report for {0} on {1}", this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, this.lvw_InspectionList.SelectedItems[0].Text);
+            open_file_diag.Title = string.Format("Locate Report for {0} at {1} on {2}", this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, this.txt_BuildingAddress.Text, this.lvw_InspectionList.SelectedItems[0].Text);
             open_file_diag.DefaultExt = ".pdf";
             open_file_diag.InitialDirectory = Properties.Settings.Default.ReportLocation;
             if (open_file_diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -592,6 +594,20 @@ namespace TII_NewDatabase
                 // Fire the populate method to re-draw all of the information, including that we now have a report file associated.
                 this.PopulateFields(this.currentlySelectedBuilding);
             }
+        }
+
+        /// <summary>
+        /// Opens the Inspection Form with the data from this inspection already entered so that it may be modified and re-entered.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
+        private void ReportFileMenu_EditInspection(object sender, EventArgs e)
+        {
+            FormAddInspection editInspection = new FormAddInspection(
+                    this.txt_BuildingAddress.Text,
+                    Convert.ToDateTime(this.lvw_InspectionList.SelectedItems[0].Text),
+                    lvw_InspectionList.SelectedItems[0].SubItems[1].Text);
+            editInspection.ShowDialog();
         }
 
         /// <summary>
@@ -1120,6 +1136,12 @@ namespace TII_NewDatabase
             }
 
             this.UpdateUpcomingInspections();
+        }
+
+        private void CreateBackup(object sender, EventArgs e)
+        {
+            Backup.BackupLocation = @"C:\Users\Jon\Documents\TPIRs\Backup";
+            Backup.CreateNew();
         }
     }
 }

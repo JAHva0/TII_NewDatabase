@@ -93,6 +93,11 @@ namespace Database
             this.LoadFromDatabase(tbl.Rows[0]);
         }
 
+        public Building(DataRow buildingData)
+        {
+            this.LoadFromDatabase(buildingData);
+        }
+
         /// <summary>
         /// A list of every county covered by the database. Prevents spelling errors and enforces consistency in the database.
         /// </summary>
@@ -465,6 +470,16 @@ namespace Database
             }
         }
 
+        /// <summary> Gets the address of this building. </summary>
+        /// <value> The formatted address of this building. </value>
+        public string FormattedAddress
+        {
+            get
+            {
+                return this.address.ToString();
+            }
+        }
+
         /// <summary> Gets or sets the county name.</summary>
         /// <value>The county associated with this building.</value>
         public string County
@@ -716,9 +731,10 @@ namespace Database
                 
                 List<InspectionHistory> history = new List<InspectionHistory>();
                 foreach (DataRow row in SQL.Query.Select(string.Format(
-                                                                       "SELECT DISTINCT Date, Name AS Type, Status, Inspector, Report " +
+                                                                       "SELECT DISTINCT Date, InspectionTypes.Name AS Type, Status, Inspector.Name as Inspector, Report " +
                                                                        "FROM Inspection " +
                                                                        "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
+                                                                       "JOIN Inspector ON Inspection.Inspector_ID = Inspector.Inspector_ID " +
                                                                        "WHERE Elevator_ID IN " +
                                                                        "(" +
                                                                            "SELECT Elevator_ID " +
@@ -763,6 +779,35 @@ namespace Database
             get
             {
                 return this.contact_list;
+            }
+        }
+
+        public string ToCondensedString
+        {
+            get
+            {
+                return string.Format(
+                    "{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}|{10}|{11}|{12}|{13}|{14}|{15}|{16}|{17}|{18}|{19}",
+                    this.ID,
+                    this.company_id,
+                    this.proposal_number,
+                    this.proposal_file,
+                    this.name,
+                    this.address.Street,
+                    this.address.City,
+                    this.address.State,
+                    this.address.Zip,
+                    this.County,
+                    this.firm_fee,
+                    this.hourly_fee,
+                    this.Anniversary,
+                    this.contractor,
+                    this.active,
+                    this.coordinates.Latitude,
+                    this.coordinates.Longitude,
+                    this.fire_emergency_service,
+                    this.emergency_power,
+                    this.heat_detectors);
             }
         }
 
@@ -944,7 +989,7 @@ namespace Database
 
                 bool.TryParse(row["Active"].ToString(), out this.active);
                 bool.TryParse(row["FES"].ToString(), out this.fire_emergency_service);
-                bool.TryParse(row["Smks"].ToString(), out this.emergency_power);
+                bool.TryParse(row["EmPwr"].ToString(), out this.emergency_power);
                 bool.TryParse(row["Heats"].ToString(), out this.heat_detectors);
 
                 float lat, lng;
@@ -970,10 +1015,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("Invalid County Name") || ex.Message.Contains("Invalid Month Selection"))
-                {
-                    throw new InvalidEnumArgumentException(string.Format("\r\rError Parsing Database Information:\rBuilding_ID: '{0}'\r{1}\r\r{2}", this.ID, this.address.ToString(), ex.Message));
-                }
+                throw new InvalidEnumArgumentException(string.Format("\r\rError Parsing Database Information:\rBuilding_ID: '{0}'\r{1}\r\r{2}", this.ID, this.address.ToString(), ex.Message));
             }
         }
 

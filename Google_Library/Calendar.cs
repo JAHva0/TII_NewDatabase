@@ -25,6 +25,8 @@ namespace Google_Library
         /// <summary> The Service required for accessing this calendar. </summary>
         private CalendarService service;
 
+        private List<Entry> events = new List<Entry>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Calendar"/> class. 
         /// </summary>
@@ -61,6 +63,19 @@ namespace Google_Library
             {
                 return this.name;
             }
+        }
+
+        public List<Entry> UpcomingEvents
+        {
+            get
+            {
+                return this.events.Where(x => x.Start.Date >= DateTime.Now.Date).ToList();
+            }
+        }
+
+        public void LoadEvents()
+        {
+            this.events = Entry.GetEntries(this.service, this.id);
         }
         
         /// <summary>

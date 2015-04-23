@@ -209,6 +209,22 @@ namespace Database
             }
         }
 
+        public string ToCondensedString
+        {
+            get
+            {
+                return string.Format(
+                    "{0}|{1}|{2}|{3}|{4}|{5}|{6}",
+                    this.ID,
+                    this.name,
+                    this.officephone.Number,
+                    this.officephone.Ext,
+                    this.cellphone.Number,
+                    this.fax.Number,
+                    this.email);
+            }
+        }
+
         /// <summary>
         /// Submits the data enclosed in the class to the SQL server as either an Insert or and Update statement dependant on the presence of an ID in the base Class.
         /// </summary>

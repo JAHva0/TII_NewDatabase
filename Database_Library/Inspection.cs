@@ -261,6 +261,22 @@ namespace Database
             }
         }
 
+        public string ToCondensedString
+        {
+            get
+            {
+                return string.Format(
+                    "{0}|{1}|{2}|{3}|{4}|{5}|{6}",
+                    this.ID,
+                    this.elevator_ID,
+                    this.date.ToShortDateString(),
+                    this.itype_id,
+                    this.status,
+                    this.inspector_id,
+                    this.report);
+            }
+        }
+
         /// <summary>
         /// Gets a string array of all inspection types stored in the database.
         /// </summary>

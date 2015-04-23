@@ -28,6 +28,8 @@ namespace Google_Library
         /// <summary> The status of this event. (e.g. "Tentative", "Canceled", "Confirmed"). </summary>
         private string status;
 
+        private string location;
+
         /// <summary> The Summary Field of this event. </summary>
         private string summary;
 
@@ -36,7 +38,7 @@ namespace Google_Library
         /// </summary>
         /// <param name="eventinfo">The Event provided by Google's API.</param>
         public Entry(Event eventinfo)
-        {
+        {            
             this.id = eventinfo.Id;
             this.created = eventinfo.Created.Value;
 
@@ -54,7 +56,22 @@ namespace Google_Library
             }
 
             this.status = eventinfo.Status;
+            this.location = eventinfo.Location;
             this.summary = eventinfo.Summary;
+        }
+
+        public Entry(DateTime start, DateTime end, string summary, string location)
+        {
+            this.created = DateTime.Now;
+            this.start = start;
+            this.end = end;
+            this.location = location;
+            this.summary = summary;
+        }
+
+        public Entry(DateTime start, DateTime end, string summary)
+            :this(start, end, summary, string.Empty)
+        {
         }
 
         /// <summary> Gets the Creation Date of the Event. </summary>

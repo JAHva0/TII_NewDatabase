@@ -179,6 +179,8 @@ namespace TII_NewDatabase
             this.col_OverStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tab_Calendar = new System.Windows.Forms.TabPage();
             this.gbx_NextAvailable = new System.Windows.Forms.GroupBox();
+            this.cbo_AddressToSchedule = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.lbl_InspectorToSchedule = new System.Windows.Forms.Label();
             this.cbo_InspectorToSchedule = new System.Windows.Forms.ComboBox();
             this.lbl_StartDate = new System.Windows.Forms.Label();
@@ -241,13 +243,14 @@ namespace TII_NewDatabase
             // forceBackupToolStripMenuItem
             // 
             this.forceBackupToolStripMenuItem.Name = "forceBackupToolStripMenuItem";
-            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.forceBackupToolStripMenuItem.Text = "Force &Backup";
+            this.forceBackupToolStripMenuItem.Click += new System.EventHandler(this.CreateBackup);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -263,14 +266,14 @@ namespace TII_NewDatabase
             // connectionsToolStripMenuItem
             // 
             this.connectionsToolStripMenuItem.Name = "connectionsToolStripMenuItem";
-            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.connectionsToolStripMenuItem.Text = "C&onnections";
             this.connectionsToolStripMenuItem.Click += new System.EventHandler(this.OpenConnectionSettingsForm);
             // 
             // mnu_Preferances
             // 
             this.mnu_Preferances.Name = "mnu_Preferances";
-            this.mnu_Preferances.Size = new System.Drawing.Size(141, 22);
+            this.mnu_Preferances.Size = new System.Drawing.Size(152, 22);
             this.mnu_Preferances.Text = "&Preferences";
             this.mnu_Preferances.Click += new System.EventHandler(this.OpenChildForm);
             // 
@@ -1322,6 +1325,8 @@ namespace TII_NewDatabase
             // 
             // gbx_NextAvailable
             // 
+            this.gbx_NextAvailable.Controls.Add(this.cbo_AddressToSchedule);
+            this.gbx_NextAvailable.Controls.Add(this.label1);
             this.gbx_NextAvailable.Controls.Add(this.lbl_InspectorToSchedule);
             this.gbx_NextAvailable.Controls.Add(this.cbo_InspectorToSchedule);
             this.gbx_NextAvailable.Controls.Add(this.lbl_StartDate);
@@ -1335,15 +1340,34 @@ namespace TII_NewDatabase
             this.gbx_NextAvailable.Controls.Add(this.dtp_NoEarlierThan);
             this.gbx_NextAvailable.Location = new System.Drawing.Point(15, 183);
             this.gbx_NextAvailable.Name = "gbx_NextAvailable";
-            this.gbx_NextAvailable.Size = new System.Drawing.Size(227, 252);
+            this.gbx_NextAvailable.Size = new System.Drawing.Size(227, 327);
             this.gbx_NextAvailable.TabIndex = 1;
             this.gbx_NextAvailable.TabStop = false;
             this.gbx_NextAvailable.Text = "Next Available Appointments";
             // 
+            // cbo_AddressToSchedule
+            // 
+            this.cbo_AddressToSchedule.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbo_AddressToSchedule.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbo_AddressToSchedule.FormattingEnabled = true;
+            this.cbo_AddressToSchedule.Location = new System.Drawing.Point(60, 25);
+            this.cbo_AddressToSchedule.Name = "cbo_AddressToSchedule";
+            this.cbo_AddressToSchedule.Size = new System.Drawing.Size(150, 21);
+            this.cbo_AddressToSchedule.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(48, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Address:";
+            // 
             // lbl_InspectorToSchedule
             // 
             this.lbl_InspectorToSchedule.AutoSize = true;
-            this.lbl_InspectorToSchedule.Location = new System.Drawing.Point(46, 22);
+            this.lbl_InspectorToSchedule.Location = new System.Drawing.Point(46, 55);
             this.lbl_InspectorToSchedule.Name = "lbl_InspectorToSchedule";
             this.lbl_InspectorToSchedule.Size = new System.Drawing.Size(54, 13);
             this.lbl_InspectorToSchedule.TabIndex = 8;
@@ -1352,7 +1376,7 @@ namespace TII_NewDatabase
             // cbo_InspectorToSchedule
             // 
             this.cbo_InspectorToSchedule.FormattingEnabled = true;
-            this.cbo_InspectorToSchedule.Location = new System.Drawing.Point(111, 19);
+            this.cbo_InspectorToSchedule.Location = new System.Drawing.Point(111, 52);
             this.cbo_InspectorToSchedule.Name = "cbo_InspectorToSchedule";
             this.cbo_InspectorToSchedule.Size = new System.Drawing.Size(99, 21);
             this.cbo_InspectorToSchedule.TabIndex = 2;
@@ -1361,7 +1385,7 @@ namespace TII_NewDatabase
             // lbl_StartDate
             // 
             this.lbl_StartDate.AutoSize = true;
-            this.lbl_StartDate.Location = new System.Drawing.Point(42, 52);
+            this.lbl_StartDate.Location = new System.Drawing.Point(42, 85);
             this.lbl_StartDate.Name = "lbl_StartDate";
             this.lbl_StartDate.Size = new System.Drawing.Size(58, 13);
             this.lbl_StartDate.TabIndex = 7;
@@ -1370,7 +1394,7 @@ namespace TII_NewDatabase
             // dtp_StartDate
             // 
             this.dtp_StartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtp_StartDate.Location = new System.Drawing.Point(111, 46);
+            this.dtp_StartDate.Location = new System.Drawing.Point(111, 79);
             this.dtp_StartDate.MinDate = new System.DateTime(2015, 4, 20, 11, 15, 34, 812);
             this.dtp_StartDate.Name = "dtp_StartDate";
             this.dtp_StartDate.Size = new System.Drawing.Size(99, 20);
@@ -1380,7 +1404,7 @@ namespace TII_NewDatabase
             // lbx_PossibleAppointments
             // 
             this.lbx_PossibleAppointments.FormattingEnabled = true;
-            this.lbx_PossibleAppointments.Location = new System.Drawing.Point(9, 160);
+            this.lbx_PossibleAppointments.Location = new System.Drawing.Point(9, 239);
             this.lbx_PossibleAppointments.Name = "lbx_PossibleAppointments";
             this.lbx_PossibleAppointments.Size = new System.Drawing.Size(212, 82);
             this.lbx_PossibleAppointments.TabIndex = 2;
@@ -1388,7 +1412,7 @@ namespace TII_NewDatabase
             // lbl_HoursNeeded
             // 
             this.lbl_HoursNeeded.AutoSize = true;
-            this.lbl_HoursNeeded.Location = new System.Drawing.Point(26, 126);
+            this.lbl_HoursNeeded.Location = new System.Drawing.Point(26, 159);
             this.lbl_HoursNeeded.Name = "lbl_HoursNeeded";
             this.lbl_HoursNeeded.Size = new System.Drawing.Size(79, 13);
             this.lbl_HoursNeeded.TabIndex = 6;
@@ -1396,7 +1420,7 @@ namespace TII_NewDatabase
             // 
             // nym_HoursNeeded
             // 
-            this.nym_HoursNeeded.Location = new System.Drawing.Point(111, 124);
+            this.nym_HoursNeeded.Location = new System.Drawing.Point(111, 157);
             this.nym_HoursNeeded.Maximum = new decimal(new int[] {
             8,
             0,
@@ -1420,7 +1444,7 @@ namespace TII_NewDatabase
             // lbl_NoLaterThan
             // 
             this.lbl_NoLaterThan.AutoSize = true;
-            this.lbl_NoLaterThan.Location = new System.Drawing.Point(21, 104);
+            this.lbl_NoLaterThan.Location = new System.Drawing.Point(21, 137);
             this.lbl_NoLaterThan.Name = "lbl_NoLaterThan";
             this.lbl_NoLaterThan.Size = new System.Drawing.Size(79, 13);
             this.lbl_NoLaterThan.TabIndex = 5;
@@ -1429,7 +1453,7 @@ namespace TII_NewDatabase
             // dtp_NoLaterThan
             // 
             this.dtp_NoLaterThan.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_NoLaterThan.Location = new System.Drawing.Point(111, 98);
+            this.dtp_NoLaterThan.Location = new System.Drawing.Point(111, 131);
             this.dtp_NoLaterThan.Name = "dtp_NoLaterThan";
             this.dtp_NoLaterThan.ShowUpDown = true;
             this.dtp_NoLaterThan.Size = new System.Drawing.Size(99, 20);
@@ -1440,7 +1464,7 @@ namespace TII_NewDatabase
             // lbl_NoEarlierThan
             // 
             this.lbl_NoEarlierThan.AutoSize = true;
-            this.lbl_NoEarlierThan.Location = new System.Drawing.Point(21, 78);
+            this.lbl_NoEarlierThan.Location = new System.Drawing.Point(21, 111);
             this.lbl_NoEarlierThan.Name = "lbl_NoEarlierThan";
             this.lbl_NoEarlierThan.Size = new System.Drawing.Size(84, 13);
             this.lbl_NoEarlierThan.TabIndex = 3;
@@ -1449,7 +1473,7 @@ namespace TII_NewDatabase
             // dtp_NoEarlierThan
             // 
             this.dtp_NoEarlierThan.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtp_NoEarlierThan.Location = new System.Drawing.Point(111, 72);
+            this.dtp_NoEarlierThan.Location = new System.Drawing.Point(111, 105);
             this.dtp_NoEarlierThan.Name = "dtp_NoEarlierThan";
             this.dtp_NoEarlierThan.ShowUpDown = true;
             this.dtp_NoEarlierThan.Size = new System.Drawing.Size(99, 20);
@@ -1644,7 +1668,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.TabPage tab_Calendar;
         private System.Windows.Forms.GroupBox gbx_NextAvailable;
         private System.Windows.Forms.MonthCalendar cal_CalendarDisplay;
-        private System.Windows.Forms.ListBox lbx_PossibleAppointments;
         private System.Windows.Forms.Label lbl_HoursNeeded;
         private System.Windows.Forms.NumericUpDown nym_HoursNeeded;
         private System.Windows.Forms.Label lbl_NoLaterThan;
@@ -1655,5 +1678,8 @@ namespace TII_NewDatabase
         private System.Windows.Forms.DateTimePicker dtp_StartDate;
         private System.Windows.Forms.Label lbl_InspectorToSchedule;
         private System.Windows.Forms.ComboBox cbo_InspectorToSchedule;
+        private System.Windows.Forms.ComboBox cbo_AddressToSchedule;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox lbx_PossibleAppointments;
     }
 }

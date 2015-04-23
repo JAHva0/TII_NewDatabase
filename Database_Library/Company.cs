@@ -53,6 +53,11 @@ namespace Database
             this.LoadFromDatabase(BaseObject.AffirmOneRow(tbl));
         }
 
+        public Company(DataRow companyData)
+        {
+            this.LoadFromDatabase(companyData);
+        }
+
         /// <summary> Gets or sets the Company Name Variable. Also triggers the edited Event.</summary>
         /// <value> The Company Name.</value>
         public string Name
@@ -177,6 +182,21 @@ namespace Database
             get
             {
                 return this.contact_list;
+            }
+        }
+
+        public string ToCondensedString
+        {
+            get
+            {
+                return string.Format(
+                    "{0}|{1}|{2}|{3}|{4}|{5}",
+                    this.ID,
+                    this.name,
+                    this.address.Street,
+                    this.address.City,
+                    this.address.State,
+                    this.address.Zip);
             }
         }
 

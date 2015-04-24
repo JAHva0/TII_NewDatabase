@@ -104,6 +104,16 @@ namespace Google_Library
             }
         }
 
+        /// <summary> Gets the length of the event. </summary>
+        /// <value> A TimeSpan value equal to the end time less the start time.</value>
+        public TimeSpan Length
+        {
+            get
+            {
+                return this.end - this.start;
+            }
+        }
+
         /// <summary>
         /// Gets a list of Events from the provided calendar.
         /// </summary>

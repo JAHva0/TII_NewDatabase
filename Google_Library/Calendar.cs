@@ -65,6 +65,14 @@ namespace Google_Library
             }
         }
 
+        public List<Entry> AllEvents
+        {
+            get
+            {
+                return this.events;
+            }
+        }
+
         public List<Entry> UpcomingEvents
         {
             get

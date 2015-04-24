@@ -81,5 +81,26 @@ namespace TII_NewDatabase
         {
             
         }
+
+        /// <summary>
+        /// Updates the Current Schedule Listbox to display all events that occur on the date selected on the 
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
+        private void CalendarDisplay_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            if (this.cbo_InspectorToSchedule.SelectedItem == null)
+            {
+                return;
+            }
+            
+            this.lbx_CurrentSchedule.Items.Clear();
+            Calendar selectedCal = this.calendars.Where(x => x.Name == cbo_InspectorToSchedule.SelectedItem.ToString()).SingleOrDefault();
+
+            foreach (Entry calEntry in selectedCal.Events(cal_CalendarDisplay.SelectionStart))
+            {
+                this.lbx_CurrentSchedule.Items.Add(string.Format("{0}-{1}: {2}", calEntry.Start.ToShortTimeString(), calEntry.End.ToShortTimeString(), calEntry.Summary));
+            }
+        }
     }
 }

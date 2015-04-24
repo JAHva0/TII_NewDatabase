@@ -119,13 +119,15 @@ namespace Google_Library
             return finalList;
         }
 
-        /// <summary>
-        /// Gets a list of Events present in this calendar.
-        /// </summary>
-        /// <returns> A List of <see cref="Entry"/> classes. </returns>
-        public List<Entry> Events()
+        public List<Entry> Events(DateTime day)
         {
-            return Entry.GetEntries(this.service, this.id);
+            // We want to get all events that are on this day, so any event that either: 
+            // 1 - starts on this day
+            // 2 = ends on this day
+            // 3 - starts before and ends after this day
+            return this.events.Where(x => x.Start.Date == day.Date
+                || x.End.Date == day.Date
+                || (x.Start.Date < day.Date && x.End.Date > day.Date)).ToList();
         }
 
         /// <summary>
@@ -136,7 +138,7 @@ namespace Google_Library
         /// <returns> A List of <see cref="Entry"/> classes. </returns>
         public List<Entry> Events(DateTime start, DateTime end)
         {
-            return Entry.GetEntries(this.service, this.id, start, end);
+            return this.events.Where(x => x.Start > start && x.End < end).ToList();
         }
 
         /// <summary>

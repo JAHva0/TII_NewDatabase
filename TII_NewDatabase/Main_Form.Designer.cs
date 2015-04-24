@@ -1217,6 +1217,7 @@ namespace TII_NewDatabase
             this.cal_CalendarDisplay.Location = new System.Drawing.Point(12, 52);
             this.cal_CalendarDisplay.Name = "cal_CalendarDisplay";
             this.cal_CalendarDisplay.TabIndex = 3;
+            this.cal_CalendarDisplay.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.CalendarDisplay_DateChanged);
             // 
             // gbx_NextAvailable
             // 

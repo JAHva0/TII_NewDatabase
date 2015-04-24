@@ -114,6 +114,14 @@ namespace Google_Library
             }
         }
 
+        public string Summary
+        {
+            get
+            {
+                return this.summary;
+            }
+        }
+
         /// <summary>
         /// Gets a list of Events from the provided calendar.
         /// </summary>

@@ -14,6 +14,9 @@ namespace TII_NewDatabase.AddNewForms
     {
         /// <summary> The building to which this elevator is being added. </summary>
         private Building owner;
+
+        /// <summary> Holds the elevator data we are editing. </summary>
+        private Elevator elevData = new Elevator();
         
         /// <summary>
         /// Initializes a new instance of the <see cref="FormAddNewElevator"/> class.
@@ -30,6 +33,23 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_ElevatorType.Items.AddRange(Elevator.Types);
 
             this.SetToolTips();
+
+            this.elevData.OwnerID = ownerBuilding.ID.Value;
+        }
+
+        public FormAddNewElevator(Elevator elevatorToEdit)
+        {
+            this.InitializeComponent();
+
+            this.Text = "Edit Elevator";
+            this.txt_ElevatorNumber.Text = elevatorToEdit.ElevatorNumber;
+            this.txt_ElevatorNick.Text = elevatorToEdit.Nickname;
+            this.cbo_ElevatorType.Text = elevatorToEdit.ElevatorType;
+
+            this.cbo_ElevatorType.Items.AddRange(Elevator.Types);
+            this.SetToolTips();
+
+            this.elevData = elevatorToEdit;
         }
 
         /// <summary>
@@ -57,19 +77,13 @@ namespace TII_NewDatabase.AddNewForms
         /// <param name="e">Any Event Args.</param>
         private void SaveEntry(object sender, EventArgs e)
         {
-            Elevator newElevator = new Elevator();
-            newElevator.OwnerID = this.owner.ID.Value;
-            newElevator.ElevatorNumber = this.txt_ElevatorNumber.Text;
-            newElevator.ElevatorType = this.cbo_ElevatorType.Text;
-            newElevator.Nickname = this.txt_ElevatorNick.Text;
-
             try
             {
-                newElevator.CommitToDatabase();
+                this.elevData.CommitToDatabase();
             }
             catch (SQL.SQLDuplicateEntryException ex)
             {
-                throw new SQL.SQLDuplicateEntryException("Duplicate Elevator Entry", ex, newElevator);
+                throw new SQL.SQLDuplicateEntryException("Duplicate Elevator Entry", ex, this.elevData);
             }
             catch (Exception ex)
             {
@@ -95,6 +109,7 @@ namespace TII_NewDatabase.AddNewForms
                         }
                         else
                         {
+                            this.elevData.ElevatorNumber = this.txt_ElevatorNumber.Text;
                             this.error_provider.SetError(this.txt_ElevatorNumber, string.Empty);
                         }
                         
@@ -109,6 +124,7 @@ namespace TII_NewDatabase.AddNewForms
                         }
                         else
                         {
+                            this.elevData.ElevatorType = this.cbo_ElevatorType.Text;
                             this.error_provider.SetError(this.cbo_ElevatorType, string.Empty);
                         }
                         
@@ -117,6 +133,7 @@ namespace TII_NewDatabase.AddNewForms
 
                 case "txt_ElevatorNick":
                     {
+                        this.elevData.Nickname = this.txt_ElevatorNick.Text;
                         break;
                     }
 

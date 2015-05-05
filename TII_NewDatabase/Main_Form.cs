@@ -516,6 +516,28 @@ namespace TII_NewDatabase
             this.lvw_InspectionList.ContextMenu = reportFileMenu;
         }
 
+        private void ElevatorList_RightClick(object sender, MouseEventArgs e)
+        {
+            // Not interested if the left mouse button was clicked. Exit Out.
+            if (e.Button == System.Windows.Forms.MouseButtons.Left 
+                || ((ListBox)sender).SelectedItem == null)
+            {
+                return;
+            }
+
+            ContextMenu elevatorEditMenu = new ContextMenu();
+
+            elevatorEditMenu.MenuItems.Add(new MenuItem("Edit this Elevator", this.EditElevator));
+
+            this.lbx_ElevatorList.ContextMenu = elevatorEditMenu;
+        }
+
+        private void EditElevator(object sender, EventArgs e)
+        {
+            FormAddNewElevator editElevator = new FormAddNewElevator(this.currentlySelectedBuilding.ElevatorList.Where(x => x.ElevatorNumber == lbx_ElevatorList.SelectedItem.ToString()).SingleOrDefault());
+            editElevator.ShowDialog();
+        }
+
         /// <summary>
         /// Method called by the Context menu.
         /// </summary>

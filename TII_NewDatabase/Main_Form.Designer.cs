@@ -546,6 +546,7 @@ namespace TII_NewDatabase
             this.lbx_ElevatorList.Size = new System.Drawing.Size(182, 82);
             this.lbx_ElevatorList.Sorted = true;
             this.lbx_ElevatorList.TabIndex = 7;
+            this.lbx_ElevatorList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ElevatorList_RightClick);
             // 
             // btn_ViewMap
             // 

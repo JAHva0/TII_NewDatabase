@@ -27,7 +27,8 @@ namespace TII_NewDatabase
                 File.Delete(destinationFileName);
             }
 
-            PDF_Document newCert = new PDF_Document("TempCert.pdf");
+            PDF_Document newCert = new PDF_Document(destinationFileName);
+            newCert.AddImage(Properties.Settings.Default.CertBackgroundImage, 610f, 789.4f);
 
             // -----------------------Header Information-------------------------
             // Third Party Agency
@@ -37,16 +38,16 @@ namespace TII_NewDatabase
             newCert.AddText(DateTime.Now.ToString("MMMM dd, yyyy"), 470, 713);
 
             // Elevator Professional In Charge
-            newCert.AddText("Anthony Vattimo, Jr.", 200, 690);
+            newCert.AddText(Properties.Settings.Default.CertProfessionalInCharge, 200, 690);
 
             // QEI#
-            newCert.AddText("S-171", 500, 690);
+            newCert.AddText(Inspection.GetInspectorNAESAID(Properties.Settings.Default.CertProfessionalInCharge), 500, 690);
 
             // Name of Inspector
             newCert.AddText(inspectorName, 135, 667);
 
             // QEI#
-            newCert.AddText("C3690", 500, 667);
+            newCert.AddText(Inspection.GetInspectorNAESAID(inspectorName), 500, 667);
 
             // Unit #(s)
             List<string> unitnos = new List<string>();
@@ -116,7 +117,7 @@ namespace TII_NewDatabase
 
             // -------------------Certification Box------------------------
             // Elevator Professional In Charge
-            newCert.AddText("Anthony Vattimo, Jr.", 100, 410);
+            newCert.AddText(Properties.Settings.Default.CertProfessionalInCharge, 100, 410);
 
             // Third Party Company Name
             newCert.AddText("Technical Inspection of D.C. Inc.", 90, 371);
@@ -125,7 +126,7 @@ namespace TII_NewDatabase
             newCert.AddText("2013", 105, 269);
 
             // Add Signature
-            newCert.AddImage(@"C:\Users\Jon\Documents\TPIRs\DC\TonySig.png", .45f, new System.Drawing.Point(105, 172));
+            newCert.AddImage(Properties.Settings.Default.CertSignatureFile, .45f, new System.Drawing.Point(105, 172));
 
             // Close the PDF
             newCert.ClosePDF();

@@ -122,6 +122,7 @@ namespace PDF_Library
         public void AddImage(string imagePath, float desiredWidth, float desiredHeight)
         {
             var image = iTextSharp.text.Image.GetInstance(imagePath);
+            image.ScaleToFit(desiredWidth, desiredHeight);
             image.SetAbsolutePosition(1, 1);
             doc.Add(image);
         }

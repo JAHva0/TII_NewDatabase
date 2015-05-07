@@ -387,6 +387,29 @@ namespace TII_NewDatabase.AddNewForms
 
                 default: throw new Exception("How did you get here?");
             }
+
+            // Check and see if, assuming this is a DC job, we have all of the neseccary information to make a cert. 
+            if (this.selectedBuilding != null)
+            {
+                bool AllClean = true;
+                foreach (DataGridViewRow elevRow in this.dgv_ElevatorList.Rows)
+                {
+                    if (elevRow.Cells["Status"].Value.ToString() != "Clean")
+                    {
+                        AllClean = false;
+                    }
+                }
+
+                // If everything is here, enable the cert button. Otherwise, disable it.
+                if (AllClean && this.cbo_Inspector.Text != string.Empty && this.dtp_InspectionDate.Checked && this.cbo_InspectionType.Text != string.Empty)
+                {
+                    this.btn_CreateDCCert.Enabled = true;
+                }
+                else
+                {
+                    this.btn_CreateDCCert.Enabled = false;
+                }
+            }
         }
 
         /// <summary>

@@ -80,9 +80,15 @@ namespace TII_NewDatabase
 
                 newCert.AddText(certnos.GetRange(0, count).ToFormattedList(false), 145, 621);
 
-                
-
-                newCert.AddText(certnos.GetRange(7, certnos.Count - 7).ToFormattedList(), 45, 598);
+                if (certnos.Count - count == 1)
+                {
+                    // If there is only one item on the second line, put an ampersand at the start of it for pretty.
+                    newCert.AddText("& " + certnos[count], 45, 598);
+                }
+                else
+                {
+                    newCert.AddText(certnos.GetRange(count, certnos.Count - count).ToFormattedList(), 45, 598);
+                }
             }
             else
             {

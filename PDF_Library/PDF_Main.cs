@@ -86,7 +86,7 @@ namespace PDF_Library
         {
             this.canvas.BeginText();
             this.canvas.MoveText(location.X, location.Y);
-            this.canvas.SetFontAndSize(BaseFont.CreateFont(), 12);
+            this.canvas.SetFontAndSize(BaseFont.CreateFont(), 10);
             this.canvas.ShowText(text);
             this.canvas.EndText();
         }
@@ -116,6 +116,13 @@ namespace PDF_Library
             var image = iTextSharp.text.Image.GetInstance(imagePath);
             image.ScaleToFit(image.Width * scale, image.Height * scale);
             image.SetAbsolutePosition(location.X, location.Y);
+            doc.Add(image);
+        }
+
+        public void AddImage(string imagePath, float desiredWidth, float desiredHeight)
+        {
+            var image = iTextSharp.text.Image.GetInstance(imagePath);
+            image.SetAbsolutePosition(1, 1);
             doc.Add(image);
         }
 

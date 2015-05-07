@@ -22,13 +22,12 @@ namespace TII_NewDatabase
         /// <param name="inspectionType"> The Type of inspection performed.</param>
         public static void CleanCert(string destinationFileName, string inspectorName, Building building, string inspectionType)
         {
-            if (File.Exists("destinationFileName"))
+            if (File.Exists(destinationFileName))
             {
-                File.Delete("destinationFileName");
+                File.Delete(destinationFileName);
             }
 
             PDF_Document newCert = new PDF_Document("TempCert.pdf");
-            newCert.AddImage(@"C:\Users\Jon\Documents\TPIRs\DC\CleanCert_blank.jpg");
 
             // -----------------------Header Information-------------------------
             // Third Party Agency
@@ -63,19 +62,31 @@ namespace TII_NewDatabase
             newCert.AddText("#" + unitnos.ToFormattedList(), 90, 644);
 
             // The first seven certificate numbers can fit on the first line. Any number higher than 7 that but less than 16 can go on the second.
-            if (certnos.Count <= 7)
+            if (certnos.ToFormattedList().Length < 80)
             {
                 newCert.AddText(certnos.ToFormattedList(), 145, 621);
             }
-            else if (certnos.Count >= 8 && certnos.Count <= 16)
+            else if (certnos.ToFormattedList().Length < 180)
             {
-                newCert.AddText(certnos.GetRange(0, 7).ToFormattedList(false), 145, 621);
+                string line = string.Empty;
+                int count = 4; // We can safely start at two, since we're not going to have four 40-char elevator numbers
+                while (line.Length < 80)
+                {
+                    line = certnos.GetRange(0, count).ToFormattedList(false);
+                    count++;
+                }
+                count--;
+
+                newCert.AddText(certnos.GetRange(0, count).ToFormattedList(false), 145, 621);
+
+                
+
                 newCert.AddText(certnos.GetRange(7, certnos.Count - 7).ToFormattedList(), 45, 598);
             }
             else
             {
                 newCert.ClosePDF();
-                throw new ArgumentOutOfRangeException("elevators", "Cannot create a properly formatted Cert with more than 16 units.");
+                throw new ArgumentOutOfRangeException("Elevator Cert Numbers", "Cannot create a properly formatted Cert with this many units.");
             }
 
             // Project Address

@@ -92,6 +92,11 @@ namespace Google_Library
             {
                 return this.start;
             }
+
+            set
+            {
+                this.start = value;
+            }
         }
 
         /// <summary> Gets the End Date of the Event. </summary>
@@ -101,6 +106,11 @@ namespace Google_Library
             get
             {
                 return this.end;
+            }
+
+            set
+            {
+                this.end = value;
             }
         }
 
@@ -119,6 +129,14 @@ namespace Google_Library
             get
             {
                 return this.summary;
+            }
+        }
+
+        public string Location
+        {
+            get
+            {
+                return this.location;
             }
         }
 

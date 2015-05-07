@@ -104,6 +104,7 @@
     <Compile Include="AddNewForms\FormAddNewElevator.Designer.cs">
       <DependentUpon>FormAddNewElevator.cs</DependentUpon>
     </Compile>
+    <Compile Include="CreateCert.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FormConnectionSettings.cs">
       <SubType>Form</SubType>

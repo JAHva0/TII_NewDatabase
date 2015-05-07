@@ -352,6 +352,16 @@ namespace Database
         }
 
         /// <summary>
+        /// Gets the NAESA ID of a ginve inspector.
+        /// </summary>
+        /// <param name="name"> The Inspector to query. </param>
+        /// <returns>A string. value of the Inspector's ID.</returns>
+        public static string GetInspectorNAESAID(string name)
+        {
+            return inspectorList.Where(x => x.Name == name).SingleOrDefault().NAESAID;
+        }
+
+        /// <summary>
         /// Checks to see if there is a report file, and if so, attempts to open it. 
         /// </summary>
         /// <param name="path"> The path to the desired report file. </param>

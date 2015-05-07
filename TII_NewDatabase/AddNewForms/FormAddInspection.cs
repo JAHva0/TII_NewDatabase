@@ -581,7 +581,11 @@ namespace TII_NewDatabase.AddNewForms
         {           
             CreateCert.CleanCert("TempCert.pdf", this.cbo_Inspector.Text, this.selectedBuilding, this.cbo_InspectionType.Text);
 
-            this.lbx_ReportFileList.Items.Add("TempCert.pdf");
+            // If we haven't already made a cert, add it to the first position in the list box. 
+            if (!this.lbx_ReportFileList.Items.Contains("TempCert.pdf"))
+            {
+                this.lbx_ReportFileList.Items.Insert(0, "TempCert.pdf");
+            }
         }
 
         /// <summary>

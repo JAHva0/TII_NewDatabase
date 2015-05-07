@@ -38,12 +38,26 @@ namespace TII_NewDatabase
             this.txt_ReportFormat = new System.Windows.Forms.TextBox();
             this.cbx_MoveAndNameReports = new System.Windows.Forms.CheckBox();
             this.cbx_AutoOpenOnDragDrop = new System.Windows.Forms.CheckBox();
+            this.tabControl_Preferances = new System.Windows.Forms.TabControl();
+            this.tab_ReportFiles = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txt_CertBackgroundImage = new System.Windows.Forms.TextBox();
+            this.lbl_CertBackgroundImage = new System.Windows.Forms.Label();
+            this.lbl_CertProfessionalInCharge = new System.Windows.Forms.Label();
+            this.lbl_CertSignatureFile = new System.Windows.Forms.Label();
+            this.cbo_CertProfessionalInCharge = new System.Windows.Forms.ComboBox();
+            this.txt_CertSignatureFile = new System.Windows.Forms.TextBox();
+            this.btn_BrowseForCertBackgroundImage = new System.Windows.Forms.Button();
+            this.btn_BrowseForCertSignatureFile = new System.Windows.Forms.Button();
+            this.tabControl_Preferances.SuspendLayout();
+            this.tab_ReportFiles.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_ReportFileLocation
             // 
             this.lbl_ReportFileLocation.AutoSize = true;
-            this.lbl_ReportFileLocation.Location = new System.Drawing.Point(12, 9);
+            this.lbl_ReportFileLocation.Location = new System.Drawing.Point(6, 13);
             this.lbl_ReportFileLocation.Name = "lbl_ReportFileLocation";
             this.lbl_ReportFileLocation.Size = new System.Drawing.Size(105, 13);
             this.lbl_ReportFileLocation.TabIndex = 0;
@@ -51,14 +65,14 @@ namespace TII_NewDatabase
             // 
             // txt_ReportFileLocation
             // 
-            this.txt_ReportFileLocation.Location = new System.Drawing.Point(15, 25);
+            this.txt_ReportFileLocation.Location = new System.Drawing.Point(9, 29);
             this.txt_ReportFileLocation.Name = "txt_ReportFileLocation";
             this.txt_ReportFileLocation.Size = new System.Drawing.Size(375, 20);
             this.txt_ReportFileLocation.TabIndex = 1;
             // 
             // btn_BrowseForReportFolder
             // 
-            this.btn_BrowseForReportFolder.Location = new System.Drawing.Point(328, 51);
+            this.btn_BrowseForReportFolder.Location = new System.Drawing.Point(322, 55);
             this.btn_BrowseForReportFolder.Name = "btn_BrowseForReportFolder";
             this.btn_BrowseForReportFolder.Size = new System.Drawing.Size(59, 21);
             this.btn_BrowseForReportFolder.TabIndex = 2;
@@ -69,7 +83,7 @@ namespace TII_NewDatabase
             // btn_Save
             // 
             this.btn_Save.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btn_Save.Location = new System.Drawing.Point(15, 230);
+            this.btn_Save.Location = new System.Drawing.Point(12, 363);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(257, 23);
             this.btn_Save.TabIndex = 3;
@@ -80,7 +94,7 @@ namespace TII_NewDatabase
             // lbl_ReportFormat
             // 
             this.lbl_ReportFormat.AutoSize = true;
-            this.lbl_ReportFormat.Location = new System.Drawing.Point(15, 62);
+            this.lbl_ReportFormat.Location = new System.Drawing.Point(9, 66);
             this.lbl_ReportFormat.Name = "lbl_ReportFormat";
             this.lbl_ReportFormat.Size = new System.Drawing.Size(77, 13);
             this.lbl_ReportFormat.TabIndex = 4;
@@ -88,7 +102,7 @@ namespace TII_NewDatabase
             // 
             // txt_ReportFormat
             // 
-            this.txt_ReportFormat.Location = new System.Drawing.Point(15, 78);
+            this.txt_ReportFormat.Location = new System.Drawing.Point(9, 82);
             this.txt_ReportFormat.Name = "txt_ReportFormat";
             this.txt_ReportFormat.ReadOnly = true;
             this.txt_ReportFormat.Size = new System.Drawing.Size(375, 20);
@@ -98,7 +112,7 @@ namespace TII_NewDatabase
             // cbx_MoveAndNameReports
             // 
             this.cbx_MoveAndNameReports.AutoSize = true;
-            this.cbx_MoveAndNameReports.Location = new System.Drawing.Point(152, 104);
+            this.cbx_MoveAndNameReports.Location = new System.Drawing.Point(146, 108);
             this.cbx_MoveAndNameReports.Name = "cbx_MoveAndNameReports";
             this.cbx_MoveAndNameReports.Size = new System.Drawing.Size(235, 17);
             this.cbx_MoveAndNameReports.TabIndex = 6;
@@ -108,31 +122,143 @@ namespace TII_NewDatabase
             // cbx_AutoOpenOnDragDrop
             // 
             this.cbx_AutoOpenOnDragDrop.AutoSize = true;
-            this.cbx_AutoOpenOnDragDrop.Location = new System.Drawing.Point(152, 127);
+            this.cbx_AutoOpenOnDragDrop.Location = new System.Drawing.Point(146, 131);
             this.cbx_AutoOpenOnDragDrop.Name = "cbx_AutoOpenOnDragDrop";
             this.cbx_AutoOpenOnDragDrop.Size = new System.Drawing.Size(231, 17);
             this.cbx_AutoOpenOnDragDrop.TabIndex = 7;
             this.cbx_AutoOpenOnDragDrop.Text = "Automatically Open DragDrop Report Files?";
             this.cbx_AutoOpenOnDragDrop.UseVisualStyleBackColor = true;
             // 
+            // tabControl_Preferances
+            // 
+            this.tabControl_Preferances.Controls.Add(this.tab_ReportFiles);
+            this.tabControl_Preferances.Controls.Add(this.tabPage2);
+            this.tabControl_Preferances.Location = new System.Drawing.Point(12, 12);
+            this.tabControl_Preferances.Name = "tabControl_Preferances";
+            this.tabControl_Preferances.SelectedIndex = 0;
+            this.tabControl_Preferances.Size = new System.Drawing.Size(562, 345);
+            this.tabControl_Preferances.TabIndex = 8;
+            // 
+            // tab_ReportFiles
+            // 
+            this.tab_ReportFiles.Controls.Add(this.lbl_ReportFileLocation);
+            this.tab_ReportFiles.Controls.Add(this.cbx_AutoOpenOnDragDrop);
+            this.tab_ReportFiles.Controls.Add(this.txt_ReportFileLocation);
+            this.tab_ReportFiles.Controls.Add(this.cbx_MoveAndNameReports);
+            this.tab_ReportFiles.Controls.Add(this.btn_BrowseForReportFolder);
+            this.tab_ReportFiles.Controls.Add(this.txt_ReportFormat);
+            this.tab_ReportFiles.Controls.Add(this.lbl_ReportFormat);
+            this.tab_ReportFiles.Location = new System.Drawing.Point(4, 22);
+            this.tab_ReportFiles.Name = "tab_ReportFiles";
+            this.tab_ReportFiles.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_ReportFiles.Size = new System.Drawing.Size(554, 319);
+            this.tab_ReportFiles.TabIndex = 0;
+            this.tab_ReportFiles.Text = "Report Files";
+            this.tab_ReportFiles.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.btn_BrowseForCertSignatureFile);
+            this.tabPage2.Controls.Add(this.btn_BrowseForCertBackgroundImage);
+            this.tabPage2.Controls.Add(this.txt_CertSignatureFile);
+            this.tabPage2.Controls.Add(this.cbo_CertProfessionalInCharge);
+            this.tabPage2.Controls.Add(this.lbl_CertSignatureFile);
+            this.tabPage2.Controls.Add(this.lbl_CertProfessionalInCharge);
+            this.tabPage2.Controls.Add(this.lbl_CertBackgroundImage);
+            this.tabPage2.Controls.Add(this.txt_CertBackgroundImage);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(554, 319);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Cert Creation";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // txt_CertBackgroundImage
+            // 
+            this.txt_CertBackgroundImage.Location = new System.Drawing.Point(112, 6);
+            this.txt_CertBackgroundImage.Name = "txt_CertBackgroundImage";
+            this.txt_CertBackgroundImage.Size = new System.Drawing.Size(253, 20);
+            this.txt_CertBackgroundImage.TabIndex = 0;
+            // 
+            // lbl_CertBackgroundImage
+            // 
+            this.lbl_CertBackgroundImage.AutoSize = true;
+            this.lbl_CertBackgroundImage.Location = new System.Drawing.Point(6, 9);
+            this.lbl_CertBackgroundImage.Name = "lbl_CertBackgroundImage";
+            this.lbl_CertBackgroundImage.Size = new System.Drawing.Size(100, 13);
+            this.lbl_CertBackgroundImage.TabIndex = 1;
+            this.lbl_CertBackgroundImage.Text = "Background Image:";
+            // 
+            // lbl_CertProfessionalInCharge
+            // 
+            this.lbl_CertProfessionalInCharge.AutoSize = true;
+            this.lbl_CertProfessionalInCharge.Location = new System.Drawing.Point(5, 35);
+            this.lbl_CertProfessionalInCharge.Name = "lbl_CertProfessionalInCharge";
+            this.lbl_CertProfessionalInCharge.Size = new System.Drawing.Size(116, 13);
+            this.lbl_CertProfessionalInCharge.TabIndex = 2;
+            this.lbl_CertProfessionalInCharge.Text = "Professional In Charge:";
+            // 
+            // lbl_CertSignatureFile
+            // 
+            this.lbl_CertSignatureFile.AutoSize = true;
+            this.lbl_CertSignatureFile.Location = new System.Drawing.Point(6, 62);
+            this.lbl_CertSignatureFile.Name = "lbl_CertSignatureFile";
+            this.lbl_CertSignatureFile.Size = new System.Drawing.Size(74, 13);
+            this.lbl_CertSignatureFile.TabIndex = 3;
+            this.lbl_CertSignatureFile.Text = "Signature File:";
+            // 
+            // cbo_CertProfessionalInCharge
+            // 
+            this.cbo_CertProfessionalInCharge.FormattingEnabled = true;
+            this.cbo_CertProfessionalInCharge.Location = new System.Drawing.Point(127, 32);
+            this.cbo_CertProfessionalInCharge.Name = "cbo_CertProfessionalInCharge";
+            this.cbo_CertProfessionalInCharge.Size = new System.Drawing.Size(121, 21);
+            this.cbo_CertProfessionalInCharge.TabIndex = 4;
+            // 
+            // txt_CertSignatureFile
+            // 
+            this.txt_CertSignatureFile.Location = new System.Drawing.Point(112, 59);
+            this.txt_CertSignatureFile.Name = "txt_CertSignatureFile";
+            this.txt_CertSignatureFile.Size = new System.Drawing.Size(253, 20);
+            this.txt_CertSignatureFile.TabIndex = 5;
+            // 
+            // btn_BrowseForCertBackgroundImage
+            // 
+            this.btn_BrowseForCertBackgroundImage.Location = new System.Drawing.Point(371, 6);
+            this.btn_BrowseForCertBackgroundImage.Name = "btn_BrowseForCertBackgroundImage";
+            this.btn_BrowseForCertBackgroundImage.Size = new System.Drawing.Size(75, 20);
+            this.btn_BrowseForCertBackgroundImage.TabIndex = 6;
+            this.btn_BrowseForCertBackgroundImage.Text = "Browse...";
+            this.btn_BrowseForCertBackgroundImage.UseVisualStyleBackColor = true;
+            this.btn_BrowseForCertBackgroundImage.Click += new System.EventHandler(this.OnClick_BrowseForFile);
+            // 
+            // btn_BrowseForCertSignatureFile
+            // 
+            this.btn_BrowseForCertSignatureFile.Location = new System.Drawing.Point(371, 58);
+            this.btn_BrowseForCertSignatureFile.Name = "btn_BrowseForCertSignatureFile";
+            this.btn_BrowseForCertSignatureFile.Size = new System.Drawing.Size(75, 20);
+            this.btn_BrowseForCertSignatureFile.TabIndex = 7;
+            this.btn_BrowseForCertSignatureFile.Text = "Browse...";
+            this.btn_BrowseForCertSignatureFile.UseVisualStyleBackColor = true;
+            this.btn_BrowseForCertSignatureFile.Click += new System.EventHandler(this.OnClick_BrowseForFile);
+            // 
             // FormPreferances
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(399, 265);
-            this.Controls.Add(this.cbx_AutoOpenOnDragDrop);
-            this.Controls.Add(this.cbx_MoveAndNameReports);
-            this.Controls.Add(this.txt_ReportFormat);
-            this.Controls.Add(this.lbl_ReportFormat);
+            this.ClientSize = new System.Drawing.Size(586, 396);
+            this.Controls.Add(this.tabControl_Preferances);
             this.Controls.Add(this.btn_Save);
-            this.Controls.Add(this.btn_BrowseForReportFolder);
-            this.Controls.Add(this.txt_ReportFileLocation);
-            this.Controls.Add(this.lbl_ReportFileLocation);
             this.Name = "FormPreferances";
             this.Text = "Preferances";
             this.Load += new System.EventHandler(this.OnLoad);
+            this.tabControl_Preferances.ResumeLayout(false);
+            this.tab_ReportFiles.ResumeLayout(false);
+            this.tab_ReportFiles.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -146,5 +272,16 @@ namespace TII_NewDatabase
         private System.Windows.Forms.TextBox txt_ReportFormat;
         private System.Windows.Forms.CheckBox cbx_MoveAndNameReports;
         private System.Windows.Forms.CheckBox cbx_AutoOpenOnDragDrop;
+        private System.Windows.Forms.TabControl tabControl_Preferances;
+        private System.Windows.Forms.TabPage tab_ReportFiles;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label lbl_CertProfessionalInCharge;
+        private System.Windows.Forms.Label lbl_CertBackgroundImage;
+        private System.Windows.Forms.TextBox txt_CertBackgroundImage;
+        private System.Windows.Forms.Button btn_BrowseForCertSignatureFile;
+        private System.Windows.Forms.Button btn_BrowseForCertBackgroundImage;
+        private System.Windows.Forms.TextBox txt_CertSignatureFile;
+        private System.Windows.Forms.ComboBox cbo_CertProfessionalInCharge;
+        private System.Windows.Forms.Label lbl_CertSignatureFile;
     }
 }

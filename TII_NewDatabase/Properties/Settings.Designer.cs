@@ -142,5 +142,41 @@ namespace TII_NewDatabase.Properties {
                 this["BackupFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CertBackgroundImage {
+            get {
+                return ((string)(this["CertBackgroundImage"]));
+            }
+            set {
+                this["CertBackgroundImage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CertSignatureFile {
+            get {
+                return ((string)(this["CertSignatureFile"]));
+            }
+            set {
+                this["CertSignatureFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CertProfessionalInCharge {
+            get {
+                return ((string)(this["CertProfessionalInCharge"]));
+            }
+            set {
+                this["CertProfessionalInCharge"] = value;
+            }
+        }
     }
 }

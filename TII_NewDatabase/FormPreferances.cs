@@ -31,6 +31,13 @@ namespace TII_NewDatabase
             this.txt_ReportFileLocation.Text = Properties.Settings.Default.ReportLocation;
             this.cbx_MoveAndNameReports.Checked = Properties.Settings.Default.MoveAndSaveReports;
             this.cbx_AutoOpenOnDragDrop.Checked = Properties.Settings.Default.AutoOpenOnDragDrop;
+
+            this.txt_CertBackgroundImage.Text = Properties.Settings.Default.CertBackgroundImage;
+            this.txt_CertSignatureFile.Text = Properties.Settings.Default.CertSignatureFile;
+            this.cbo_CertProfessionalInCharge.Text = Properties.Settings.Default.CertProfessionalInCharge;
+
+            // Initialize the Professional In Charge Combo Box
+            this.cbo_CertProfessionalInCharge.Items.AddRange(Inspection.GetInspectors());
         }
 
         /// <summary>
@@ -73,8 +80,55 @@ namespace TII_NewDatabase
             Properties.Settings.Default.ReportLocation = this.txt_ReportFileLocation.Text;
             Properties.Settings.Default.MoveAndSaveReports = this.cbx_MoveAndNameReports.Checked;
             Properties.Settings.Default.AutoOpenOnDragDrop = this.cbx_AutoOpenOnDragDrop.Checked;
+
+            Properties.Settings.Default.CertBackgroundImage = this.txt_CertBackgroundImage.Text;
+            Properties.Settings.Default.CertProfessionalInCharge = this.cbo_CertProfessionalInCharge.Text;
+            Properties.Settings.Default.CertSignatureFile = this.txt_CertSignatureFile.Text;
+
             Properties.Settings.Default.Save();
             this.Close();
+        }
+
+        /// <summary>
+        /// Displays a dialog to the user to let them select a file.
+        /// </summary>
+        /// <param name="sender">Determines the settings of the dialog by the name of the button pressed. </param>
+        /// <param name="e">The parameter is not used.</param>
+        private void OnClick_BrowseForFile(object sender, EventArgs e)
+        {
+            Button btnSender = (Button)sender;
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Multiselect = false;
+
+            // Based on the name of the sender, title and save the output of the dialog box appropriately. 
+            switch (btnSender.Name)
+            {
+                case "btn_BrowseForCertBackgroundImage":
+                    {
+                        ofd.Title = "Select a Background Image for the Cert";
+                        ofd.Filter = "Image Files (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png";
+                        if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            this.txt_CertBackgroundImage.Text = ofd.FileName;
+                        }
+                        
+
+                        break;
+                    }
+
+                case "btn_BrowseForCertSignatureFile":
+                    {
+                        ofd.Title = "Select A Signature File for the Cert";
+                        ofd.Filter = "Image Files (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png";
+                        if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            this.txt_CertSignatureFile.Text = ofd.FileName;
+                        }
+
+                        break;
+                    }
+            }
         }
     }
 }

@@ -1102,7 +1102,7 @@ namespace TII_NewDatabase
             {
                 ListViewItem item = new ListViewItem(row["Address"].ToString());
                 item.SubItems.Add("Annual");
-                item.SubItems.Add(row["DueDate"].ToString());
+                item.SubItems.Add(((DateTime)row["DueDate"]).ToShortDateString());
 
                 this.lvw_UpcomingInspection.Items.Add(item);
             }

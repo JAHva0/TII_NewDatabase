@@ -60,6 +60,13 @@ namespace Google_Library
             this.summary = eventinfo.Summary;
         }
 
+        /// <summary>
+        /// Initialize a new instance of teh <see cref="Entry"/> class.
+        /// </summary>
+        /// <param name="start">The start time of the event.</param>
+        /// <param name="end">The end time of the event.</param>
+        /// <param name="summary">A summary of the event.</param>
+        /// <param name="location">The location of the event.</param>
         public Entry(DateTime start, DateTime end, string summary, string location)
         {
             this.created = DateTime.Now;
@@ -69,6 +76,12 @@ namespace Google_Library
             this.summary = summary;
         }
 
+        /// <summary>
+        /// Initialize a new instance of teh <see cref="Entry"/> class.
+        /// </summary>
+        /// <param name="start">The start time of the event.</param>
+        /// <param name="end">The end time of the event.</param>
+        /// <param name="summary">A summary of the event.</param>
         public Entry(DateTime start, DateTime end, string summary)
             :this(start, end, summary, string.Empty)
         {
@@ -124,6 +137,8 @@ namespace Google_Library
             }
         }
 
+        /// <summary> A short summary of the event. </summary>
+        /// <value> A string value. </value>
         public string Summary
         {
             get
@@ -132,6 +147,8 @@ namespace Google_Library
             }
         }
 
+        /// <summary> The location, geographic or address of the event. </summary>
+        /// <value> A string value. </value>
         public string Location
         {
             get

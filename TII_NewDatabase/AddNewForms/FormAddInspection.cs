@@ -448,7 +448,17 @@ namespace TII_NewDatabase.AddNewForms
 
                 if (success)
                 {
-                    MessageBox.Show("Inspection Added Successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string message = string.Empty;
+                    if (this.btn_SubmitInspection.Text == "Submit Inspection")
+                    {
+                        message = "Inspection Added Successfully";
+                    }
+                    else
+                    {
+                        message = "Inspection Updated Successfully";
+                    }
+
+                    MessageBox.Show(message, "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Clear all the fields to reset the form.
                     this.ResetForm();

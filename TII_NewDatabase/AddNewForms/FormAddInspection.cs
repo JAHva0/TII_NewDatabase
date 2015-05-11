@@ -96,6 +96,8 @@ namespace TII_NewDatabase.AddNewForms
                                          inspectionDate, 
                                          inspectionType);
 
+            // Zero out the Inspection list. (Selecting a building in the FormAddInspection(Building) Constructor was populating the inspection list with blank inspections.)
+            this.inspectionList = new List<Inspection>();
             foreach (DataRow row in SQL.Query.Select(query).Rows)
             {
                 this.inspectionList.Add(new Inspection(row));

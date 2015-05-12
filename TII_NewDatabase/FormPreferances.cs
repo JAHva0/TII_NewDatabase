@@ -51,21 +51,21 @@ namespace TII_NewDatabase
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 this.txt_ReportFileLocation.Text = fbd.SelectedPath;
-            }
 
-            if (!Directory.Exists(fbd.SelectedPath + @"\MD") ||
+                if (!Directory.Exists(fbd.SelectedPath + @"\MD") ||
                 !Directory.Exists(fbd.SelectedPath + @"\DC") ||
                 !Directory.Exists(fbd.SelectedPath + @"\Misc Documents"))
-            {
-                if (MessageBox.Show(
-                    "Are you sure this is the correct folder? \r" +
-                    "The Report folder should have the following layout:\r\r" +
-                    " Misc Documents\r MD\r    Inspector1\r    Inspector2\r DC\r    Inspector1\r    Inspector2\r",
-                    "Are you sure?",
-                    MessageBoxButtons.RetryCancel,
-                    MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Retry)
                 {
-                    this.OnClick_BrowseForReportFolder(new object(), EventArgs.Empty);
+                    if (MessageBox.Show(
+                        "Are you sure this is the correct folder? \r" +
+                        "The Report folder should have the following layout:\r\r" +
+                        " Misc Documents\r MD\r    Inspector1\r    Inspector2\r DC\r    Inspector1\r    Inspector2\r",
+                        "Are you sure?",
+                        MessageBoxButtons.RetryCancel,
+                        MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Retry)
+                    {
+                        this.OnClick_BrowseForReportFolder(new object(), EventArgs.Empty);
+                    }
                 }
             }
         }

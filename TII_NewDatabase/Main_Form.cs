@@ -86,46 +86,59 @@ namespace TII_NewDatabase
             this.cbx_ShowInactive.Checked = Properties.Settings.Default.InactveFilterOn;
 
             // Initalize the contractor checkbox
-            this.cbo_Contractor.Items.AddRange(Building.ContractorList.ToArray());
+            //this.cbo_Contractor.Items.AddRange(Building.ContractorList.ToArray());
 
             // Populate the Lists with the Company and Building Information
             string companyQuery = "SELECT DISTINCT " +
-                                  "Company.Company_ID, " +
-                                  "Company.Name, " +
-                                  "CASE " + // If the Company_ID appears in both the DC and MD lists, mark it 'DCMD'.
-                                  "WHEN Company.Company_ID IN " +
-                                       "( " +
-                                       "SELECT Company_ID  " +
-                                       "FROM Company " +
-                                       "WHERE Company_ID IN  " +
-                                            "( " +
-                                            "SELECT Company_ID  " +
-                                            "FROM Building " +
-                                            "WHERE State = 'MD' " +
-                                            ") " +
-                                       "AND Company_ID IN " +
-                                            "( " +
-                                            "SELECT Company_ID " +
-                                            "FROM Building " +
-                                            "WHERE State = 'DC' " +
-                                            ") " +
-                                       ") THEN 'DCMD' " +
-                                       "ELSE Building.State " +
-                                  "END as Location, " +
-                                  "CASE " + // If the Company has any buildings in the Active List, mark it 'True'.
-                                  "WHEN Company.Company_ID IN " +
-                                       "( " +
-                                       "SELECT Company_ID " +
-                                       "FROM Building " +
-                                       "WHERE Active = 'True' " +
-                                       ") THEN 'True' " +
-                                       "ELSE 'False' " +
+                                  "Company.ID,  " +
+                                  "Company.Name,  " +
+                                  "CASE " +
+                                  "WHEN Company.ID IN " +
+                                      "( " +
+                                      "SELECT Company.ID " +
+                                      "FROM Company " +
+                                      "JOIN Building ON Company_ID = Company.ID " +
+                                      "JOIN Address AS Building_Address ON Building.Address_ID = Building_Address.ID " +
+                                      "WHERE Company.ID IN " +
+                                          "( " +
+                                          "SELECT Company_ID " +
+                                          "FROM Building " +
+                                          "JOIN Address ON Address_ID = Address.ID " +
+                                          "WHERE State_ID = (SELECT ID FROM State WHERE Name = 'Maryland') " +
+                                          ") " +
+                                      "AND Company.ID IN " +
+                                          "( " +
+                                          "SELECT Company_ID " +
+                                          "FROM Building " +
+                                          "JOIN Address ON Address_ID = Address.ID " +
+                                          "WHERE State_ID = (SELECT ID FROM State WHERE Name = 'Washington D.C.') " +
+                                          ") " +
+                                      ") THEN 'DCMD' " +
+                                      "ELSE " +
+                                      "( " +
+                                          "SELECT TOP 1 State.Abbreviation FROM Building " +
+                                          "JOIN Address ON Address_ID = Address.ID " +
+                                          "JOIN State ON State_ID = State.ID " +
+                                          "WHERE Company_ID = Company.ID " +
+                                      ") " +
+                                  "END as Location,  " +
+                                  "CASE " +
+                                  "WHEN Company.ID IN " +
+                                      "( " +
+                                      "SELECT Company_ID " +
+                                      "FROM Building WHERE " +
+                                      "Active = 'True' " +
+                                      ") THEN 'True' " +
+                                      "ELSE 'False' " +
                                   "END as Active " +
                                   "FROM Company " +
-                                  "LEFT JOIN Building ON Building.Company_ID = Company.Company_ID";
+                                  "LEFT JOIN Building ON Building.Company_ID = Company.ID";
             companyList = new DatabaseList(companyQuery);
 
-            string buildingQuery = "SELECT Building_ID, Address, state, Active FROM Building";
+            string buildingQuery = "SELECT Building.ID, Street, State.Abbreviation, Active " +
+                                   "FROM Building " +
+                                   "JOIN Address ON Address_ID = Address.ID " +
+                                   "JOIN State ON State_ID = State.ID ";
             buildingList = new DatabaseList(buildingQuery);
 
             this.PopulateListboxes();

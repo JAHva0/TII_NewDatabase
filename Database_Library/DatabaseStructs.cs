@@ -2,7 +2,7 @@
 namespace Database
 {
     using System;
-    using System.Diagnostics;
+    using System.Data;
     using System.Linq;
     using System.Text.RegularExpressions;
 
@@ -157,6 +157,54 @@ namespace Database
             i += this.State.GetHashCode();
             i += this.Zip.GetHashCode();
             return i;
+        }
+
+        /// <summary>
+        /// Gets the Database assigned ID for this address.
+        /// If the address does not exist, it inserts it.
+        /// </summary>
+        /// <returns> The integer ID of this address. </returns>
+        public int GetDatabaseID()
+        {
+            string query = string.Format(
+                "SELECT ID " +
+                "FROM Address " +
+                "WHERE Street = '{0}' " +
+                "AND City_ID = (SELECT ID FROM City WHERE Name = '{1}') " +
+                "AND State_ID = (SELECT ID FROM State WHERE Abbreviation = '{2}') " +
+                "AND Zip = {3}",
+                this.Street,
+                this.City,
+                this.State,
+                this.Zip);
+
+            // Query the database to see if this address exists already
+            DataTable addresstbl = SQL.Query.Select(query);
+
+            // If it doesn't, add it in
+            if (addresstbl.Rows.Count == 0)
+            {
+                // Check that the City exists in the City Table
+                if (SQL.Query.Select("*", "City", "Name = " + this.City).Rows.Count == 0)
+                {
+                    // Insert it if it does not.
+                    SQL.Query.Insert("City", new SQLColumn[] { new SQLColumn("Name", this.City) });
+                }
+
+                // Create and run an insert query to add this address if it does not exist.
+                SQLColumn[] data = new SQLColumn[] {
+                    new SQLColumn("Street", string.Format(this.Street)),
+                    new SQLColumn("City", string.Format("(SELECT ID FROM City WHERE Name = '{0}')", this.City)),
+                    new SQLColumn("Street", string.Format("(SELECT ID FROM State WHERE Abbreviation = '{0}')", this.State)),
+                    new SQLColumn("Zip", this.zip)};
+                SQL.Query.Insert("Address", data);
+
+                // Query it again now that we've added it in.
+                addresstbl = SQL.Query.Select(query);
+            }
+
+            // Return the ID of the address.
+            return (int)addresstbl.Rows[0].ItemArray[0];
         }
     }
 

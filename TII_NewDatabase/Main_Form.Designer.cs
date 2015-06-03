@@ -200,6 +200,8 @@ namespace TII_NewDatabase
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusstrip_MainForm = new System.Windows.Forms.StatusStrip();
+            this.status_Connection = new System.Windows.Forms.ToolStripStatusLabel();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -222,6 +224,7 @@ namespace TII_NewDatabase
             this.gbx_UpcomingInspections.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.cmu_Contact.SuspendLayout();
+            this.statusstrip_MainForm.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuMainMenuStrip
@@ -1555,11 +1558,28 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact.Text = "Remove Contact";
             this.cmi_RemoveContact.Click += new System.EventHandler(this.RemoveContact);
             // 
+            // statusstrip_MainForm
+            // 
+            this.statusstrip_MainForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.status_Connection});
+            this.statusstrip_MainForm.Location = new System.Drawing.Point(0, 1009);
+            this.statusstrip_MainForm.Name = "statusstrip_MainForm";
+            this.statusstrip_MainForm.Size = new System.Drawing.Size(1664, 22);
+            this.statusstrip_MainForm.TabIndex = 9;
+            this.statusstrip_MainForm.Text = "statusStrip1";
+            // 
+            // status_Connection
+            // 
+            this.status_Connection.Name = "status_Connection";
+            this.status_Connection.Size = new System.Drawing.Size(205, 17);
+            this.status_Connection.Text = "Attempting to Establish Connection...";
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1664, 1015);
+            this.ClientSize = new System.Drawing.Size(1664, 1031);
+            this.Controls.Add(this.statusstrip_MainForm);
             this.Controls.Add(this.tab_MainTabControl);
             this.Controls.Add(this.mnuMainMenuStrip);
             this.Controls.Add(this.gbx_ResultFilters);
@@ -1603,6 +1623,8 @@ namespace TII_NewDatabase
             this.gbx_UpcomingInspections.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.cmu_Contact.ResumeLayout(false);
+            this.statusstrip_MainForm.ResumeLayout(false);
+            this.statusstrip_MainForm.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1733,5 +1755,7 @@ namespace TII_NewDatabase
         private System.Windows.Forms.DateTimePicker dtp_NoLaterThan;
         private System.Windows.Forms.Label lbl_NoEarlierThan;
         private System.Windows.Forms.DateTimePicker dtp_NoEarlierThan;
+        private System.Windows.Forms.StatusStrip statusstrip_MainForm;
+        private System.Windows.Forms.ToolStripStatusLabel status_Connection;
     }
 }

@@ -219,14 +219,16 @@ namespace Database
             // Boolean for determining if the operation was successfull.
             bool success;
 
+            // Check to see if this address already exists in the database
+            
+
+            // If the address doesn't exist in the address table already, insert a new one
+
             // Group the data from the class into a single variable
             SQLColumn[] classData = new SQLColumn[] 
                                                     {
                                                      new SQLColumn("Name", this.name),
-                                                     new SQLColumn("Address", this.address.Street),
-                                                     new SQLColumn("City", this.address.City),
-                                                     new SQLColumn("State", this.address.State),
-                                                     new SQLColumn("Zip", this.address.Zip)
+                                                     new SQLColumn("Address_ID", this.address.GetDatabaseID())
                                                     };
 
             if (this.ID == null)
@@ -242,7 +244,7 @@ namespace Database
                 success = SQL.Query.Update(
                                            "Company", 
                                            classData,
-                                           string.Format("Company_ID = {0}", this.ID));
+                                           string.Format("ID = {0}", this.ID));
             }
 
             // Return the value of the success of this operation, as well as the base operation of the same name. 

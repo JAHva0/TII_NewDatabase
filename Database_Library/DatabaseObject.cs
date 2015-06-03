@@ -134,7 +134,7 @@ namespace Database
                                                               new SQLColumn("UserName", SQL.Connection.GetUser)
                                                           };
 
-                success = success && SQL.Query.Insert("DBEdits", value_pairs);
+                //success = success && SQL.Query.Insert("DBEdits", value_pairs);
             }
 
             return success;

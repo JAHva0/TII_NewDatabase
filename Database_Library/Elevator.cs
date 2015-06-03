@@ -167,10 +167,10 @@ namespace Database
                 {
                     // Check to make sure the string we've recieved can be made into an enum
                     // (The method will throw an Argument Exception if it's not included in the list)
-                    this.StringToTypeEnum(value);
+                    StringToTypeEnum(value);
 
                     this.BaseObject_Edited(this, "Type", BaseObject.GetEnumDescription(this.type), value);
-                    this.type = this.StringToTypeEnum(value);
+                    this.type = StringToTypeEnum(value);
                 }
             }
         }
@@ -247,25 +247,33 @@ namespace Database
         /// <param name="row">A Pre-filled DataRow from which to fill the class information.</param>
         private void LoadFromDatabase(DataRow row)
         {
-            Debug.Assert(row != null, "The row that we pass in cannot be null"); 
-
-            // Test the ID because it seems like a nice thing to do.
-            int id;
-            if (int.TryParse(row["Elevator_ID"].ToString(), out id))
+            try
             {
-                this.ID = id;
+                Debug.Assert(row != null, "The row that we pass in cannot be null");
+
+                // Test the ID because it seems like a nice thing to do.
+                int id;
+                if (int.TryParse(row["ID"].ToString(), out id))
+                {
+                    this.ID = id;
+                }
+
+                Debug.Assert(this.ID != 0, "Elevator_ID cannot be 0 - this throws everything off");
+
+                if (int.TryParse(row["Building_ID"].ToString(), out id))
+                {
+                    this.building_id = id;
+                }
+
+                this.number = row["Number"].ToString();
+                this.type = StringToTypeEnum(row["Type"].ToString());
+                this.nickname = row["Nickname"].ToString();
             }
-
-            Debug.Assert(this.ID != 0, "Elevator_ID cannot be 0 - this throws everything off");
-
-            if (int.TryParse(row["Building_ID"].ToString(), out id))
+            catch (Exception ex)
             {
-                this.building_id = id;
+                throw ex;
             }
-
-            this.number = row["ElevatorNumber"].ToString();
-            this.type = this.StringToTypeEnum(row["Type"].ToString());
-            this.nickname = row["Nick"].ToString();
+            
         }
 
         /// <summary>
@@ -273,7 +281,7 @@ namespace Database
         /// </summary>
         /// <param name="type">Elevator Type string.</param>
         /// <returns>An enumerator related to the type string.</returns>
-        private Type StringToTypeEnum(string type)
+        private static Type StringToTypeEnum(string type)
         {
             switch (type)
             {

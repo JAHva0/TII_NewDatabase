@@ -76,7 +76,17 @@ namespace Database
         /// <param name="building_ID">The Database assigned Building_ID.</param>
         public Building(int building_ID)
         {
-            DataTable tbl = SQL.Query.Select("*", "Building", string.Format("Building_ID = '{0}'", building_ID));
+            DataTable tbl = SQL.Query.Select(
+                "SELECT Building.ID, Company_ID, Building.Name, Street, City.Name AS City, State.Abbreviation AS State, Zip, County.Name AS County, Firm_Fee, Hourly_Fee, Anniversary, Contractor.Name AS Contractor, " +
+                "Active, FES, Emergency_Power, Smoke_Detectors, Heat_Detectors, Latitude, Longitude " +
+                "FROM Building " +
+                "JOIN Address ON Address_ID = Address.ID " +
+                "JOIN City ON City_ID = City.ID " +
+                "JOIN State ON State_ID = State.ID " +
+                "JOIN County ON County_ID = County.ID " +
+                "LEFT JOIN Contractor ON Contractor_ID = Contractor.ID " +
+                "WHERE Building.ID = " + building_ID.ToString()
+                );
             Debug.Assert(tbl.Rows.Count == 1, string.Format("Building Query for Building_ID {0} has returned {0} rows", building_ID, tbl.Rows.Count));
             this.LoadFromDatabase(tbl.Rows[0]);
         }
@@ -708,7 +718,10 @@ namespace Database
                 }
                 
                 List<Elevator> elevators = new List<Elevator>();
-                foreach (DataRow row in SQL.Query.Select("*", "Elevator", string.Format("Building_ID = {0}", this.ID)).Rows)
+                foreach (DataRow row in SQL.Query.Select(string.Format(
+                    "SELECT Elevator.ID, Building_ID, Number, ElevatorTypes.Name AS Type, Nickname FROM Elevator " +
+                    "JOIN ElevatorTypes ON Type_ID = ElevatorTypes.ID " +
+                    "WHERE Building_ID = {0}", this.ID)).Rows)
                 {
                     elevators.Add(new Elevator(row));
                 }
@@ -731,19 +744,19 @@ namespace Database
                 
                 List<InspectionHistory> history = new List<InspectionHistory>();
                 foreach (DataRow row in SQL.Query.Select(string.Format(
-                                                                       "SELECT DISTINCT Date, InspectionTypes.Name AS Type, Status, Inspector.Name as Inspector, Report " +
-                                                                       "FROM Inspection " +
-                                                                       "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
-                                                                       "JOIN Inspector ON Inspection.Inspector_ID = Inspector.Inspector_ID " +
-                                                                       "WHERE Elevator_ID IN " +
-                                                                       "(" +
-                                                                           "SELECT Elevator_ID " +
-                                                                           "FROM Elevator " +
-                                                                           "WHERE Building_ID = {0}" +
-                                                                       ") " +
-                                                                       "AND Status <> 'No Inspection' " +
-                                                                       "ORDER BY Date Desc", 
-                                                                       this.ID)).Rows)
+                    "SELECT DISTINCT Date, InspectionType.Name AS Type, Clean, Inspector.Name as Inspector, Documents.FilePath AS Report " +
+                    "FROM Inspection " +
+                    "JOIN InspectionType ON InspectionType_ID = InspectionType.ID " +
+                    "JOIN Inspector ON Inspection.Inspector_ID = Inspector.ID " +
+                    "LEFT JOIN Documents ON Report_ID = Documents.ID " +
+                    "WHERE Elevator_ID IN " +
+                    "    ( " +
+                    "    SELECT ID " +
+                    "    FROM Elevator WHERE " +
+                    "    Building_ID = {0} " +
+                    "    ) " +
+                    "ORDER BY Date Desc", 
+                    this.ID)).Rows)
                 {
                     history.Add(new InspectionHistory(row));
                 }
@@ -933,6 +946,27 @@ namespace Database
             }
         }
 
+        private static Month InttoMonthEnum(string m)
+        {
+            switch (m)
+            {
+                case "1": return Month.JAN;
+                case "2": return Month.FEB;
+                case "3": return Month.MAR;
+                case "4": return Month.APR;
+                case "5": return Month.MAY;
+                case "6": return Month.JUN;
+                case "7": return Month.JUL;
+                case "8": return Month.AUG;
+                case "9": return Month.SEP;
+                case "10": return Month.OCT;
+                case "11": return Month.NOV;
+                case "12": return Month.DEC;
+                case "": return Month.NONE;
+                default: throw new ArgumentException(string.Format("Invalid Month Selection: '{0}'", m));
+            }
+        }
+
         /// <summary>
         /// Private method to fill the class with information.
         /// </summary>
@@ -945,12 +979,12 @@ namespace Database
             {
                 // Test the ID because it seems like a nice thing to do.
                 int id;
-                if (int.TryParse(row["Building_ID"].ToString(), out id))
+                if (int.TryParse(row["ID"].ToString(), out id))
                 {
                     this.ID = id;
                 }
 
-                Debug.Assert(this.ID != 0, "Building_ID cannot be 0 - this throws everything off");
+                Debug.Assert(this.ID != 0, "Building ID cannot be 0 - this throws everything off");
 
                 if (int.TryParse(row["Company_ID"].ToString(), out id))
                 {
@@ -960,10 +994,10 @@ namespace Database
                 Debug.Assert(this.company_id != 0, "Every Building must have a cooresponding owner. Company_ID cannot be 0");
 
                 // Assign the opening strings. Pretty straightforward.
-                this.proposal_number = row["ProposalNumber"].ToString();
-                this.proposal_file = row["ProposalFile"].ToString();
+                //this.proposal_number = row["ProposalNumber"].ToString();
+                //this.proposal_file = row["ProposalFile"].ToString();
                 this.name = row["Name"].ToString();
-                this.address.Street = row["Address"].ToString();
+                this.address.Street = row["Street"].ToString();
                 this.address.City = row["City"].ToString();
                 this.address.State = row["State"].ToString();
                 this.address.Zip = row["Zip"].ToString();
@@ -973,24 +1007,24 @@ namespace Database
 
                 // Check if the 
                 decimal d;
-                if (decimal.TryParse(row["FirmFee"].ToString(), out d))
+                if (decimal.TryParse(row["Firm_Fee"].ToString(), out d))
                 {
                     this.firm_fee.Value = d;
                 }
 
-                if (decimal.TryParse(row["HourlyFee"].ToString(), out d))
+                if (decimal.TryParse(row["Hourly_Fee"].ToString(), out d))
                 {
                     this.hourly_fee.Value = d;
                 }
 
-                this.anniversary = StringtoMonthEnum(row["Anniversary"].ToString());
+                this.anniversary = InttoMonthEnum(row["Anniversary"].ToString());
 
                 this.contractor = row["Contractor"].ToString();
 
                 bool.TryParse(row["Active"].ToString(), out this.active);
                 bool.TryParse(row["FES"].ToString(), out this.fire_emergency_service);
-                bool.TryParse(row["EmPwr"].ToString(), out this.emergency_power);
-                bool.TryParse(row["Heats"].ToString(), out this.heat_detectors);
+                bool.TryParse(row["Emergency_Power"].ToString(), out this.emergency_power);
+                bool.TryParse(row["Heat_Detectors"].ToString(), out this.heat_detectors);
 
                 float lat, lng;
                 float.TryParse(row["Latitude"].ToString(), out lat);
@@ -1004,14 +1038,14 @@ namespace Database
 
                 // Pull a list of contacts (If any exist for this building)
                 this.contact_list = new List<Contact>();
-                foreach (DataRow con in SQL.Query.Select(string.Format(
-                                                         "SELECT DISTINCT * FROM Contact " +
-                                                         "JOIN Building_Contact_Relations ON Contact.Contact_ID = Building_Contact_Relations.Contact_ID " +
-                                                         "WHERE Building_Contact_Relations.Building_ID = {0}",
-                                                         this.ID)).Rows)
-                {
-                    this.contact_list.Add(new Contact(con));
-                }
+                //foreach (DataRow con in SQL.Query.Select(string.Format(
+                //                                         "SELECT DISTINCT * FROM Contact " +
+                //                                         "JOIN Building_Contact_Relations ON Contact.Contact_ID = Building_Contact_Relations.Contact_ID " +
+                //                                         "WHERE Building_Contact_Relations.Building_ID = {0}",
+                //                                         this.ID)).Rows)
+                //{
+                //    this.contact_list.Add(new Contact(con));
+                //}
             }
             catch (Exception ex)
             {
@@ -1043,7 +1077,14 @@ namespace Database
             {
                 DateTime.TryParse(row["Date"].ToString(), out this.Date);
                 this.Type = row["Type"].ToString().Trim(); // For some reason the SQL Table returns the string with white space trailing. 
-                this.Status = row["Status"].ToString();
+                if (row["Clean"].ToString() == "True")
+                {
+                    this.Status = "Clean";
+                }
+                else
+                {
+                    this.Status = "Outstanding Items";
+                }
                 this.Inspector = row["Inspector"].ToString();
 
                 if (row["Report"].ToString() != string.Empty)

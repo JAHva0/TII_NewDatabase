@@ -17,7 +17,7 @@ namespace SQL
         /// <summary>
         /// Connection information for the SQL Server, holding the connection string and credentials.
         /// </summary>
-        private static SqlConnection server_connection;
+        private static SqlConnection connection;
 
         /// <summary>
         /// Gets a value indicating whether there is an open connection with the server, provided there is a connection set up.
@@ -29,8 +29,8 @@ namespace SQL
             {
                 try
                 {
-                    server_connection.Open();
-                    server_connection.Close();
+                    connection.Open();
+                    connection.Close();
                     return true;
                 }
                 catch (Exception ex)
@@ -38,7 +38,7 @@ namespace SQL
                     // The Server is either disabled, or the network path is incorrect.
                     if (ex.Message.Contains("The server was not found"))
                     {
-                        Debug.WriteLine("Unable to locate server at " + server_connection.DataSource);
+                        Debug.WriteLine("Unable to locate server at " + connection.DataSource);
                         return false;
                     }
 
@@ -61,7 +61,7 @@ namespace SQL
         /// <value>A valid SQL Connection if one exists, an empty SQL Connection if not.</value>
         public static SqlConnection GetConnection
         {
-            get { return server_connection; }
+            get { return connection; }
         }
 
         /// <summary> Gets the name of the user who is currently connected to the SQL Server. </summary>
@@ -70,7 +70,7 @@ namespace SQL
         {
             get
             {
-                return server_connection.WorkstationId;
+                return connection.WorkstationId;
             }
         }
         
@@ -81,14 +81,13 @@ namespace SQL
         /// <param name="password">The Login Password.</param>
         /// <param name="server_address">The IP Address of the server. Default is Local Host.</param>
         /// <param name="database_name">The Name of the Database to connect to. Default is TIIDatabase.</param>
-        public static void CreateConnection(string user_name, string password, string server_address = "localhost", string database_name = "TIIDatabase")
+        public static void CreateConnection(string user_name, string password, string server_address = "localhost", string database_name = "Inspection Database")
         {
             // Create a new connection to store in this instance
-            server_connection = new SqlConnection();
-            server_connection.ConnectionString = string.Format("server={0};database={1};connection timeout=1", server_address, database_name);
-            server_connection.Credential = CreateCredentials(user_name, password);
-            server_connection.StatisticsEnabled = true;
-            Query.AllConnectionStats = new ConnectionStatistics(server_connection.RetrieveStatistics());
+            connection = new SqlConnection();
+            connection.ConnectionString = string.Format("server={0};database={1};connection timeout=1", server_address, database_name);
+            connection.Credential = CreateCredentials(user_name, password);
+            connection.StatisticsEnabled = true;
         }
 
         /// <summary>

@@ -38,7 +38,13 @@ namespace Database
         public Company(int company_ID) 
             : this()
         {
-            DataTable tbl = SQL.Query.Select("*", "Company", "Company_ID = '" + company_ID.ToString() + "'");
+            DataTable tbl = SQL.Query.Select(
+                "SELECT Company.ID, Company.Name, Street, City.Name as City, State.Abbreviation as State, Zip FROM Company " +
+                "JOIN Address ON Address_ID = Address.ID " +
+                "JOIN City ON City_ID = City.ID " +
+                "JOIN State ON State_ID = State.ID " +
+                "WHERE Company.ID = " + company_ID.ToString()
+                );
             this.LoadFromDatabase(BaseObject.AffirmOneRow(tbl));
         }
 
@@ -166,9 +172,13 @@ namespace Database
             get
             {
                 List<string> buildings = new List<string>();
-                foreach (DataRow r in SQL.Query.Select("Address", "Building", string.Format("Company_ID = '{0}'", this.ID)).Rows)
+                foreach (DataRow r in SQL.Query.Select(
+                    "SELECT Street FROM Building " +
+                    "JOIN Address ON Address_ID = Address.ID " +
+                    "WHERE Company_ID = " + this.ID.ToString()
+                    ).Rows)
                 {
-                    buildings.Add(r["Address"].ToString());
+                    buildings.Add(r["Street"].ToString());
                 }
 
                 return buildings.ToArray();
@@ -255,31 +265,39 @@ namespace Database
         /// <param name="row">The data row to parse.</param>
         private void LoadFromDatabase(DataRow row)
         {
-            // Test the ID because I don't know why it seems like a nice thing to do.
-            int id;
-            if (int.TryParse(row["Company_ID"].ToString(), out id))
+            try
             {
-                this.ID = id;
+                // Test the ID because I don't know why it seems like a nice thing to do.
+                int id;
+                if (int.TryParse(row["ID"].ToString(), out id))
+                {
+                    this.ID = id;
+                }
+
+                Debug.Assert(this.ID != 0, "Company_ID cannot be 0 - this throws everything off");
+
+                // Populate the remainder of the fields directly
+                this.name = row["Name"].ToString();
+                this.address.Street = row["Street"].ToString();
+                this.address.City = row["City"].ToString();
+                this.address.State = row["State"].ToString();
+                this.address.Zip = row["Zip"].ToString();
+
+                this.contact_list = new List<Contact>();
+                //foreach (DataRow con in SQL.Query.Select(string.Format(
+                //                                         "SELECT DISTINCT * FROM Contact " +
+                //                                         "JOIN Company_Contact_Relations ON Contact.Contact_ID = Company_Contact_Relations.Contact_ID " +
+                //                                         "WHERE Company_Contact_Relations.Company_ID = {0}",
+                //                                         this.ID)).Rows)
+                //{
+                //    this.contact_list.Add(new Contact(con));
+                //}
             }
-
-            Debug.Assert(this.ID != 0, "Company_ID cannot be 0 - this throws everything off");
-
-            // Populate the remainder of the fields directly
-            this.name = row["Name"].ToString();
-            this.address.Street = row["Address"].ToString();
-            this.address.City = row["City"].ToString();
-            this.address.State = row["State"].ToString();
-            this.address.Zip = row["Zip"].ToString();
-
-            this.contact_list = new List<Contact>();
-            foreach (DataRow con in SQL.Query.Select(string.Format(
-                                                     "SELECT DISTINCT * FROM Contact " +
-                                                     "JOIN Company_Contact_Relations ON Contact.Contact_ID = Company_Contact_Relations.Contact_ID " +
-                                                     "WHERE Company_Contact_Relations.Company_ID = {0}",
-                                                     this.ID)).Rows)
+            catch (Exception ex)
             {
-                this.contact_list.Add(new Contact(con));
+                throw ex;
             }
+            
         }
     }
 }

@@ -201,9 +201,9 @@ namespace SQL
                 data_adapter.Fill(tbl); // Fills the table with the query results
 
                 // Get the stats from the last connection and store them in this class.
-                lastConnection = new ConnectionStatistics(Connection.GetConnection.RetrieveStatistics());
-                allConnections.ConcatStatistics(lastConnection);
-                Connection.GetConnection.ResetStatistics();
+                //lastConnection = new ConnectionStatistics(Connection.GetConnection.RetrieveStatistics());
+                //allConnections.ConcatStatistics(lastConnection);
+                //Connection.GetConnection.ResetStatistics();
                 Connection.GetConnection.Close();
                 return tbl;
             }

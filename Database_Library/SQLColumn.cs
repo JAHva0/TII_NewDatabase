@@ -10,56 +10,6 @@ namespace Database
     /// </summary>
     public struct SQLColumn
     {
-        /// <summary> An array of column names used to ensure that only valid column names are passed in. </summary>
-        public static string[] ValidColumnNames = new string[] 
-        {
-                                                                "Building_ID", // Building Columns
-                                                                "Company_ID", 
-                                                                "ProposalNumber", 
-                                                                "ProposalFile", 
-                                                                "Name", 
-                                                                "Address", 
-                                                                "City", 
-                                                                "State", 
-                                                                "Zip", 
-                                                                "County", 
-                                                                "FirmFee", 
-                                                                "HourlyFee", 
-                                                                "Anniversary", 
-                                                                "Contractor", 
-                                                                "Active", 
-                                                                "Latitude", 
-                                                                "Longitude",
-                                                                "FES",
-                                                                "EmPwr",
-                                                                "Heats",
-                                                                "Contact_ID", // Contact Columns
-                                                                "OfficePhone", 
-                                                                "OfficeExt",
-                                                                "CellPhone",
-                                                                "Fax", 
-                                                                "Email",
-                                                                "Edit_ID", // DBEdits Columns
-                                                                "TableName",
-                                                                "Item_ID",
-                                                                "ColumnName",
-                                                                "Action",
-                                                                "TimeStamp",
-                                                                "OldValue",
-                                                                "NewValue",
-                                                                "UserName",
-                                                                "Elevator_ID", // Elevator Columns
-                                                                "ElevatorNumber",
-                                                                "Type",
-                                                                "Nick",
-                                                                "Inspection_ID", // Inspection Columns
-                                                                "Date",
-                                                                "IType_ID",
-                                                                "Status",
-                                                                "Inspector_ID",
-                                                                "Report"
-        };
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SQLColumn"/> struct for use in inserting/updating in the SQL Database.
         /// </summary>
@@ -71,6 +21,10 @@ namespace Database
             if (value == null || value == string.Empty)
             {
                 this.Value = "NULL";
+            }
+            else if (value.Contains("SELECT") && value.Contains("FROM"))
+            {
+                this.Value = value;
             }
             else
             {
@@ -192,11 +146,6 @@ namespace Database
             if (column == null)
             {
                 throw new ArgumentNullException("SQLColumn", "Column name cannot be null");
-            }
-
-            if (!ValidColumnNames.Contains(column))
-            {
-                throw new ArgumentException("Column name must appear in ValidColumnNames array", "SQLColumn");
             }
 
             this.Column = column;

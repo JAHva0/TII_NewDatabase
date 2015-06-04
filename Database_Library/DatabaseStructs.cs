@@ -184,8 +184,10 @@ namespace Database
             // If it doesn't, add it in
             if (addresstbl.Rows.Count == 0)
             {
+                DataTable citytbl = SQL.Query.Select(string.Format("SELECT * FROM City WHERE Name = '{0}'", this.City));
+
                 // Check that the City exists in the City Table
-                if (SQL.Query.Select("*", "City", "Name = " + this.City).Rows.Count == 0)
+                if (citytbl.Rows.Count == 0)
                 {
                     // Insert it if it does not.
                     SQL.Query.Insert("City", new SQLColumn[] { new SQLColumn("Name", this.City) });
@@ -194,9 +196,9 @@ namespace Database
                 // Create and run an insert query to add this address if it does not exist.
                 SQLColumn[] data = new SQLColumn[] {
                     new SQLColumn("Street", string.Format(this.Street)),
-                    new SQLColumn("City", string.Format("(SELECT ID FROM City WHERE Name = '{0}')", this.City)),
-                    new SQLColumn("Street", string.Format("(SELECT ID FROM State WHERE Abbreviation = '{0}')", this.State)),
-                    new SQLColumn("Zip", this.zip)};
+                    new SQLColumn("City_ID", string.Format("(SELECT ID FROM City WHERE Name = '{0}')", this.City)),
+                    new SQLColumn("State_ID", string.Format("(SELECT ID FROM State WHERE Abbreviation = '{0}')", this.State)),
+                    new SQLColumn("Zip", Convert.ToInt32(this.zip))};
                 SQL.Query.Insert("Address", data);
 
                 // Query it again now that we've added it in.

@@ -54,9 +54,12 @@ namespace Database
                 inspectionType.Add(0, new string[] { "No Inspection", "NULL", string.Empty });
 
                 // If this is the first time the Inspection class has been accessed, load the inspection types dictionary. 
-                foreach (DataRow row in SQL.Query.Select("SELECT * FROM InspectionTypes").Rows)
+                foreach (DataRow row in SQL.Query.Select(
+                    "SELECT InspectionType.ID, InspectionType.Name, InspectionType.Abbreviation, State.Abbreviation as Locale " +
+                    "FROM InspectionType " +
+                    "JOIN State ON Locale = State.ID").Rows)
                 {
-                    inspectionType.Add(Convert.ToInt32(row["IType_ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbv"].ToString().Trim(), row["Locales"].ToString().Trim() });
+                    inspectionType.Add(Convert.ToInt32(row["ID"].ToString()), new string[] { row["Name"].ToString().Trim(), row["Abbreviation"].ToString().Trim(), row["Locale"].ToString().Trim() });
                 }
             }
 

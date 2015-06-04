@@ -85,8 +85,7 @@ namespace Database
                 "JOIN State ON State_ID = State.ID " +
                 "JOIN County ON County_ID = County.ID " +
                 "LEFT JOIN Contractor ON Contractor_ID = Contractor.ID " +
-                "WHERE Building.ID = " + building_ID.ToString()
-                );
+                "WHERE Building.ID = " + building_ID.ToString());
             Debug.Assert(tbl.Rows.Count == 1, string.Format("Building Query for Building_ID {0} has returned {0} rows", building_ID, tbl.Rows.Count));
             this.LoadFromDatabase(tbl.Rows[0]);
         }
@@ -285,9 +284,9 @@ namespace Database
             get
             {
                 List<string> contractorList = new List<string>();
-                foreach (DataRow c in SQL.Query.Select("DISTINCT Contractor", "Building", "Contractor IS NOT NULL").Rows)
+                foreach (DataRow c in SQL.Query.Select("Name", "Contractor", "1=1").Rows)
                 {
-                    contractorList.Add(c["Contractor"].ToString());
+                    contractorList.Add(c["Name"].ToString());
                 }
 
                 return contractorList;
@@ -834,28 +833,23 @@ namespace Database
             bool success; 
 
             // Group the data from the class into a single variable
-            SQLColumn[] classData = new SQLColumn[]
-                                                    {
-                                                        new SQLColumn("Company_ID", this.company_id),
-                                                        new SQLColumn("ProposalNumber", this.proposal_number),
-                                                        new SQLColumn("ProposalFile", this.proposal_file),
-                                                        new SQLColumn("Name", this.name),
-                                                        new SQLColumn("Address", this.address.Street),
-                                                        new SQLColumn("City", this.address.City),
-                                                        new SQLColumn("State", this.address.State),
-                                                        new SQLColumn("Zip", this.address.Zip),
-                                                        new SQLColumn("County", BaseObject.GetEnumDescription(this.county)),
-                                                        new SQLColumn("FirmFee", this.firm_fee.Value),
-                                                        new SQLColumn("HourlyFee", this.hourly_fee.Value),
-                                                        new SQLColumn("Anniversary", BaseObject.GetEnumDescription(this.anniversary)),
-                                                        new SQLColumn("Contractor", this.contractor),
-                                                        new SQLColumn("Active", this.active),
-                                                        new SQLColumn("Latitude", this.coordinates.Latitude),
-                                                        new SQLColumn("Longitude", this.coordinates.Longitude),
-                                                        new SQLColumn("FES", this.fire_emergency_service),
-                                                        new SQLColumn("EmPwr", this.emergency_power), 
-                                                        new SQLColumn("Heats", this.heat_detectors)
-                                                    };
+            SQLColumn[] classData = new SQLColumn[] {
+                new SQLColumn("Company_ID", this.company_id),
+                new SQLColumn("Name", this.name),
+                new SQLColumn("Address_ID", this.address.GetDatabaseID()),
+                new SQLColumn("Proposal_ID", string.Empty),
+                new SQLColumn("County_ID", string.Format("(SELECT ID FROM County WHERE Name = '{0}')", BaseObject.GetEnumDescription(this.county))),
+                new SQLColumn("Firm_Fee", this.firm_fee.Value),
+                new SQLColumn("Hourly_Fee", this.hourly_fee.Value),
+                new SQLColumn("Anniversary", MonthToInt(this.anniversary)),
+                new SQLColumn("Contractor_ID", string.Format("(SELECT ID FROM Contractor WHERE Name = '{0}'", this.contractor)),
+                new SQLColumn("Active", this.active),
+                new SQLColumn("Latitude", this.coordinates.Latitude),
+                new SQLColumn("Longitude", this.coordinates.Longitude),
+                new SQLColumn("FES", this.fire_emergency_service),
+                new SQLColumn("Emergency_Power", this.emergency_power),
+                new SQLColumn("Smoke_Detectors", string.Empty),
+                new SQLColumn("Heat_Detectors", this.heat_detectors)};
 
             if (this.ID == null)
             {
@@ -865,7 +859,7 @@ namespace Database
             else
             {
                 // If the ID is not null, then we are just updating the record which has the Building_ID we pulled to start with.
-                success = SQL.Query.Update("Building", classData, string.Format("Building_ID = {0}", this.ID));
+                success = SQL.Query.Update("Building", classData, string.Format("ID = {0}", this.ID));
             }
 
             // Return the value of the success of this operation, as well as the base operation of the same name. 
@@ -965,6 +959,28 @@ namespace Database
                 case "": return Month.NONE;
                 default: throw new ArgumentException(string.Format("Invalid Month Selection: '{0}'", m));
             }
+        }
+
+        private static int MonthToInt(Month m)
+        {
+            switch (m)
+            {
+                case Month.JAN: return 1;
+                case Month.FEB: return 2;
+                case Month.MAR: return 3;
+                case Month.APR: return 4;
+                case Month.MAY: return 5;
+                case Month.JUN: return 6;
+                case Month.JUL: return 7;
+                case Month.AUG: return 8;
+                case Month.SEP: return 9;
+                case Month.OCT: return 10;
+                case Month.NOV: return 11;
+                case Month.DEC: return 12;
+                case Month.NONE: return 0;
+            }
+
+            throw new Exception("We should never see this exception. How did you get here?.");
         }
 
         /// <summary>

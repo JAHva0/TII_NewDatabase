@@ -55,7 +55,12 @@ namespace Database
         /// <param name="companyName">A Company name that appears in the database.</param>
         public Company(string companyName)
         {
-            DataTable tbl = SQL.Query.Select("*", "Company", "Name = '" + companyName + "'");
+            DataTable tbl = SQL.Query.Select(
+                "SELECT Company.ID, Company.Name, Street, City.Name as City, State.Abbreviation as State, Zip FROM Company " +
+                "JOIN Address ON Address_ID = Address.ID " +
+                "JOIN City ON City_ID = City.ID " +
+                "JOIN State ON State_ID = State.ID " +
+                "WHERE Company.Name = '" + companyName + "'");
             this.LoadFromDatabase(BaseObject.AffirmOneRow(tbl));
         }
 

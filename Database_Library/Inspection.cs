@@ -500,13 +500,13 @@ namespace Database
             public Inspector(DataRow data)
             {
                 int id;
-                if (int.TryParse(data["Inspector_ID"].ToString(), out id))
+                if (int.TryParse(data["ID"].ToString(), out id))
                 {
                     this.inspector_ID = id;
                 }
 
                 this.name = data["Name"].ToString().Trim();
-                this.naesaID = data["NAESAID"].ToString();
+                this.naesaID = data["QEI"].ToString();
 
                 bool.TryParse(data["Active"].ToString(), out this.active);
             }

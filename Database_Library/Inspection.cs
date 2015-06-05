@@ -392,9 +392,8 @@ namespace Database
                             "(SELECT Street FROM Building " +
                             "JOIN Address ON Address_ID = Address.ID " +
                             "WHERE Building.ID = " +
-                            "(SELECT Building_ID FROM Elevator WHERE ID = " +
-                            "(SELECT Elevator_ID FROM Inspection WHERE ID = {0})))",
-                            this.ID)),
+                            "(SELECT Building_ID FROM Elevator WHERE ID = {0}))",
+                            this.elevator_ID)),
                     new SQLColumn("DateModified", DateTime.Now),
                     new SQLColumn("FilePath", this.report)
                 };

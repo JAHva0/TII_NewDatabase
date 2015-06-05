@@ -29,14 +29,14 @@ namespace Database
         /// <summary> The date this inspection occurred on. </summary>
         private DateTime date;
 
-        /// <summary> The IType_ID (Inspection Type ID) of the inspection performed. </summary>
-        private int itype_id;
+        /// <summary> The Inspection Type of the inspection performed. </summary>
+        private string type;
 
         /// <summary> The status of the inspection. </summary>
         private Insp_Status status = Insp_Status.NO_INSPECT;
 
         /// <summary> The inspector involved. </summary>
-        private int inspector_id;
+        private string inspector;
 
         /// <summary> The file path for the report associated with this inspection. </summary>
         private string report;
@@ -90,7 +90,12 @@ namespace Database
         public Inspection(int inspection_ID)
             : this()
         {
-            this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format("SELECT * FROM Inspection WHERE Inspection_ID = {0}", inspection_ID.ToString()))));
+            this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format(
+                "SELECT Inspection.ID, Elevator_ID, Date, InspectionType.Name AS Type, Clean, Inspector.Name AS Inspector, Documents.FilePath AS Report FROM Inspection " +
+                "JOIN InspectionType ON InspectionType_ID = InspectionType.ID " +
+                "JOIN Inspector ON Inspector_ID = Inspector.ID " +
+                "LEFT JOIN Documents ON Report_ID = Documents.ID", 
+                inspection_ID.ToString()))));
         }
 
         /// <summary>
@@ -105,10 +110,6 @@ namespace Database
             /// <summary> Inspection has items remaining. </summary>
             [Description("Outstanding Items")]
             OUTSANDING,
-
-            /// <summary> Inspection has items, but they are paperwork only. </summary>
-            [Description("Paperwork Only")]
-            PAPERWORK,
 
             /// <summary> No Inspection was performed. </summary>
             [Description("No Inspection")]
@@ -186,19 +187,15 @@ namespace Database
         {
             get
             {
-                return inspectionType[this.itype_id][0];
+                return this.type;
             }
 
             set
             {
-                if (value != inspectionType[this.itype_id][0] && value != string.Empty)
+                if (value != this.type && value != string.Empty)
                 {
-                    // Select the key associated with the value we passed in in store it to the itype_id integer
-                    // If no such value exists in the dictionary, we've done something wrong and an exception will throw.
-                    int id = inspectionType.Where(v => v.Value[0] == value).Single().Key;
-
-                    this.BaseObject_Edited(this, "IType_ID", this.itype_id, id);
-                    this.itype_id = id;
+                    this.BaseObject_Edited(this, "IType_ID", this.type, value);
+                    this.type = value;
                 }
             }
         }
@@ -228,19 +225,15 @@ namespace Database
         {
             get
             {
-                // Query the inspector list for the Inspector_ID we pulled from the database
-                return inspectorList.Where(x => x.Inspector_ID == this.inspector_id).Single().Name.Trim();
+                return this.inspector;
             }
 
             set
             {
-                int id = inspectorList.Where(x => x.Name.Trim() == value).SingleOrDefault().Inspector_ID;
-
-                // If the ID we get from the value is different from the one we have stored
-                if (id != this.inspector_id && value != string.Empty)
+                if (value != this.inspector && value != string.Empty)
                 {
-                    this.BaseObject_Edited(this, "Inspector_ID", this.inspector_id, id);
-                    this.inspector_id = id;
+                    this.BaseObject_Edited(this, "Inspector_ID", this.inspector, value);
+                    this.inspector = value;
                 }
             }
         }
@@ -273,9 +266,9 @@ namespace Database
                     this.ID,
                     this.elevator_ID,
                     this.date.ToShortDateString(),
-                    this.itype_id,
+                    this.type,
                     this.status,
-                    this.inspector_id,
+                    this.inspector,
                     this.report);
             }
         }
@@ -355,7 +348,7 @@ namespace Database
         }
 
         /// <summary>
-        /// Gets the NAESA ID of a ginve inspector.
+        /// Gets the NAESA ID of a given inspector.
         /// </summary>
         /// <param name="name"> The Inspector to query. </param>
         /// <returns>A string. value of the Inspector's ID.</returns>
@@ -385,15 +378,43 @@ namespace Database
             // Boolean for determining if the operation was sucessful.
             bool success;
 
+            // Check to see if the document we have as the report already exists in the document table, and if it doesn't add it.
+            string query = string.Format("SELECT ID FROM Documents WHERE FilePath = '{0}'", this.report);
+            DataTable docIDCheck = SQL.Query.Select(query);
+            if (docIDCheck.Rows.Count == 0)
+            {
+                SQLColumn[] documentData = new SQLColumn[]
+                {
+                    new SQLColumn("Title", "Inspection Report"),
+                    new SQLColumn(
+                        "Description",
+                        string.Format(
+                            "(SELECT Street FROM Building " +
+                            "JOIN Address ON Address_ID = Address.ID " +
+                            "WHERE Building.ID = " +
+                            "(SELECT Building_ID FROM Elevator WHERE ID = " +
+                            "(SELECT Elevator_ID FROM Inspection WHERE ID = {0})))",
+                            this.ID)),
+                    new SQLColumn("DateModified", DateTime.Now),
+                    new SQLColumn("FilePath", this.report)
+                };
+
+                SQL.Query.Insert("Documents", documentData);
+
+                docIDCheck = SQL.Query.Select(query);
+            }
+
+            int report_id = (int)docIDCheck.Rows[0].ItemArray[0];
+
             // Group the data from the class together into a single variable.
             SQLColumn[] classData = new SQLColumn[] 
             {
                 new SQLColumn("Elevator_ID", this.elevator_ID),
                 new SQLColumn("Date", this.date),
-                new SQLColumn("IType_ID", this.itype_id),
-                new SQLColumn("Status", BaseObject.GetEnumDescription(this.status)),
-                new SQLColumn("Inspector_ID", this.inspector_id),
-                new SQLColumn("Report", this.report)
+                new SQLColumn("InspectionType_ID", string.Format("(SELECT ID FROM InspectionType WHERE Name = '{0}')", this.type)),
+                new SQLColumn("Clean", StatusToBool(BaseObject.GetEnumDescription(this.status)).Value),
+                new SQLColumn("Inspector_ID", string.Format("(SELECT ID FROM Inspector WHERE Name = '{0}')", this.inspector)),
+                new SQLColumn("Report_ID", report_id)
             };
 
             if (this.ID == null)
@@ -402,10 +423,25 @@ namespace Database
             }
             else
             {
-                success = SQL.Query.Update("Inspection", classData, string.Format("Inspection_ID = {0}", this.ID));
+                success = SQL.Query.Update("Inspection", classData, string.Format("ID = {0}", this.ID));
             }
 
             return success && base.CommitToDatabase();
+        }
+
+        /// <summary>
+        /// Converts a status string to a <see cref="bool?"/>.
+        /// </summary>
+        /// <param name="status">The status string to convert.</param>
+        /// <returns>A nullable boolean.</returns>
+        private static bool? StatusToBool(string status)
+        {
+            switch (status)
+            {
+                case "Clean": return true;
+                case "Outstanding Items": return false;
+                default: return null;
+            }
         }
 
         /// <summary>
@@ -419,7 +455,6 @@ namespace Database
             {
                 case "Clean": return Insp_Status.CLEAN;
                 case "Outstanding Items": return Insp_Status.OUTSANDING;
-                case "Paperwork Only": return Insp_Status.PAPERWORK;
                 case "No Inspection": return Insp_Status.NO_INSPECT;
                 default: throw new ArgumentException("Invalid Inspection Status: " + status);
             }
@@ -446,17 +481,11 @@ namespace Database
                     this.elevator_ID = id;
                 }
 
-                // And the IType_ID
-                if (int.TryParse(row["IType_ID"].ToString(), out id))
-                {
-                    this.itype_id = id;
-                }
+                // Get the inspection Type
+                this.type = row["Type"].ToString();
 
-                // And the Inspector_ID
-                if (int.TryParse(row["Inspector_ID"].ToString(), out id))
-                {
-                    this.inspector_id = id;
-                }
+                // And the Inspector
+                this.inspector = row["Inspector"].ToString();
 
                 // Make sure we have a parseable date
                 DateTime d;
@@ -465,8 +494,21 @@ namespace Database
                     this.date = d;
                 }
 
-                // We are assigning all of the strings directly, under the assumption that they were checked for compatibility prior to being entered into the database.
-                this.status = Inspection.StringToStatusEnum(row["Status"].ToString());
+                // The "Clean" row indicates if the inspection was either Clean (True), Not Clean (False) or Not Inspected (NULL)
+                string status = row["Clean"].ToString();
+                if (status == "True")
+                {
+                    this.status = StringToStatusEnum("Clean");
+                }
+                else if (status == "False")
+                {
+                    this.status = StringToStatusEnum("Outstanding Items");
+                }
+                else
+                {
+                    this.status = StringToStatusEnum("No Inspection");
+                }
+
                 this.report = row["Report"].ToString();
             }
             catch (Exception ex)

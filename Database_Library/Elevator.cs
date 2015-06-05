@@ -52,7 +52,10 @@ namespace Database
         /// <param name="elevator_ID">The Elevator ID to load.</param>
         public Elevator(int elevator_ID)
         {
-            this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format("SELECT * FROM Elevator WHERE Elevator_ID = {0}", elevator_ID.ToString()))));
+            this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format(
+                "SELECT Elevator.ID, Building_ID, Number, ElevatorTypes.Name AS Type, Nickname FROM Elevator " +
+                "JOIN ElevatorTypes ON Elevator.Type_ID = ElevatorTypes.ID", 
+                elevator_ID.ToString()))));
         }
 
         /// <summary>
@@ -146,7 +149,7 @@ namespace Database
             {
                 if (value != string.Empty && value != this.number)
                 {
-                    this.BaseObject_Edited(this, "ElevatorNumber", this.number, value);
+                    this.BaseObject_Edited(this, "Number", this.number, value);
                     this.number = value;
                 }
             }
@@ -224,9 +227,9 @@ namespace Database
             SQLColumn[] classData = new SQLColumn[]
             {
                 new SQLColumn("Building_ID", this.building_id),
-                new SQLColumn("ElevatorNumber", this.ElevatorNumber),
-                new SQLColumn("Type", BaseObject.GetEnumDescription(this.type)),
-                new SQLColumn("Nick", this.nickname)
+                new SQLColumn("Number", this.ElevatorNumber),
+                new SQLColumn("Type_ID", string.Format("(SELECT ID FROM ElevatorTypes WHERE Name = '{0}')", BaseObject.GetEnumDescription(this.type))),
+                new SQLColumn("Nickname", this.nickname)
             };
 
             if (this.ID == null)
@@ -235,7 +238,7 @@ namespace Database
             }
             else
             {
-                success = SQL.Query.Update("Elevator", classData, string.Format("Elevator_ID = {0}", this.ID));
+                success = SQL.Query.Update("Elevator", classData, string.Format("ID = {0}", this.ID));
             }
             
             return success && base.CommitToDatabase();
@@ -273,7 +276,6 @@ namespace Database
             {
                 throw ex;
             }
-            
         }
 
         /// <summary>

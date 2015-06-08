@@ -1093,27 +1093,26 @@ namespace TII_NewDatabase
         {
             // Start with just the Maryland Inspections, since those are always annuals
             string upcoming_query =
-                "SELECT DISTINCT Address, InspectionTypes.Name, DATEADD(DAY, 365, Date) as DueDate " +
+                "SELECT DISTINCT Address.Street, DATEADD(DAY, 365, Date) as DueDate " +
                 "FROM Inspection " +
-                "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
-                "JOIN Building ON Elevator.Building_ID = Building.Building_ID " +
-                "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
-                "WHERE Inspection_ID IN " +
-                "    (SELECT TOP 1 Inspection_ID " +
+                "JOIN Elevator ON Elevator.ID = Inspection.Elevator_ID " +
+                "JOIN Building ON Elevator.Building_ID = Building.ID " +
+                "JOIN Address ON Building.Address_ID = Address.ID " +
+                "WHERE Inspection.ID IN  " +
+                "    (SELECT TOP 1 Inspection.ID " +
                 "    FROM Inspection " +
-                "    JOIN Elevator AS Dupe ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
-                "    WHERE Dupe.Elevator_ID = Elevator.Elevator_ID " +
-                "    AND Inspection.IType_ID = 7 " +
+                "    JOIN Elevator AS Dupe ON Elevator.ID = Inspection.Elevator_ID " +
+                "    WHERE Dupe.ID = Elevator.ID " +
+                "    AND InspectionType_ID = (SELECT ID FROM InspectionType WHERE Name = 'Annual') " +
                 "    ORDER BY Date DESC) " +
                 "AND DATEDIFF(DAY, Date, GETDATE()) < 365 " +
                 "AND DATEDIFF(DAY, Date, GETDATE()) > (365 - " + this.cbo_UpcomingDays.Text + ") " +
-                "AND State = 'MD' " +
                 "ORDER BY DueDate";
 
             this.lvw_UpcomingInspection.Items.Clear();
             foreach (DataRow row in SQL.Query.Select(upcoming_query).Rows)
             {
-                ListViewItem item = new ListViewItem(row["Address"].ToString());
+                ListViewItem item = new ListViewItem(row["Street"].ToString());
                 item.SubItems.Add("Annual");
                 item.SubItems.Add(((DateTime)row["DueDate"]).ToShortDateString());
 
@@ -1127,30 +1126,29 @@ namespace TII_NewDatabase
         private void UpdateOverdueQuery()
         {
             string overdue_query =
-                    "SELECT DISTINCT Address, DATEDIFF(DAY, Inspection.Date, GetDate()) as DaysPast, InspectionTypes.Name, Inspection.Status " +
+                    "SELECT DISTINCT Address.Street, DATEDIFF(DAY, Inspection.Date, GetDate()) as DaysPast, InspectionType.Name " +
                     "FROM Inspection " +
-                    "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
-                    "JOIN Building ON Elevator.Building_ID = Building.Building_ID " +
-                    "JOIN InspectionTypes ON Inspection.IType_ID = InspectionTypes.IType_ID " +
-                    "WHERE Inspection_ID IN " +
-                    "    (SELECT TOP 1 Inspection_ID " +
-                    "    FROM Inspection  " +
-                    "    JOIN Elevator AS Dupe ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
-                    "    WHERE Dupe.Elevator_ID = Elevator.Elevator_ID " +
+                    "JOIN Elevator ON Elevator.ID = Inspection.Elevator_ID " +
+                    "JOIN Building ON Elevator.Building_ID = Building.ID " +
+                    "JOIN Address ON Building.Address_ID = Address.ID " +
+                    "JOIN InspectionType ON Inspection.InspectionType_ID = InspectionType.ID " +
+                    "WHERE Inspection.ID IN " +
+                    "    (SELECT TOP 1 Inspection.ID " +
+                    "    FROM Inspection " +
+                    "    JOIN Elevator AS Dupe ON Elevator.ID = Inspection.Elevator_ID " +
+                    "    WHERE Dupe.ID = Elevator.ID " +
                     "    ORDER BY Date DESC) " +
-                    "AND Status <> 'Clean'  " +
-                    "AND Status <> 'No Inspection' " +
+                    "AND Clean <> 1 " +
                     "AND DATEDIFF(DAY, Inspection.Date, GetDate()) > 30 " +
-                    "AND Active <> 0 " + 
+                    "AND Active <> 0 " +
                     "ORDER BY DaysPast DESC";
 
                 this.lvw_OverdueInspections.Items.Clear();
                 foreach (DataRow row in SQL.Query.Select(overdue_query).Rows)
                 {
-                    ListViewItem item = new ListViewItem(row["Address"].ToString());
+                    ListViewItem item = new ListViewItem(row["Street"].ToString());
                     item.SubItems.Add(row["DaysPast"].ToString());
                     item.SubItems.Add(row["Name"].ToString());
-                    item.SubItems.Add(row["Status"].ToString());
 
                     this.lvw_OverdueInspections.Items.Add(item);
                 }

@@ -195,7 +195,6 @@ namespace TII_NewDatabase
             this.col_Over_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_OverDays = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_OverType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_OverStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tab_Calendar = new System.Windows.Forms.TabPage();
             this.cmu_Contact = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmi_AddContact = new System.Windows.Forms.ToolStripMenuItem();
@@ -1197,6 +1196,7 @@ namespace TII_NewDatabase
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Scheduling";
+            this.groupBox1.Visible = false;
             // 
             // gbx_CurrentSchedule
             // 
@@ -1499,8 +1499,7 @@ namespace TII_NewDatabase
             this.lvw_OverdueInspections.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.col_Over_Address,
             this.col_OverDays,
-            this.col_OverType,
-            this.col_OverStatus});
+            this.col_OverType});
             this.lvw_OverdueInspections.Location = new System.Drawing.Point(7, 19);
             this.lvw_OverdueInspections.Name = "lvw_OverdueInspections";
             this.lvw_OverdueInspections.Size = new System.Drawing.Size(395, 475);
@@ -1511,21 +1510,17 @@ namespace TII_NewDatabase
             // col_Over_Address
             // 
             this.col_Over_Address.Text = "Address";
-            this.col_Over_Address.Width = 120;
+            this.col_Over_Address.Width = 177;
             // 
             // col_OverDays
             // 
             this.col_OverDays.Text = "Days Past";
+            this.col_OverDays.Width = 79;
             // 
             // col_OverType
             // 
             this.col_OverType.Text = "Type";
-            this.col_OverType.Width = 90;
-            // 
-            // col_OverStatus
-            // 
-            this.col_OverStatus.Text = "Status";
-            this.col_OverStatus.Width = 115;
+            this.col_OverType.Width = 128;
             // 
             // tab_Calendar
             // 
@@ -1726,7 +1721,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.ListView lvw_OverdueInspections;
         private System.Windows.Forms.ColumnHeader col_Over_Address;
         private System.Windows.Forms.ColumnHeader col_OverType;
-        private System.Windows.Forms.ColumnHeader col_OverStatus;
         private System.Windows.Forms.ColumnHeader col_OverDays;
         private System.Windows.Forms.CheckBox cbx_Heats;
         private System.Windows.Forms.CheckBox cbx_EmPwr;

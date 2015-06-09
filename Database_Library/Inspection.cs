@@ -177,7 +177,7 @@ namespace Database
         {
             get
             {
-                return BaseObject.AffirmOneRow(SQL.Query.Select("ElevatorNumber", "Elevator", string.Format("Elevator_ID = '{0}'", this.elevator_ID)))["ElevatorNumber"].ToString();
+                return BaseObject.AffirmOneRow(SQL.Query.Select("Number", "Elevator", string.Format("ID = '{0}'", this.elevator_ID)))["Number"].ToString();
             }
         }
 
@@ -378,13 +378,17 @@ namespace Database
             // Boolean for determining if the operation was sucessful.
             bool success;
 
-            // Check to see if the document we have as the report already exists in the document table, and if it doesn't add it.
-            string query = string.Format("SELECT ID FROM Documents WHERE FilePath = '{0}'", this.report);
-            DataTable docIDCheck = SQL.Query.Select(query);
-            if (docIDCheck.Rows.Count == 0)
+            // Check to see if we have a report file
+            int report_id = 0;
+            if (this.report != string.Empty)
             {
-                SQLColumn[] documentData = new SQLColumn[]
+                // Check to see if the document we have as the report already exists in the document table, and if it doesn't add it.
+                string query = string.Format("SELECT ID FROM Documents WHERE FilePath = '{0}'", this.report);
+                DataTable docIDCheck = SQL.Query.Select(query);
+                if (docIDCheck.Rows.Count == 0)
                 {
+                    SQLColumn[] documentData = new SQLColumn[]
+                    {
                     new SQLColumn("Title", "Inspection Report"),
                     new SQLColumn(
                         "Description",
@@ -396,14 +400,15 @@ namespace Database
                             this.elevator_ID)),
                     new SQLColumn("DateModified", DateTime.Now),
                     new SQLColumn("FilePath", this.report)
-                };
+                    };
 
-                SQL.Query.Insert("Documents", documentData);
+                    SQL.Query.Insert("Documents", documentData);
 
-                docIDCheck = SQL.Query.Select(query);
+                    docIDCheck = SQL.Query.Select(query);
+                }
+
+                report_id = (int)docIDCheck.Rows[0].ItemArray[0];
             }
-
-            int report_id = (int)docIDCheck.Rows[0].ItemArray[0];
 
             // Group the data from the class together into a single variable.
             SQLColumn[] classData = new SQLColumn[] 
@@ -469,7 +474,7 @@ namespace Database
             {
                 // Test the ID because it's a nice thing to do
                 int id;
-                if (int.TryParse(row["Inspection_ID"].ToString(), out id))
+                if (int.TryParse(row["ID"].ToString(), out id))
                 {
                     this.ID = id;
                 }

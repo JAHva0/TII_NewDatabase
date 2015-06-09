@@ -77,24 +77,24 @@ namespace TII_NewDatabase.AddNewForms
 
             // Query to select all inspections from this building, on this date, of this type
             string query = string.Format(
-                                         "SELECT * FROM Inspection " +
-                                         "WHERE Elevator_ID IN " +
-                                         "    ( " +
-                                         "    SELECT Elevator_ID " +
-                                         "    FROM Building " +
-                                         "    JOIN Elevator ON Elevator.Building_ID = Building.Building_ID " +
-                                         "    WHERE Address = '{0}' " +
-                                         "    ) " +
-                                         "AND Date = '{1}' " +
-                                         "AND IType_ID = " +
-                                         "    ( " +
-                                         "    SELECT IType_ID" +
-                                         "    FROM InspectionTypes" +
-                                         "    WHERE Name = '{2}'" +
-                                         "    )", 
-                                         building_address, 
-                                         inspectionDate, 
-                                         inspectionType);
+                "SELECT Inspection.ID, Elevator_ID, Date, InspectionType.Name AS Type, Clean, Inspector.Name AS Inspector, Documents.FilePath AS Report " +
+                "FROM Inspection " +
+                "JOIN Inspector ON Inspector_ID = Inspector.ID " +
+                "LEFT JOIN InspectionType ON InspectionType_ID = InspectionType.ID " +
+                "LEFT JOIN Documents ON Report_ID = Documents.ID " +
+                "WHERE Elevator_ID IN " +
+                "( " +
+                "    SELECT Elevator_ID " +
+                "    FROM Building " +
+                "    JOIN Elevator ON Elevator.Building_ID = Building.ID " +
+                "    JOIN Address ON Building.Address_ID = Address.ID " +
+                "    WHERE Street = '{0}' " +
+                ") " +
+                "AND Date = '{1}' " +
+                "AND InspectionType.Name = '{2}'",
+                building_address,
+                inspectionDate,
+                inspectionType);
 
             // Zero out the Inspection list. (Selecting a building in the FormAddInspection(Building) Constructor was populating the inspection list with blank inspections.)
             this.inspectionList = new List<Inspection>();
@@ -108,7 +108,10 @@ namespace TII_NewDatabase.AddNewForms
             this.cbo_Inspector.Text = this.inspectionList[0].InspectorName;
 
             // Same goes for the report file
-            this.lbx_ReportFileList.Items.Add(this.inspectionList[0].ReportFile);
+            if (this.inspectionList[0].ReportFile != string.Empty)
+            {
+                this.lbx_ReportFileList.Items.Add(this.inspectionList[0].ReportFile);
+            }
 
             // Set the Inspection Status for each elevator
             foreach (DataGridViewRow i in this.dgv_ElevatorList.Rows)

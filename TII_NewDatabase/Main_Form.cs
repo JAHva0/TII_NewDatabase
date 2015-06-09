@@ -608,15 +608,19 @@ namespace TII_NewDatabase
             if (open_file_diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string query = string.Format(
-                                             "SELECT Inspection.Inspection_ID, Elevator.Elevator_ID, Date, IType_ID, Status, Inspector, Report FROM Inspection " +
-                                             "JOIN Elevator ON Elevator.Elevator_ID = Inspection.Elevator_ID " +
-                                             "JOIN Building ON Building.Building_ID = Elevator.Building_ID " +
-                                             "WHERE Date = '{0}' " +
-                                             "AND IType_ID = (SELECT IType_ID FROM InspectionTypes WHERE Name = '{1}') " +
-                                             "AND Building.Building_ID = {2}",
-                                             this.lvw_InspectionList.SelectedItems[0].Text, // Date
-                                             this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, // Type
-                                             this.currentlySelectedBuilding.ID);
+                    "SELECT Inspection.ID, Elevator_ID, Date, InspectionType.Name AS Type, Clean, Inspector.Name AS Inspector,  Documents.FilePath AS Report " +
+                    "FROM Inspection " +
+                    "JOIN Elevator ON Elevator.ID = Inspection.Elevator_ID " +
+                    "JOIN Building ON Building.ID = Elevator.Building_ID " +
+                    "JOIN Inspector ON Inspector.ID = Inspection.Inspector_ID " +
+                    "JOIN InspectionType ON InspectionType_ID = InspectionType.ID " +
+                    "LEFT JOIN Documents ON Documents.ID = Inspection.Report_ID " +
+                    "WHERE Date = '{0}' " +
+                    "AND InspectionType.Name = '{1}' " +
+                    "AND Building.ID = {2}",
+                    this.lvw_InspectionList.SelectedItems[0].Text, // Date
+                    this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text, // Type
+                    this.currentlySelectedBuilding.ID);
 
                 // Update every inspection entry with the same date, type, and building ID
                 foreach (DataRow inspectionToUpdate in SQL.Query.Select(query).Rows)

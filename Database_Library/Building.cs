@@ -842,7 +842,7 @@ namespace Database
                 new SQLColumn("Firm_Fee", this.firm_fee.Value),
                 new SQLColumn("Hourly_Fee", this.hourly_fee.Value),
                 new SQLColumn("Anniversary", MonthToInt(this.anniversary)),
-                new SQLColumn("Contractor_ID", string.Format("(SELECT ID FROM Contractor WHERE Name = '{0}'", this.contractor)),
+                new SQLColumn("Contractor_ID", string.Format("(SELECT ID FROM Contractor WHERE Name = '{0}')", this.contractor)),
                 new SQLColumn("Active", this.active),
                 new SQLColumn("Latitude", this.coordinates.Latitude),
                 new SQLColumn("Longitude", this.coordinates.Longitude),

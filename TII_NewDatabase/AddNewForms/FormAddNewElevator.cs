@@ -173,7 +173,7 @@ namespace TII_NewDatabase.AddNewForms
         private void GenerateNumber(object sender, EventArgs e)
         {
             // Get the topmost entry in the database that uses this format
-            string number = SQL.Query.Select("TOP 1 ElevatorNumber", "Elevator", "ElevatorNumber LIKE 'TII%'", "Elevator_ID DESC").Rows[0][0].ToString();
+            string number = SQL.Query.Select("TOP 1 Number", "Elevator", "Number LIKE 'TII%'", "ID DESC").Rows[0][0].ToString();
             
             // Strip out all the non-numeric characters from the string.
             number = Regex.Replace(number, "[^.0-9]", string.Empty);

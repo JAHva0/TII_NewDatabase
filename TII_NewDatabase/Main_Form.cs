@@ -558,20 +558,22 @@ namespace TII_NewDatabase
         /// <param name="e">And Event Arguments.</param>
         private void ReportFileMenu_Click(object sender, EventArgs e)
         {
-            DataRowCollection report_file = SQL.Query.Select(
-                                                             string.Format(
-                                                                           "SELECT DISTINCT Report " +
-                                                                           "FROM Inspection " +
-                                                                           "JOIN Elevator ON Inspection.Elevator_ID = Elevator.Elevator_ID " +
-                                                                           "WHERE Elevator.Building_ID = " +
-                                                                                                         "( " +
-                                                                                                         "SELECT Building_ID " +
-                                                                                                         "FROM Building " +
-                                                                                                         "WHERE Address = '{0}' " +
-                                                                                                         ") " +
-                                                                           "AND Date = '{1}'",
-                                                                           this.txt_BuildingAddress.Text,
-                                                                           this.lvw_InspectionList.SelectedItems[0].Text)).Rows;
+            string query = string.Format(
+                "SELECT DISTINCT Documents.FilePath AS Report " +
+                "FROM Inspection " +
+                "JOIN Elevator ON Inspection.Elevator_ID = Elevator.ID " +
+                "LEFT JOIN Documents ON Report_ID = Documents.ID " +
+                "WHERE Elevator.Building_ID = " +
+                "( " +
+                "    SELECT Building_ID " +
+                "    FROM Building " +
+                "    JOIN Address ON Address_ID = Address.ID " +
+                "    WHERE Street = '{0}' " +
+                ") " +
+                "AND Date = '{1}'",
+                this.txt_BuildingAddress.Text,
+                this.lvw_InspectionList.SelectedItems[0].Text);
+            DataRowCollection report_file = SQL.Query.Select(query).Rows;
 
             // In case we end up with more than one report from that date, open them all.
             foreach (DataRow row in report_file)

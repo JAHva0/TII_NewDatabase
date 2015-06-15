@@ -557,7 +557,7 @@ namespace TII_NewDatabase
         /// <param name="e">The parameter is not used.</param>
         private void EditElevator(object sender, EventArgs e)
         {
-            FormAddNewElevator editElevator = new FormAddNewElevator(this.currentlySelectedBuilding.ElevatorList.Where(x => x.ElevatorNumber == lbx_ElevatorList.SelectedItem.ToString()).SingleOrDefault());
+            FormAddNewElevator editElevator = new FormAddNewElevator(this.currentlySelectedBuilding.ElevatorList.Where(x => x.ElevatorNumber == this.lbx_ElevatorList.SelectedItem.ToString()).SingleOrDefault());
             editElevator.ShowDialog();
         }
 
@@ -657,7 +657,7 @@ namespace TII_NewDatabase
             FormAddInspection editInspection = new FormAddInspection(
                     this.txt_BuildingAddress.Text,
                     Convert.ToDateTime(this.lvw_InspectionList.SelectedItems[0].Text),
-                    lvw_InspectionList.SelectedItems[0].SubItems[1].Text);
+                    this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text);
             editInspection.ShowDialog();
         }
 

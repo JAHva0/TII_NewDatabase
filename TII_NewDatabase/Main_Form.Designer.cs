@@ -195,6 +195,7 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
             this.statusstrip_MainForm = new System.Windows.Forms.StatusStrip();
             this.status_Connection = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuSearchForReports = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -235,6 +236,7 @@ namespace TII_NewDatabase
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuSearchForReports,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -243,7 +245,7 @@ namespace TII_NewDatabase
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -1555,6 +1557,12 @@ namespace TII_NewDatabase
             this.status_Connection.Size = new System.Drawing.Size(205, 17);
             this.status_Connection.Text = "Attempting to Establish Connection...";
             // 
+            // menuSearchForReports
+            // 
+            this.menuSearchForReports.Name = "menuSearchForReports";
+            this.menuSearchForReports.Size = new System.Drawing.Size(172, 22);
+            this.menuSearchForReports.Text = "Search For Reports";
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1737,5 +1745,6 @@ namespace TII_NewDatabase
         private System.Windows.Forms.DateTimePicker dtp_NoEarlierThan;
         private System.Windows.Forms.StatusStrip statusstrip_MainForm;
         private System.Windows.Forms.ToolStripStatusLabel status_Connection;
+        private System.Windows.Forms.ToolStripMenuItem menuSearchForReports;
     }
 }

@@ -112,7 +112,6 @@ namespace TII_NewDatabase
                         {
                             this.txt_CertBackgroundImage.Text = ofd.FileName;
                         }
-                        
 
                         break;
                     }

@@ -14,6 +14,9 @@ namespace TII_NewDatabase
     /// </summary>
     public partial class Main_Form : Form
     {
+        /// <summary>
+        /// A list to hold the calendars needed for this form. 
+        /// </summary>
         private List<Calendar> calendars = new List<Calendar>();
         
         /// <summary>
@@ -37,7 +40,7 @@ namespace TII_NewDatabase
         }
         
         /// <summary>
-        /// Occurs whenever the user changes a value in the Scheduling Groupbox. 
+        /// Occurs whenever the user changes a value in the Scheduling <see cref="GroupBox"/>. 
         /// Checks to make sure all the data entered is valid.
         /// </summary>
         /// <param name="sender">The control which triggered this event.</param>
@@ -57,19 +60,17 @@ namespace TII_NewDatabase
                 return;
             }
 
-            Calendar selectedCal = this.calendars.Where(x => x.Name == cbo_InspectorToSchedule.SelectedItem.ToString()).SingleOrDefault();
+            Calendar selectedCal = this.calendars.Where(x => x.Name == this.cbo_InspectorToSchedule.SelectedItem.ToString()).SingleOrDefault();
 
             if (this.cbo_InspectorToSchedule.SelectedItem.ToString() != null)
             {
-                this.GetAvailableDates(selectedCal);
-
                 // Remove all dates that we've bolded before this point.
                 this.cal_CalendarDisplay.RemoveAllBoldedDates();
 
                 // Bold all dates that have something scheduled on them already
                 foreach (DateTime date in selectedCal.AllEvents.Select(x => x.Start).Distinct())
                 {
-                    cal_CalendarDisplay.AddBoldedDate(date);
+                    this.cal_CalendarDisplay.AddBoldedDate(date);
                 }
 
                 // Refresh the calendar to show our new bolded dates.
@@ -77,13 +78,8 @@ namespace TII_NewDatabase
             }
         }
 
-        private void GetAvailableDates(Calendar calendar)
-        {
-            
-        }
-
         /// <summary>
-        /// Updates the Current Schedule Listbox to display all events that occur on the date selected on the 
+        /// Updates the Current Schedule <see cref="ListBox"/> to display all events that occur on the date selected on the calendar control.
         /// </summary>
         /// <param name="sender">The parameter is not used.</param>
         /// <param name="e">The parameter is not used.</param>

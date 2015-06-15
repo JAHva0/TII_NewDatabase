@@ -200,6 +200,8 @@ namespace Database
             }
         }
 
+        /// <summary> Gets a condensed string of all of the information contained within this class. </summary>
+        /// <value> A string of values separated by the pipe character. </value>
         public string ToCondensedString
         {
             get
@@ -245,6 +247,28 @@ namespace Database
         }
 
         /// <summary>
+        /// Convert the elevator type provided by the string to the corresponding enumerator.
+        /// </summary>
+        /// <param name="type">Elevator Type string.</param>
+        /// <returns>An enumerator related to the type string.</returns>
+        private static Type StringToTypeEnum(string type)
+        {
+            switch (type)
+            {
+                case "Hydraulic": return Type.HYDRAULIC;
+                case "Traction": return Type.TRACTION;
+                case "Escalator": return Type.ESCALATOR;
+                case "Wheelchair Lift": return Type.WHEELCHAIR_LIFT;
+                case "Dumbwaiter": return Type.DUMBWAITER;
+                case "Inclined Lift": return Type.INCLINED_LIFT;
+                case "LULA Lift": return Type.LULA_LIFT;
+                case "Handicapped Lift": return Type.HANDICAPPED_LIFT;
+                case "Vertical Lift": return Type.VERTICAL_LIFT;
+                default: throw new ArgumentException("Invalid Elevator Type: " + type);
+            }
+        }
+
+        /// <summary>
         /// Private method to fill the class with information.
         /// </summary>
         /// <param name="row">A Pre-filled DataRow from which to fill the class information.</param>
@@ -275,28 +299,6 @@ namespace Database
             catch (Exception ex)
             {
                 throw ex;
-            }
-        }
-
-        /// <summary>
-        /// Convert the elevator type provided by the string to the corresponding enumerator.
-        /// </summary>
-        /// <param name="type">Elevator Type string.</param>
-        /// <returns>An enumerator related to the type string.</returns>
-        private static Type StringToTypeEnum(string type)
-        {
-            switch (type)
-            {
-                case "Hydraulic": return Type.HYDRAULIC;
-                case "Traction": return Type.TRACTION;
-                case "Escalator": return Type.ESCALATOR;
-                case "Wheelchair Lift": return Type.WHEELCHAIR_LIFT;
-                case "Dumbwaiter": return Type.DUMBWAITER;
-                case "Inclined Lift": return Type.INCLINED_LIFT;
-                case "LULA Lift": return Type.LULA_LIFT;
-                case "Handicapped Lift": return Type.HANDICAPPED_LIFT;
-                case "Vertical Lift": return Type.VERTICAL_LIFT;
-                default: throw new ArgumentException("Invalid Elevator Type: " + type);
             }
         }
     }

@@ -76,6 +76,7 @@ namespace TII_NewDatabase
                     line = certnos.GetRange(0, count).ToFormattedList(false);
                     count++;
                 }
+
                 count--;
 
                 newCert.AddText(certnos.GetRange(0, count).ToFormattedList(false), 145, 621);

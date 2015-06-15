@@ -396,17 +396,17 @@ namespace TII_NewDatabase.AddNewForms
             // Check and see if, assuming this is a DC job, we have all of the neseccary information to make a cert. 
             if (this.selectedBuilding != null)
             {
-                bool AllClean = true;
+                bool allClean = true;
                 foreach (DataGridViewRow elevRow in this.dgv_ElevatorList.Rows)
                 {
                     if (elevRow.Cells["Status"].Value.ToString() != "Clean")
                     {
-                        AllClean = false;
+                        allClean = false;
                     }
                 }
 
                 // If everything is here, enable the cert button. Otherwise, disable it.
-                if (AllClean && this.cbo_Inspector.Text != string.Empty && this.dtp_InspectionDate.Checked && this.cbo_InspectionType.Text != string.Empty)
+                if (allClean && this.cbo_Inspector.Text != string.Empty && this.dtp_InspectionDate.Checked && this.cbo_InspectionType.Text != string.Empty)
                 {
                     this.btn_CreateDCCert.Enabled = true;
                 }

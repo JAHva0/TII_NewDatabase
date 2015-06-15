@@ -37,6 +37,10 @@ namespace TII_NewDatabase.AddNewForms
             this.elevData.OwnerID = ownerBuilding.ID.Value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormAddNewElevator"/> class.
+        /// </summary>
+        /// <param name="elevatorToEdit"> Initializing with a particular elevator changes this form to allow the editing of a particular entry. </param>
         public FormAddNewElevator(Elevator elevatorToEdit)
         {
             this.InitializeComponent();

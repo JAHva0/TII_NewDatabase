@@ -86,7 +86,7 @@ namespace TII_NewDatabase
             this.cbx_ShowInactive.Checked = Properties.Settings.Default.InactveFilterOn;
 
             // Initalize the contractor checkbox
-            //this.cbo_Contractor.Items.AddRange(Building.ContractorList.ToArray());
+            this.cbo_Contractor.Items.AddRange(Building.ContractorList.ToArray());
 
             // Populate the Lists with the Company and Building Information
             string companyQuery = "SELECT DISTINCT " +
@@ -529,6 +529,11 @@ namespace TII_NewDatabase
             this.lvw_InspectionList.ContextMenu = reportFileMenu;
         }
 
+        /// <summary>
+        /// Creates a Context menu when the user right clicks on an elevator to provide the user the option to edit an elevator entry.
+        /// </summary>
+        /// <param name="sender">The parameter is not used. </param>
+        /// <param name="e"> Determines if this was a right click or not. </param>
         private void ElevatorList_RightClick(object sender, MouseEventArgs e)
         {
             // Not interested if the left mouse button was clicked. Exit Out.
@@ -545,6 +550,11 @@ namespace TII_NewDatabase
             this.lbx_ElevatorList.ContextMenu = elevatorEditMenu;
         }
 
+        /// <summary>
+        /// Creates a Elevator Form, populated with the information current for the selected elevator. The user may modify and commit changes with this form.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
         private void EditElevator(object sender, EventArgs e)
         {
             FormAddNewElevator editElevator = new FormAddNewElevator(this.currentlySelectedBuilding.ElevatorList.Where(x => x.ElevatorNumber == lbx_ElevatorList.SelectedItem.ToString()).SingleOrDefault());

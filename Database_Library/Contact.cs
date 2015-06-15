@@ -209,6 +209,8 @@ namespace Database
             }
         }
 
+        /// <summary> Gets a condensed string of all of the information contained within this class. </summary>
+        /// <value> A string of values separated by the pipe character. </value>
         public string ToCondensedString
         {
             get
@@ -243,8 +245,6 @@ namespace Database
                                                         new SQLColumn("Email", this.email)
                                                     };
 
-            
-
             if (this.ID == null)
             {
                 // If ID is null, then this is a new entry to the database and we should insert it.
@@ -252,10 +252,10 @@ namespace Database
                 
                 // So that we can then add the buildings and company relations to this contact, load the ID right back from the database.
                 this.ID = Convert.ToInt32(
-                    BaseObject.AffirmOneRow(SQL.Query.Select("Contact_ID", "Contact",
-                                                              string.Format(
-                                                              "Name = '{0}'",
-                                                              this.name)))["Contact_ID"].ToString());
+                    BaseObject.AffirmOneRow(SQL.Query.Select(
+                        "Contact_ID", 
+                        "Contact",
+                        string.Format("Name = '{0}'", this.name)))["Contact_ID"].ToString());
 
                 // Now that we have the ID of this new contact, make associations based on the company and building keys that are present.
                 foreach (int company_ID in this.companies.Keys)

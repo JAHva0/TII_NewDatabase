@@ -43,8 +43,7 @@ namespace Database
                 "JOIN Address ON Address_ID = Address.ID " +
                 "JOIN City ON City_ID = City.ID " +
                 "JOIN State ON State_ID = State.ID " +
-                "WHERE Company.ID = " + company_ID.ToString()
-                );
+                "WHERE Company.ID = " + company_ID.ToString());
             this.LoadFromDatabase(BaseObject.AffirmOneRow(tbl));
         }
 
@@ -64,6 +63,10 @@ namespace Database
             this.LoadFromDatabase(BaseObject.AffirmOneRow(tbl));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Company"/> class.
+        /// </summary>
+        /// <param name="companyData">A properly formatted <see cref="DataRow"/> from the SQL Table. </param>
         public Company(DataRow companyData)
         {
             this.LoadFromDatabase(companyData);
@@ -180,8 +183,7 @@ namespace Database
                 foreach (DataRow r in SQL.Query.Select(
                     "SELECT Street FROM Building " +
                     "JOIN Address ON Address_ID = Address.ID " +
-                    "WHERE Company_ID = " + this.ID.ToString()
-                    ).Rows)
+                    "WHERE Company_ID = " + this.ID.ToString()).Rows)
                 {
                     buildings.Add(r["Street"].ToString());
                 }
@@ -200,6 +202,8 @@ namespace Database
             }
         }
 
+        /// <summary> Gets a condensed string of all of the information contained within this class. </summary>
+        /// <value> A string of values separated by the pipe character. </value>
         public string ToCondensedString
         {
             get
@@ -223,11 +227,6 @@ namespace Database
         {
             // Boolean for determining if the operation was successfull.
             bool success;
-
-            // Check to see if this address already exists in the database
-            
-
-            // If the address doesn't exist in the address table already, insert a new one
 
             // Group the data from the class into a single variable
             SQLColumn[] classData = new SQLColumn[] 
@@ -291,20 +290,19 @@ namespace Database
                 this.address.Zip = row["Zip"].ToString();
 
                 this.contact_list = new List<Contact>();
-                //foreach (DataRow con in SQL.Query.Select(string.Format(
-                //                                         "SELECT DISTINCT * FROM Contact " +
-                //                                         "JOIN Company_Contact_Relations ON Contact.Contact_ID = Company_Contact_Relations.Contact_ID " +
-                //                                         "WHERE Company_Contact_Relations.Company_ID = {0}",
-                //                                         this.ID)).Rows)
-                //{
-                //    this.contact_list.Add(new Contact(con));
-                //}
+                ////foreach (DataRow con in SQL.Query.Select(string.Format(
+                ////                                         "SELECT DISTINCT * FROM Contact " +
+                ////                                         "JOIN Company_Contact_Relations ON Contact.Contact_ID = Company_Contact_Relations.Contact_ID " +
+                ////                                         "WHERE Company_Contact_Relations.Company_ID = {0}",
+                ////                                         this.ID)).Rows)
+                ////{
+                ////    this.contact_list.Add(new Contact(con));
+                ////}
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            
         }
     }
 }

@@ -194,11 +194,13 @@ namespace Database
                 }
 
                 // Create and run an insert query to add this address if it does not exist.
-                SQLColumn[] data = new SQLColumn[] {
+                SQLColumn[] data = new SQLColumn[] 
+                {
                     new SQLColumn("Street", string.Format(this.Street)),
                     new SQLColumn("City_ID", string.Format("(SELECT ID FROM City WHERE Name = '{0}')", this.City)),
                     new SQLColumn("State_ID", string.Format("(SELECT ID FROM State WHERE Abbreviation = '{0}')", this.State)),
-                    new SQLColumn("Zip", Convert.ToInt32(this.zip))};
+                    new SQLColumn("Zip", Convert.ToInt32(this.zip))
+                };
                 SQL.Query.Insert("Address", data);
 
                 // Query it again now that we've added it in.

@@ -257,6 +257,8 @@ namespace Database
             }
         }
 
+        /// <summary> Gets a condensed string of all of the information contained within this class. </summary>
+        /// <value> A string of values separated by the pipe character. </value>
         public string ToCondensedString
         {
             get
@@ -324,7 +326,7 @@ namespace Database
         {
             if (inspectorList == null)
             {
-                Inspection I = new Inspection();
+                Inspection init = new Inspection();
             }
             
             List<string> inspectorNames = new List<string>();
@@ -392,12 +394,7 @@ namespace Database
                     new SQLColumn("Title", "Inspection Report"),
                     new SQLColumn(
                         "Description",
-                        string.Format(
-                            "(SELECT Street FROM Building " +
-                            "JOIN Address ON Address_ID = Address.ID " +
-                            "WHERE Building.ID = " +
-                            "(SELECT Building_ID FROM Elevator WHERE ID = {0}))",
-                            this.elevator_ID)),
+                        string.Format("(SELECT Street FROM Building JOIN Address ON Address_ID = Address.ID WHERE Building.ID = (SELECT Building_ID FROM Elevator WHERE ID = {0}))", this.elevator_ID)),
                     new SQLColumn("DateModified", DateTime.Now),
                     new SQLColumn("FilePath", this.report)
                     };
@@ -437,7 +434,7 @@ namespace Database
         /// Converts a status string to a <see cref="bool?"/>.
         /// </summary>
         /// <param name="status">The status string to convert.</param>
-        /// <returns>A nullable boolean.</returns>
+        /// <returns>A boolean. May be null, indicating no inspection was performed. </returns>
         private static bool? StatusToBool(string status)
         {
             switch (status)

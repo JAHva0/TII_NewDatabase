@@ -102,6 +102,10 @@ namespace Database
             this.LoadFromDatabase(tbl.Rows[0]);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Building"/> class.
+        /// </summary>
+        /// <param name="buildingData"> A properly formatted <see cref="DataRow"/> from the SQL Table. </param>
         public Building(DataRow buildingData)
         {
             this.LoadFromDatabase(buildingData);
@@ -720,7 +724,8 @@ namespace Database
                 foreach (DataRow row in SQL.Query.Select(string.Format(
                     "SELECT Elevator.ID, Building_ID, Number, ElevatorTypes.Name AS Type, Nickname FROM Elevator " +
                     "JOIN ElevatorTypes ON Type_ID = ElevatorTypes.ID " +
-                    "WHERE Building_ID = {0}", this.ID)).Rows)
+                    "WHERE Building_ID = {0}", 
+                    this.ID)).Rows)
                 {
                     elevators.Add(new Elevator(row));
                 }
@@ -794,6 +799,8 @@ namespace Database
             }
         }
 
+        /// <summary> Gets a condensed string of all of the information contained within this class. </summary>
+        /// <value> A string of values separated by the pipe character. </value>
         public string ToCondensedString
         {
             get
@@ -833,7 +840,8 @@ namespace Database
             bool success; 
 
             // Group the data from the class into a single variable
-            SQLColumn[] classData = new SQLColumn[] {
+            SQLColumn[] classData = new SQLColumn[] 
+            {
                 new SQLColumn("Company_ID", this.company_id),
                 new SQLColumn("Name", this.name),
                 new SQLColumn("Address_ID", this.address.GetDatabaseID()),
@@ -849,7 +857,8 @@ namespace Database
                 new SQLColumn("FES", this.fire_emergency_service),
                 new SQLColumn("Emergency_Power", this.emergency_power),
                 new SQLColumn("Smoke_Detectors", string.Empty),
-                new SQLColumn("Heat_Detectors", this.heat_detectors)};
+                new SQLColumn("Heat_Detectors", this.heat_detectors)
+            };
 
             if (this.ID == null)
             {
@@ -940,6 +949,11 @@ namespace Database
             }
         }
 
+        /// <summary>
+        /// Converts an integer value to it's corresponding month enumerator. 
+        /// </summary>
+        /// <param name="m"> A string, either empty or a number between 1 and 12. </param>
+        /// <returns> The corresponding <see cref="Month"/>. </returns>
         private static Month InttoMonthEnum(string m)
         {
             switch (m)
@@ -961,6 +975,11 @@ namespace Database
             }
         }
 
+        /// <summary>
+        /// Converts a <see cref="Month"/> to it's corresponding integer value.
+        /// </summary>
+        /// <param name="m">The <see cref="Month"/> to convert. </param>
+        /// <returns> An integer between 0 and 12. </returns>
         private static int MonthToInt(Month m)
         {
             switch (m)
@@ -1010,8 +1029,6 @@ namespace Database
                 Debug.Assert(this.company_id != 0, "Every Building must have a cooresponding owner. Company_ID cannot be 0");
 
                 // Assign the opening strings. Pretty straightforward.
-                //this.proposal_number = row["ProposalNumber"].ToString();
-                //this.proposal_file = row["ProposalFile"].ToString();
                 this.name = row["Name"].ToString();
                 this.address.Street = row["Street"].ToString();
                 this.address.City = row["City"].ToString();
@@ -1054,14 +1071,14 @@ namespace Database
 
                 // Pull a list of contacts (If any exist for this building)
                 this.contact_list = new List<Contact>();
-                //foreach (DataRow con in SQL.Query.Select(string.Format(
-                //                                         "SELECT DISTINCT * FROM Contact " +
-                //                                         "JOIN Building_Contact_Relations ON Contact.Contact_ID = Building_Contact_Relations.Contact_ID " +
-                //                                         "WHERE Building_Contact_Relations.Building_ID = {0}",
-                //                                         this.ID)).Rows)
-                //{
-                //    this.contact_list.Add(new Contact(con));
-                //}
+                ////foreach (DataRow con in SQL.Query.Select(string.Format(
+                ////                                         "SELECT DISTINCT * FROM Contact " +
+                ////                                         "JOIN Building_Contact_Relations ON Contact.Contact_ID = Building_Contact_Relations.Contact_ID " +
+                ////                                         "WHERE Building_Contact_Relations.Building_ID = {0}",
+                ////                                         this.ID)).Rows)
+                ////{
+                ////    this.contact_list.Add(new Contact(con));
+                ////}
             }
             catch (Exception ex)
             {
@@ -1101,6 +1118,7 @@ namespace Database
                 {
                     this.Status = "Outstanding Items";
                 }
+
                 this.Inspector = row["Inspector"].ToString();
 
                 if (row["Report"].ToString() != string.Empty)

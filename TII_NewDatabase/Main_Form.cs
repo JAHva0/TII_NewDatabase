@@ -1176,11 +1176,5 @@ namespace TII_NewDatabase
 
             this.UpdateUpcomingInspections();
         }
-
-        private void CreateBackup(object sender, EventArgs e)
-        {
-            Backup.BackupLocation = @"C:\Users\Jon\Documents\TPIRs\Backup";
-            Backup.CreateNew();
-        }
     }
 }

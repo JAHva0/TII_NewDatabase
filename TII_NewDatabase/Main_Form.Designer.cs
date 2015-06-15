@@ -247,13 +247,6 @@ namespace TII_NewDatabase
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
-            // forceBackupToolStripMenuItem
-            // 
-            this.forceBackupToolStripMenuItem.Name = "forceBackupToolStripMenuItem";
-            this.forceBackupToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.forceBackupToolStripMenuItem.Text = "Force &Backup";
-            this.forceBackupToolStripMenuItem.Click += new System.EventHandler(this.CreateBackup);
-            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";

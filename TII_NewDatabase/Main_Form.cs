@@ -565,7 +565,7 @@ namespace TII_NewDatabase
                 "LEFT JOIN Documents ON Report_ID = Documents.ID " +
                 "WHERE Elevator.Building_ID = " +
                 "( " +
-                "    SELECT Building_ID " +
+                "    SELECT Building.ID " +
                 "    FROM Building " +
                 "    JOIN Address ON Address_ID = Address.ID " +
                 "    WHERE Street = '{0}' " +

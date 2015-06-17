@@ -515,6 +515,7 @@ namespace TII_NewDatabase
             if (this.lvw_InspectionList.SelectedItems[0].SubItems[4].Text == "Yes")
             {
                 reportFileMenu.MenuItems.Add(new MenuItem("Open Report File", this.ReportFileMenu_Click));
+                reportFileMenu.MenuItems.Add(new MenuItem("Open In File Explorer", this.ReportFileMenu_Click));
             }
             else
             {
@@ -585,24 +586,40 @@ namespace TII_NewDatabase
                 this.lvw_InspectionList.SelectedItems[0].Text);
             DataRowCollection report_file = SQL.Query.Select(query).Rows;
 
-            // In case we end up with more than one report from that date, open them all.
+            List<string> fileLocation = new List<string>();
             foreach (DataRow row in report_file)
             {
                 try
                 {
                     if (!row["Report"].ToString().Contains(@"C:") && Directory.Exists(Properties.Settings.Default.ReportLocation))
                     {
-                        Process.Start(Properties.Settings.Default.ReportLocation + row["Report"].ToString());
+                        fileLocation.Add(Properties.Settings.Default.ReportLocation + row["Report"].ToString());
                     }
                     else
                     {
-                        Process.Start(row["Report"].ToString());
+                        fileLocation.Add(row["Report"].ToString());
                     }
                 }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
+            }
+
+            if (((MenuItem)sender).Text == "Open Report File")
+            { 
+                // In case we end up with more than one report from that date, open them all.
+                foreach (string file in fileLocation)
+                {
+                    Process.Start(file);
+                }
+            }   
+            else if (((MenuItem)sender).Text == "Open In File Explorer")
+            {
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.FileName = "explorer.exe";
+                info.Arguments = string.Format("/e, /select, \"{0}\"", fileLocation[0]);
+                Process.Start(info);
             }
         }
 

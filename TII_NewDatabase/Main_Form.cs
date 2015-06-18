@@ -22,6 +22,8 @@ namespace TII_NewDatabase
     /// </summary>
     public partial class Main_Form : Form
     {
+        private Timer UpdateTimer;
+        
         /// <summary>
         /// List that contains Company Name, Location (DC, MD or BOTH), and Active Status for Sorting/Reference.
         /// </summary>
@@ -78,7 +80,14 @@ namespace TII_NewDatabase
         /// <param name="e">Will always be empty.</param>
         private void Main_Form_Load(object sender, EventArgs e)
         {
+            // Run the update method right off the bat to check to check for backups and connection.
             this.CheckDatabaseConnection();
+            this.UpdateTimer_Tick(new object(), EventArgs.Empty);
+
+            this.UpdateTimer = new Timer();
+            this.UpdateTimer.Interval = 300000;
+            this.UpdateTimer.Tick += this.UpdateTimer_Tick;
+            this.UpdateTimer.Start();
 
             // Initialize the checkbox filters to whatever the saved settings are
             this.cbx_ShowMD.Checked = Properties.Settings.Default.MDFilterOn;
@@ -154,6 +163,27 @@ namespace TII_NewDatabase
 
             // We're done with all that, so if things want to start triggerign now (looking at you checkboxes) they can.
             this.form_loaded = true;
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            // Check to make sure we still have a connection.
+            if (!Connection.ConnectionUp)
+            {
+                this.status_Connection.Text = "Attempting to Establish Connection...";
+                this.CheckDatabaseConnection();
+            }
+            else
+            {
+                this.status_Connection.Text = "Connected to Database.";
+            }
+
+            // Check to see if there's a backup file for this hour, and make one if there isn't
+            if (!File.Exists(Database_Library.Backup.GenerateFileName))
+            {
+                this.status_Connection.Text = this.status_Connection.Text + string.Format(" (Backup Created - {0})", Database_Library.Backup.GenerateFileName);
+                Database_Library.Backup.Create();
+            }
         }
 
         /// <summary>

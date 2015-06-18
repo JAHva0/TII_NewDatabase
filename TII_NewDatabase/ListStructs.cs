@@ -197,8 +197,18 @@ namespace TII_NewDatabase
             public DatabaseListItem(string title, string dc_or_md, bool active)
             {
                 this.Title = title;
-                this.DCorMD = dc_or_md;
-                this.IsActive = active;
+                if (dc_or_md == string.Empty)
+                {
+                    // New buildings will not have a dc or md flag, and be marked as inactive
+                    // We set them marked to all locales and as active so they appear on the list as soon as they are added
+                    this.DCorMD = "DCMD";
+                    this.IsActive = true;
+                }
+                else
+                {
+                    this.DCorMD = dc_or_md;
+                    this.IsActive = active;
+                }
             }
         }
     }

@@ -1,12 +1,43 @@
-﻿namespace Database_Library
+﻿/// <summary> Methods for creating and loading backup files. </summary>
+
+namespace Database_Library
 {
     using System;
     using System.Data;
     using System.IO;
-    using System.Windows.Forms;
 
+    /// <summary>
+    /// Static class for creating and loading backup files. 
+    /// </summary>
     public static class Backup
     {
+        /// <summary>
+        /// Gets a file name generated from the current date and time.
+        /// </summary>
+        public static string GenerateFileName
+        {
+            get
+            {
+                return string.Format("{0}{1}{2}-{3}-DB_Backup.tiibackup",
+                    DateTime.Now.Year.ToString(),
+                    DateTime.Now.Month.ToString().PadLeft(2, '0'),
+                    DateTime.Now.Day.ToString().PadLeft(2, '0'),
+                    DateTime.Now.Hour.ToString().PadLeft(2, '0'));
+            }
+        }
+
+        /// <summary>
+        /// Creates a backup with a Generated filename.
+        /// </summary>
+        public static void Create()
+        {
+            Create(GenerateFileName);
+        }
+
+        /// <summary>
+        /// Creates a backup with a given filename.
+        /// </summary>
+        /// <param name="filename"></param>
         public static void Create(string filename)
         {
             using (FileStream fs = new FileStream(filename, FileMode.Create))
@@ -45,6 +76,11 @@
             }
         }
 
+        /// <summary>
+        /// Generates a string based off of colum schema loaded from the server. 
+        /// </summary>
+        /// <param name="columnInfo">A Datarow from the Column Schema table.</param>
+        /// <returns>A string.</returns>
         private static string GetColumnSchema(DataRow columnInfo)
         {
             string schema = columnInfo["COLUMN_NAME"].ToString() + "[" + columnInfo["DATA_TYPE"].ToString();
@@ -68,18 +104,18 @@
             return schema;
         }
 
-        public static void Load(string filename)
-        {
-            if (!File.Exists(filename))
-            {
-                MessageBox.Show(string.Format("Backup File {0} does not exist.", filename));
-                return;
-            }
+        ////public static void Load(string filename)
+        ////{
+        ////    if (!File.Exists(filename))
+        ////    {
+        ////        MessageBox.Show(string.Format("Backup File {0} does not exist.", filename));
+        ////        return;
+        ////    }
 
-            if (MessageBox.Show("Loading a backup file will overwrite any changes that have been made since the backup was made. Continue?", "Are You Sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
-            {
+        ////    if (MessageBox.Show("Loading a backup file will overwrite any changes that have been made since the backup was made. Continue?", "Are You Sure?", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
+        ////    {
 
-            }
-        }
+        ////    }
+        ////}
     }
 }

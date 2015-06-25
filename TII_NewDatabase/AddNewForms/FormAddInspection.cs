@@ -443,7 +443,7 @@ namespace TII_NewDatabase.AddNewForms
                     }
 
                     // If the elevator wasn't inspected, there's no reason to make a note of it for the database.
-                    if (i.Status != "Not Inspected")
+                    if (i.Status != "No Inspection")
                     {
                         success = success && i.CommitToDatabase();
                     }

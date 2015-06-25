@@ -708,6 +708,9 @@ namespace TII_NewDatabase
                     Convert.ToDateTime(this.lvw_InspectionList.SelectedItems[0].Text),
                     this.lvw_InspectionList.SelectedItems[0].SubItems[1].Text);
             editInspection.ShowDialog();
+
+            // Once we've updated an inspection, refresh the view so that our changes are immediatly shown
+            this.PopulateFields(this.currentlySelectedBuilding);
         }
 
         /// <summary>

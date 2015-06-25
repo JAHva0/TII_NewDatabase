@@ -246,6 +246,8 @@ namespace TII_NewDatabase
         /// <param name="e">Any passed EventArgs.</param>
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Database_Library.MDBConverter.Create("testing.mdb");
+
             if (MessageBox.Show("Are you sure you want to Exit?", "Exit Database?", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
             {
                 this.Close();

@@ -382,7 +382,7 @@ namespace Database
 
             // Check to see if we have a report file
             int report_id = 0;
-            if (this.report != string.Empty)
+            if (this.report != null)
             {
                 // Check to see if the document we have as the report already exists in the document table, and if it doesn't add it.
                 string query = string.Format("SELECT ID FROM Documents WHERE FilePath = '{0}'", this.report);

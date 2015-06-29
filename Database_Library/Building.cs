@@ -759,6 +759,7 @@ namespace Database
                     "    FROM Elevator WHERE " +
                     "    Building_ID = {0} " +
                     "    ) " +
+                    "AND Clean IS NOT NULL " +
                     "ORDER BY Date Desc", 
                     this.ID)).Rows)
                 {

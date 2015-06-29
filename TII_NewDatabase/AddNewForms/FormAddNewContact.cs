@@ -142,9 +142,9 @@ namespace TII_NewDatabase.AddNewForms
                         }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
 
             // Add all the selected Companies in the listbox

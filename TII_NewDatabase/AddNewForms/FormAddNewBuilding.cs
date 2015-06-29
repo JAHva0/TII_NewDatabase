@@ -41,14 +41,7 @@ namespace TII_NewDatabase.AddNewForms
         {
             get
             {
-                if (this.newBuilding.Street != string.Empty)
-                {
-                    return this.newBuilding.Street;
-                }
-                else
-                {
-                    throw new ArgumentNullException("You cannot retreive the address of a building that has not been committed");
-                }
+                return this.newBuilding.Street;
             }
         }
 
@@ -124,9 +117,9 @@ namespace TII_NewDatabase.AddNewForms
             {
                 throw new SQLDuplicateEntryException("Duplicate Building Entry", ex, this.newBuilding);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

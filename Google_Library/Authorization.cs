@@ -16,7 +16,10 @@ namespace Google_Library
     /// </summary>
     public class Authorization
     {
-        internal static CalendarService calendarService;
+        /// <summary>
+        /// The google calendar service.
+        /// </summary>
+        internal static CalendarService CalendarService;
         
         /// <summary>
         /// Authenticate application using OAuth2.
@@ -24,7 +27,6 @@ namespace Google_Library
         /// <param name="clientID">The ID from the Client Secrets File.</param>
         /// <param name="clientSecret">The Secret from the Client Secrets File.</param>
         /// <param name="userName">A string used to identify the user.</param>
-        /// <returns>A valid calendar service.</returns>
         public static void CalAuthenticateOAuth2(string clientID, string clientSecret, string userName)
         {
             // We are requesting to Read and Manage the user's Calendars
@@ -41,7 +43,7 @@ namespace Google_Library
                     CancellationToken.None,
                     new FileDataStore("TIIDatabase")).Result;
 
-                calendarService = new CalendarService(new BaseClientService.Initializer()
+                CalendarService = new CalendarService(new BaseClientService.Initializer()
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = "TII Database"
@@ -58,7 +60,6 @@ namespace Google_Library
         /// </summary>
         /// <param name="clientSecretFile"> The Json file containing the client secrets. </param>
         /// <param name="userName">A string used to identify the user.</param>
-        /// <returns>A valid calendar service.</returns>
         public static void CalAuthenticateOAuth2(string clientSecretFile, string userName)
         {
             string secret = string.Empty;

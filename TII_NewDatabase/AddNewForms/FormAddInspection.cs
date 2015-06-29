@@ -336,7 +336,7 @@ namespace TII_NewDatabase.AddNewForms
                         }
                         
                         // Make sure the inspection type that is in the box is one that is included in the type list
-                        if (!cbo_InspectionType.Items.Contains(cbo_InspectionType.Text))
+                        if (!this.cbo_InspectionType.Items.Contains(this.cbo_InspectionType.Text))
                         {
                             this.error_provider.SetError(this.cbo_InspectionType, "Must be a valid inspection type from the list");
                             break;
@@ -476,9 +476,9 @@ namespace TII_NewDatabase.AddNewForms
                 MessageBox.Show(string.Format("{0} inspection already exists for this building on {1}", this.cbo_InspectionType.Text, this.dtp_InspectionDate), "Duplicate Inspection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 this.ResetForm();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

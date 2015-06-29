@@ -52,10 +52,14 @@ namespace Database
         /// <param name="elevator_ID">The Elevator ID to load.</param>
         public Elevator(int elevator_ID)
         {
-            this.LoadFromDatabase(BaseObject.AffirmOneRow(SQL.Query.Select(string.Format(
-                "SELECT Elevator.ID, Building_ID, Number, ElevatorTypes.Name AS Type, Nickname FROM Elevator " +
-                "JOIN ElevatorTypes ON Elevator.Type_ID = ElevatorTypes.ID", 
-                elevator_ID.ToString()))));
+            this.LoadFromDatabase(
+                BaseObject.AffirmOneRow(
+                    SQL.Query.Select(
+                        string.Format(
+                            "SELECT Elevator.ID, Building_ID, Number, ElevatorTypes.Name AS Type, Nickname FROM Elevator " +
+                            "JOIN ElevatorTypes ON Elevator.Type_ID = ElevatorTypes.ID " +
+                            "WHERE Elevator.ID = {0}", 
+                            elevator_ID.ToString()))));
         }
 
         /// <summary>
@@ -296,9 +300,9 @@ namespace Database
                 this.type = StringToTypeEnum(row["Type"].ToString());
                 this.nickname = row["Nickname"].ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

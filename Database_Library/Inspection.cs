@@ -94,7 +94,8 @@ namespace Database
                 "SELECT Inspection.ID, Elevator_ID, Date, InspectionType.Name AS Type, Clean, Inspector.Name AS Inspector, Documents.FilePath AS Report FROM Inspection " +
                 "JOIN InspectionType ON InspectionType_ID = InspectionType.ID " +
                 "JOIN Inspector ON Inspector_ID = Inspector.ID " +
-                "LEFT JOIN Documents ON Report_ID = Documents.ID", 
+                "LEFT JOIN Documents ON Report_ID = Documents.ID " +
+                "WHERE Inspection.ID = {0}", 
                 inspection_ID.ToString()))));
         }
 

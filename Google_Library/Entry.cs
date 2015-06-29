@@ -28,6 +28,7 @@ namespace Google_Library
         /// <summary> The status of this event. (e.g. "Tentative", "Canceled", "Confirmed"). </summary>
         private string status;
 
+        /// <summary> The location of the event. </summary>
         private string location;
 
         /// <summary> The Summary Field of this event. </summary>
@@ -61,7 +62,7 @@ namespace Google_Library
         }
 
         /// <summary>
-        /// Initialize a new instance of teh <see cref="Entry"/> class.
+        /// Initializes a new instance of the <see cref="Entry"/> class.
         /// </summary>
         /// <param name="start">The start time of the event.</param>
         /// <param name="end">The end time of the event.</param>
@@ -77,13 +78,13 @@ namespace Google_Library
         }
 
         /// <summary>
-        /// Initialize a new instance of teh <see cref="Entry"/> class.
+        /// Initializes a new instance of the <see cref="Entry"/> class.
         /// </summary>
         /// <param name="start">The start time of the event.</param>
         /// <param name="end">The end time of the event.</param>
         /// <param name="summary">A summary of the event.</param>
         public Entry(DateTime start, DateTime end, string summary)
-            :this(start, end, summary, string.Empty)
+            : this(start, end, summary, string.Empty)
         {
         }
 
@@ -97,7 +98,7 @@ namespace Google_Library
             }
         }
 
-        /// <summary> Gets the Start Date of the Event. </summary>
+        /// <summary> Gets or sets the Start Date of the Event. </summary>
         /// <value>A Date and Time of the Event Start. </value>
         public DateTime Start
         {
@@ -112,7 +113,7 @@ namespace Google_Library
             }
         }
 
-        /// <summary> Gets the End Date of the Event. </summary>
+        /// <summary> Gets or sets the End Date of the Event. </summary>
         /// <value>A Date and Time of the Event End. </value>
         public DateTime End
         {
@@ -137,7 +138,7 @@ namespace Google_Library
             }
         }
 
-        /// <summary> A short summary of the event. </summary>
+        /// <summary> Gets a short summary of the event. </summary>
         /// <value> A string value. </value>
         public string Summary
         {
@@ -147,7 +148,7 @@ namespace Google_Library
             }
         }
 
-        /// <summary> The location, geographic or address of the event. </summary>
+        /// <summary> Gets the location, geographic or address of the event. </summary>
         /// <value> A string value. </value>
         public string Location
         {
@@ -230,9 +231,9 @@ namespace Google_Library
                 {
                     return service.Events.Get(id, eventID).Execute();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw;
                 }
             }
 
@@ -249,9 +250,9 @@ namespace Google_Library
                 {
                     return service.Events.Insert(body, id).Execute();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw;
                 }
             }
 

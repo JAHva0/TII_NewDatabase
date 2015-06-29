@@ -79,15 +79,15 @@ namespace TII_NewDatabase.AddNewForms
 
                     default:
                         {
-                            throw ex;
+                            throw;
                         }
                 }
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
 
             if (this.newCompany.SaveConfirmation())

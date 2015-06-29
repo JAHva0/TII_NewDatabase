@@ -50,7 +50,7 @@ namespace SQL
                     }
 
                     // Catchall for other errors - implement as they arise
-                    throw new Exception("SQL Server Connection Error: " + ex.ToString());
+                    throw;
                 }
             }
         }

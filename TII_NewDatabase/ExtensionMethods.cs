@@ -62,9 +62,9 @@ namespace TII_NewDatabase
             {
                 throw new FormatException("String must be exactly 6 integers", ex);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

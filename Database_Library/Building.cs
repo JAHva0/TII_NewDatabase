@@ -86,7 +86,7 @@ namespace Database
                 "JOIN County ON County_ID = County.ID " +
                 "LEFT JOIN Contractor ON Contractor_ID = Contractor.ID " +
                 "WHERE Building.ID = " + building_ID.ToString());
-            Debug.Assert(tbl.Rows.Count == 1, string.Format("Building Query for Building_ID {0} has returned {0} rows", building_ID, tbl.Rows.Count));
+            Debug.Assert(tbl.Rows.Count == 1, string.Format("Building Query for Building_ID {0} has returned {1} rows", building_ID, tbl.Rows.Count));
             this.LoadFromDatabase(tbl.Rows[0]);
         }
 
@@ -98,7 +98,7 @@ namespace Database
         public Building(string building_address)
         {
             DataTable tbl = SQL.Query.Select("*", "Building", string.Format("Address = '{0}'", building_address));
-            Debug.Assert(tbl.Rows.Count == 1, string.Format("Building Query for Address {0} has returned {0} rows", building_address, tbl.Rows.Count));
+            Debug.Assert(tbl.Rows.Count == 1, string.Format("Building Query for Address {0} has returned {1} rows", building_address, tbl.Rows.Count));
             this.LoadFromDatabase(tbl.Rows[0]);
         }
 

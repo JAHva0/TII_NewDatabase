@@ -171,12 +171,12 @@ namespace SQL
                 Connection.GetConnection.Close();
                 return tbl;
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 // Cannot open a connection without specifying a data source or server.
                 // or 
                 // The connection is already open.
-                throw ex;
+                throw;
             }
             catch (SqlException ex)
             {
@@ -224,13 +224,13 @@ namespace SQL
                 }
                 else
                 {
-                    throw ex;
+                    throw;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Add Handling and Debugging for Exceptions as they arise
-                throw ex;
+                throw;
             }
             finally
             {

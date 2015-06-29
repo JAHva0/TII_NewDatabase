@@ -22,8 +22,6 @@ namespace TII_NewDatabase
     /// </summary>
     public partial class Main_Form : Form
     {
-        private Timer UpdateTimer;
-        
         /// <summary>
         /// List that contains Company Name, Location (DC, MD or BOTH), and Active Status for Sorting/Reference.
         /// </summary>
@@ -33,6 +31,9 @@ namespace TII_NewDatabase
         /// List that contains Building Address, Location (DC or MD), and Active status for Sorting/Reference.
         /// </summary>
         private static DatabaseList buildingList;
+
+        /// <summary> The timer to check for the database connection and the backup. </summary>
+        private Timer updateTimer;
 
         /// <summary> Boolean that is false until the form is done loading, to prevent unwanted tripping of events before the user sees the form.</summary>
         private bool form_loaded = false;
@@ -84,10 +85,10 @@ namespace TII_NewDatabase
             this.CheckDatabaseConnection();
             this.UpdateTimer_Tick(new object(), EventArgs.Empty);
 
-            this.UpdateTimer = new Timer();
-            this.UpdateTimer.Interval = 300000;
-            this.UpdateTimer.Tick += this.UpdateTimer_Tick;
-            this.UpdateTimer.Start();
+            this.updateTimer = new Timer();
+            this.updateTimer.Interval = 300000;
+            this.updateTimer.Tick += this.UpdateTimer_Tick;
+            this.updateTimer.Start();
 
             // Initialize the checkbox filters to whatever the saved settings are
             this.cbx_ShowMD.Checked = Properties.Settings.Default.MDFilterOn;
@@ -165,6 +166,11 @@ namespace TII_NewDatabase
             this.form_loaded = true;
         }
 
+        /// <summary>
+        /// Timer tick to check that the database connection is still up and see if there is a current backup or if one needs to be made.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             // Check to make sure we still have a connection.
@@ -632,9 +638,9 @@ namespace TII_NewDatabase
                         fileLocation.Add(row["Report"].ToString());
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    throw;
                 }
             }
 
@@ -1118,9 +1124,9 @@ namespace TII_NewDatabase
 
                             // Possibly we should either tell the user what building has the elevator number they are using? or if they would like to navigate to that building?
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            throw ex;
+                            throw;
                         }
 
                         break;

@@ -89,9 +89,9 @@ namespace TII_NewDatabase.AddNewForms
             {
                 throw new SQL.SQLDuplicateEntryException("Duplicate Elevator Entry", ex, this.elevData);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

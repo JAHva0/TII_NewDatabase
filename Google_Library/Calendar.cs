@@ -25,12 +25,14 @@ namespace Google_Library
         /// <summary> The Service required for accessing this calendar. </summary>
         private CalendarService service;
 
+        /// <summary>
+        /// A list of events from this calendar.
+        /// </summary>
         private List<Entry> events = new List<Entry>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Calendar"/> class. 
         /// </summary>
-        /// <param name="service">The Calendar Service needed to access.</param>
         /// <param name="name">The Name of the calendar.</param>
         public Calendar(string name)
         {
@@ -39,20 +41,19 @@ namespace Google_Library
             this.id = entry.id;
             this.name = entry.name;
             this.colorID = entry.colorID;
-            this.service = Authorization.calendarService;
+            this.service = Authorization.CalendarService;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Calendar"/> class. Private constructor used by <see cref="GetList"/>.
         /// </summary>
-        /// <param name="service">The Calendar Service needed to access.</param>
         /// <param name="entry">A <see cref="CalendarListEntry"/> loaded by a list request. </param>
         private Calendar(CalendarListEntry entry)
         {
             this.id = entry.Id;
             this.name = entry.Summary;
             this.colorID = entry.ColorId;
-            this.service = Authorization.calendarService;
+            this.service = Authorization.CalendarService;
         }
 
         /// <summary> Gets the name of this calendar. </summary>
@@ -65,6 +66,10 @@ namespace Google_Library
             }
         }
 
+        /// <summary>
+        /// Gets a list of all the events on this calendar.
+        /// </summary>
+        /// <value>A List of <see cref="Entry"/>.</value>
         public List<Entry> AllEvents
         {
             get
@@ -73,6 +78,10 @@ namespace Google_Library
             }
         }
 
+        /// <summary>
+        /// Gets a list of all the events on this calendar that occur after today's date.
+        /// </summary>
+        /// /// <value>A List of <see cref="Entry"/>.</value>
         public List<Entry> UpcomingEvents
         {
             get
@@ -81,20 +90,14 @@ namespace Google_Library
             }
         }
 
-        public void LoadEvents()
-        {
-            this.events = Entry.GetEntries(this.service, this.id);
-        }
-        
         /// <summary>
         /// Gets a list of all calendars on this account.
         /// </summary>
-        /// <param name="service">The Service used to access the calendar.</param>
         /// <param name="options">Any options that might be requested.</param>
         /// <returns>A list of <see cref="Calendar"/>.</returns>
         public static List<Calendar> GetList(Options options = null)
         {
-            CalendarListResource.ListRequest request = Authorization.calendarService.CalendarList.List();
+            CalendarListResource.ListRequest request = Authorization.CalendarService.CalendarList.List();
 
             if (options == null)
             {
@@ -119,6 +122,19 @@ namespace Google_Library
             return finalList;
         }
 
+        /// <summary>
+        /// Loads the events from the calendar service. 
+        /// </summary>
+        public void LoadEvents()
+        {
+            this.events = Entry.GetEntries(this.service, this.id);
+        }
+
+        /// <summary>
+        /// Gets a list of events that occur on the given day.
+        /// </summary>
+        /// <param name="day">The day to query.</param>
+        /// <returns>A list of <see cref="Entry"/> that take part on the provided day at some point.</returns>
         public List<Entry> Events(DateTime day)
         {
             // We want to get all events that are on this day, so any event that either: 
@@ -175,9 +191,9 @@ namespace Google_Library
                 allData.Items = (List<CalendarListEntry>)calendarRows;
                 return allData;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

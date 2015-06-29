@@ -106,7 +106,6 @@
     <Compile Include="Authorization.cs" />
     <Compile Include="Calendar.cs" />
     <Compile Include="Entry.cs" />
-    <Compile Include="Maps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

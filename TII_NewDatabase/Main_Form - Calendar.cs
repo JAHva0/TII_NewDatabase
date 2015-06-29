@@ -91,9 +91,9 @@ namespace TII_NewDatabase
             }
             
             this.lbx_CurrentSchedule.Items.Clear();
-            Calendar selectedCal = this.calendars.Where(x => x.Name == cbo_InspectorToSchedule.SelectedItem.ToString()).SingleOrDefault();
+            Calendar selectedCal = this.calendars.Where(x => x.Name == this.cbo_InspectorToSchedule.SelectedItem.ToString()).SingleOrDefault();
 
-            foreach (Entry calEntry in selectedCal.Events(cal_CalendarDisplay.SelectionStart))
+            foreach (Entry calEntry in selectedCal.Events(this.cal_CalendarDisplay.SelectionStart))
             {
                 this.lbx_CurrentSchedule.Items.Add(string.Format("{0}-{1}: {2}", calEntry.Start.ToShortTimeString(), calEntry.End.ToShortTimeString(), calEntry.Summary));
             }

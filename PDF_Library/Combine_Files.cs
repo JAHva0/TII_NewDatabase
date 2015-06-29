@@ -80,9 +80,9 @@ namespace PDF_Library
 
                 doc.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

@@ -20,6 +20,9 @@ namespace PDF_Library
         /// <summary> PDF Writer to handle adding content to the document. </summary>
         private PdfWriter writer;
 
+        /// <summary>
+        /// The canvas to use for this document.
+        /// </summary>
         private PdfContentByte canvas;
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace PDF_Library
             this.doc.Open();
 
             // Create a blank first page so it doesn't complain if we don't end up adding anything.
-            this.canvas = writer.DirectContent;
+            this.canvas = this.writer.DirectContent;
         }
 
         /// <summary>
@@ -82,6 +85,11 @@ namespace PDF_Library
             return CreateFont(basefont, size, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
         }
 
+        /// <summary>
+        /// Adds a test string to the document.
+        /// </summary>
+        /// <param name="text">The string to place on the document.</param>
+        /// <param name="location"> The x and y coordinates of the string in pixels. </param>
         public void AddText(string text, Point location)
         {
             this.canvas.BeginText();
@@ -91,24 +99,30 @@ namespace PDF_Library
             this.canvas.EndText();
         }
 
+        /// <summary>
+        /// Adds a test string to the document.
+        /// </summary>
+        /// <param name="text">The string to place on the document.</param>
+        /// <param name="x_location">The x location in pixels.</param>
+        /// <param name="y_location">The y location in pixels.</param>
         public void AddText(string text, int x_location, int y_location)
         {
-            AddText(text, new Point(x_location, y_location));
+            this.AddText(text, new Point(x_location, y_location));
         }
 
         /// <summary>
         /// Add an image to the document, scaled to fit the entire page.
         /// </summary>
-        /// <param name="imagePath">The Filepath for the image.</param>
+        /// <param name="imagePath">The file path for the image.</param>
         public void AddImage(string imagePath)
         {
             this.AddImage(imagePath, 1.0f, new Point(1, 1));
         }
 
         /// <summary>
-        /// Add an image to the document with a given scale and location
+        /// Add an image to the document with a given scale and location.
         /// </summary>
-        /// <param name="imagePath">The Filepath for the image.</param>
+        /// <param name="imagePath">The file path for the image.</param>
         /// <param name="scale">The amount to scale the image.</param>
         /// <param name="location">The coordinates for the image to appear on the document.</param>
         public void AddImage(string imagePath, float scale, Point location)
@@ -116,15 +130,21 @@ namespace PDF_Library
             var image = iTextSharp.text.Image.GetInstance(imagePath);
             image.ScaleToFit(image.Width * scale, image.Height * scale);
             image.SetAbsolutePosition(location.X, location.Y);
-            doc.Add(image);
+            this.doc.Add(image);
         }
 
+        /// <summary>
+        /// Add an image to the document with a given scale and location.
+        /// </summary>
+        /// <param name="imagePath">The file path for the image.</param>
+        /// <param name="desiredWidth">The intended height of the image in pixels.</param>
+        /// <param name="desiredHeight">The intended width of the image in pixels.</param>
         public void AddImage(string imagePath, float desiredWidth, float desiredHeight)
         {
             var image = iTextSharp.text.Image.GetInstance(imagePath);
             image.ScaleToFit(desiredWidth, desiredHeight);
             image.SetAbsolutePosition(1, 1);
-            doc.Add(image);
+            this.doc.Add(image);
         }
 
         /// <summary>

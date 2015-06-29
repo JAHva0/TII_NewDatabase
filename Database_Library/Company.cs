@@ -287,6 +287,7 @@ namespace Database
                 this.address.Street = row["Street"].ToString();
                 this.address.City = row["City"].ToString();
                 this.address.State = row["State"].ToString();
+
                 // There are zip codes that start with a 0. Since the DB stores these as an integer, it's left off.
                 // If we come across any zip codes that are less than 5 numbers long, we assume it is one of these and pad it to the left.
                 this.address.Zip = row["Zip"].ToString().PadLeft(5, '0'); 
@@ -301,9 +302,9 @@ namespace Database
                 ////    this.contact_list.Add(new Contact(con));
                 ////}
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

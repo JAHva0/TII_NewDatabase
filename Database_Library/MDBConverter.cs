@@ -1,33 +1,41 @@
-﻿namespace Database_Library
+﻿// <summary> Creates an access database in the old format from the SQL data. </summary>
+
+namespace Database_Library
 {
     using System;
     using System.Data;
     using System.Data.OleDb;
     using System.IO;
 
+    /// <summary>
+    /// Creates an access database from the SQL data.
+    /// </summary>
     public static class MDBConverter
     {
-        public static void Create(string filename)
+        /// <summary>
+        /// Creates a access database file with the given file path.
+        /// </summary>
+        /// <param name="filepath">The file name and path to create. Must not already exist.</param>
+        public static void Create(string filepath)
         {
             OleDbConnection connection;
-            OleDbDataAdapter adapter;
 
-            File.Delete(filename);
+            File.Delete(filepath);
+
             // Create the database via ADOX if it does not already exist.
-            if (!File.Exists(filename))
+            if (!File.Exists(filepath))
             {
                 ADOX.Catalog cat = new ADOX.Catalog();
-                cat.Create("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename);
+                cat.Create("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filepath);
                 cat = null;
             }
 
             // Connect to the Database
-            connection = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename);
+            connection = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filepath);
             connection.Open();
 
-            #region Create Company Table
             // Create the company table in the OLE database
-            string CreateCompanyTableQuery =
+            string createCompanyTableQuery =
                 "CREATE TABLE Company " +
                 "( " +
                 "   ID  int NOT NULL, " +
@@ -38,12 +46,12 @@
                 "   Zip int NOT NULL " +
                 ");";
 
-            using (OleDbCommand command = new OleDbCommand(CreateCompanyTableQuery, connection))
+            using (OleDbCommand command = new OleDbCommand(createCompanyTableQuery, connection))
             {
                 command.ExecuteNonQuery();
             }
 
-            foreach (DataRow CompanyRow in SQL.Query.Select(
+            foreach (DataRow companyRow in SQL.Query.Select(
                 "SELECT Company.ID, " +
                 "Name, " +
                 "Street, " +
@@ -53,15 +61,15 @@
                 "FROM Company " +
                 "JOIN Address ON Address_ID = Address.ID").Rows)
             {
-                string InsertCompanyCommand = string.Format(
+                string insertCompanyCommand = string.Format(
                     "INSERT INTO Company (ID, Name, Street, City, State, Zip) VALUES ({0}, '{1}', '{2}', '{3}', '{4}', {5})",
-                    CompanyRow["ID"].ToString(),
-                    CompanyRow["Name"].ToString().Replace("'", "''"),
-                    CompanyRow["Street"].ToString(),
-                    CompanyRow["City"].ToString(),
-                    CompanyRow["State"].ToString(),
-                    CompanyRow["Zip"].ToString());
-                using (OleDbCommand command = new OleDbCommand(InsertCompanyCommand, connection))
+                    companyRow["ID"].ToString(),
+                    companyRow["Name"].ToString().Replace("'", "''"),
+                    companyRow["Street"].ToString(),
+                    companyRow["City"].ToString(),
+                    companyRow["State"].ToString(),
+                    companyRow["Zip"].ToString());
+                using (OleDbCommand command = new OleDbCommand(insertCompanyCommand, connection))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -72,11 +80,9 @@
             {
                 command.ExecuteNonQuery();
             }
-            #endregion
 
-            #region Create Building Table
             // Create the building table in the OLE Database
-            string CreateBuildingTableQuery =
+            string createBuildingTableQuery =
                 "CREATE TABLE Building " +
                 "( " +
                 "   ID int NOT NULL, " +
@@ -95,12 +101,12 @@
                 "   FOREIGN KEY (Company_ID) REFERENCES Company(ID) " +
                 ");";
 
-            using (OleDbCommand command = new OleDbCommand(CreateBuildingTableQuery, connection))
+            using (OleDbCommand command = new OleDbCommand(createBuildingTableQuery, connection))
             {
                 command.ExecuteNonQuery();
             }
 
-            foreach (DataRow BuildingRow in SQL.Query.Select(
+            foreach (DataRow buildingRow in SQL.Query.Select(
                 "SELECT " +
                 "Building.ID, " +
                 "Company_ID, " +
@@ -119,26 +125,26 @@
                 "JOIN Address ON Address_ID = Address.ID " +
                 "WHERE Active = 'True' " +
                 "AND State_ID = 20 " +
-                "ORDER BY Building.ID").Rows )
+                "ORDER BY Building.ID").Rows)
             {
-                string InsertBuildingCommand = string.Format(
+                string insertBuildingCommand = string.Format(
                     "INSERT INTO BUILDING (ID, Company_ID, Name, Street, City, State, Zip, County, Firm_Fee, Hourly_Fee, Anniversary, Contractor, Active)" +
                     "VALUES ({0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, '{7}', {8}, {9}, {10}, '{11}', {12})",
-                    ConvertDBObjectToString(BuildingRow["ID"]),
-                    ConvertDBObjectToString(BuildingRow["Company_ID"]),
-                    ConvertDBObjectToString(BuildingRow["Name"]),
-                    ConvertDBObjectToString(BuildingRow["Street"]),
-                    ConvertDBObjectToString(BuildingRow["City"]),
-                    ConvertDBObjectToString(BuildingRow["State"]),
-                    ConvertDBObjectToString(BuildingRow["Zip"]),
-                    ConvertDBObjectToString(BuildingRow["County"]),
-                    ConvertDBObjectToString(BuildingRow["Firm_Fee"]),
-                    ConvertDBObjectToString(BuildingRow["Hourly_Fee"]),
-                    ConvertDBObjectToString(BuildingRow["Anniversary"]),
-                    ConvertDBObjectToString(BuildingRow["Contractor"]),
-                    ConvertDBObjectToString(BuildingRow["Active"]));
+                    ConvertDBObjectToString(buildingRow["ID"]),
+                    ConvertDBObjectToString(buildingRow["Company_ID"]),
+                    ConvertDBObjectToString(buildingRow["Name"]),
+                    ConvertDBObjectToString(buildingRow["Street"]),
+                    ConvertDBObjectToString(buildingRow["City"]),
+                    ConvertDBObjectToString(buildingRow["State"]),
+                    ConvertDBObjectToString(buildingRow["Zip"]),
+                    ConvertDBObjectToString(buildingRow["County"]),
+                    ConvertDBObjectToString(buildingRow["Firm_Fee"]),
+                    ConvertDBObjectToString(buildingRow["Hourly_Fee"]),
+                    ConvertDBObjectToString(buildingRow["Anniversary"]),
+                    ConvertDBObjectToString(buildingRow["Contractor"]),
+                    ConvertDBObjectToString(buildingRow["Active"]));
 
-                using (OleDbCommand command = new OleDbCommand(InsertBuildingCommand, connection))
+                using (OleDbCommand command = new OleDbCommand(insertBuildingCommand, connection))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -149,10 +155,8 @@
             {
                 command.ExecuteNonQuery();
             }
-            #endregion
 
-            #region Create Elevator Table
-            string CreateElevatorTableQuery =
+            string createElevatorTableQuery =
                 "CREATE TABLE Elevator " +
                 "( " +
                 "   ID int NOT NULL, " +
@@ -168,12 +172,12 @@
                 "   FOREIGN KEY (Building_ID) REFERENCES Building(ID) " +
                 ");";
 
-            using (OleDbCommand command = new OleDbCommand(CreateElevatorTableQuery, connection))
+            using (OleDbCommand command = new OleDbCommand(createElevatorTableQuery, connection))
             {
                 command.ExecuteNonQuery();
             }
 
-            foreach (DataRow ElevatorRow in SQL.Query.Select(
+            foreach (DataRow elevatorRow in SQL.Query.Select(
                 "SELECT " +
                 "ID, " +
                 "Building_ID, " +
@@ -195,14 +199,14 @@
                 "AND Active = 'True' " +
                 ")").Rows)
             {
-                DateTime Previous = DateTime.MinValue;
-                DateTime Recent = DateTime.MinValue;
-                DateTime Visit = DateTime.MinValue;
-                DateTime FiveYear = DateTime.MinValue;
+                DateTime previous = DateTime.MinValue;
+                DateTime recent = DateTime.MinValue;
+                DateTime visit = DateTime.MinValue;
+                DateTime fiveYear = DateTime.MinValue;
                 bool status = false;
                 
                 // Get the two most recent inspections for this elevator
-                string InspectionHistoryQuery = string.Format(
+                string inspectionHistoryQuery = string.Format(
                     "SELECT " +
                     "ID, " +
                     "Date, " +
@@ -218,53 +222,54 @@
                     "    ) " +
                     ") = (SELECT ID FROM State WHERE Name = 'Maryland') " +
                     "ORDER BY Date DESC",
-                    ConvertDBObjectToString(ElevatorRow["ID"]));
-                DataTable InspectionHistory = SQL.Query.Select(InspectionHistoryQuery);
+                    ConvertDBObjectToString(elevatorRow["ID"]));
+                DataTable inspectionHistory = SQL.Query.Select(inspectionHistoryQuery);
 
                 // If there's at least one inspection result, store the top date as the most 
-                for (int i = 0; i < InspectionHistory.Rows.Count; i++)
+                for (int i = 0; i < inspectionHistory.Rows.Count; i++)
                 {
-                    if (Visit == DateTime.MinValue)
+                    if (visit == DateTime.MinValue)
                     {
                         // The most recent visit will always be the top item
-                        Visit = Convert.ToDateTime(InspectionHistory.Rows[i]["Date"].ToString());
-                        bool.TryParse(InspectionHistory.Rows[i]["Clean"].ToString(), out status);
+                        visit = Convert.ToDateTime(inspectionHistory.Rows[i]["Date"].ToString());
+                        bool.TryParse(inspectionHistory.Rows[i]["Clean"].ToString(), out status);
                     }
+
                     // if the current row is an annual and recent is still 
-                    if (InspectionHistory.Rows[i]["InspectionType"].ToString() == "Annual")
+                    if (inspectionHistory.Rows[i]["InspectionType"].ToString() == "Annual")
                     {
-                        if (Recent == DateTime.MinValue)
+                        if (recent == DateTime.MinValue)
                         {
-                            Recent = Convert.ToDateTime(InspectionHistory.Rows[i]["Date"].ToString());
+                            recent = Convert.ToDateTime(inspectionHistory.Rows[i]["Date"].ToString());
                         }
-                        else if (Previous == DateTime.MinValue)
+                        else if (previous == DateTime.MinValue)
                         {
-                            Previous = Convert.ToDateTime(InspectionHistory.Rows[i]["Date"].ToString());
+                            previous = Convert.ToDateTime(inspectionHistory.Rows[i]["Date"].ToString());
                         }
                     }
 
                     // If the current row is a five year and we have no other recent five year dates
-                    if (InspectionHistory.Rows[i]["InspectionType"].ToString() == "Five Year Test" && FiveYear == DateTime.MinValue)
+                    if (inspectionHistory.Rows[i]["InspectionType"].ToString() == "Five Year Test" && fiveYear == DateTime.MinValue)
                     {
-                        FiveYear = Convert.ToDateTime(InspectionHistory.Rows[i]["Date"].ToString());
+                        fiveYear = Convert.ToDateTime(inspectionHistory.Rows[i]["Date"].ToString());
                     }
                 }
 
-                string InsertElevatorCommand = string.Format(
+                string insertElevatorCommand = string.Format(
                     "INSERT INTO Elevator (ID, Building_ID, ElevNumber, Type, Nickname, PreviousAnnual, MostRecentAnnual, FiveYearTest, LastVisit, Status) " +
                     "VALUES ({0}, {1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9})",
-                    ConvertDBObjectToString(ElevatorRow["ID"]),
-                    ConvertDBObjectToString(ElevatorRow["Building_ID"]),
-                    ConvertDBObjectToString(ElevatorRow["Number"]),
-                    ConvertDBObjectToString(ElevatorRow["Type"]),
-                    ConvertDBObjectToString(ElevatorRow["Nickname"]),
-                    ConvertDateTimeToDBString(Previous),
-                    ConvertDateTimeToDBString(Recent),
-                    ConvertDateTimeToDBString(FiveYear),
-                    ConvertDateTimeToDBString(Visit),
+                    ConvertDBObjectToString(elevatorRow["ID"]),
+                    ConvertDBObjectToString(elevatorRow["Building_ID"]),
+                    ConvertDBObjectToString(elevatorRow["Number"]),
+                    ConvertDBObjectToString(elevatorRow["Type"]),
+                    ConvertDBObjectToString(elevatorRow["Nickname"]),
+                    ConvertDateTimeToDBString(previous),
+                    ConvertDateTimeToDBString(recent),
+                    ConvertDateTimeToDBString(fiveYear),
+                    ConvertDateTimeToDBString(visit),
                     status.ToString());
 
-                using (OleDbCommand command = new OleDbCommand(InsertElevatorCommand, connection))
+                using (OleDbCommand command = new OleDbCommand(insertElevatorCommand, connection))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -275,61 +280,13 @@
             {
                 command.ExecuteNonQuery();
             }
-            #endregion
-
-            return;
-
-            #region Create Inspection Table
-            string CreateInspectionTableQuery =
-                "CREATE TABLE Inspection " +
-                "( " +
-                "   ID int NOT NULL, " +
-                "   Elevator_ID int NOT NULL, " +
-                "   InspDate date NOT NULL, " +
-                "   Type varchar(40) NOT NULL, " +
-                "   Clean bit, " +
-                "   Inspector varchar(25), " +
-                "   FOREIGN KEY (Elevator_ID) REFERENCES Elevator(ID) " +
-                ");";
-
-            using (OleDbCommand command = new OleDbCommand(CreateInspectionTableQuery, connection))
-            {
-                command.ExecuteNonQuery();
-            }
-
-            foreach (DataRow InspectionRow in SQL.Query.Select(
-                "SELECT " +
-                "ID, " +
-                "Elevator_ID, " +
-                "Date, " +
-                "(SELECT Name FROM InspectionType WHERE InspectionType_ID = ID) as Type, " +
-                "Clean, " +
-                "(SELECT Name FROM Inspector WHERE Inspector_ID = ID) as Inspector " +
-                "FROM Inspection").Rows)
-            {
-                string InsertInspectionCommand = string.Format(
-                    "INSERT INTO Inspection (ID, Elevator_ID, InspDate, Type, Clean, Inspector) VALUES ({0}, {1}, '{2}', '{3}', {4}, '{5}')",
-                    ConvertDBObjectToString(InspectionRow["ID"]),
-                    ConvertDBObjectToString(InspectionRow["Elevator_ID"]),
-                    ConvertDBObjectToString(InspectionRow["Date"]),
-                    ConvertDBObjectToString(InspectionRow["Type"]),
-                    ConvertDBObjectToString(InspectionRow["Clean"]),
-                    ConvertDBObjectToString(InspectionRow["Inspector"]));
-
-                using (OleDbCommand command = new OleDbCommand(InsertInspectionCommand, connection))
-                {
-                    command.ExecuteNonQuery();
-                }
-            }
-
-            // Add in the primary Key constraint
-            using (OleDbCommand command = new OleDbCommand("ALTER TABLE Inspection ALTER COLUMN ID int PRIMARY KEY", connection))
-            {
-                command.ExecuteNonQuery();
-            }
-            #endregion
         }
 
+        /// <summary>
+        /// Converts an object retrieved from a <see cref="DataTable"/> to a string which can be used to create a SQL query.
+        /// </summary>
+        /// <param name="o"> The Object to convert.</param>
+        /// <returns> A SQL ready string. </returns>
         private static string ConvertDBObjectToString(object o)
         {
             if (o.ToString() == string.Empty)
@@ -342,6 +299,11 @@
             }
         }
 
+        /// <summary>
+        /// Converts an object retrieved from a <see cref="DataTable"/> to a string which can be used to create a SQL query.
+        /// </summary>
+        /// <param name="t"> A <see cref="DateTime"/> to convert. </param>
+        /// <returns> A SQL ready string. </returns>
         private static string ConvertDateTimeToDBString(DateTime t)
         {
             if (t == DateTime.MinValue)

@@ -159,7 +159,10 @@ namespace TII_NewDatabase.AddNewForms
                 this.newContact.AddBuilding(buildingaddress);
             }
 
-            this.newContact.CommitToDatabase();
+            if (this.newContact.CommitToDatabase())
+            {
+                MessageBox.Show("Contact Added Successfully", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         /// <summary>

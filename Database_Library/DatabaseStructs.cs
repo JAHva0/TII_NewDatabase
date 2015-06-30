@@ -479,7 +479,7 @@ namespace Database
                     return string.Empty;
                 }
 
-                return this.number[0].ToString() + this.number[1].ToString() + this.number[2].ToString();
+                return this.number[0].ToString().PadLeft(3, '0') + this.number[1].ToString().PadLeft(3, '0') + this.number[2].ToString().PadLeft(4, '0');
             }
         }
 
@@ -528,11 +528,11 @@ namespace Database
             
             if (this.extension == null)
             {
-                return string.Format("{0}-{1}-{2}", this.number[0], this.number[1], this.number[2]);
+                return string.Format("{0}-{1}-{2}", this.number[0].ToString().PadLeft(3, '0'), this.number[1].ToString().PadLeft(3, '0'), this.number[2].ToString().PadLeft(4, '0'));
             }
             else
             {
-                return string.Format("{0}-{1}-{2}x{3}", this.number[0], this.number[1], this.number[2], this.extension);
+                return string.Format("{0}-{1}-{2}x{3}", this.number[0].ToString().PadLeft(3, '0'), this.number[1].ToString().PadLeft(3, '0'), this.number[2].ToString().PadLeft(4, '0'), this.extension);
             }
         }
 

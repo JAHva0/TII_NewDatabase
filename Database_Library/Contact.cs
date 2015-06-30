@@ -60,20 +60,20 @@ namespace Database
             this.email = contact_info["Email"].ToString();
 
             // The SQL query to get company relations for this contact.
-            string query_format = "SELECT DISTINCT {0}.{0}_ID, {1} FROM {0} " +
-                                  "JOIN {0}_Contact_Relations ON {0}_Contact_Relations.{0}_ID = {0}.{0}_ID " +
+            string query_format = "SELECT DISTINCT {0}.ID, {1} FROM {0} " +
+                                  "JOIN {0}_Contact_Relations ON {0}_Contact_Relations.{0}_ID = {0}.ID " +
                                   "WHERE Contact_ID = " + this.ID.ToString();
 
             // Fill the company dictionary with a list of companies this contact has a relation with.
             foreach (DataRow c in SQL.Query.Select(string.Format(query_format, "Company", "Name")).Rows)
             {
-                this.companies.Add(Convert.ToInt32(c["Company_ID"].ToString()), c["Name"].ToString());
+                this.companies.Add(Convert.ToInt32(c["ID"].ToString()), c["Name"].ToString());
             }
 
             // Fill the building dictionary with a list of buildings this contact has a relation with.
-            foreach (DataRow b in SQL.Query.Select(string.Format(query_format, "Building", "Address")).Rows)
+            foreach (DataRow b in SQL.Query.Select(string.Format(query_format, "Building", "(SELECT Street FROM Address WHERE ID = Address_ID) as Address")).Rows)
             {
-                this.building.Add(Convert.ToInt32(b["Building_ID"].ToString()), b["Address"].ToString());
+                this.building.Add(Convert.ToInt32(b["ID"].ToString()), b["Address"].ToString());
             }
         }
 
@@ -285,8 +285,8 @@ namespace Database
         /// <param name="company_name">The exact company name to add.</param>
         public void AddCompany(string company_name)
         {
-            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("Company_ID", "Company", string.Format("Name = '{0}'", company_name)));
-            this.companies.Add(Convert.ToInt32(row["Company_ID"].ToString()), company_name);
+            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("ID", "Company", string.Format("Name = '{0}'", company_name)));
+            this.companies.Add(Convert.ToInt32(row["ID"].ToString()), company_name);
         }
 
         /// <summary>
@@ -295,8 +295,8 @@ namespace Database
         /// <param name="building_address">The exact building address to add.</param>
         public void AddBuilding(string building_address)
         {
-            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("Building_ID", "Building", string.Format("Address = '{0}'", building_address)));
-            this.building.Add(Convert.ToInt32(row["Building_ID"].ToString()), building_address);
+            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("ID", "Building", string.Format("Address = '{0}'", building_address)));
+            this.building.Add(Convert.ToInt32(row["ID"].ToString()), building_address);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Database
         public void RemoveFromCompany(string company_name)
         {
             int company_id;
-            if (int.TryParse(SQL.Query.Select(string.Format("SELECT Company_ID FROM Company WHERE Name = '{0}'", company_name)).Rows[0]["Company_ID"].ToString(), out company_id))
+            if (int.TryParse(SQL.Query.Select(string.Format("SELECT ID FROM Company WHERE Name = '{0}'", company_name)).Rows[0]["ID"].ToString(), out company_id))
             {
                 this.RemoveFromCompany(company_id);
             }
@@ -337,7 +337,7 @@ namespace Database
         public void RemoveFromBuilding(string building_address)
         {
             int building_id;
-            if (int.TryParse(SQL.Query.Select(string.Format("SELECT Building_ID FROM Building WHERE Address = '{0}'", building_address)).Rows[0]["Building_ID"].ToString(), out building_id))
+            if (int.TryParse(SQL.Query.Select(string.Format("SELECT ID FROM Building WHERE Address = '{0}'", building_address)).Rows[0]["ID"].ToString(), out building_id))
             {
                 this.RemoveFromBuilding(building_id);
             }

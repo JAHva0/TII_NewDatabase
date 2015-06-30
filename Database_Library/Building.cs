@@ -1072,14 +1072,14 @@ namespace Database
 
                 // Pull a list of contacts (If any exist for this building)
                 this.contact_list = new List<Contact>();
-                ////foreach (DataRow con in SQL.Query.Select(string.Format(
-                ////                                         "SELECT DISTINCT * FROM Contact " +
-                ////                                         "JOIN Building_Contact_Relations ON Contact.Contact_ID = Building_Contact_Relations.Contact_ID " +
-                ////                                         "WHERE Building_Contact_Relations.Building_ID = {0}",
-                ////                                         this.ID)).Rows)
-                ////{
-                ////    this.contact_list.Add(new Contact(con));
-                ////}
+                foreach (DataRow con in SQL.Query.Select(string.Format(
+                                                         "SELECT DISTINCT * FROM Contact " +
+                                                         "JOIN Building_Contact_Relations ON Contact.ID = Building_Contact_Relations.Contact_ID " +
+                                                         "WHERE Building_Contact_Relations.Building_ID = {0}",
+                                                         this.ID)).Rows)
+                {
+                    this.contact_list.Add(new Contact(con));
+                }
             }
             catch (Exception ex)
             {

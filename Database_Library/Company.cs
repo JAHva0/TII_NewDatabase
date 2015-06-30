@@ -293,14 +293,14 @@ namespace Database
                 this.address.Zip = row["Zip"].ToString().PadLeft(5, '0'); 
 
                 this.contact_list = new List<Contact>();
-                ////foreach (DataRow con in SQL.Query.Select(string.Format(
-                ////                                         "SELECT DISTINCT * FROM Contact " +
-                ////                                         "JOIN Company_Contact_Relations ON Contact.Contact_ID = Company_Contact_Relations.Contact_ID " +
-                ////                                         "WHERE Company_Contact_Relations.Company_ID = {0}",
-                ////                                         this.ID)).Rows)
-                ////{
-                ////    this.contact_list.Add(new Contact(con));
-                ////}
+                foreach (DataRow con in SQL.Query.Select(string.Format(
+                                                         "SELECT DISTINCT * FROM Contact " +
+                                                         "JOIN Company_Contact_Relations ON Contact.ID = Company_Contact_Relations.Contact_ID " +
+                                                         "WHERE Company_Contact_Relations.Company_ID = {0}",
+                                                         this.ID)).Rows)
+                {
+                    this.contact_list.Add(new Contact(con));
+                }
             }
             catch (Exception)
             {

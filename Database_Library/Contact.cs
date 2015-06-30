@@ -253,9 +253,9 @@ namespace Database
                 // So that we can then add the buildings and company relations to this contact, load the ID right back from the database.
                 this.ID = Convert.ToInt32(
                     BaseObject.AffirmOneRow(SQL.Query.Select(
-                        "Contact_ID", 
+                        "ID", 
                         "Contact",
-                        string.Format("Name = '{0}'", this.name)))["Contact_ID"].ToString());
+                        string.Format("Name = '{0}'", this.name)))["ID"].ToString());
 
                 // Now that we have the ID of this new contact, make associations based on the company and building keys that are present.
                 foreach (int company_ID in this.companies.Keys)
@@ -271,7 +271,7 @@ namespace Database
             else
             {
                 // If ID is not null, then we are updating an existing record which has this ID number
-                success = SQL.Query.Update("Contact", classData, string.Format("Contact_ID = {0}", this.ID));
+                success = SQL.Query.Update("Contact", classData, string.Format("ID = {0}", this.ID));
             }
 
             // Return the value of the success of this operation, as well as the base operation of the same name.

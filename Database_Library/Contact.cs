@@ -295,7 +295,7 @@ namespace Database
         /// <param name="building_address">The exact building address to add.</param>
         public void AddBuilding(string building_address)
         {
-            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("ID", "Building", string.Format("Address = '{0}'", building_address)));
+            DataRow row = BaseObject.AffirmOneRow(SQL.Query.Select("ID", "Building", string.Format("Address_ID = (SELECT ID FROM Address WHERE Street = '{0}')", building_address)));
             this.building.Add(Convert.ToInt32(row["ID"].ToString()), building_address);
         }
 

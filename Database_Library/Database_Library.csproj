@@ -45,6 +45,7 @@
     <Compile Include="Company.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="ContactLog.cs" />
     <Compile Include="DatabaseObject.cs" />
     <Compile Include="DatabaseStructs.cs" />
     <Compile Include="Elevator.cs" />

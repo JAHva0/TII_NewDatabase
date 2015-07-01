@@ -65,8 +65,10 @@ namespace TII_NewDatabase
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mnuMainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSearchForReports = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -195,7 +197,14 @@ namespace TII_NewDatabase
             this.cmi_RemoveContact = new System.Windows.Forms.ToolStripMenuItem();
             this.statusstrip_MainForm = new System.Windows.Forms.StatusStrip();
             this.status_Connection = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuSearchForReports = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabctrl_Notes = new System.Windows.Forms.TabControl();
+            this.tab_Notes = new System.Windows.Forms.TabPage();
+            this.dgv_NotesViewer = new System.Windows.Forms.DataGridView();
+            this.col_NoteDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_NoteContact = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.col_NoteText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbo_ShowNotesSelector = new System.Windows.Forms.ComboBox();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -219,6 +228,9 @@ namespace TII_NewDatabase
             this.groupBox3.SuspendLayout();
             this.cmu_Contact.SuspendLayout();
             this.statusstrip_MainForm.SuspendLayout();
+            this.tabctrl_Notes.SuspendLayout();
+            this.tab_Notes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_NotesViewer)).BeginInit();
             this.SuspendLayout();
             // 
             // mnuMainMenuStrip
@@ -229,7 +241,7 @@ namespace TII_NewDatabase
             this.testMethodToolStripMenuItem});
             this.mnuMainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mnuMainMenuStrip.Name = "mnuMainMenuStrip";
-            this.mnuMainMenuStrip.Size = new System.Drawing.Size(1664, 24);
+            this.mnuMainMenuStrip.Size = new System.Drawing.Size(1313, 24);
             this.mnuMainMenuStrip.TabIndex = 0;
             this.mnuMainMenuStrip.Text = "menuStrip1";
             // 
@@ -241,6 +253,12 @@ namespace TII_NewDatabase
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // menuSearchForReports
+            // 
+            this.menuSearchForReports.Name = "menuSearchForReports";
+            this.menuSearchForReports.Size = new System.Drawing.Size(172, 22);
+            this.menuSearchForReports.Text = "Search For Reports";
             // 
             // exitToolStripMenuItem
             // 
@@ -261,14 +279,14 @@ namespace TII_NewDatabase
             // connectionsToolStripMenuItem
             // 
             this.connectionsToolStripMenuItem.Name = "connectionsToolStripMenuItem";
-            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.connectionsToolStripMenuItem.Text = "C&onnections";
             this.connectionsToolStripMenuItem.Click += new System.EventHandler(this.OpenConnectionSettingsForm);
             // 
             // mnu_Preferances
             // 
             this.mnu_Preferances.Name = "mnu_Preferances";
-            this.mnu_Preferances.Size = new System.Drawing.Size(152, 22);
+            this.mnu_Preferances.Size = new System.Drawing.Size(141, 22);
             this.mnu_Preferances.Text = "&Preferences";
             this.mnu_Preferances.Click += new System.EventHandler(this.OpenChildForm);
             // 
@@ -928,7 +946,7 @@ namespace TII_NewDatabase
             this.tab_MainTabControl.Location = new System.Drawing.Point(12, 73);
             this.tab_MainTabControl.Name = "tab_MainTabControl";
             this.tab_MainTabControl.SelectedIndex = 0;
-            this.tab_MainTabControl.Size = new System.Drawing.Size(902, 930);
+            this.tab_MainTabControl.Size = new System.Drawing.Size(842, 930);
             this.tab_MainTabControl.TabIndex = 8;
             this.tab_MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabChanged);
             // 
@@ -943,7 +961,7 @@ namespace TII_NewDatabase
             this.tab_DatabaseBrowser.Location = new System.Drawing.Point(4, 22);
             this.tab_DatabaseBrowser.Name = "tab_DatabaseBrowser";
             this.tab_DatabaseBrowser.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_DatabaseBrowser.Size = new System.Drawing.Size(894, 904);
+            this.tab_DatabaseBrowser.Size = new System.Drawing.Size(834, 904);
             this.tab_DatabaseBrowser.TabIndex = 0;
             this.tab_DatabaseBrowser.Text = "Database Browser";
             this.tab_DatabaseBrowser.UseVisualStyleBackColor = true;
@@ -1166,7 +1184,7 @@ namespace TII_NewDatabase
             this.tab_UpcomingAndOverdue.Location = new System.Drawing.Point(4, 22);
             this.tab_UpcomingAndOverdue.Name = "tab_UpcomingAndOverdue";
             this.tab_UpcomingAndOverdue.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_UpcomingAndOverdue.Size = new System.Drawing.Size(894, 904);
+            this.tab_UpcomingAndOverdue.Size = new System.Drawing.Size(834, 904);
             this.tab_UpcomingAndOverdue.TabIndex = 1;
             this.tab_UpcomingAndOverdue.Text = "Upcoming / Overdue ";
             this.tab_UpcomingAndOverdue.UseVisualStyleBackColor = true;
@@ -1514,7 +1532,7 @@ namespace TII_NewDatabase
             // 
             this.tab_Calendar.Location = new System.Drawing.Point(4, 22);
             this.tab_Calendar.Name = "tab_Calendar";
-            this.tab_Calendar.Size = new System.Drawing.Size(894, 904);
+            this.tab_Calendar.Size = new System.Drawing.Size(834, 904);
             this.tab_Calendar.TabIndex = 2;
             this.tab_Calendar.Text = "Calendar / Scheduling";
             this.tab_Calendar.UseVisualStyleBackColor = true;
@@ -1547,7 +1565,7 @@ namespace TII_NewDatabase
             this.status_Connection});
             this.statusstrip_MainForm.Location = new System.Drawing.Point(0, 1009);
             this.statusstrip_MainForm.Name = "statusstrip_MainForm";
-            this.statusstrip_MainForm.Size = new System.Drawing.Size(1664, 22);
+            this.statusstrip_MainForm.Size = new System.Drawing.Size(1313, 22);
             this.statusstrip_MainForm.TabIndex = 9;
             this.statusstrip_MainForm.Text = "statusStrip1";
             // 
@@ -1557,17 +1575,98 @@ namespace TII_NewDatabase
             this.status_Connection.Size = new System.Drawing.Size(205, 17);
             this.status_Connection.Text = "Attempting to Establish Connection...";
             // 
-            // menuSearchForReports
+            // tabctrl_Notes
             // 
-            this.menuSearchForReports.Name = "menuSearchForReports";
-            this.menuSearchForReports.Size = new System.Drawing.Size(172, 22);
-            this.menuSearchForReports.Text = "Search For Reports";
+            this.tabctrl_Notes.Controls.Add(this.tab_Notes);
+            this.tabctrl_Notes.Location = new System.Drawing.Point(860, 73);
+            this.tabctrl_Notes.Name = "tabctrl_Notes";
+            this.tabctrl_Notes.SelectedIndex = 0;
+            this.tabctrl_Notes.Size = new System.Drawing.Size(441, 926);
+            this.tabctrl_Notes.TabIndex = 10;
+            // 
+            // tab_Notes
+            // 
+            this.tab_Notes.Controls.Add(this.dgv_NotesViewer);
+            this.tab_Notes.Controls.Add(this.label1);
+            this.tab_Notes.Controls.Add(this.cbo_ShowNotesSelector);
+            this.tab_Notes.Location = new System.Drawing.Point(4, 22);
+            this.tab_Notes.Name = "tab_Notes";
+            this.tab_Notes.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Notes.Size = new System.Drawing.Size(433, 900);
+            this.tab_Notes.TabIndex = 0;
+            this.tab_Notes.Text = "Notes";
+            this.tab_Notes.UseVisualStyleBackColor = true;
+            // 
+            // dgv_NotesViewer
+            // 
+            this.dgv_NotesViewer.AllowUserToAddRows = false;
+            this.dgv_NotesViewer.AllowUserToDeleteRows = false;
+            this.dgv_NotesViewer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgv_NotesViewer.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgv_NotesViewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_NotesViewer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.col_NoteDate,
+            this.col_NoteContact,
+            this.col_NoteText});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_NotesViewer.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgv_NotesViewer.Location = new System.Drawing.Point(9, 38);
+            this.dgv_NotesViewer.Name = "dgv_NotesViewer";
+            this.dgv_NotesViewer.RowHeadersVisible = false;
+            this.dgv_NotesViewer.Size = new System.Drawing.Size(418, 496);
+            this.dgv_NotesViewer.TabIndex = 17;
+            // 
+            // col_NoteDate
+            // 
+            this.col_NoteDate.HeaderText = "Date";
+            this.col_NoteDate.Name = "col_NoteDate";
+            this.col_NoteDate.Width = 55;
+            // 
+            // col_NoteContact
+            // 
+            this.col_NoteContact.HeaderText = "Contact";
+            this.col_NoteContact.Name = "col_NoteContact";
+            this.col_NoteContact.Width = 69;
+            // 
+            // col_NoteText
+            // 
+            this.col_NoteText.HeaderText = "Note";
+            this.col_NoteText.Name = "col_NoteText";
+            this.col_NoteText.Width = 55;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(134, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Showing Notes Regarding:";
+            // 
+            // cbo_ShowNotesSelector
+            // 
+            this.cbo_ShowNotesSelector.FormattingEnabled = true;
+            this.cbo_ShowNotesSelector.Items.AddRange(new object[] {
+            "This Company",
+            "The Selected Building"});
+            this.cbo_ShowNotesSelector.Location = new System.Drawing.Point(146, 11);
+            this.cbo_ShowNotesSelector.Name = "cbo_ShowNotesSelector";
+            this.cbo_ShowNotesSelector.Size = new System.Drawing.Size(152, 21);
+            this.cbo_ShowNotesSelector.TabIndex = 0;
+            this.cbo_ShowNotesSelector.Text = "This Company";
             // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1664, 1031);
+            this.ClientSize = new System.Drawing.Size(1313, 1031);
+            this.Controls.Add(this.tabctrl_Notes);
             this.Controls.Add(this.statusstrip_MainForm);
             this.Controls.Add(this.tab_MainTabControl);
             this.Controls.Add(this.mnuMainMenuStrip);
@@ -1614,6 +1713,10 @@ namespace TII_NewDatabase
             this.cmu_Contact.ResumeLayout(false);
             this.statusstrip_MainForm.ResumeLayout(false);
             this.statusstrip_MainForm.PerformLayout();
+            this.tabctrl_Notes.ResumeLayout(false);
+            this.tab_Notes.ResumeLayout(false);
+            this.tab_Notes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_NotesViewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1746,5 +1849,13 @@ namespace TII_NewDatabase
         private System.Windows.Forms.StatusStrip statusstrip_MainForm;
         private System.Windows.Forms.ToolStripStatusLabel status_Connection;
         private System.Windows.Forms.ToolStripMenuItem menuSearchForReports;
+        private System.Windows.Forms.TabControl tabctrl_Notes;
+        private System.Windows.Forms.TabPage tab_Notes;
+        private System.Windows.Forms.DataGridView dgv_NotesViewer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_NoteDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_NoteContact;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_NoteText;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbo_ShowNotesSelector;
     }
 }

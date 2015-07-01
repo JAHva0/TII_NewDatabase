@@ -441,6 +441,16 @@ namespace TII_NewDatabase
             {
                 this.PopulateFields(new Building());
             }
+
+            // If the Dropdown for Show notes is set to company, Load them now
+            if (this.cbo_ShowNotesSelector.SelectedItem.ToString() == "This Company")
+            {
+                this.dgv_NotesViewer.Rows.Clear();
+                foreach (ContactLog logItem in ContactLog.GetCompanyContactLog(this.currentlySelectedCompany))
+                {
+                    this.dgv_NotesViewer.Rows.Add(logItem.Date, logItem.Contact, logItem.Notes);
+                }
+            }
         }
 
         /// <summary>
@@ -529,6 +539,16 @@ namespace TII_NewDatabase
             if (selected_building.Street != null)
             {
                 this.lbx_OtherCompanyBuildings.SelectedItem = selected_building.Street;
+            }
+
+            // If the Dropdown for Show notes is set to building, Load them now
+            if (this.cbo_ShowNotesSelector.SelectedItem.ToString() == "The Selected Building")
+            {
+                this.dgv_NotesViewer.Rows.Clear();
+                foreach (ContactLog logItem in ContactLog.GetBuildingContactLog(this.currentlySelectedBuilding))
+                {
+                    this.dgv_NotesViewer.Rows.Add(logItem.Date, logItem.Contact, logItem.Notes);
+                }
             }
         }
 

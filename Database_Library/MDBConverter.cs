@@ -1,6 +1,6 @@
 ﻿// <summary> Creates an access database in the old format from the SQL data. </summary>
 
-namespace Database_Library
+namespace Database
 {
     using System;
     using System.Data;
@@ -43,7 +43,8 @@ namespace Database_Library
                 "   Street varchar(50) NOT NULL, " +
                 "   City varchar(30) NOT NULL, " +
                 "   State varchar(2) NOT NULL, " +
-                "   Zip int NOT NULL " +
+                "   Zip int NOT NULL, " +
+                "   Contact varchar(100)" +
                 ");";
 
             using (OleDbCommand command = new OleDbCommand(createCompanyTableQuery, connection))
@@ -59,16 +60,43 @@ namespace Database_Library
                 "(SELECT Abbreviation FROM State WHERE State_ID = ID) as State, " +
                 "Zip " +
                 "FROM Company " +
-                "JOIN Address ON Address_ID = Address.ID").Rows)
+                "JOIN Address ON Address_ID = Address.ID " +
+                "WHERE Company.ID IN " +
+                "( " +
+                "    SELECT Company_ID " +
+                "    FROM Building " +
+                "    JOIN Address ON Address_ID = Address.ID " +
+                "    WHERE State_ID = (SELECT ID FROM State WHERE Name = 'Maryland') " +
+                "    AND Active = 'True' " +
+                ")").Rows)
             {
+                DataTable contacts = SQL.Query.Select(
+                    string.Format(
+                        "SELECT Top 1 ID, Name, OfficePhone, OfficeExt, CellPhone, Fax, Email " +
+                        "FROM Contact " +
+                        "LEFT JOIN Company_Contact_Relations ON Contact.ID = Contact_ID " +
+                        "WHERE Company_ID = {0}",
+                        companyRow["ID"].ToString()));
+
+                string ContactInfo;
+                if (contacts.Rows.Count != 1)
+                {
+                    ContactInfo = null;
+                }
+                else
+                {
+                    ContactInfo = ConvertContactInfoToString(contacts.Rows[0]);
+                }
+
                 string insertCompanyCommand = string.Format(
-                    "INSERT INTO Company (ID, Name, Street, City, State, Zip) VALUES ({0}, '{1}', '{2}', '{3}', '{4}', {5})",
+                    "INSERT INTO Company (ID, Name, Street, City, State, Zip, Contact) VALUES ({0}, '{1}', '{2}', '{3}', '{4}', {5}, '{6}')",
                     companyRow["ID"].ToString(),
                     companyRow["Name"].ToString().Replace("'", "''"),
                     companyRow["Street"].ToString(),
                     companyRow["City"].ToString(),
                     companyRow["State"].ToString(),
-                    companyRow["Zip"].ToString());
+                    companyRow["Zip"].ToString(),
+                    ContactInfo);
                 using (OleDbCommand command = new OleDbCommand(insertCompanyCommand, connection))
                 {
                     command.ExecuteNonQuery();
@@ -98,6 +126,7 @@ namespace Database_Library
                 "   Anniversary tinyint, " +
                 "   Contractor varchar(30), " +
                 "   Active bit, " +
+                "   Contact varchar(100), " +
                 "   FOREIGN KEY (Company_ID) REFERENCES Company(ID) " +
                 ");";
 
@@ -127,9 +156,27 @@ namespace Database_Library
                 "AND State_ID = 20 " +
                 "ORDER BY Building.ID").Rows)
             {
+                DataTable contacts = SQL.Query.Select(
+                    string.Format(
+                        "SELECT Top 1 ID, Name, OfficePhone, OfficeExt, CellPhone, Fax, Email " +
+                        "FROM Contact " +
+                        "LEFT JOIN Company_Contact_Relations ON Contact.ID = Contact_ID " +
+                        "WHERE Company_ID = {0}",
+                        buildingRow["ID"].ToString()));
+
+                string ContactInfo;
+                if (contacts.Rows.Count != 1)
+                {
+                    ContactInfo = null;
+                }
+                else
+                {
+                    ContactInfo = ConvertContactInfoToString(contacts.Rows[0]);
+                }
+
                 string insertBuildingCommand = string.Format(
-                    "INSERT INTO BUILDING (ID, Company_ID, Name, Street, City, State, Zip, County, Firm_Fee, Hourly_Fee, Anniversary, Contractor, Active)" +
-                    "VALUES ({0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, '{7}', {8}, {9}, {10}, '{11}', {12})",
+                    "INSERT INTO BUILDING (ID, Company_ID, Name, Street, City, State, Zip, County, Firm_Fee, Hourly_Fee, Anniversary, Contractor, Active, Contact)" +
+                    "VALUES ({0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, '{7}', {8}, {9}, {10}, '{11}', {12}, '{13}')",
                     ConvertDBObjectToString(buildingRow["ID"]),
                     ConvertDBObjectToString(buildingRow["Company_ID"]),
                     ConvertDBObjectToString(buildingRow["Name"]),
@@ -142,7 +189,8 @@ namespace Database_Library
                     ConvertDBObjectToString(buildingRow["Hourly_Fee"]),
                     ConvertDBObjectToString(buildingRow["Anniversary"]),
                     ConvertDBObjectToString(buildingRow["Contractor"]),
-                    ConvertDBObjectToString(buildingRow["Active"]));
+                    ConvertDBObjectToString(buildingRow["Active"]),
+                    ContactInfo);
 
                 using (OleDbCommand command = new OleDbCommand(insertBuildingCommand, connection))
                 {
@@ -314,6 +362,27 @@ namespace Database_Library
             {
                 return string.Format("'{0}'", t.ToShortDateString());
             }
+        }
+
+        private static string ConvertContactInfoToString(DataRow row)
+        {
+            Contact c = new Contact(row);
+            string returnstring = string.Empty;
+            returnstring += c.Name;
+            if (c.OfficePhone != null)
+            {
+                returnstring += " Office: " + c.OfficePhone.ToString();
+            }
+            if (c.CellPhone != null)
+            {
+                returnstring += " Cell: " + c.CellPhone.ToString();
+            }
+            if (c.Email != string.Empty)
+            {
+                returnstring += " " + c.Email;
+            }
+
+            return returnstring;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Database
         {
             // Test the ID because I don't know why it seems like a nice thing to do.
             int id;
-            if (int.TryParse(contact_info["Contact_ID"].ToString(), out id))
+            if (int.TryParse(contact_info["ID"].ToString(), out id))
             {
                 this.ID = id;
             }

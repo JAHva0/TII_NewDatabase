@@ -199,12 +199,18 @@ namespace TII_NewDatabase
             this.status_Connection = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabctrl_Notes = new System.Windows.Forms.TabControl();
             this.tab_Notes = new System.Windows.Forms.TabPage();
+            this.gbx_AddContactLog = new System.Windows.Forms.GroupBox();
+            this.lbl_ContactEntryName = new System.Windows.Forms.Label();
+            this.cbo_AddEntryContact = new System.Windows.Forms.ComboBox();
             this.dgv_NotesViewer = new System.Windows.Forms.DataGridView();
             this.col_NoteDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_NoteContact = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_NoteText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.cbo_ShowNotesSelector = new System.Windows.Forms.ComboBox();
+            this.lbl_ContactEntryNotes = new System.Windows.Forms.Label();
+            this.cbo_AddEntryNotes = new System.Windows.Forms.TextBox();
+            this.btn_SaveEntryRecord = new System.Windows.Forms.Button();
             this.mnuMainMenuStrip.SuspendLayout();
             this.gbx_InspectionHistory.SuspendLayout();
             this.gbx_Building.SuspendLayout();
@@ -230,6 +236,7 @@ namespace TII_NewDatabase
             this.statusstrip_MainForm.SuspendLayout();
             this.tabctrl_Notes.SuspendLayout();
             this.tab_Notes.SuspendLayout();
+            this.gbx_AddContactLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_NotesViewer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -1586,6 +1593,7 @@ namespace TII_NewDatabase
             // 
             // tab_Notes
             // 
+            this.tab_Notes.Controls.Add(this.gbx_AddContactLog);
             this.tab_Notes.Controls.Add(this.dgv_NotesViewer);
             this.tab_Notes.Controls.Add(this.label1);
             this.tab_Notes.Controls.Add(this.cbo_ShowNotesSelector);
@@ -1596,6 +1604,37 @@ namespace TII_NewDatabase
             this.tab_Notes.TabIndex = 0;
             this.tab_Notes.Text = "Notes";
             this.tab_Notes.UseVisualStyleBackColor = true;
+            // 
+            // gbx_AddContactLog
+            // 
+            this.gbx_AddContactLog.Controls.Add(this.btn_SaveEntryRecord);
+            this.gbx_AddContactLog.Controls.Add(this.cbo_AddEntryNotes);
+            this.gbx_AddContactLog.Controls.Add(this.lbl_ContactEntryNotes);
+            this.gbx_AddContactLog.Controls.Add(this.lbl_ContactEntryName);
+            this.gbx_AddContactLog.Controls.Add(this.cbo_AddEntryContact);
+            this.gbx_AddContactLog.Location = new System.Drawing.Point(9, 540);
+            this.gbx_AddContactLog.Name = "gbx_AddContactLog";
+            this.gbx_AddContactLog.Size = new System.Drawing.Size(418, 191);
+            this.gbx_AddContactLog.TabIndex = 18;
+            this.gbx_AddContactLog.TabStop = false;
+            this.gbx_AddContactLog.Text = "Add Entry";
+            // 
+            // lbl_ContactEntryName
+            // 
+            this.lbl_ContactEntryName.AutoSize = true;
+            this.lbl_ContactEntryName.Location = new System.Drawing.Point(12, 22);
+            this.lbl_ContactEntryName.Name = "lbl_ContactEntryName";
+            this.lbl_ContactEntryName.Size = new System.Drawing.Size(47, 13);
+            this.lbl_ContactEntryName.TabIndex = 1;
+            this.lbl_ContactEntryName.Text = "Contact:";
+            // 
+            // cbo_AddEntryContact
+            // 
+            this.cbo_AddEntryContact.FormattingEnabled = true;
+            this.cbo_AddEntryContact.Location = new System.Drawing.Point(65, 19);
+            this.cbo_AddEntryContact.Name = "cbo_AddEntryContact";
+            this.cbo_AddEntryContact.Size = new System.Drawing.Size(121, 21);
+            this.cbo_AddEntryContact.TabIndex = 0;
             // 
             // dgv_NotesViewer
             // 
@@ -1661,6 +1700,32 @@ namespace TII_NewDatabase
             this.cbo_ShowNotesSelector.TabIndex = 0;
             this.cbo_ShowNotesSelector.Text = "This Company";
             // 
+            // lbl_ContactEntryNotes
+            // 
+            this.lbl_ContactEntryNotes.AutoSize = true;
+            this.lbl_ContactEntryNotes.Location = new System.Drawing.Point(12, 54);
+            this.lbl_ContactEntryNotes.Name = "lbl_ContactEntryNotes";
+            this.lbl_ContactEntryNotes.Size = new System.Drawing.Size(38, 13);
+            this.lbl_ContactEntryNotes.TabIndex = 2;
+            this.lbl_ContactEntryNotes.Text = "Notes:";
+            // 
+            // cbo_AddEntryNotes
+            // 
+            this.cbo_AddEntryNotes.Location = new System.Drawing.Point(65, 51);
+            this.cbo_AddEntryNotes.Multiline = true;
+            this.cbo_AddEntryNotes.Name = "cbo_AddEntryNotes";
+            this.cbo_AddEntryNotes.Size = new System.Drawing.Size(347, 101);
+            this.cbo_AddEntryNotes.TabIndex = 3;
+            // 
+            // btn_SaveEntryRecord
+            // 
+            this.btn_SaveEntryRecord.Location = new System.Drawing.Point(337, 158);
+            this.btn_SaveEntryRecord.Name = "btn_SaveEntryRecord";
+            this.btn_SaveEntryRecord.Size = new System.Drawing.Size(75, 23);
+            this.btn_SaveEntryRecord.TabIndex = 4;
+            this.btn_SaveEntryRecord.Text = "Save";
+            this.btn_SaveEntryRecord.UseVisualStyleBackColor = true;
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1716,6 +1781,8 @@ namespace TII_NewDatabase
             this.tabctrl_Notes.ResumeLayout(false);
             this.tab_Notes.ResumeLayout(false);
             this.tab_Notes.PerformLayout();
+            this.gbx_AddContactLog.ResumeLayout(false);
+            this.gbx_AddContactLog.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_NotesViewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1857,5 +1924,11 @@ namespace TII_NewDatabase
         private System.Windows.Forms.DataGridViewTextBoxColumn col_NoteText;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbo_ShowNotesSelector;
+        private System.Windows.Forms.GroupBox gbx_AddContactLog;
+        private System.Windows.Forms.Label lbl_ContactEntryName;
+        private System.Windows.Forms.ComboBox cbo_AddEntryContact;
+        private System.Windows.Forms.TextBox cbo_AddEntryNotes;
+        private System.Windows.Forms.Label lbl_ContactEntryNotes;
+        private System.Windows.Forms.Button btn_SaveEntryRecord;
     }
 }

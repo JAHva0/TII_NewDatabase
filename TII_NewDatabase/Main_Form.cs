@@ -252,7 +252,7 @@ namespace TII_NewDatabase
         /// <param name="e">Any passed EventArgs.</param>
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Database_Library.MDBConverter.Create("testing.mdb");
+            Database.MDBConverter.Create("testing.mdb");
 
             if (MessageBox.Show("Are you sure you want to Exit?", "Exit Database?", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
             {
@@ -450,6 +450,17 @@ namespace TII_NewDatabase
                 {
                     this.dgv_NotesViewer.Rows.Add(logItem.Date, logItem.Contact, logItem.Notes);
                 }
+            }
+
+            // Add all of the company contacts to the add notes dropdown
+            foreach (Contact c in this.currentlySelectedCompany.ContactList)
+            {
+                
+            }
+
+            foreach (object contactItem in this.cbo_AddEntryContact.Items)
+            {
+                
             }
         }
 
